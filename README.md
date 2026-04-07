@@ -5,12 +5,12 @@ For more information on MSBuild, see the [MSBuild documentation](https://docs.mi
 
 ### Build Status
 
-The current development branch is `master`. It builds for .NET Core and the full desktop .NET framework. Changes in `master` will go into the next "major" update of MSBuild.
+The current development branch is `main`. It builds for .NET Core and the full desktop .NET framework. Changes in `main` will go into the next "major" update of MSBuild.
 
 | Runtime\OS | Windows | Ubuntu 14.04 | Ubuntu 16.04 |Mac OS X|
 |:------|:------:|:------:|:------:|:------:|
-| **Full Framework** |[![Build Status](https://ci2.dot.net/buildStatus/icon?job=Microsoft_msbuild/master/innerloop_Windows_NT_Full)](https://ci2.dot.net/job/Microsoft_msbuild/job/master/job/innerloop_Windows_NT_Full)| N/A | N/A | N/A |
-|**.NET Core**|[![Build Status](https://ci2.dot.net/buildStatus/icon?job=Microsoft_msbuild/master/innerloop_Windows_NT_CoreCLR)](https://ci2.dot.net/job/Microsoft_msbuild/job/master/job/innerloop_Windows_NT_CoreCLR)|[![Build Status](https://ci2.dot.net/buildStatus/icon?job=Microsoft_msbuild/master/innerloop_Ubuntu14.04_CoreCLR)](https://ci2.dot.net/job/Microsoft_msbuild/job/master/job/innerloop_Ubuntu14.04_CoreCLR)|[![Build Status](https://ci2.dot.net/buildStatus/icon?job=Microsoft_msbuild/master/innerloop_Ubuntu16.04_CoreCLR)](https://ci2.dot.net/job/Microsoft_msbuild/job/master/job/innerloop_Ubuntu16.04_CoreCLR)|[![Build Status](https://ci2.dot.net/buildStatus/icon?job=Microsoft_msbuild/master/innerloop_OSX_CoreCLR)](https://ci2.dot.net/job/Microsoft_msbuild/job/master/job/innerloop_OSX_CoreCLR)|
+| **Full Framework** |[![Build Status](https://ci2.dot.net/buildStatus/icon?job=Microsoft_msbuild/main/innerloop_Windows_NT_Full)](https://ci2.dot.net/job/Microsoft_msbuild/job/main/job/innerloop_Windows_NT_Full)| N/A | N/A | N/A |
+|**.NET Core**|[![Build Status](https://ci2.dot.net/buildStatus/icon?job=Microsoft_msbuild/main/innerloop_Windows_NT_CoreCLR)](https://ci2.dot.net/job/Microsoft_msbuild/job/main/job/innerloop_Windows_NT_CoreCLR)|[![Build Status](https://ci2.dot.net/buildStatus/icon?job=Microsoft_msbuild/main/innerloop_Ubuntu14.04_CoreCLR)](https://ci2.dot.net/job/Microsoft_msbuild/job/main/job/innerloop_Ubuntu14.04_CoreCLR)|[![Build Status](https://ci2.dot.net/buildStatus/icon?job=Microsoft_msbuild/main/innerloop_Ubuntu16.04_CoreCLR)](https://ci2.dot.net/job/Microsoft_msbuild/job/main/job/innerloop_Ubuntu16.04_CoreCLR)|[![Build Status](https://ci2.dot.net/buildStatus/icon?job=Microsoft_msbuild/main/innerloop_OSX_CoreCLR)](https://ci2.dot.net/job/Microsoft_msbuild/job/main/job/innerloop_OSX_CoreCLR)|
 |**Mono**|returning soon|
 
 We have entered stabilization for the 15.3 release (corresponding to Visual Studio 15.3) in the [`vs15.3`](https://github.com/Microsoft/msbuild/tree/vs15.3) branch.
