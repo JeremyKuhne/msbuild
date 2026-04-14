@@ -18,6 +18,10 @@ using Microsoft.Build.Framework;
 using Microsoft.Build.Internal;
 using Microsoft.Build.Shared;
 using Microsoft.Build.Shared.FileSystem;
+#if TARGET_WINDOWS
+using Windows.Win32;
+using Windows.Win32.Foundation;
+#endif
 using BackendNativeMethods = Microsoft.Build.BackEnd.NativeMethods;
 
 #nullable disable
@@ -62,9 +66,13 @@ namespace Microsoft.Build.BackEnd
 
             CommunicationsUtilities.Trace("Launching node from {0}", nodeLaunchData.MSBuildLocation);
 
-            return NativeMethodsShared.IsWindows
-                ? StartProcessWindows(nodeLaunchData, exeName, creationFlags, redirectStreams, isNativeAppHost)
-                : StartProcessUnix(nodeLaunchData, exeName, creationFlags, redirectStreams, isNativeAppHost);
+#if TARGET_WINDOWS
+#pragma warning disable CA1416 // StartProcessWindows is guarded by #if TARGET_WINDOWS
+            return StartProcessWindows(nodeLaunchData, exeName, creationFlags, redirectStreams, isNativeAppHost);
+#pragma warning restore CA1416
+#else
+            return StartProcessUnix(nodeLaunchData, exeName, creationFlags, redirectStreams, isNativeAppHost);
+#endif
 
             static void ValidateMSBuildLocation(string msbuildLocation)
             {
@@ -116,6 +124,7 @@ namespace Microsoft.Build.BackEnd
             return flags;
         }
 
+#if !TARGET_WINDOWS
         [UnsupportedOSPlatform("windows")]
         private Process StartProcessUnix(NodeLaunchData nodeLaunchData, string exeName, uint creationFlags, bool redirectStreams, bool isNativeAppHost)
         {
@@ -155,7 +164,9 @@ namespace Microsoft.Build.BackEnd
                 throw new NodeFailedToLaunchException(ex);
             }
         }
+#endif // !TARGET_WINDOWS
 
+#if TARGET_WINDOWS
         [SupportedOSPlatform("windows")]
         private static Process StartProcessWindows(NodeLaunchData nodeLaunchData, string exeName, uint creationFlags, bool redirectStreams, bool isNativeAppHost)
         {
@@ -227,15 +238,17 @@ namespace Microsoft.Build.BackEnd
 
             static void CloseProcessHandles(BackendNativeMethods.PROCESS_INFORMATION processInfo)
             {
+#pragma warning disable CA1416 // PInvoke.CloseHandle is Windows 5.0+; callers are already Windows-only
                 if (processInfo.hProcess != IntPtr.Zero && processInfo.hProcess != NativeMethods.InvalidHandle)
                 {
-                    NativeMethodsShared.CloseHandle(processInfo.hProcess);
+                    PInvoke.CloseHandle((HANDLE)processInfo.hProcess);
                 }
 
                 if (processInfo.hThread != IntPtr.Zero && processInfo.hThread != NativeMethods.InvalidHandle)
                 {
-                    NativeMethodsShared.CloseHandle(processInfo.hThread);
+                    PInvoke.CloseHandle((HANDLE)processInfo.hThread);
                 }
+#pragma warning restore CA1416
             }
         }
 
@@ -297,6 +310,7 @@ namespace Microsoft.Build.BackEnd
 
             return Marshal.StringToHGlobalUni(sb.ToString());
         }
+#endif // TARGET_WINDOWS
 
         private static Process DisableMSBuildServer(Func<Process> func)
         {

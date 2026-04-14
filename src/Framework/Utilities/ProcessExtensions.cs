@@ -3,14 +3,28 @@
 
 using System;
 using System.Diagnostics;
+#if !NET || !TARGET_WINDOWS
 using Microsoft.Build.Framework;
+#endif
 
 #if NET
 using System.Buffers;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
+#endif
+#if NET && TARGET_WINDOWS
+using Microsoft.Build.Shared.Win32;
+using Microsoft.Build.Shared.Win32.Wmi;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.Com;
+using Windows.Win32.System.Variant;
+using IWbemClassObject = Microsoft.Build.Shared.Win32.Wmi.IWbemClassObject;
+using IWbemLocator = Microsoft.Build.Shared.Win32.Wmi.IWbemLocator;
+using IWbemServices = Microsoft.Build.Shared.Win32.Wmi.IWbemServices;
 #endif
 
 namespace Microsoft.Build.Shared
@@ -62,13 +76,11 @@ namespace Microsoft.Build.Shared
 
             try
             {
-#if NET
-                if (NativeMethods.IsWindows)
-                {
-                    commandLine = Windows.GetCommandLine(process.Id);
-                    return true;
-                }
-                else if (NativeMethods.IsOSX || NativeMethods.IsBSD)
+#if NET && TARGET_WINDOWS
+                commandLine = Windows.GetCommandLine(process.Id);
+                return true;
+#elif NET
+                if (NativeMethods.IsOSX || NativeMethods.IsBSD)
                 {
                     commandLine = BSD.GetCommandLine(process.Id);
                     return true;
@@ -162,485 +174,155 @@ namespace Microsoft.Build.Shared
                 ArrayPool<char>.Shared.Return(charBuffer);
             }
         }
-#endif
+#endif // TARGET_WINDOWS
 
-#if NET
+#if NET && TARGET_WINDOWS
         /// <summary>
         /// Windows-specific command line retrieval via WMI COM interfaces.
         /// Queries Win32_Process for the CommandLine property using IWbemLocator/IWbemServices.
+        /// Uses CsWin32-generated P/Invoke for ole32.dll functions and manually defined COM structs
+        /// for WMI interfaces (which are not in Win32 metadata).
         /// </summary>
         [SupportedOSPlatform("windows")]
         private static class Windows
         {
-            // WMI COM interface GUIDs
-            private static readonly Guid CLSID_WbemLocator = new Guid("4590F811-1D3A-11D0-891F-00AA004B2E24");
-            private static readonly Guid IID_IWbemLocator = new Guid("DC12A687-737F-11CF-884D-00AA004B2E24");
-
             // WBEM status codes
-            private const int WBEM_S_NO_ERROR = 0;
-            private const int WBEM_S_FALSE = 1; // No more objects in enumeration
+            private static readonly HRESULT WBEM_S_FALSE = (HRESULT)1; // No more objects in enumeration
             private const int WBEM_FLAG_FORWARD_ONLY = 0x00000020;
             private const int WBEM_FLAG_RETURN_IMMEDIATELY = 0x00000010;
             private const int WBEM_INFINITE = -1;
-
-
-            // RPC authentication/impersonation constants (used by CoInitializeSecurity and CoSetProxyBlanket)
-            private const int RPC_C_AUTHN_LEVEL_DEFAULT = 0;
-            private const int RPC_C_AUTHN_LEVEL_CALL = 3;
-            private const int RPC_C_IMP_LEVEL_IMPERSONATE = 3;
-            private const int RPC_C_AUTHN_WINNT = 10;
-            private const int RPC_C_AUTHZ_NONE = 0;
-            private const int EOAC_NONE = 0;
-
-            // CoCreateInstance: in-process server
-            private const int CLSCTX_INPROC_SERVER = 1;
-
-            // HRESULTs for conditions that are not fatal failures
-            private const int RPC_E_TOO_LATE = unchecked((int)0x80010119);     // CoInitializeSecurity already called
-
-            [DllImport("ole32.dll")]
-            private static extern int CoInitializeEx(IntPtr pvReserved, int dwCoInit);
-
-            [DllImport("ole32.dll")]
-            private static extern int CoInitializeSecurity(
-                IntPtr pSecDesc,
-                int cAuthSvc,
-                IntPtr asAuthSvc,
-                IntPtr pReserved,
-                int dwAuthnLevel,
-                int dwImpLevel,
-                IntPtr pAuthList,
-                int dwCapabilities,
-                IntPtr pReserved3);
-
-            [DllImport("ole32.dll")]
-            private static extern int CoCreateInstance(
-                ref Guid rclsid,
-                IntPtr pUnkOuter,
-                int dwClsContext,
-                ref Guid riid,
-                [MarshalAs(UnmanagedType.Interface)] out IWbemLocator ppv);
-
-            [DllImport("ole32.dll")]
-            private static extern int CoSetProxyBlanket(
-                [MarshalAs(UnmanagedType.IUnknown)] object pProxy,
-                int dwAuthnSvc,
-                int dwAuthzSvc,
-                IntPtr pServerPrincName,
-                int dwAuthnLevel,
-                int dwImpLevel,
-                IntPtr pAuthInfo,
-                int dwCapabilities);
-
-            [ComImport]
-            [Guid("DC12A687-737F-11CF-884D-00AA004B2E24")]
-            [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-            private interface IWbemLocator
-            {
-                [PreserveSig]
-                int ConnectServer(
-                    [MarshalAs(UnmanagedType.BStr)] string strNetworkResource,
-                    [MarshalAs(UnmanagedType.BStr)] string? strUser,
-                    [MarshalAs(UnmanagedType.BStr)] string? strPassword,
-                    [MarshalAs(UnmanagedType.BStr)] string? strLocale,
-                    int lSecurityFlags,
-                    [MarshalAs(UnmanagedType.BStr)] string? strAuthority,
-                    IntPtr pCtx,
-                    [MarshalAs(UnmanagedType.Interface)] out IWbemServices ppNamespace);
-            }
-
-            [Guid("44ACA674-E8FC-11D0-A07C-00C04FB68820")]
-            [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-            [ComImport]
-            internal interface IWbemContext
-            {
-                [PreserveSig]
-                int Clone([MarshalAs(UnmanagedType.Interface)] out IWbemContext ppNewCopy);
-
-                [PreserveSig]
-                int GetNames(int lFlags, IntPtr pNames);
-
-                [PreserveSig]
-                int BeginEnumeration(int lFlags);
-
-                [PreserveSig]
-                int Next(int lFlags, [MarshalAs(UnmanagedType.BStr)] out string pstrName, IntPtr pValue);
-
-                [PreserveSig]
-                int EndEnumeration();
-
-                [PreserveSig]
-                int SetValue([MarshalAs(UnmanagedType.LPWStr)] string wszName, int lFlags, IntPtr pValue);
-
-                [PreserveSig]
-                int GetValue([MarshalAs(UnmanagedType.LPWStr)] string wszName, int lFlags, IntPtr pValue);
-
-                [PreserveSig]
-                int DeleteValue([MarshalAs(UnmanagedType.LPWStr)] string wszName, int lFlags);
-
-                [PreserveSig]
-                int DeleteAll();
-            }
-
-            [ComImport]
-            [Guid("9556DC99-828C-11CF-A37E-00AA003240C7")]
-            [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-            private interface IWbemServices
-            {
-                [PreserveSig]
-                int OpenNamespace(
-                    [MarshalAs(UnmanagedType.BStr)] string strNamespace,
-                    int lFlags,
-                    IntPtr pCtx,
-                    IntPtr ppWorkingNamespace,
-                    IntPtr ppResult);
-
-                [PreserveSig]
-                int CancelAsyncCall(IntPtr pSink);
-
-                [PreserveSig]
-                int QueryObjectSink(int lFlags, IntPtr ppResponseHandler);
-
-                [PreserveSig]
-                int GetObject(
-                    [MarshalAs(UnmanagedType.BStr)] string strObjectPath,
-                    int lFlags,
-                    IntPtr pCtx,
-                    IntPtr ppObject,
-                    IntPtr ppCallResult);
-
-                [PreserveSig]
-                int GetObjectAsync(
-                    [MarshalAs(UnmanagedType.BStr)] string strObjectPath,
-                    int lFlags,
-                    IntPtr pCtx,
-                    IntPtr pResponseHandler);
-
-                [PreserveSig]
-                int PutClass(IntPtr pObject, int lFlags, IntPtr pCtx, IntPtr ppCallResult);
-
-                [PreserveSig]
-                int PutClassAsync(IntPtr pObject, int lFlags, IntPtr pCtx, IntPtr pResponseHandler);
-
-                [PreserveSig]
-                int DeleteClass(
-                    [MarshalAs(UnmanagedType.BStr)] string strClass,
-                    int lFlags,
-                    IntPtr pCtx,
-                    IntPtr ppCallResult);
-
-                [PreserveSig]
-                int DeleteClassAsync(
-                    [MarshalAs(UnmanagedType.BStr)] string strClass,
-                    int lFlags,
-                    IntPtr pCtx,
-                    IntPtr pResponseHandler);
-
-                [PreserveSig]
-                int CreateClassEnum(
-                    [MarshalAs(UnmanagedType.BStr)] string strSuperclass,
-                    int lFlags,
-                    IntPtr pCtx,
-                    [MarshalAs(UnmanagedType.Interface)] out IEnumWbemClassObject ppEnum);
-
-                [PreserveSig]
-                int CreateClassEnumAsync(
-                    [MarshalAs(UnmanagedType.BStr)] string strSuperclass,
-                    int lFlags,
-                    IntPtr pCtx,
-                    IntPtr pResponseHandler);
-
-                [PreserveSig]
-                int PutInstance(IntPtr pInst, int lFlags, IntPtr pCtx, IntPtr ppCallResult);
-
-                [PreserveSig]
-                int PutInstanceAsync(IntPtr pInst, int lFlags, IntPtr pCtx, IntPtr pResponseHandler);
-
-                [PreserveSig]
-                int DeleteInstance(
-                    [MarshalAs(UnmanagedType.BStr)] string strObjectPath,
-                    int lFlags,
-                    IntPtr pCtx,
-                    IntPtr ppCallResult);
-
-                [PreserveSig]
-                int DeleteInstanceAsync(
-                    [MarshalAs(UnmanagedType.BStr)] string strObjectPath,
-                    int lFlags,
-                    IntPtr pCtx,
-                    IntPtr pResponseHandler);
-
-                [PreserveSig]
-                int CreateInstanceEnum(
-                    [MarshalAs(UnmanagedType.BStr)] string strFilter,
-                    int lFlags,
-                    IntPtr pCtx,
-                    [MarshalAs(UnmanagedType.Interface)] out IEnumWbemClassObject ppEnum);
-
-                [PreserveSig]
-                int CreateInstanceEnumAsync(
-                    [MarshalAs(UnmanagedType.BStr)] string strFilter,
-                    int lFlags,
-                    IntPtr pCtx,
-                    IntPtr pResponseHandler);
-
-                [PreserveSig]
-                int ExecQuery(
-                    [In][MarshalAs(UnmanagedType.BStr)] string strQueryLanguage,
-                    [In][MarshalAs(UnmanagedType.BStr)] string strQuery,
-                    [In] int lFlags,
-                    [In] IWbemContext? pCtx,
-                    [MarshalAs(UnmanagedType.Interface)] out IEnumWbemClassObject ppEnum);
-
-                [PreserveSig]
-                int ExecQueryAsync(
-                    [MarshalAs(UnmanagedType.BStr)] string strQueryLanguage,
-                    [MarshalAs(UnmanagedType.BStr)] string strQuery,
-                    int lFlags,
-                    IntPtr pCtx,
-                    IntPtr pResponseHandler);
-
-                [PreserveSig]
-                int ExecNotificationQuery(
-                    [MarshalAs(UnmanagedType.BStr)] string strQueryLanguage,
-                    [MarshalAs(UnmanagedType.BStr)] string strQuery,
-                    int lFlags,
-                    IntPtr pCtx,
-                    IntPtr ppEnum);
-
-                [PreserveSig]
-                int ExecNotificationQueryAsync(
-                    [MarshalAs(UnmanagedType.BStr)] string strQueryLanguage,
-                    [MarshalAs(UnmanagedType.BStr)] string strQuery,
-                    int lFlags,
-                    IntPtr pCtx,
-                    IntPtr pResponseHandler);
-
-                [PreserveSig]
-                int ExecMethod(
-                    [MarshalAs(UnmanagedType.BStr)] string strObjectPath,
-                    [MarshalAs(UnmanagedType.BStr)] string strMethodName,
-                    int lFlags,
-                    IntPtr pCtx,
-                    IntPtr pInParams,
-                    IntPtr ppOutParams,
-                    IntPtr ppCallResult);
-
-                [PreserveSig]
-                int ExecMethodAsync(
-                    [MarshalAs(UnmanagedType.BStr)] string strObjectPath,
-                    [MarshalAs(UnmanagedType.BStr)] string strMethodName,
-                    int lFlags,
-                    IntPtr pCtx,
-                    IntPtr pInParams,
-                    IntPtr pResponseHandler);
-            }
-
-            [ComImport]
-            [Guid("027947E1-D731-11CE-A357-000000000001")]
-            [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-            private interface IEnumWbemClassObject
-            {
-                [PreserveSig]
-                int Reset();
-
-                [PreserveSig]
-                int Next(
-                    int lTimeout,
-                    uint uCount,
-                    [MarshalAs(UnmanagedType.Interface)] out IWbemClassObject apObjects,
-                    out uint puReturned);
-
-                [PreserveSig]
-                int NextAsync(uint uCount, IntPtr pSink);
-
-                [PreserveSig]
-                int Clone([MarshalAs(UnmanagedType.Interface)] out IEnumWbemClassObject ppEnum);
-
-                [PreserveSig]
-                int Skip(int lTimeout, uint nCount);
-            }
-
-            [ComImport]
-            [Guid("DC12A681-737F-11CF-884D-00AA004B2E24")]
-            [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-            private interface IWbemClassObject
-            {
-                [PreserveSig]
-                int GetQualifierSet(IntPtr ppQualSet);
-
-                [PreserveSig]
-                int Get(
-                    [MarshalAs(UnmanagedType.LPWStr)] string wszName,
-                    int lFlags,
-                    ref object pVal,
-                    IntPtr pType,
-                    IntPtr plFlavor);
-
-                [PreserveSig]
-                int Put([MarshalAs(UnmanagedType.LPWStr)] string wszName, int lFlags, ref object pVal, int type);
-
-                [PreserveSig]
-                int Delete([MarshalAs(UnmanagedType.LPWStr)] string wszName);
-
-                [PreserveSig]
-                int GetNames([MarshalAs(UnmanagedType.LPWStr)] string wszQualifierName, int lFlags, ref object pQualifierVal, IntPtr pNames);
-
-                [PreserveSig]
-                int BeginEnumeration(int lEnumFlags);
-
-                [PreserveSig]
-                int Next(int lFlags, [MarshalAs(UnmanagedType.BStr)] out string strName, ref object pVal, IntPtr pType, IntPtr plFlavor);
-
-                [PreserveSig]
-                int EndEnumeration();
-
-                [PreserveSig]
-                int GetPropertyQualifierSet([MarshalAs(UnmanagedType.LPWStr)] string wszProperty, IntPtr ppQualSet);
-
-                [PreserveSig]
-                int Clone([MarshalAs(UnmanagedType.Interface)] out IWbemClassObject ppCopy);
-
-                [PreserveSig]
-                int GetObjectText(int lFlags, [MarshalAs(UnmanagedType.BStr)] out string pstrObjectText);
-
-                [PreserveSig]
-                int SpawnDerivedClass(int lFlags, IntPtr ppNewClass);
-
-                [PreserveSig]
-                int SpawnInstance(int lFlags, IntPtr ppNewInstance);
-
-                [PreserveSig]
-                int CompareTo(int lFlags, IntPtr pCompareTo);
-
-                [PreserveSig]
-                int GetPropertyOrigin([MarshalAs(UnmanagedType.LPWStr)] string wszName, [MarshalAs(UnmanagedType.BStr)] out string pstrClassName);
-
-                [PreserveSig]
-                int InheritsFrom([MarshalAs(UnmanagedType.LPWStr)] string strAncestor);
-
-                [PreserveSig]
-                int GetMethod([MarshalAs(UnmanagedType.LPWStr)] string wszName, int lFlags, IntPtr ppInSignature, IntPtr ppOutSignature);
-
-                [PreserveSig]
-                int PutMethod([MarshalAs(UnmanagedType.LPWStr)] string wszName, int lFlags, IntPtr pInSignature, IntPtr pOutSignature);
-
-                [PreserveSig]
-                int DeleteMethod([MarshalAs(UnmanagedType.LPWStr)] string wszName);
-
-                [PreserveSig]
-                int BeginMethodEnumeration(int lEnumFlags);
-
-                [PreserveSig]
-                int NextMethod(int lFlags, [MarshalAs(UnmanagedType.BStr)] out string pstrName, IntPtr ppInSignature, IntPtr ppOutSignature);
-
-                [PreserveSig]
-                int EndMethodEnumeration();
-
-                [PreserveSig]
-                int GetMethodQualifierSet([MarshalAs(UnmanagedType.LPWStr)] string wszMethod, IntPtr ppQualSet);
-
-                [PreserveSig]
-                int GetMethodOrigin([MarshalAs(UnmanagedType.LPWStr)] string wszMethodName, [MarshalAs(UnmanagedType.BStr)] out string pstrClassName);
-            }
-
 
             /// <summary>
             /// Retrieves the command line for a process by querying WMI Win32_Process via COM.
             /// Runs: SELECT CommandLine FROM Win32_Process WHERE ProcessId='<paramref name="processId"/>'
             /// </summary>
-            internal static string? GetCommandLine(int processId)
+            [UnconditionalSuppressMessage("Trimming", "IL2050", Justification = "COM interop is required for WMI process queries and the interfaces are fully defined in this file.")]
+            internal static unsafe string? GetCommandLine(int processId)
             {
-                int hr = CoInitializeSecurity(
-                    IntPtr.Zero,
+                HRESULT hr = PInvoke.CoInitializeSecurity(
+                    default,
                     -1,
-                    IntPtr.Zero,
-                    IntPtr.Zero,
-                    RPC_C_AUTHN_LEVEL_DEFAULT,
-                    RPC_C_IMP_LEVEL_IMPERSONATE,
-                    IntPtr.Zero,
-                    EOAC_NONE,
-                    IntPtr.Zero);
+                    null,
+                    null,
+                    RPC_C_AUTHN_LEVEL.RPC_C_AUTHN_LEVEL_DEFAULT,
+                    RPC_C_IMP_LEVEL.RPC_C_IMP_LEVEL_IMPERSONATE,
+                    null,
+                    EOLE_AUTHENTICATION_CAPABILITIES.EOAC_NONE,
+                    null);
                 // RPC_E_TOO_LATE (0x80010119) means another call already set security — not fatal.
-                if (hr != WBEM_S_NO_ERROR && hr != RPC_E_TOO_LATE)
+                if (hr.Failed && hr != HRESULT.RPC_E_TOO_LATE)
                 {
                     throw new InvalidOperationException(
-                        $"WMI CoInitializeSecurity failed for PID {processId}. HRESULT: 0x{hr:X8}");
+                        $"WMI CoInitializeSecurity failed for PID {processId}. HRESULT: 0x{hr.Value:X8}");
                 }
 
-                Guid clsid = CLSID_WbemLocator;
-                Guid iid = IID_IWbemLocator;
-                hr = CoCreateInstance(ref clsid, IntPtr.Zero, CLSCTX_INPROC_SERVER, ref iid, out IWbemLocator locator);
-                if (hr != WBEM_S_NO_ERROR)
+                Guid clsid = IWbemLocator.CLSID;
+                Guid iid = IWbemLocator.Guid;
+                IWbemLocator* pLocator;
+                hr = PInvoke.CoCreateInstance(&clsid, null, CLSCTX.CLSCTX_INPROC_SERVER, &iid, (void**)&pLocator);
+                if (hr.Failed)
                 {
                     throw new InvalidOperationException(
-                        $"WMI CoCreateInstance failed for PID {processId}. HRESULT: 0x{hr:X8}");
+                        $"WMI CoCreateInstance failed for PID {processId}. HRESULT: 0x{hr.Value:X8}");
                 }
 
-                hr = locator.ConnectServer(
-                    @"ROOT\CIMV2",
-                    strUser: null, strPassword: null, strLocale: null,
-                    lSecurityFlags: 0, strAuthority: null,
-                    pCtx: IntPtr.Zero,
-                    out IWbemServices services);
-                if (hr != WBEM_S_NO_ERROR)
+                using ComScope<IWbemLocator> locator = new(pLocator);
+
+                IWbemServices* pServices;
+                fixed (char* networkResource = @"ROOT\CIMV2")
                 {
-                    throw new InvalidOperationException(
-                        $"WMI ConnectServer failed for PID {processId}. HRESULT: 0x{hr:X8}");
+                    hr = locator.Pointer->ConnectServer(
+                        networkResource,
+                        strUser: null, strPassword: null, strLocale: null,
+                        lSecurityFlags: 0, strAuthority: null,
+                        pCtx: null,
+                        &pServices);
                 }
 
-                hr = CoSetProxyBlanket(
-                    services,
-                    RPC_C_AUTHN_WINNT,
-                    RPC_C_AUTHZ_NONE,
-                    IntPtr.Zero,
-                    RPC_C_AUTHN_LEVEL_CALL,
-                    RPC_C_IMP_LEVEL_IMPERSONATE,
-                    IntPtr.Zero,
-                    EOAC_NONE);
-                if (hr != WBEM_S_NO_ERROR)
+                if (hr.Failed)
                 {
                     throw new InvalidOperationException(
-                        $"WMI CoSetProxyBlanket failed for PID {processId}. HRESULT: 0x{hr:X8}");
+                        $"WMI ConnectServer failed for PID {processId}. HRESULT: 0x{hr.Value:X8}");
+                }
+
+                using ComScope<IWbemServices> services = new(pServices);
+
+                hr = PInvoke.CoSetProxyBlanket(
+                    (IUnknown*)services.Pointer,
+                    0x0A, // RPC_C_AUTHN_WINNT
+                    0, // RPC_C_AUTHZ_NONE
+                    default,
+                    RPC_C_AUTHN_LEVEL.RPC_C_AUTHN_LEVEL_CALL,
+                    RPC_C_IMP_LEVEL.RPC_C_IMP_LEVEL_IMPERSONATE,
+                    null,
+                    EOLE_AUTHENTICATION_CAPABILITIES.EOAC_NONE);
+                if (hr.Failed)
+                {
+                    throw new InvalidOperationException(
+                        $"WMI CoSetProxyBlanket failed for PID {processId}. HRESULT: 0x{hr.Value:X8}");
                 }
 
                 string query = $"SELECT CommandLine FROM Win32_Process WHERE ProcessId='{processId}'";
-                hr = services.ExecQuery(
-                    "WQL",
-                    query,
-                    WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
-                    null,
-                    out IEnumWbemClassObject enumerator);
-                if (hr != WBEM_S_NO_ERROR)
+                IEnumWbemClassObject* pEnumerator;
+#pragma warning disable SA1519 // Braces should not be omitted from multi-line child statement
+                fixed (char* queryLanguage = "WQL")
+                fixed (char* queryStr = query)
+#pragma warning restore SA1519
                 {
-                    throw new InvalidOperationException(
-                        $"WMI ExecQuery failed for PID {processId}. HRESULT: 0x{hr:X8}");
+                    hr = services.Pointer->ExecQuery(
+                        queryLanguage,
+                        queryStr,
+                        WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
+                        pCtx: null,
+                        &pEnumerator);
                 }
 
-                hr = enumerator.Next(WBEM_INFINITE, 1, out IWbemClassObject obj, out uint returned);
+                if (hr.Failed)
+                {
+                    throw new InvalidOperationException(
+                        $"WMI ExecQuery failed for PID {processId}. HRESULT: 0x{hr.Value:X8}");
+                }
+
+                using ComScope<IEnumWbemClassObject> enumerator = new(pEnumerator);
+
+                IWbemClassObject* pObj;
+                uint returned;
+                hr = enumerator.Pointer->Next(WBEM_INFINITE, 1, &pObj, &returned);
                 if (hr == WBEM_S_FALSE || returned == 0)
                 {
                     // No matching process found.
                     return null;
                 }
-                if (hr != WBEM_S_NO_ERROR)
+
+                if (hr.Failed)
                 {
                     throw new InvalidOperationException(
-                        $"WMI IEnumWbemClassObject.Next failed for PID {processId}. HRESULT: 0x{hr:X8}");
+                        $"WMI IEnumWbemClassObject.Next failed for PID {processId}. HRESULT: 0x{hr.Value:X8}");
                 }
 
-                object val = null!;
-                hr = obj.Get("CommandLine", 0, ref val, IntPtr.Zero, IntPtr.Zero);
-                if (hr != WBEM_S_NO_ERROR)
+                using ComScope<IWbemClassObject> obj = new(pObj);
+
+                using VARIANT val = default;
+                fixed (char* propName = "CommandLine")
+                {
+                    hr = obj.Pointer->Get(propName, 0, &val, pType: null, plFlavor: null);
+                }
+
+                if (hr.Failed)
                 {
                     throw new InvalidOperationException(
-                        $"WMI IWbemClassObject.Get(\"CommandLine\") failed for PID {processId}. HRESULT: 0x{hr:X8}");
+                        $"WMI IWbemClassObject.Get(\"CommandLine\") failed for PID {processId}. HRESULT: 0x{hr.Value:X8}");
                 }
 
-                return val as string;
+                if (val.Anonymous.Anonymous.vt == VARENUM.VT_BSTR)
+                {
+                    return val.Anonymous.Anonymous.Anonymous.bstrVal.ToString();
+                }
+
+                return null;
             }
         }
-#endif
+#endif // TARGET_WINDOWS
 
 #if NET
         /// <summary>

@@ -371,8 +371,9 @@ namespace Microsoft.Build.Tasks
                 string pathToResGen = GenerateResGenFullPath();
 
                 if (pathToResGen != null &&
-                    NativeMethodsShared.IsWindows &&
+#if TARGET_WINDOWS
                     !pathToResGen.Equals(NativeMethodsShared.GetLongFilePath(ToolLocationHelper.GetPathToDotNetFrameworkSdkFile("resgen.exe", TargetDotNetFrameworkVersion.Version35)), StringComparison.OrdinalIgnoreCase) &&
+#endif
                     String.IsNullOrEmpty(StronglyTypedLanguage))
                 {
                     // 4.0 resgen.exe does support response files (at least as long as you're not building an STR), so we can
@@ -524,7 +525,9 @@ namespace Microsoft.Build.Tasks
                                             Log,
                                             true); /* log errors and warnings */
 
+#if TARGET_WINDOWS
                         pathToTool = NativeMethodsShared.GetLongFilePath(pathToTool);
+#endif
                     }
 
                     // And then set it for future reference.  If it's still null, there's nothing else

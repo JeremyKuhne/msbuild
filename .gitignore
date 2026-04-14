@@ -220,6 +220,9 @@ stage1/
 # ETL traces
 *.etl.zip
 
+# LSP caches
+**/*.lscache
+
 # .DS_Store for macOS
 **/.DS_Store
 

@@ -339,7 +339,8 @@ namespace Microsoft.Build.UnitTests
         /// <summary>
         /// Tests that Exec still executes properly when there's an '&' in the temp directory path
         /// </summary>
-        [Fact]
+        [WindowsOnlyFact]
+#pragma warning disable CA1416 // GetShortFilePath is Windows-only; test is [WindowsOnlyFact]
         public void TempPathContainsAmpersand1()
         {
             string directoryWithAmpersand = "nospace&nospace";
@@ -376,7 +377,7 @@ namespace Microsoft.Build.UnitTests
         /// <summary>
         /// Tests that Exec still executes properly when there's an ' &' in the temp directory path
         /// </summary>
-        [Fact]
+        [WindowsOnlyFact]
         public void TempPathContainsAmpersand2()
         {
             string directoryWithAmpersand = "space &nospace";
@@ -414,7 +415,7 @@ namespace Microsoft.Build.UnitTests
         /// <summary>
         /// Tests that Exec still executes properly when there's an '& ' in the temp directory path
         /// </summary>
-        [Fact]
+        [WindowsOnlyFact]
         public void TempPathContainsAmpersand3()
         {
             string directoryWithAmpersand = "nospace& space";
@@ -451,7 +452,7 @@ namespace Microsoft.Build.UnitTests
         /// <summary>
         /// Tests that Exec still executes properly when there's an ' & ' in the temp directory path
         /// </summary>
-        [Fact]
+        [WindowsOnlyFact]
         public void TempPathContainsAmpersand4()
         {
             string directoryWithAmpersand = "space & space";
@@ -484,6 +485,7 @@ namespace Microsoft.Build.UnitTests
                 }
             }
         }
+#pragma warning restore CA1416
 
         /// <summary>
         /// Tests that Exec still executes properly when there's a non-ANSI character in the command

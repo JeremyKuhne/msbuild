@@ -48,6 +48,8 @@
     <PackageVersion Include="System.ValueTuple" Version="$(SystemValueTupleVersion)" />
     <PackageVersion Include="xunit.console" Version="$(XUnitVersion)" />
     <PackageVersion Include="Microsoft.VisualStudio.Telemetry" Version="$(MicrosoftVisualStudioTelemetryVersion)" />
+    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.183" />
+    <PackageVersion Include="PolySharp" Version="1.15.0" />
     <!-- Microsoft.VisualStudio.SolutionPersistence is maintained in eng/dependabot/Packages.props -->
   </ItemGroup>
 

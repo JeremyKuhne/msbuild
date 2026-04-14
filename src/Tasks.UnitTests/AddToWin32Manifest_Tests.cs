@@ -10,6 +10,11 @@ using Microsoft.Build.Evaluation;
 using Microsoft.Build.UnitTests;
 using Microsoft.Build.Utilities;
 using Shouldly;
+#if TARGET_WINDOWS
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.LibraryLoader;
+#endif
 using Xunit;
 using Xunit.Abstractions;
 
@@ -77,6 +82,7 @@ namespace Microsoft.Build.Tasks.UnitTests
         [InlineData("testManifestWithValidSupportedArchs.manifest", true)]
         public void E2EScenarioTests(string? manifestName, bool expectedResult)
         {
+#if TARGET_WINDOWS
             using (TestEnvironment env = TestEnvironment.Create())
             {
                 var outputPath = env.CreateFolder().Path;
@@ -137,15 +143,14 @@ namespace Microsoft.Build.Tasks.UnitTests
             }
 
             static string NormalizeLineEndings(string input) => input.Replace("\r\n", "\n").Replace("\r", "\n");
+#endif
         }
 
+#if TARGET_WINDOWS
         [SupportedOSPlatform("windows")]
         internal sealed class AssemblyNativeResourceManager
         {
             public enum LoadLibraryFlags : uint { LOAD_LIBRARY_AS_DATAFILE = 2 };
-
-            [DllImport("Kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-            public static extern IntPtr LoadLibrary(string lpFileName, IntPtr hReservedNull, LoadLibraryFlags dwFlags);
 
             [DllImport("kernel32.dll", SetLastError = true)]
             public static extern IntPtr FindResource(IntPtr hModule, string lpName, string lpType);
@@ -161,34 +166,42 @@ namespace Microsoft.Build.Tasks.UnitTests
 
             public static byte[]? GetResourceFromExecutable(string assembly, string lpName, string lpType)
             {
-                IntPtr hModule = LoadLibrary(assembly, IntPtr.Zero, LoadLibraryFlags.LOAD_LIBRARY_AS_DATAFILE);
+#pragma warning disable CA1416 // Platform-specific calls are guarded by WindowsOnlyTheory
+                HMODULE hModule = PInvoke.LoadLibraryEx(assembly, LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_AS_DATAFILE);
+#pragma warning restore CA1416
+
+                if (hModule.IsNull)
+                {
+                    return null;
+                }
+
                 try
                 {
-                    if (hModule != IntPtr.Zero)
+                    IntPtr hResource = FindResource(hModule, lpName, lpType);
+                    if (hResource != IntPtr.Zero)
                     {
-                        IntPtr hResource = FindResource(hModule, lpName, lpType);
-                        if (hResource != IntPtr.Zero)
+                        uint resSize = SizeofResource(hModule, hResource);
+                        IntPtr resData = LoadResource(hModule, hResource);
+                        if (resData != IntPtr.Zero)
                         {
-                            uint resSize = SizeofResource(hModule, hResource);
-                            IntPtr resData = LoadResource(hModule, hResource);
-                            if (resData != IntPtr.Zero)
-                            {
-                                byte[] uiBytes = new byte[resSize];
-                                IntPtr ipMemorySource = LockResource(resData);
-                                Marshal.Copy(ipMemorySource, uiBytes, 0, (int)resSize);
+                            byte[] uiBytes = new byte[resSize];
+                            IntPtr ipMemorySource = LockResource(resData);
+                            Marshal.Copy(ipMemorySource, uiBytes, 0, (int)resSize);
 
-                                return uiBytes;
-                            }
+                            return uiBytes;
                         }
                     }
                 }
                 finally
                 {
-                    NativeMethodsShared.FreeLibrary(hModule);
+#pragma warning disable CA1416
+                    PInvoke.FreeLibrary(hModule);
+#pragma warning restore CA1416
                 }
 
                 return null;
             }
         }
+#endif
     }
 }

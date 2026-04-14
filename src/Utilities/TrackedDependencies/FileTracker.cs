@@ -82,10 +82,18 @@ namespace Microsoft.Build.Utilities
         private static readonly string s_tempPath = FileUtilities.EnsureTrailingSlash(Path.GetTempPath());
 
         // The short path to temp
+#if TARGET_WINDOWS
         private static readonly string s_tempShortPath = FileUtilities.EnsureTrailingSlash(NativeMethodsShared.GetShortFilePath(s_tempPath).ToUpperInvariant());
+#else
+        private static readonly string s_tempShortPath = FileUtilities.EnsureTrailingSlash(s_tempPath.ToUpperInvariant());
+#endif
 
         // The long path to temp
+#if TARGET_WINDOWS
         private static readonly string s_tempLongPath = FileUtilities.EnsureTrailingSlash(NativeMethodsShared.GetLongFilePath(s_tempPath).ToUpperInvariant());
+#else
+        private static readonly string s_tempLongPath = FileUtilities.EnsureTrailingSlash(s_tempPath.ToUpperInvariant());
+#endif
 
         // The path to ApplicationData (is equal to %USERPROFILE%\Application Data folder in Windows XP and %USERPROFILE%\AppData\Roaming in Vista and later)
         private static readonly string s_applicationDataPath = FileUtilities.EnsureTrailingSlash(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).ToUpperInvariant());

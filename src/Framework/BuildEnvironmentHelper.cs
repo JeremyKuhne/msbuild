@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -374,6 +375,8 @@ namespace Microsoft.Build.Shared
         private static bool? _runningTests;
         private static readonly LockType _runningTestsLock = new LockType();
 
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Accesses the well-known TestInfo type in the same assembly.")]
+        [UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Accesses a known field on a known type in the same assembly.")]
         private static bool CheckIfRunningTests()
         {
             if (_runningTests != null)

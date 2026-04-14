@@ -1041,9 +1041,9 @@ namespace Microsoft.Build.UnitTests.BackEnd
                 // so set the symlink's write time the hard way
                 using (SafeFileHandle handle =
                     NativeMethodsShared.CreateFile(
-                        inputSymlink, NativeMethodsShared.GENERIC_READ | 0x100 /* FILE_WRITE_ATTRIBUTES */,
-                        NativeMethodsShared.FILE_SHARE_READ, IntPtr.Zero, NativeMethodsShared.OPEN_EXISTING,
-                        NativeMethodsShared.FILE_ATTRIBUTE_NORMAL | NativeMethodsShared.FILE_FLAG_OPEN_REPARSE_POINT,
+                        inputSymlink, 0x80000000 /* GENERIC_READ */ | 0x100 /* FILE_WRITE_ATTRIBUTES */,
+                        0x1 /* FILE_SHARE_READ */, IntPtr.Zero, 3 /* OPEN_EXISTING */,
+                        0x80 /* FILE_ATTRIBUTE_NORMAL */ | 0x00200000 /* FILE_FLAG_OPEN_REPARSE_POINT */,
                         IntPtr.Zero))
                 {
                     if (handle.IsInvalid)

@@ -3,10 +3,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using Windows.Win32.System.SystemInformation;
 
 namespace Microsoft.Build.Framework.Telemetry;
 
@@ -416,6 +418,7 @@ internal class CrashTelemetry : TelemetryBase, IActivityTelemetryDataHolder
     /// faulting logger, and the <c>BuildEventArgs</c> property identifies what event
     /// was being delivered.
     /// </summary>
+    [UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Best-effort reflection on exception types for crash telemetry. Failure is caught and ignored.")]
     private void PopulateInnerExceptionDetails(Exception exception)
     {
         Exception? inner = exception.InnerException;
@@ -459,11 +462,11 @@ internal class CrashTelemetry : TelemetryBase, IActivityTelemetryDataHolder
 
         try
         {
-#if NETFRAMEWORK
-            NativeMethods.MemoryStatus? memoryStatus = NativeMethods.GetMemoryStatus();
-            if (memoryStatus != null)
+#if TARGET_WINDOWS
+            MEMORYSTATUSEX? memoryStatus = NativeMethods.GetMemoryStatus();
+            if (memoryStatus is { } status)
             {
-                MemoryLoadPercent = (int)memoryStatus.MemoryLoad;
+                MemoryLoadPercent = (int)status.dwMemoryLoad;
             }
 #else
             // On .NET Core, GC.GetGCMemoryInfo() provides the total available memory

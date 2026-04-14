@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Build.Framework;
@@ -23,6 +24,7 @@ namespace Microsoft.Build.Execution
         /// <summary>
         /// The type of the generated tasks.
         /// </summary>
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)]
         private Type _taskType;
 
         /// <summary>
@@ -30,7 +32,7 @@ namespace Microsoft.Build.Execution
         /// </summary>
         /// <param name="taskPropertyInfo">The original property info that generated this instance.</param>
         /// <param name="taskType">The type to reflect over to get the reflection propertyinfo later.</param>
-        internal ReflectableTaskPropertyInfo(TaskPropertyInfo taskPropertyInfo, Type taskType)
+        internal ReflectableTaskPropertyInfo(TaskPropertyInfo taskPropertyInfo, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)] Type taskType)
             : base(taskPropertyInfo.Name, taskPropertyInfo.PropertyType, taskPropertyInfo.Output, taskPropertyInfo.Required)
         {
             ArgumentNullException.ThrowIfNull(taskType);

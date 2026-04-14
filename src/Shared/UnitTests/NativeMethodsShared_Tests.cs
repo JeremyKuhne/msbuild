@@ -28,46 +28,6 @@ namespace Microsoft.Build.UnitTests
         #region Tests
 
         /// <summary>
-        /// Verify that getProcAddress works, bug previously was due to a bug in the attributes used to pinvoke the method
-        /// when that bug was in play this test would fail.
-        /// </summary>
-        [WindowsOnlyFact("No Kernel32.dll except on Windows.")]
-        [SupportedOSPlatform("windows")] // bypass CA1416: Validate platform compatibility
-        public void TestGetProcAddress()
-        {
-            IntPtr kernel32Dll = NativeMethodsShared.LoadLibrary("kernel32.dll");
-            try
-            {
-                IntPtr processHandle = NativeMethodsShared.NullIntPtr;
-                if (kernel32Dll != NativeMethodsShared.NullIntPtr)
-                {
-                    processHandle = NativeMethodsShared.GetProcAddress(kernel32Dll, "GetCurrentProcessId");
-                }
-                else
-                {
-                    Assert.Fail();
-                }
-
-                // Make sure the pointer passed back for the method is not null
-                Assert.NotEqual(processHandle, NativeMethodsShared.NullIntPtr);
-
-                // Actually call the method
-                GetProcessIdDelegate processIdDelegate = Marshal.GetDelegateForFunctionPointer<GetProcessIdDelegate>(processHandle);
-                uint processId = processIdDelegate();
-
-                // Make sure the return value is the same as retrieved from the .net methods to make sure everything works
-                Assert.Equal((uint)Process.GetCurrentProcess().Id, processId); // "Expected the .net processId to match the one from GetCurrentProcessId"
-            }
-            finally
-            {
-                if (kernel32Dll != NativeMethodsShared.NullIntPtr)
-                {
-                    NativeMethodsShared.FreeLibrary(kernel32Dll);
-                }
-            }
-        }
-
-        /// <summary>
         /// Verifies that when NativeMethodsShared.GetLastWriteFileUtcTime() is called on a
         /// missing time, DateTime.MinValue is returned.
         /// </summary>

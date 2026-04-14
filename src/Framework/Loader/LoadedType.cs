@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Build.Execution;
 using Microsoft.Build.Framework;
@@ -27,7 +28,7 @@ namespace Microsoft.Build.Shared
         /// <param name="architecture">Assembly architecture extracted from PE flags</param>
         /// <param name="loadedViaMetadataLoadContext">Whether this type was loaded via MetadataLoadContext</param>
         internal LoadedType(
-            Type type,
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] Type type,
             AssemblyLoadInfo assemblyLoadInfo,
             Assembly loadedAssembly,
             Type iTaskItemType,
@@ -212,6 +213,7 @@ namespace Microsoft.Build.Shared
         /// Gets the type that was loaded from an assembly.
         /// </summary>
         /// <value>The loaded type.</value>
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
         internal Type Type { get; private set; }
 
         internal AssemblyName LoadedAssemblyName { get; private set; }

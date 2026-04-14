@@ -1152,7 +1152,13 @@ namespace Microsoft.Build.Tasks
 
             // We need to do a whole lot of work to make sure that we're not overrunning the command line ... UNLESS
             // we're running ResGen 4.0 or later, which supports response files.
-            if (!_resgenPath.Equals(Path.GetDirectoryName(NativeMethodsShared.GetLongFilePath(ToolLocationHelper.GetPathToDotNetFrameworkSdkFile("resgen.exe", TargetDotNetFrameworkVersion.Version35))), StringComparison.OrdinalIgnoreCase))
+            if (
+#if TARGET_WINDOWS
+                !_resgenPath.Equals(Path.GetDirectoryName(NativeMethodsShared.GetLongFilePath(ToolLocationHelper.GetPathToDotNetFrameworkSdkFile("resgen.exe", TargetDotNetFrameworkVersion.Version35))), StringComparison.OrdinalIgnoreCase)
+#else
+                true
+#endif
+                )
             {
                 ResGen resGen = CreateResGenTaskWithDefaultParameters();
 

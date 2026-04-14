@@ -18,6 +18,12 @@ using Microsoft.Build.Shared;
 using Shouldly;
 using Xunit;
 using Xunit.Abstractions;
+#if TARGET_WINDOWS
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Storage.FileSystem;
+using Windows.Win32.System.Console;
+#endif
 using TaskItem = Microsoft.Build.Execution.ProjectItemInstance.TaskItem;
 
 #nullable disable
@@ -1947,20 +1953,17 @@ namespace Microsoft.Build.UnitTests
         [SupportedOSPlatform("windows")]
         internal bool IsRunningWithCharacterFileType()
         {
-            // Get the std out handle
-            IntPtr stdHandle = NativeMethodsShared.GetStdHandle(NativeMethodsShared.STD_OUTPUT_HANDLE);
+#if TARGET_WINDOWS
+            HANDLE stdHandle = PInvoke.GetStdHandle(STD_HANDLE.STD_OUTPUT_HANDLE);
 
-            if (stdHandle != Microsoft.Build.BackEnd.NativeMethods.InvalidHandle)
+            if (stdHandle != HANDLE.INVALID_HANDLE_VALUE)
             {
-                uint fileType = NativeMethodsShared.GetFileType(stdHandle);
-
-                // The std out is a char type(LPT or Console)
-                return fileType == NativeMethodsShared.FILE_TYPE_CHAR;
+#pragma warning disable CA1416
+                return PInvoke.GetFileType(stdHandle) == FILE_TYPE.FILE_TYPE_CHAR;
+#pragma warning restore CA1416
             }
-            else
-            {
-                return false;
-            }
+#endif
+            return false;
         }
     }
 }

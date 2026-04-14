@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Runtime.Versioning;
@@ -1416,6 +1417,7 @@ namespace Microsoft.Build.Shared
             /// <summary>
             /// Gets the full path of .net framework for the given architecture.
             /// </summary>
+            [UnconditionalSuppressMessage("SingleFile", "IL3002", Justification = "MSBuild is not published as a single-file application. Module.FullyQualifiedName is safe.")]
             public virtual string GetPathToDotNetFramework(DotNetFrameworkArchitecture architecture)
             {
                 string cachedPath;

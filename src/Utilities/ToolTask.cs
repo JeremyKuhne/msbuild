@@ -1569,7 +1569,9 @@ namespace Microsoft.Build.Utilities
                         // and then escape the &
                         if (batchFileForCommandLine.Contains("&") && !batchFileForCommandLine.Contains("^&"))
                         {
+#if TARGET_WINDOWS
                             batchFileForCommandLine = NativeMethodsShared.GetShortFilePath(batchFileForCommandLine);
+#endif
                             batchFileForCommandLine = batchFileForCommandLine.Replace("&", "^&");
                         }
 

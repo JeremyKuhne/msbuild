@@ -88,83 +88,83 @@ namespace Microsoft.Build.Tasks
 
                 int oldMode = 0;
 
-                if (NativeMethodsShared.IsWindows)
-                {
-                    // THIS COPIED FROM THE BCL:
-                    //
-                    // For floppy drives, normally the OS will pop up a dialog saying
-                    // there is no disk in drive A:, please insert one.  We don't want that.
-                    // SetErrorMode will let us disable this, but we should set the error
-                    // mode back, since this may have wide-ranging effects.
-                    NativeMethodsShared.SetThreadErrorMode(1 /* ErrorModes.SEM_FAILCRITICALERRORS */, out oldMode);
-                }
+#if TARGET_WINDOWS
+#pragma warning disable CA1416 // Platform-specific calls are guarded by #if TARGET_WINDOWS
+                // THIS COPIED FROM THE BCL:
+                //
+                // For floppy drives, normally the OS will pop up a dialog saying
+                // there is no disk in drive A:, please insert one.  We don't want that.
+                // SetErrorMode will let us disable this, but we should set the error
+                // mode back, since this may have wide-ranging effects.
+                NativeMethodsShared.SetThreadErrorMode(1 /* ErrorModes.SEM_FAILCRITICALERRORS */, out oldMode);
+#pragma warning restore CA1416
+#endif
 
                 try
                 {
-                    if (NativeMethodsShared.IsWindows)
+#if TARGET_WINDOWS
+#pragma warning disable CA1416
+                    var data = default(Windows.Win32.Storage.FileSystem.WIN32_FILE_ATTRIBUTE_DATA);
+                    bool success = NativeMethodsShared.GetFileAttributesEx(_filename, 0, ref data);
+
+                    if (!success)
                     {
-                        var data = new NativeMethodsShared.WIN32_FILE_ATTRIBUTE_DATA();
-                        bool success = NativeMethodsShared.GetFileAttributesEx(_filename, 0, ref data);
+                        int error = Marshal.GetLastWin32Error();
 
-                        if (!success)
+                        // File not found is the most common case, for example we're copying
+                        // somewhere without a file yet. Don't do something like FileInfo.Exists to
+                        // get a nice error, or we're doing IO again! Don't even format our own string:
+                        // that turns out to be unacceptably expensive here as well. Set a flag for this particular case.
+                        //
+                        // Also, when not under debugger (!) it will give error == 3 for path too long. Make that consistently throw instead.
+                        if ((error == 2 /* ERROR_FILE_NOT_FOUND */|| error == 3 /* ERROR_PATH_NOT_FOUND */)
+                            && _filename.Length <= NativeMethodsShared.MaxPath)
                         {
-                            int error = Marshal.GetLastWin32Error();
-
-                            // File not found is the most common case, for example we're copying
-                            // somewhere without a file yet. Don't do something like FileInfo.Exists to
-                            // get a nice error, or we're doing IO again! Don't even format our own string:
-                            // that turns out to be unacceptably expensive here as well. Set a flag for this particular case.
-                            //
-                            // Also, when not under debugger (!) it will give error == 3 for path too long. Make that consistently throw instead.
-                            if ((error == 2 /* ERROR_FILE_NOT_FOUND */|| error == 3 /* ERROR_PATH_NOT_FOUND */)
-                                && _filename.Length <= NativeMethodsShared.MaxPath)
-                            {
-                                Exists = false;
-                                return;
-                            }
-
-                            // Throw nice message as far as we can. At this point IO is OK.
-                            Length = new FileInfo(_filename).Length;
-
-                            // Otherwise this will give at least something
-                            NativeMethodsShared.ThrowExceptionForErrorCode(error);
-                            ErrorUtilities.ThrowInternalErrorUnreachable();
+                            Exists = false;
+                            return;
                         }
 
+                        // Throw nice message as far as we can. At this point IO is OK.
+                        Length = new FileInfo(_filename).Length;
+
+                        // Otherwise this will give at least something
+                        NativeMethodsShared.ThrowExceptionForErrorCode(error);
+                        ErrorUtilities.ThrowInternalErrorUnreachable();
+                    }
+
+                    Exists = true;
+                    IsDirectory = ((int)data.dwFileAttributes & NativeMethodsShared.FILE_ATTRIBUTE_DIRECTORY) != 0;
+                    IsReadOnly = !IsDirectory
+                                  && ((int)data.dwFileAttributes & NativeMethodsShared.FILE_ATTRIBUTE_READONLY) != 0;
+                    LastWriteTimeUtc =
+                        DateTime.FromFileTimeUtc(((long)data.ftLastWriteTime.dwHighDateTime << 0x20) | (uint)data.ftLastWriteTime.dwLowDateTime);
+                    Length = IsDirectory ? 0 : (((long)data.nFileSizeHigh << 0x20) | (uint)data.nFileSizeLow);
+#pragma warning restore CA1416
+#else
+                    var fileInfo = new FileInfo(_filename);
+
+                    if (fileInfo.Exists)
+                    {
+                        // Use FileInfo to get readonly and last write date
                         Exists = true;
-                        IsDirectory = (data.fileAttributes & NativeMethodsShared.FILE_ATTRIBUTE_DIRECTORY) != 0;
-                        IsReadOnly = !IsDirectory
-                                      && (data.fileAttributes & NativeMethodsShared.FILE_ATTRIBUTE_READONLY) != 0;
-                        LastWriteTimeUtc =
-                            DateTime.FromFileTimeUtc(((long)data.ftLastWriteTimeHigh << 0x20) | data.ftLastWriteTimeLow);
-                        Length = IsDirectory ? 0 : (((long)data.fileSizeHigh << 0x20) | data.fileSizeLow);
+                        IsReadOnly = fileInfo.IsReadOnly;
+                        LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
+                        Length = fileInfo.Length;
                     }
                     else
                     {
-                        var fileInfo = new FileInfo(_filename);
+                        var directoryInfo = new DirectoryInfo(_filename);
 
-                        if (fileInfo.Exists)
+                        if (directoryInfo.Exists)
                         {
-                            // Use FileInfo to get readonly and last write date
+                            // Use DirectoryInfo to get the last write date
                             Exists = true;
-                            IsReadOnly = fileInfo.IsReadOnly;
-                            LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
-                            Length = fileInfo.Length;
-                        }
-                        else
-                        {
-                            var directoryInfo = new DirectoryInfo(_filename);
-
-                            if (directoryInfo.Exists)
-                            {
-                                // Use DirectoryInfo to get the last write date
-                                Exists = true;
-                                IsDirectory = true;
-                                IsReadOnly = false;
-                                LastWriteTimeUtc = directoryInfo.LastWriteTimeUtc;
-                            }
+                            IsDirectory = true;
+                            IsReadOnly = false;
+                            LastWriteTimeUtc = directoryInfo.LastWriteTimeUtc;
                         }
                     }
+#endif
                 }
                 catch (Exception ex)
                 {
@@ -174,11 +174,12 @@ namespace Microsoft.Build.Tasks
                 }
                 finally
                 {
+#if TARGET_WINDOWS
+#pragma warning disable CA1416
                     // Reset the error mode on Windows
-                    if (NativeMethodsShared.IsWindows)
-                    {
-                        NativeMethodsShared.SetThreadErrorMode(oldMode, out _);
-                    }
+                    NativeMethodsShared.SetThreadErrorMode(oldMode, out _);
+#pragma warning restore CA1416
+#endif
                 }
             }
 

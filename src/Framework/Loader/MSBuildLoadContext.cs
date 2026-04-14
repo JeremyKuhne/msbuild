@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -47,6 +48,8 @@ namespace Microsoft.Build.Shared
                 null;
         }
 
+        [UnconditionalSuppressMessage("SingleFile", "IL3000:Avoid accessing Assembly file path when publishing as a single file", Justification = "MSBuild is not single-file published.")]
+        [UnconditionalSuppressMessage("Trimming", "IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code", Justification = "MSBuild plugin loading is inherently dynamic. Assemblies are loaded from known plugin directories.")]
         protected override Assembly? Load(AssemblyName assemblyName)
         {
             if (WellKnownAssemblyNames.Contains(assemblyName.Name!))

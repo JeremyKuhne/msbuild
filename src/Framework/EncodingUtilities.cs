@@ -12,6 +12,9 @@ using System.Text;
 
 using Microsoft.Build.Framework;
 using Microsoft.Win32;
+#if TARGET_WINDOWS
+using Windows.Win32;
+#endif
 
 #nullable disable
 
@@ -53,16 +56,14 @@ namespace Microsoft.Build.Shared
                 s_currentOemEncoding = Encoding.UTF8;
 #endif
 
+#if TARGET_WINDOWS
                 try
                 {
-                    if (NativeMethods.IsWindows)
-                    {
 #if RUNTIME_TYPE_NETCORE
-                        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                    Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 #endif
-                        // get the current OEM code page
-                        s_currentOemEncoding = Encoding.GetEncoding(NativeMethods.GetOEMCP());
-                    }
+                    // get the current OEM code page
+                    s_currentOemEncoding = Encoding.GetEncoding((int)PInvoke.GetOEMCP());
                 }
                 // theoretically, GetEncoding may throw an ArgumentException or a NotSupportedException. This should never
                 // really happen, since the code page we pass in has just been returned from the "underlying platform",
@@ -76,6 +77,7 @@ namespace Microsoft.Build.Shared
                 {
                     Debug.Assert(false, "GetEncoding(default OEM encoding) threw a NotSupportedException in EncodingUtilities.CurrentSystemOemEncoding! Please log a bug against MSBuild.", ex.Message);
                 }
+#endif                
 
                 return s_currentOemEncoding;
             }

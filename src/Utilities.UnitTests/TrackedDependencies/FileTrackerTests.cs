@@ -898,15 +898,19 @@ class X
             // The default path to temp, used to create explicitly short and long paths
             string tempPath = Path.GetTempPath();
             // The short path to temp
-            string tempShortPath = NativeMethodsShared.IsUnixLike
-                                       ? tempPath
-                                       : FileUtilities.EnsureTrailingSlash(
-                                           NativeMethodsShared.GetShortFilePath(tempPath).ToUpperInvariant());
+#if TARGET_WINDOWS
+            string tempShortPath = FileUtilities.EnsureTrailingSlash(
+                NativeMethodsShared.GetShortFilePath(tempPath).ToUpperInvariant());
+#else
+            string tempShortPath = tempPath;
+#endif
             // The long path to temp
-            string tempLongPath = NativeMethodsShared.IsUnixLike
-                                      ? tempPath
-                                      : FileUtilities.EnsureTrailingSlash(
-                                          NativeMethodsShared.GetLongFilePath(tempPath).ToUpperInvariant());
+#if TARGET_WINDOWS
+            string tempLongPath = FileUtilities.EnsureTrailingSlash(
+                NativeMethodsShared.GetLongFilePath(tempPath).ToUpperInvariant());
+#else
+            string tempLongPath = tempPath;
+#endif
 
             // We don't want to be including these as dependencies or outputs:
             // 1. Files under %USERPROFILE%\Application Data in XP and %USERPROFILE%\AppData\Roaming in Vista and later.

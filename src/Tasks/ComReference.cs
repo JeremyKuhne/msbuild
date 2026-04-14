@@ -5,6 +5,10 @@ using System;
 using System.Runtime.InteropServices.ComTypes;
 using Microsoft.Build.Shared;
 using Microsoft.Build.Utilities;
+#if TARGET_WINDOWS
+using Windows.Win32;
+using Windows.Win32.Foundation;
+#endif
 using COMException = System.Runtime.InteropServices.COMException;
 using Marshal = System.Runtime.InteropServices.Marshal;
 
@@ -380,8 +384,9 @@ namespace Microsoft.Build.Tasks
             // so the old code would fail to find them on disk using the simplistic checks above.
             if (lastChance)
             {
-                IntPtr libraryHandle = NativeMethodsShared.LoadLibrary(typeLibPath);
-                if (IntPtr.Zero != libraryHandle)
+#if TARGET_WINDOWS
+                HMODULE libraryHandle = PInvoke.LoadLibrary(typeLibPath);
+                if (!libraryHandle.IsNull)
                 {
                     try
                     {
@@ -389,32 +394,35 @@ namespace Microsoft.Build.Tasks
                     }
                     finally
                     {
-                        NativeMethodsShared.FreeLibrary(libraryHandle);
+                        PInvoke.FreeLibrary(libraryHandle);
                     }
                 }
                 else
                 {
                     typeLibPath = "";
                 }
+#else
+                typeLibPath = "";
+#endif
             }
 
             return typeLibPath;
         }
 
-        private static string GetModuleFileName(IntPtr handle)
+#if TARGET_WINDOWS
+        private static string GetModuleFileName(HMODULE handle)
         {
             char[] buffer = null;
 
             // Try increased buffer sizes if on longpath-enabled Windows
-            for (int bufferSize = NativeMethodsShared.MAX_PATH; bufferSize <= NativeMethodsShared.MaxPath; bufferSize *= 2)
+            for (int bufferSize = (int)PInvoke.MAX_PATH; bufferSize <= NativeMethodsShared.MaxPath; bufferSize *= 2)
             {
                 buffer = System.Buffers.ArrayPool<char>.Shared.Rent(bufferSize);
                 try
                 {
-                    var handleRef = new System.Runtime.InteropServices.HandleRef(buffer, handle);
-                    int pathLength = NativeMethodsShared.GetModuleFileName(handleRef, buffer, bufferSize);
+                    int pathLength = (int)PInvoke.GetModuleFileName(handle, buffer.AsSpan(0, bufferSize));
 
-                    bool isBufferTooSmall = (uint)Marshal.GetLastWin32Error() == NativeMethodsShared.ERROR_INSUFFICIENT_BUFFER;
+                    bool isBufferTooSmall = (WIN32_ERROR)Marshal.GetLastWin32Error() == WIN32_ERROR.ERROR_INSUFFICIENT_BUFFER;
                     if (pathLength != 0 && !isBufferTooSmall)
                     {
                         return new string(buffer, 0, pathLength);
@@ -431,6 +439,7 @@ namespace Microsoft.Build.Tasks
 
             return string.Empty;
         }
+#endif
 
         /// <summary>
         /// Gets the type lib path for given type lib attributes(reused almost verbatim from vsdesigner utils code)

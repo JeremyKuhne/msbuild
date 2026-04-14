@@ -897,18 +897,18 @@ namespace Microsoft.Build.BackEnd
             // Jeffrey Richter suggests that when the memory load in the system exceeds 80% it is a good
             // idea to start finding ways to unload unnecessary data to prevent memory starvation.  We use this metric in
             // our calculations below.
-            NativeMethodsShared.MemoryStatus memoryStatus = NativeMethodsShared.GetMemoryStatus();
-            if (memoryStatus != null)
+#if TARGET_WINDOWS
+            if (NativeMethodsShared.GetMemoryStatus() is { } status)
             {
                 try
                 {
                     // The minimum limit must be no more than 80% of the virtual memory limit to reduce the chances of a single unfortunately
                     // large project resulting in allocations which exceed available VM space between calls to this function.  This situation
                     // is more likely on 32-bit machines where VM space is only 2 gigs.
-                    ulong memoryUseLimit = Convert.ToUInt64(memoryStatus.TotalVirtual * 0.8);
+                    ulong memoryUseLimit = Convert.ToUInt64(status.ullTotalVirtual * 0.8);
 
                     // See how much memory we are using and compart that to our limit.
-                    ulong memoryInUse = memoryStatus.TotalVirtual - memoryStatus.AvailableVirtual;
+                    ulong memoryInUse = status.ullTotalVirtual - status.ullAvailVirtual;
                     while ((memoryInUse > memoryUseLimit) || _debugForceCaching)
                     {
                         TraceEngine(
@@ -932,8 +932,12 @@ namespace Microsoft.Build.BackEnd
                             break;
                         }
 
-                        memoryStatus = NativeMethodsShared.GetMemoryStatus();
-                        memoryInUse = memoryStatus.TotalVirtual - memoryStatus.AvailableVirtual;
+                        if (NativeMethodsShared.GetMemoryStatus() is { } refreshedStatus)
+                        {
+                            status = refreshedStatus;
+                        }
+
+                        memoryInUse = status.ullTotalVirtual - status.ullAvailVirtual;
                         TraceEngine("Memory usage now at {0}", memoryInUse);
                     }
                 }
@@ -945,6 +949,7 @@ namespace Microsoft.Build.BackEnd
                     throw new BuildAbortedException(e.Message, e);
                 }
             }
+#endif
         }
 
         /// <summary>
