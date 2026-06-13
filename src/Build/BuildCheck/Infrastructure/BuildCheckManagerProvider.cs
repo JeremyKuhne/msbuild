@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Build.BackEnd;
 using Microsoft.Build.BackEnd.Logging;
@@ -98,6 +99,7 @@ internal sealed class BuildCheckManagerProvider : IBuildCheckManagerProvider
             _tracingReporter.AddSetDataSourceStats(stopwatch.Elapsed);
         }
 
+        [RequiresUnreferencedCode("Loads custom build check assemblies from disk and reflects over their types, which is incompatible with trimming.")]
         public void ProcessCheckAcquisition(
             CheckAcquisitionData acquisitionData,
             ICheckContext checkContext)
@@ -200,6 +202,7 @@ internal sealed class BuildCheckManagerProvider : IBuildCheckManagerProvider
         /// <param name="buildCheckDataSource">Represents different data sources used in build check operations.</param>
         /// <param name="factories">A collection of build check factories for rules instantiation.</param>
         /// <param name="checkContext">The logging context of the build event.</param>
+        [RequiresUnreferencedCode("Materializes custom build checks by invoking constructors discovered from runtime-loaded assemblies, which is incompatible with trimming.")]
         internal void RegisterCustomCheck(
             string projectPath,
             BuildCheckDataSource buildCheckDataSource,
@@ -244,6 +247,7 @@ internal sealed class BuildCheckManagerProvider : IBuildCheckManagerProvider
             }
         }
 
+        [RequiresUnreferencedCode("Materializes custom build checks by invoking constructors discovered from runtime-loaded assemblies, which is incompatible with trimming.")]
         private void SetupSingleCheck(CheckFactoryContext checkFactoryContext, string projectFullPath)
         {
             // For custom checks - it should run only on projects where referenced
@@ -324,6 +328,8 @@ internal sealed class BuildCheckManagerProvider : IBuildCheckManagerProvider
             }
         }
 
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "This may materialize custom checks that were registered from runtime-loaded assemblies; custom check acquisition is explicitly unsupported under trimming.")]
         private void SetupChecksForNewProject(string projectFullPath, ICheckContext checkContext)
         {
             // Only add checks here

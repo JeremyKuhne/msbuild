@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -111,6 +112,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
         }
 
         /// <inheritdoc cref="ISdkResolverService.ResolveSdk"/>
+        [RequiresUnreferencedCode("Resolves SDKs by loading resolver assemblies from disk and reflecting over their types, which is incompatible with trimming.")]
         public virtual SdkResult ResolveSdk(int submissionId, SdkReference sdk, LoggingContext loggingContext, ElementLocation sdkReferenceLocation, string solutionPath, string projectPath, bool interactive, bool isRunningInVisualStudio, bool failOnUnresolvedSdk)
         {
             // If we are running in .NET core, we ask the built-in default resolver first.
@@ -170,6 +172,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
         /// If the first pass is unsuccessful, on the second pass all the general resolvers (i.e. resolvers without pattern), ordered by their priority, are tried one after one.
         /// After that, if the second pass is unsuccessful, sdk resolution is unsuccessful.
         /// </remarks>
+        [RequiresUnreferencedCode("Resolves SDKs by loading resolver assemblies from disk and reflecting over their types, which is incompatible with trimming.")]
         private SdkResult ResolveSdkUsingResolversWithPatternsFirst(int submissionId, SdkReference sdk, LoggingContext loggingContext, ElementLocation sdkReferenceLocation, string solutionPath, string projectPath, bool interactive, bool isRunningInVisualStudio, bool failOnUnresolvedSdk)
         {
             if (_specificResolversManifestsRegistry == null || _generalResolversManifestsRegistry == null)
@@ -271,6 +274,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
             return new SdkResult(sdk, null, null);
         }
 
+        [RequiresUnreferencedCode("Loads SDK resolver assemblies from disk and reflects over their types, which is incompatible with trimming.")]
         private List<SdkResolver> GetResolvers(IReadOnlyList<SdkResolverManifest> resolversManifests, LoggingContext loggingContext, ElementLocation sdkReferenceLocation)
         {
             // Create a sorted by priority list of resolvers. Load them if needed.

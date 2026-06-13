@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Build.Execution;
 using Microsoft.Build.Framework;
@@ -19,7 +20,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Constructor
         /// </summary>
-        public IntrinsicTaskFactory(Type intrinsicType)
+        public IntrinsicTaskFactory([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] Type intrinsicType)
         {
             this.TaskType = intrinsicType;
         }
@@ -35,6 +36,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Returns the task type.
         /// </summary>
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
         public Type TaskType
         {
             get;

@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -42,6 +43,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
             return resolvers;
         }
 
+        [RequiresUnreferencedCode("Loads SDK resolver assemblies from disk and reflects over their types, which is incompatible with trimming.")]
         internal virtual IReadOnlyList<SdkResolver> LoadAllResolvers(ElementLocation location)
         {
             MSBuildEventSource.Log.SdkResolverLoadAllResolversStart();
@@ -220,6 +222,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
             return true;
         }
 
+        [RequiresUnreferencedCode("Reflects over an SDK resolver assembly's exported types, which is incompatible with trimming.")]
         protected virtual IEnumerable<Type> GetResolverTypes(Assembly assembly)
         {
             return assembly.ExportedTypes
@@ -228,6 +231,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
                 .Select(t => t.type);
         }
 
+        [RequiresUnreferencedCode("Loads an SDK resolver assembly from disk, which is incompatible with trimming.")]
         protected virtual Assembly LoadResolverAssembly(string resolverPath)
         {
 #if !FEATURE_ASSEMBLYLOADCONTEXT
@@ -278,6 +282,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
         }
 #endif
 
+        [RequiresUnreferencedCode("Loads SDK resolver assemblies from disk and reflects over their types, which is incompatible with trimming.")]
         protected internal virtual IReadOnlyList<SdkResolver> LoadResolversFromManifest(SdkResolverManifest manifest, ElementLocation location)
         {
             MSBuildEventSource.Log.SdkResolverLoadResolversStart();
@@ -293,6 +298,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
             return resolvers;
         }
 
+        [RequiresUnreferencedCode("Loads an SDK resolver assembly from disk and instantiates its resolver types, which is incompatible with trimming.")]
         protected virtual void LoadResolvers(string resolverPath, ElementLocation location, List<SdkResolver> resolvers)
         {
             Assembly assembly;

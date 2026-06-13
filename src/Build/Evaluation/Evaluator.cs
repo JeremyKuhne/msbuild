@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -300,6 +301,7 @@ namespace Microsoft.Build.Evaluation
         /// This is a helper static method so that the caller can just do "Evaluator.Evaluate(..)" without
         /// newing one up, yet the whole class need not be static.
         /// </remarks>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         internal static void Evaluate(
             IEvaluatorData<P, I, M, D> data,
             Project project,
@@ -624,6 +626,7 @@ namespace Microsoft.Build.Evaluation
         /// Do the evaluation.
         /// Called by the static helper method.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         private void Evaluate()
         {
             string projectFile = string.IsNullOrEmpty(_projectRootElement.ProjectFileLocation.File) ? "(null)" : _projectRootElement.ProjectFileLocation.File;
@@ -870,6 +873,7 @@ namespace Microsoft.Build.Evaluation
         /// Does a depth first traversal into Imports.
         /// In the process, populates the item, itemdefinition, target, and usingtask lists as well.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         private void PerformDepthFirstPass(ProjectRootElement currentProjectOrImport)
         {
             using (_evaluationProfiler.TrackFile(currentProjectOrImport.FullPath))
@@ -1401,6 +1405,7 @@ namespace Microsoft.Build.Evaluation
         /// <remarks>
         /// UNDONE: Protect against overflowing the stack by having too many nested imports.
         /// </remarks>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         private void EvaluateImportElement(string directoryOfImportingFile, ProjectImportElement importElement)
         {
             using (_evaluationProfiler.TrackElement(importElement))
@@ -1426,6 +1431,7 @@ namespace Microsoft.Build.Evaluation
         /// <remarks>
         /// UNDONE: Protect against overflowing the stack by having too many nested imports.
         /// </remarks>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         private void EvaluateImportGroupElement(string directoryOfImportingFile, ProjectImportGroupElement importGroupElement)
         {
             using (_evaluationProfiler.TrackElement(importGroupElement))
@@ -1512,6 +1518,7 @@ namespace Microsoft.Build.Evaluation
         /// in those additional paths if the default fails.
         /// </remarks>
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         private List<ProjectRootElement> ExpandAndLoadImports(string directoryOfImportingFile, ProjectImportElement importElement, out SdkResult sdkResult)
         {
             var fallbackSearchPathMatch = _data.Toolset.GetProjectImportSearchPaths(importElement.Project);
@@ -1692,6 +1699,7 @@ namespace Microsoft.Build.Evaluation
         /// Caches the parsed import into the provided collection, so future
         /// requests can be satisfied without re-parsing it.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         private void ExpandAndLoadImportsFromUnescapedImportExpressionConditioned(
             string directoryOfImportingFile,
             ProjectImportElement importElement,

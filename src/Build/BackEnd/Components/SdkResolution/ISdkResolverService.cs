@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Build.BackEnd.Logging;
 using Microsoft.Build.Construction;
 using Microsoft.Build.Framework;
@@ -49,6 +50,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
         /// <param name="isRunningInVisualStudio">Indicates whether or not the resolver is running in Visual Studio.</param>
         /// <param name="failOnUnresolvedSdk">Whether to throw an exception should the SDK fail to be resolved.</param>
         /// <returns>An <see cref="SdkResult"/> containing information about the resolved SDK. If no resolver was able to resolve it, then <see cref="Framework.SdkResult.Success"/> == false. </returns>
+        [RequiresUnreferencedCode("Resolves SDKs by loading resolver assemblies from disk and reflecting over their types, which is incompatible with trimming.")]
         SdkResult ResolveSdk(int submissionId, SdkReference sdk, LoggingContext loggingContext, ElementLocation sdkReferenceLocation, string solutionPath, string projectPath, bool interactive, bool isRunningInVisualStudio, bool failOnUnresolvedSdk);
     }
 }

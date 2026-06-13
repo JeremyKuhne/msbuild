@@ -126,6 +126,7 @@ namespace Microsoft.Build.Evaluation
         /// global properties and default tools version.
         /// Project will be added to the global project collection when it is named.
         /// </summary>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project()
             : this(DefaultNewProjectTemplateOptions)
         {
@@ -136,6 +137,7 @@ namespace Microsoft.Build.Evaluation
         /// global properties and default tools version.
         /// Project will be added to the global project collection when it is named.
         /// </summary>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(NewProjectFileOptions newProjectFileOptions)
             : this(ProjectRootElement.Create(ProjectCollection.GlobalProjectCollection, newProjectFileOptions))
         {
@@ -146,6 +148,7 @@ namespace Microsoft.Build.Evaluation
         /// global properties and default tools version.
         /// Project will be added to the specified project collection when it is named.
         /// </summary>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(ProjectCollection projectCollection)
             : this(ProjectRootElement.Create(projectCollection), null, null, projectCollection)
         {
@@ -156,6 +159,7 @@ namespace Microsoft.Build.Evaluation
         /// global properties and default tools version.
         /// Project will be added to the specified project collection when it is named.
         /// </summary>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(ProjectCollection projectCollection, NewProjectFileOptions newProjectFileOptions)
             : this(ProjectRootElement.Create(projectCollection, newProjectFileOptions), null, null, projectCollection)
         {
@@ -169,6 +173,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="globalProperties">Global properties to evaluate with. May be null in which case the containing project collection's global properties will be used.</param>
         /// <param name="toolsVersion">Tools version to evaluate with. May be null.</param>
         /// <param name="projectCollection">The <see cref="ProjectCollection"/> the project is added to.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(IDictionary<string, string> globalProperties, string toolsVersion, ProjectCollection projectCollection)
             : this(ProjectRootElement.Create(projectCollection, DefaultNewProjectTemplateOptions), globalProperties, toolsVersion, projectCollection)
         {
@@ -183,6 +188,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="toolsVersion">Tools version to evaluate with. May be null.</param>
         /// <param name="projectCollection">The <see cref="ProjectCollection"/> the project is added to.</param>
         /// <param name="newProjectFileOptions">The <see cref="NewProjectFileOptions"/> to use for the new project.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(IDictionary<string, string> globalProperties, string toolsVersion, ProjectCollection projectCollection, NewProjectFileOptions newProjectFileOptions)
             : this(ProjectRootElement.Create(projectCollection, newProjectFileOptions), globalProperties, toolsVersion, projectCollection)
         {
@@ -196,6 +202,7 @@ namespace Microsoft.Build.Evaluation
         /// Throws InvalidOperationException if there is already an equivalent project loaded in the project collection.
         /// </summary>
         /// <param name="xml">ProjectRootElement to use.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(ProjectRootElement xml)
             : this(xml, null, null)
         {
@@ -211,6 +218,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="xml">ProjectRootElement to use.</param>
         /// <param name="globalProperties">Global properties to evaluate with. May be null in which case the containing project collection's global properties will be used.</param>
         /// <param name="toolsVersion">Tools version to evaluate with. May be null.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(ProjectRootElement xml, IDictionary<string, string> globalProperties, string toolsVersion)
             : this(xml, globalProperties, toolsVersion, ProjectCollection.GlobalProjectCollection)
         {
@@ -227,6 +235,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="globalProperties">Global properties to evaluate with. May be null in which case the containing project collection's global properties will be used.</param>
         /// <param name="toolsVersion">Tools version to evaluate with. May be null.</param>
         /// <param name="projectCollection">The <see cref="ProjectCollection"/> the project is added to.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(ProjectRootElement xml, IDictionary<string, string> globalProperties, string toolsVersion, ProjectCollection projectCollection)
             : this(xml, globalProperties, toolsVersion, projectCollection, ProjectLoadSettings.Default)
         {
@@ -244,6 +253,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="toolsVersion">Tools version to evaluate with. May be null.</param>
         /// <param name="projectCollection">The <see cref="ProjectCollection"/> the project is added to.</param>
         /// <param name="loadSettings">The <see cref="ProjectLoadSettings"/> to use for evaluation.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(ProjectRootElement xml, IDictionary<string, string> globalProperties, string toolsVersion, ProjectCollection projectCollection, ProjectLoadSettings loadSettings)
             : this(xml, globalProperties, toolsVersion, null /* no explicit sub-toolset version */, projectCollection, loadSettings)
         {
@@ -262,11 +272,13 @@ namespace Microsoft.Build.Evaluation
         /// <param name="subToolsetVersion">Sub-toolset version to explicitly evaluate the toolset with.  May be null.</param>
         /// <param name="projectCollection">The <see cref="ProjectCollection"/> the project is added to.</param>
         /// <param name="loadSettings">The <see cref="ProjectLoadSettings"/> to use for evaluation.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(ProjectRootElement xml, IDictionary<string, string> globalProperties, string toolsVersion, string subToolsetVersion, ProjectCollection projectCollection, ProjectLoadSettings loadSettings)
             : this(xml, globalProperties, toolsVersion, subToolsetVersion, projectCollection, loadSettings, evaluationContext: null, directoryCacheFactory: null, interactive: false)
         {
         }
 
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         private Project(ProjectRootElement xml, IDictionary<string, string> globalProperties, string toolsVersion, string subToolsetVersion, ProjectCollection projectCollection, ProjectLoadSettings loadSettings,
             EvaluationContext evaluationContext, IDirectoryCacheFactory directoryCacheFactory, bool interactive)
         {
@@ -290,6 +302,7 @@ namespace Microsoft.Build.Evaluation
         /// Throws InvalidOperationException if there is already an equivalent project loaded in the project collection.
         /// </summary>
         /// <param name="xmlReader">Xml reader to read project from.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(XmlReader xmlReader)
             : this(xmlReader, null, null)
         {
@@ -305,6 +318,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="xmlReader">Xml reader to read project from.</param>
         /// <param name="globalProperties">Global properties to evaluate with. May be null in which case the containing project collection's global properties will be used.</param>
         /// <param name="toolsVersion">Tools version to evaluate with. May be null.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(XmlReader xmlReader, IDictionary<string, string> globalProperties, string toolsVersion)
             : this(xmlReader, globalProperties, toolsVersion, ProjectCollection.GlobalProjectCollection)
         {
@@ -321,6 +335,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="globalProperties">Global properties to evaluate with. May be null in which case the containing project collection's global properties will be used.</param>
         /// <param name="toolsVersion">Tools version to evaluate with. May be null.</param>
         /// <param name="projectCollection">The collection with which this project should be associated. May not be null.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(XmlReader xmlReader, IDictionary<string, string> globalProperties, string toolsVersion, ProjectCollection projectCollection)
             : this(xmlReader, globalProperties, toolsVersion, projectCollection, ProjectLoadSettings.Default)
         {
@@ -338,6 +353,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="toolsVersion">Tools version to evaluate with. May be null.</param>
         /// <param name="projectCollection">The collection with which this project should be associated. May not be null.</param>
         /// <param name="loadSettings">The <see cref="ProjectLoadSettings"/> to use for evaluation.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(XmlReader xmlReader, IDictionary<string, string> globalProperties, string toolsVersion, ProjectCollection projectCollection, ProjectLoadSettings loadSettings)
             : this(xmlReader, globalProperties, toolsVersion, null /* no explicit sub-toolset version */, projectCollection, loadSettings)
         {
@@ -356,11 +372,13 @@ namespace Microsoft.Build.Evaluation
         /// <param name="subToolsetVersion">Sub-toolset version to explicitly evaluate the toolset with.  May be null.</param>
         /// <param name="projectCollection">The collection with which this project should be associated. May not be null.</param>
         /// <param name="loadSettings">The load settings for this project.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(XmlReader xmlReader, IDictionary<string, string> globalProperties, string toolsVersion, string subToolsetVersion, ProjectCollection projectCollection, ProjectLoadSettings loadSettings)
             : this(xmlReader, globalProperties, toolsVersion, subToolsetVersion, projectCollection, loadSettings, evaluationContext: null, directoryCacheFactory: null, interactive: false)
         {
         }
 
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         private Project(XmlReader xmlReader, IDictionary<string, string> globalProperties, string toolsVersion, string subToolsetVersion, ProjectCollection projectCollection, ProjectLoadSettings loadSettings,
             EvaluationContext evaluationContext, IDirectoryCacheFactory directoryCacheFactory, bool interactive)
         {
@@ -385,6 +403,7 @@ namespace Microsoft.Build.Evaluation
         /// May throw IO-related exceptions.
         /// </summary>
         /// <exception cref="InvalidProjectFileException">If the evaluation fails.</exception>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(string projectFile)
             : this(projectFile, null, null)
         {
@@ -398,6 +417,7 @@ namespace Microsoft.Build.Evaluation
         /// Throws InvalidOperationException if there is already an equivalent project loaded in the project collection.
         /// May throw IO-related exceptions.
         /// </summary>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(string projectFile, IDictionary<string, string> globalProperties, string toolsVersion)
             : this(projectFile, globalProperties, toolsVersion, ProjectCollection.GlobalProjectCollection)
         {
@@ -415,6 +435,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="globalProperties">The global properties. May be null.</param>
         /// <param name="toolsVersion">The tools version. May be null.</param>
         /// <param name="projectCollection">The collection with which this project should be associated. May not be null.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(string projectFile, IDictionary<string, string> globalProperties, string toolsVersion, ProjectCollection projectCollection)
             : this(projectFile, globalProperties, toolsVersion, projectCollection, ProjectLoadSettings.Default)
         {
@@ -433,6 +454,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="toolsVersion">The tools version. May be null.</param>
         /// <param name="projectCollection">The collection with which this project should be associated. May not be null.</param>
         /// <param name="loadSettings">The load settings for this project.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(string projectFile, IDictionary<string, string> globalProperties, string toolsVersion, ProjectCollection projectCollection, ProjectLoadSettings loadSettings)
             : this(projectFile, globalProperties, toolsVersion, null /* no explicitly specified sub-toolset version */, projectCollection, loadSettings)
         {
@@ -452,11 +474,13 @@ namespace Microsoft.Build.Evaluation
         /// <param name="subToolsetVersion">Sub-toolset version to explicitly evaluate the toolset with.  May be null.</param>
         /// <param name="projectCollection">The collection with which this project should be associated. May not be null.</param>
         /// <param name="loadSettings">The load settings for this project.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project(string projectFile, IDictionary<string, string> globalProperties, string toolsVersion, string subToolsetVersion, ProjectCollection projectCollection, ProjectLoadSettings loadSettings)
             : this(projectFile, globalProperties, toolsVersion, subToolsetVersion, projectCollection, loadSettings, evaluationContext: null, directoryCacheFactory: null, interactive: false)
         {
         }
 
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         private Project(string projectFile, IDictionary<string, string> globalProperties, string toolsVersion, string subToolsetVersion, ProjectCollection projectCollection, ProjectLoadSettings loadSettings,
             EvaluationContext evaluationContext, IDirectoryCacheFactory directoryCacheFactory, bool interactive)
         {
@@ -496,6 +520,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="file">The file to evaluate the project from.</param>
         /// <param name="options">The <see cref="ProjectOptions"/> to use.</param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public static Project FromFile(string file, ProjectOptions options)
         {
             return new Project(
@@ -515,6 +540,7 @@ namespace Microsoft.Build.Evaluation
         /// </summary>
         /// <param name="rootElement">The <see cref="ProjectRootElement"/> to evaluate the project from.</param>
         /// <param name="options">The <see cref="ProjectOptions"/> to use.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public static Project FromProjectRootElement(ProjectRootElement rootElement, ProjectOptions options)
         {
             return new Project(
@@ -534,6 +560,7 @@ namespace Microsoft.Build.Evaluation
         /// </summary>
         /// <param name="reader">The <see cref="XmlReader"/> to evaluate the project from.</param>
         /// <param name="options">The <see cref="ProjectOptions"/> to use.</param>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public static Project FromXmlReader(XmlReader reader, ProjectOptions options)
         {
             return new Project(
@@ -923,6 +950,7 @@ namespace Microsoft.Build.Evaluation
         /// <returns>
         /// List of <see cref="GlobResult"/>.
         /// </returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public List<GlobResult> GetAllGlobs()
         {
             return GetAllGlobs(evaluationContext: null);
@@ -935,6 +963,7 @@ namespace Microsoft.Build.Evaluation
         ///     The evaluation context to use in case reevaluation is required.
         ///     To avoid reevaluation use <see cref="ProjectLoadSettings.RecordEvaluatedItemElements"/>.
         /// </param>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public List<GlobResult> GetAllGlobs(EvaluationContext evaluationContext)
         {
             return implementation.GetAllGlobs(evaluationContext);
@@ -944,6 +973,7 @@ namespace Microsoft.Build.Evaluation
         /// Overload of <see cref="GetAllGlobs()"/>.
         /// </summary>
         /// <param name="itemType">Confine search to item elements of this type.</param>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public List<GlobResult> GetAllGlobs(string itemType)
         {
             return implementation.GetAllGlobs(itemType, null);
@@ -957,6 +987,7 @@ namespace Microsoft.Build.Evaluation
         ///     The evaluation context to use in case reevaluation is required.
         ///     To avoid reevaluation use <see cref="ProjectLoadSettings.RecordEvaluatedItemElements"/>.
         /// </param>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public List<GlobResult> GetAllGlobs(string itemType, EvaluationContext evaluationContext)
         {
             return implementation.GetAllGlobs(itemType, evaluationContext);
@@ -1006,6 +1037,7 @@ namespace Microsoft.Build.Evaluation
         /// <returns>
         /// A list of <see cref="ProvenanceResult"/>, sorted in project evaluation order.
         /// </returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public List<ProvenanceResult> GetItemProvenance(string itemToMatch)
         {
             return GetItemProvenance(itemToMatch, evaluationContext: null);
@@ -1019,6 +1051,7 @@ namespace Microsoft.Build.Evaluation
         ///     The evaluation context to use in case reevaluation is required.
         ///     To avoid reevaluation use <see cref="ProjectLoadSettings.RecordEvaluatedItemElements"/>.
         /// </param>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public List<ProvenanceResult> GetItemProvenance(string itemToMatch, EvaluationContext evaluationContext)
         {
             return implementation.GetItemProvenance(itemToMatch, evaluationContext);
@@ -1029,6 +1062,7 @@ namespace Microsoft.Build.Evaluation
         /// </summary>
         /// <param name="itemToMatch">The string to perform matching against.</param>
         /// <param name="itemType">The item type to constrain the search in.</param>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public List<ProvenanceResult> GetItemProvenance(string itemToMatch, string itemType)
         {
             return GetItemProvenance(itemToMatch, itemType, null);
@@ -1043,6 +1077,7 @@ namespace Microsoft.Build.Evaluation
         ///     The evaluation context to use in case reevaluation is required.
         ///     To avoid reevaluation use <see cref="ProjectLoadSettings.RecordEvaluatedItemElements"/>.
         /// </param>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public List<ProvenanceResult> GetItemProvenance(string itemToMatch, string itemType, EvaluationContext evaluationContext)
         {
             return implementation.GetItemProvenance(itemToMatch, itemType, evaluationContext);
@@ -1056,6 +1091,7 @@ namespace Microsoft.Build.Evaluation
         /// The search is also constrained on item elements appearing before the item element that produced this <paramref name="item"/>.
         /// The element that produced this <paramref name="item"/> is included in the results.
         /// </param>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public List<ProvenanceResult> GetItemProvenance(ProjectItem item)
         {
             return implementation.GetItemProvenance(item, null);
@@ -1073,6 +1109,7 @@ namespace Microsoft.Build.Evaluation
         ///     The evaluation context to use in case reevaluation is required.
         ///     To avoid reevaluation use <see cref="ProjectLoadSettings.RecordEvaluatedItemElements"/>.
         /// </param>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public List<ProvenanceResult> GetItemProvenance(ProjectItem item, EvaluationContext evaluationContext)
         {
             return implementation.GetItemProvenance(item, evaluationContext);
@@ -1364,6 +1401,7 @@ namespace Microsoft.Build.Evaluation
         /// Before creating the instance, this will reevaluate the project if necessary, so it will not be dirty.
         /// </summary>
         /// <returns>The created project instance.</returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public ProjectInstance CreateProjectInstance()
         {
             return CreateProjectInstance(ProjectInstanceSettings.None, null);
@@ -1378,6 +1416,7 @@ namespace Microsoft.Build.Evaluation
         /// </summary>
         /// <param name="settings">The project instance creation settings.</param>
         /// <returns>The created project instance.</returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public ProjectInstance CreateProjectInstance(ProjectInstanceSettings settings)
         {
             return CreateProjectInstance(settings, null);
@@ -1389,6 +1428,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="settings">The project instance creation settings.</param>
         /// <param name="evaluationContext">The evaluation context to use in case reevaluation is required.</param>
         /// <returns>The created project instance.</returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public ProjectInstance CreateProjectInstance(ProjectInstanceSettings settings, EvaluationContext evaluationContext)
         {
             return implementation.CreateProjectInstance(settings, evaluationContext);
@@ -1413,6 +1453,7 @@ namespace Microsoft.Build.Evaluation
         /// This incorporates all changes previously made to the backing XML by editing this project.
         /// Throws InvalidProjectFileException if the evaluation fails.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public void ReevaluateIfNecessary()
         {
             implementation.ReevaluateIfNecessary(null);
@@ -1422,6 +1463,7 @@ namespace Microsoft.Build.Evaluation
         /// See <see cref="ReevaluateIfNecessary()"/>.
         /// </summary>
         /// <param name="evaluationContext">The <see cref="EvaluationContext"/> to use. See <see cref="EvaluationContext"/>.</param>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public void ReevaluateIfNecessary(EvaluationContext evaluationContext)
         {
             implementation.ReevaluateIfNecessary(evaluationContext);
@@ -1488,6 +1530,7 @@ namespace Microsoft.Build.Evaluation
         /// Does not modify the Project object.
         /// </summary>
         /// <returns>Returns true on success and false on failure or disabled build.</returns>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build()
         {
             return Build((string[])null);
@@ -1502,6 +1545,7 @@ namespace Microsoft.Build.Evaluation
         /// </summary>
         /// <param name="logger">Logger to use.</param>
         /// <returns>Returns true on success and false on failure or disabled build.</returns>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(ILogger logger)
         {
             var loggers = new List<ILogger>(1) { logger };
@@ -1517,6 +1561,7 @@ namespace Microsoft.Build.Evaluation
         /// </summary>
         /// <param name="loggers">List of loggers.</param>
         /// <returns>Returns true on success and false on failure or disabled build.</returns>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(IEnumerable<ILogger> loggers)
         {
             return Build((string[])null, loggers, null);
@@ -1532,6 +1577,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="loggers">List of loggers.</param>
         /// <param name="remoteLoggers">Remote loggers for multi proc logging.</param>
         /// <returns>Returns true on success and false on failure or disabled build.</returns>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers)
         {
             return Build((string[])null, loggers, remoteLoggers);
@@ -1546,6 +1592,7 @@ namespace Microsoft.Build.Evaluation
         /// </summary>
         /// <param name="target">Target to build.</param>
         /// <returns>Returns true on success and false on failure or disabled build.</returns>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(string target)
         {
             return Build(target, null, null);
@@ -1561,6 +1608,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="target">Target to build.</param>
         /// <param name="loggers">List of loggers.</param>
         /// <returns>Returns true on success and false on failure or disabled build.</returns>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(string target, IEnumerable<ILogger> loggers)
         {
             return Build(target, loggers, null);
@@ -1577,6 +1625,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="loggers">List of loggers.</param>
         /// <param name="remoteLoggers">Remote loggers for multi proc logging.</param>
         /// <returns>Returns true on success and false on failure or disabled build.</returns>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(string target, IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers)
         {
             // targets may be null, but not an entry within it
@@ -1594,6 +1643,7 @@ namespace Microsoft.Build.Evaluation
         /// </summary>
         /// <param name="targets">Targets to build.</param>
         /// <returns>Returns true on success and false on failure or disabled build.</returns>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(string[] targets)
         {
             return Build(targets, null, null);
@@ -1610,6 +1660,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="targets">Targets to build.</param>
         /// <param name="loggers">List of loggers.</param>
         /// <returns>Returns true on success and false on failure or disabled build.</returns>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(string[] targets, IEnumerable<ILogger> loggers)
         {
             return Build(targets, loggers, null);
@@ -1627,6 +1678,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="loggers">List of loggers.</param>
         /// <param name="remoteLoggers">Remote loggers for multi proc logging.</param>
         /// <returns>Returns true on success and false on failure or disabled build.</returns>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(string[] targets, IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers)
         {
             return Build(targets, loggers, remoteLoggers, null);
@@ -1640,6 +1692,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="remoteLoggers">Remote loggers for multi proc logging.</param>
         /// <param name="evaluationContext">The evaluation context to use in case reevaluation is required.</param>
         /// <returns>Returns true on success and false on failure or disabled build.</returns>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(string[] targets, IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers, EvaluationContext evaluationContext)
         {
             return implementation.Build(targets, loggers, remoteLoggers, evaluationContext);
@@ -2500,6 +2553,7 @@ namespace Microsoft.Build.Evaluation
             ///     The evaluation context to use in case reevaluation is required.
             ///     To avoid reevaluation use <see cref="ProjectLoadSettings.RecordEvaluatedItemElements"/>.
             /// </param>
+            [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
             public override List<GlobResult> GetAllGlobs(EvaluationContext evaluationContext)
             {
                 return GetAllGlobs(GetEvaluatedItemElements(evaluationContext));
@@ -2513,6 +2567,7 @@ namespace Microsoft.Build.Evaluation
             ///     The evaluation context to use in case reevaluation is required.
             ///     To avoid reevaluation use <see cref="ProjectLoadSettings.RecordEvaluatedItemElements"/>.
             /// </param>
+            [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
             public override List<GlobResult> GetAllGlobs(string itemType, EvaluationContext evaluationContext)
             {
                 if (string.IsNullOrEmpty(itemType))
@@ -2694,6 +2749,7 @@ namespace Microsoft.Build.Evaluation
             ///     The evaluation context to use in case reevaluation is required.
             ///     To avoid reevaluation use <see cref="ProjectLoadSettings.RecordEvaluatedItemElements"/>.
             /// </param>
+            [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
             public override List<ProvenanceResult> GetItemProvenance(string itemToMatch, EvaluationContext evaluationContext)
             {
                 return GetItemProvenance(itemToMatch, GetEvaluatedItemElements(evaluationContext));
@@ -2708,6 +2764,7 @@ namespace Microsoft.Build.Evaluation
             ///     The evaluation context to use in case reevaluation is required.
             ///     To avoid reevaluation use <see cref="ProjectLoadSettings.RecordEvaluatedItemElements"/>.
             /// </param>
+            [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
             public override List<ProvenanceResult> GetItemProvenance(string itemToMatch, string itemType, EvaluationContext evaluationContext)
             {
                 return GetItemProvenance(itemToMatch, GetItemElementsByType(GetEvaluatedItemElements(evaluationContext), itemType));
@@ -2725,6 +2782,7 @@ namespace Microsoft.Build.Evaluation
             ///     The evaluation context to use in case reevaluation is required.
             ///     To avoid reevaluation use <see cref="ProjectLoadSettings.RecordEvaluatedItemElements"/>.
             /// </param>
+            [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
             public override List<ProvenanceResult> GetItemProvenance(ProjectItem item, EvaluationContext evaluationContext)
             {
                 if (item == null)
@@ -2745,6 +2803,7 @@ namespace Microsoft.Build.Evaluation
             /// Using this method avoids storing extra data in memory when its not needed.
             /// </summary>
             /// <param name="evaluationContext"></param>
+            [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
             private List<ProjectItemElement> GetEvaluatedItemElements(EvaluationContext evaluationContext)
             {
                 if (!_loadSettings.HasFlag(ProjectLoadSettings.RecordEvaluatedItemElements))
@@ -3279,6 +3338,7 @@ namespace Microsoft.Build.Evaluation
             /// <param name="settings">Project instance creation settings.</param>
             /// <param name="evaluationContext">The evaluation context to use in case reevaluation is required.</param>
             /// <returns></returns>
+            [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
             public override ProjectInstance CreateProjectInstance(ProjectInstanceSettings settings, EvaluationContext evaluationContext)
             {
                 return CreateProjectInstance(LoggingService, settings, evaluationContext);
@@ -3308,6 +3368,7 @@ namespace Microsoft.Build.Evaluation
             /// See <see cref="ProjectLink.ReevaluateIfNecessary"/>.
             /// </summary>
             /// <param name="evaluationContext">The <see cref="EvaluationContext"/> to use. See <see cref="EvaluationContext"/>.</param>
+            [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
             public override void ReevaluateIfNecessary(EvaluationContext evaluationContext)
             {
                 ReevaluateIfNecessary(LoggingService, evaluationContext);
@@ -3335,6 +3396,7 @@ namespace Microsoft.Build.Evaluation
             /// <param name="loggers">List of loggers.</param>
             /// <param name="remoteLoggers">Remote loggers for multi proc logging.</param>
             /// <param name="evaluationContext">The evaluation context to use in case reevaluation is required.</param>
+            [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
             public override bool Build(string[] targets, IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers, EvaluationContext evaluationContext)
             {
                 if (!IsBuildEnabled)
@@ -3674,6 +3736,7 @@ namespace Microsoft.Build.Evaluation
             /// <summary>
             /// Re-evaluates the project using the specified logging service.
             /// </summary>
+            [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
             private void ReevaluateIfNecessary(ILoggingService loggingServiceForEvaluation, EvaluationContext evaluationContext = null)
             {
                 ReevaluateIfNecessary(loggingServiceForEvaluation, _loadSettings, evaluationContext);
@@ -3682,6 +3745,7 @@ namespace Microsoft.Build.Evaluation
             /// <summary>
             /// Re-evaluates the project using the specified logging service and load settings.
             /// </summary>
+            [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
             private void ReevaluateIfNecessary(
                 ILoggingService loggingServiceForEvaluation,
                 ProjectLoadSettings loadSettings,
@@ -3706,6 +3770,7 @@ namespace Microsoft.Build.Evaluation
             /// <summary>
             /// Creates a project instance based on this project using the specified logging service.
             /// </summary>
+            [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
             private ProjectInstance CreateProjectInstance(
                 ILoggingService loggingServiceForEvaluation,
                 ProjectInstanceSettings settings,
@@ -3716,6 +3781,7 @@ namespace Microsoft.Build.Evaluation
                 return new ProjectInstance(_data, DirectoryPath, FullPath, ProjectCollection.HostServices, ProjectCollection.EnvironmentProperties, settings);
             }
 
+            [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
             private void Reevaluate(
                 ILoggingService loggingServiceForEvaluation,
                 ProjectLoadSettings loadSettings,
@@ -3773,6 +3839,7 @@ namespace Microsoft.Build.Evaluation
             /// Global properties may be null.
             /// Tools version may be null.
             /// </summary>
+            [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
             internal void Initialize(IDictionary<string, string> globalProperties, string toolsVersion, string subToolsetVersion, ProjectLoadSettings loadSettings, EvaluationContext evaluationContext, bool interactive)
             {
                 Xml.MarkAsExplicitlyLoaded();

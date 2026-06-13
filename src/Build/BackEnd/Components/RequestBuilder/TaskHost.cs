@@ -10,6 +10,7 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Lifetime;
 #endif
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Build.BackEnd.Components.Caching;
@@ -332,6 +333,8 @@ namespace Microsoft.Build.BackEnd
         /// <param name="toolsVersion">The tools versions to use</param>
         /// <param name="returnTargetOutputs">Should the target outputs be returned in the BuildEngineResult</param>
         /// <returns>A structure containing the result of the build, success or failure and the list of target outputs per project</returns>
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "This implements the public IBuildEngine3 task-callback contract; the build it triggers reflects over assemblies at runtime and is unsupported under trimming. The contract interface cannot carry RequiresUnreferencedCode.")]
         public BuildEngineResult BuildProjectFilesInParallel(string[] projectFileNames, string[] targetNames, System.Collections.IDictionary[] globalProperties, IList<String>[] undefineProperties, string[] toolsVersion, bool returnTargetOutputs)
         {
             lock (_callbackMonitor)
@@ -967,6 +970,7 @@ namespace Microsoft.Build.BackEnd
         /// Called by the internal MSBuild task.
         /// Does not take the lock because it is called by another request builder thread.
         /// </summary>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public async Task<BuildEngineResult> InternalBuildProjects(string[] projectFileNames, string[] targetNames, IDictionary[] globalProperties, IList<String>[] undefineProperties, string[] toolsVersion, bool returnTargetOutputs, bool skipNonexistentTargets = false)
         {
             ArgumentNullException.ThrowIfNull(projectFileNames);
@@ -1140,6 +1144,7 @@ namespace Microsoft.Build.BackEnd
         /// <param name="returnTargetOutputs">Should the target outputs be returned in the BuildEngineResult</param>
         /// <param name="skipNonexistentTargets">If set, skip targets that are not defined in the projects to be built.</param>
         /// <returns>A Task returning a structure containing the result of the build, success or failure and the list of target outputs per project</returns>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private async Task<BuildEngineResult> BuildProjectFilesInParallelAsync(string[] projectFileNames, string[] targetNames, IDictionary[] globalProperties, IList<String>[] undefineProperties, string[] toolsVersion, bool returnTargetOutputs, bool skipNonexistentTargets = false)
         {
             ArgumentNullException.ThrowIfNull(projectFileNames);

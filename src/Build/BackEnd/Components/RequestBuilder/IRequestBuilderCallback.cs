@@ -1,6 +1,7 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Microsoft.Build.Collections;
 using Microsoft.Build.Execution;
@@ -26,6 +27,7 @@ namespace Microsoft.Build.BackEnd
         /// <param name="waitForResults">True to wait for the results </param>
         /// <param name="skipNonexistentTargets">If set, skip targets that are not defined in the projects to be built.</param>
         /// <returns>An Task representing the work which will be done.</returns>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         Task<BuildResult[]> BuildProjects(string[] projectFiles, PropertyDictionary<ProjectPropertyInstance>[] properties, string[] toolsVersions, string[] targets, bool waitForResults, bool skipNonexistentTargets = false);
 
         /// <summary>

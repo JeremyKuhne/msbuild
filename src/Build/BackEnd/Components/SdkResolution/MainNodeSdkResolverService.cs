@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Build.BackEnd.Components.Logging;
 using Microsoft.Build.BackEnd.Logging;
 using Microsoft.Build.Construction;
@@ -56,6 +57,8 @@ namespace Microsoft.Build.BackEnd.SdkResolution
         }
 
         /// <inheritdoc cref="INodePacketHandler.PacketReceived"/>
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "SDK resolution is triggered in response to a node packet dispatched through the message pump; the resolver path is inherently reflective and unsupported under trimming.")]
         public override void PacketReceived(int node, INodePacket packet)
         {
             if (packet is not SdkResolverRequest request)
@@ -96,6 +99,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
         }
 
         /// <inheritdoc cref="ISdkResolverService.ResolveSdk"/>
+        [RequiresUnreferencedCode("Resolves SDKs by loading resolver assemblies from disk and reflecting over their types, which is incompatible with trimming.")]
         public override SdkResult ResolveSdk(int submissionId, SdkReference sdk, LoggingContext loggingContext, ElementLocation sdkReferenceLocation, string solutionPath, string projectPath, bool interactive, bool isRunningInVisualStudio, bool failOnUnresolvedSdk)
         {
             Assumed.NotNull(sdk);

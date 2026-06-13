@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using Microsoft.Build.BackEnd;
@@ -153,6 +154,7 @@ namespace Microsoft.Build.Logging
         /// exceptions if desired.
         /// </summary>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Loads and instantiates a forwarding logger type by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         internal IForwardingLogger CreateForwardingLogger()
         {
             IForwardingLogger forwardingLogger = null;
@@ -181,6 +183,7 @@ namespace Microsoft.Build.Logging
         /// exceptions if desired.
         /// </summary>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Loads and instantiates a logger type by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         public ILogger CreateLogger()
         {
             return CreateLogger(false);
@@ -190,6 +193,7 @@ namespace Microsoft.Build.Logging
         /// Loads a logger from its assembly, instantiates it, and handles errors.
         /// </summary>
         /// <returns>Instantiated logger.</returns>
+        [RequiresUnreferencedCode("Loads and instantiates a logger type by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         private ILogger CreateLogger(bool forwardingLogger)
         {
             ILogger logger = null;
@@ -254,6 +258,8 @@ namespace Microsoft.Build.Logging
         /// </summary>
         /// <remarks>This method is used as a Type Filter delegate.</remarks>
         /// <returns>true, if specified type is a logger</returns>
+        [UnconditionalSuppressMessage("Trimming", "IL2070:UnrecognizedReflectionPattern",
+            Justification = "The type is discovered by reflecting over a runtime-loaded assembly and is checked for the IForwardingLogger interface by name so the test works across MetadataLoadContext boundaries; this filter delegate cannot carry DynamicallyAccessedMembers annotations and the type-loading path is unsupported under trimming.")]
         private static bool IsForwardingLoggerClass(Type type, object unused)
         {
             return type.GetTypeInfo().IsClass &&
@@ -266,6 +272,8 @@ namespace Microsoft.Build.Logging
         /// </summary>
         /// <remarks>This method is used as a TypeFilter delegate.</remarks>
         /// <returns>true, if specified type is a logger</returns>
+        [UnconditionalSuppressMessage("Trimming", "IL2070:UnrecognizedReflectionPattern",
+            Justification = "The type is discovered by reflecting over a runtime-loaded assembly and is checked for the ILogger interface by name so the test works across MetadataLoadContext boundaries; this filter delegate cannot carry DynamicallyAccessedMembers annotations and the type-loading path is unsupported under trimming.")]
         private static bool IsLoggerClass(Type type, object unused)
         {
             return type.GetTypeInfo().IsClass &&

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Build.Framework;
 #if FEATURE_APPDOMAIN
@@ -33,6 +34,8 @@ namespace Microsoft.Build.Shared
         /// </summary>
         /// <remarks>This method is used as a type filter delegate.</remarks>
         /// <returns>true, if specified type is a task</returns>
+        [UnconditionalSuppressMessage("Trimming", "IL2070:UnrecognizedReflectionPattern",
+            Justification = "The type is discovered by reflecting over a runtime-loaded assembly and is checked for the ITask interface by name so the test works across MetadataLoadContext boundaries; this filter delegate cannot carry DynamicallyAccessedMembers annotations and the type-loading path is unsupported under trimming.")]
         internal static bool IsTaskClass(Type type, object unused)
         {
             return type.GetTypeInfo().IsClass && !type.GetTypeInfo().IsAbstract && (

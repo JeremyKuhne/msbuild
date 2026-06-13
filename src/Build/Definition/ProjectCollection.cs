@@ -209,6 +209,8 @@ namespace Microsoft.Build.Evaluation
         /// Instantiates a project collection with no global properties or loggers that reads toolset
         /// information from the configuration file and registry.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "This overload passes no loggers or forwarding loggers, so the reflective forwarding-logger path is not exercised.")]
         public ProjectCollection()
             : this(null)
         {
@@ -220,6 +222,8 @@ namespace Microsoft.Build.Evaluation
         /// May throw InvalidToolsetDefinitionException.
         /// </summary>
         /// <param name="toolsetLocations">The locations from which to load toolsets.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "This overload passes no loggers or forwarding loggers, so the reflective forwarding-logger path is not exercised.")]
         public ProjectCollection(ToolsetDefinitionLocations toolsetLocations)
             : this(null, null, toolsetLocations)
         {
@@ -231,6 +235,8 @@ namespace Microsoft.Build.Evaluation
         /// May throw InvalidToolsetDefinitionException.
         /// </summary>
         /// <param name="globalProperties">The default global properties to use. May be null.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "This overload passes no forwarding loggers, so the reflective forwarding-logger path is not exercised.")]
         public ProjectCollection(IDictionary<string, string> globalProperties)
             : this(globalProperties, null, ToolsetDefinitionLocations.Default)
         {
@@ -244,6 +250,8 @@ namespace Microsoft.Build.Evaluation
         /// <param name="globalProperties">The default global properties to use. May be null.</param>
         /// <param name="loggers">The loggers to register. May be null.</param>
         /// <param name="toolsetDefinitionLocations">The locations from which to load toolsets.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "This overload passes no forwarding loggers, so the reflective forwarding-logger path is not exercised.")]
         public ProjectCollection(IDictionary<string, string> globalProperties, IEnumerable<ILogger> loggers, ToolsetDefinitionLocations toolsetDefinitionLocations)
             : this(globalProperties, loggers, null, toolsetDefinitionLocations, 1 /* node count */, false /* do not only log critical events */)
         {
@@ -262,6 +270,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="toolsetDefinitionLocations">The locations from which to load toolsets.</param>
         /// <param name="maxNodeCount">The maximum number of nodes to use for building.</param>
         /// <param name="onlyLogCriticalEvents">If set to true, only critical events will be logged.</param>
+        [RequiresUnreferencedCode("Registers loggers, which can load forwarding logger assemblies by reflection at runtime; incompatible with trimming.")]
         public ProjectCollection(IDictionary<string, string> globalProperties, IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers, ToolsetDefinitionLocations toolsetDefinitionLocations, int maxNodeCount, bool onlyLogCriticalEvents)
             : this(globalProperties, loggers, null, toolsetDefinitionLocations, maxNodeCount, onlyLogCriticalEvents, loadProjectsReadOnly: false)
         {
@@ -281,6 +290,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="maxNodeCount">The maximum number of nodes to use for building.</param>
         /// <param name="onlyLogCriticalEvents">If set to true, only critical events will be logged.</param>
         /// <param name="loadProjectsReadOnly">If set to true, load all projects as read-only.</param>
+        [RequiresUnreferencedCode("Registers loggers, which can load forwarding logger assemblies by reflection at runtime; incompatible with trimming.")]
         public ProjectCollection(IDictionary<string, string> globalProperties, IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers, ToolsetDefinitionLocations toolsetDefinitionLocations, int maxNodeCount, bool onlyLogCriticalEvents, bool loadProjectsReadOnly)
             : this(globalProperties, loggers, remoteLoggers, toolsetDefinitionLocations, maxNodeCount, onlyLogCriticalEvents, loadProjectsReadOnly, useAsynchronousLogging: false, reuseProjectRootElementCache: false, enableTargetOutputLogging: false)
         {
@@ -305,6 +315,7 @@ namespace Microsoft.Build.Evaluation
         /// <remarks>
         /// This constructor disables target output logging, so TerminalLogger and other loggers may not work well. Prefer <see cref="ProjectCollection(IDictionary{string, string}, IEnumerable{ILogger}, IEnumerable{ForwardingLoggerRecord}, ToolsetDefinitionLocations, int, bool, bool, bool, bool, bool)"/> instead to control this behavior.
         /// </remarks>
+        [RequiresUnreferencedCode("Registers loggers, which can load forwarding logger assemblies by reflection at runtime; incompatible with trimming.")]
         public ProjectCollection(IDictionary<string, string> globalProperties, IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers, ToolsetDefinitionLocations toolsetDefinitionLocations, int maxNodeCount, bool onlyLogCriticalEvents, bool loadProjectsReadOnly, bool useAsynchronousLogging, bool reuseProjectRootElementCache) :
             this(globalProperties: globalProperties, loggers: loggers, remoteLoggers: remoteLoggers, toolsetDefinitionLocations: toolsetDefinitionLocations, maxNodeCount: maxNodeCount, onlyLogCriticalEvents: onlyLogCriticalEvents, loadProjectsReadOnly: loadProjectsReadOnly, useAsynchronousLogging: useAsynchronousLogging, reuseProjectRootElementCache: reuseProjectRootElementCache, enableTargetOutputLogging: false)
         {
@@ -327,6 +338,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="useAsynchronousLogging">If set to true, asynchronous logging will be used. <see cref="Dispose()"/> has to called to clear resources used by async logging.</param>
         /// <param name="reuseProjectRootElementCache">If set to true, it will try to reuse <see cref="ProjectRootElementCacheBase"/> singleton.</param>
         /// <param name="enableTargetOutputLogging">If set to true, loggers will collect and send Target outputs when targets are finished executing.</param>
+        [RequiresUnreferencedCode("Registers loggers, which can load forwarding logger assemblies by reflection at runtime; incompatible with trimming.")]
         public ProjectCollection(IDictionary<string, string> globalProperties, IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers, ToolsetDefinitionLocations toolsetDefinitionLocations, int maxNodeCount, bool onlyLogCriticalEvents, bool loadProjectsReadOnly, bool useAsynchronousLogging, bool reuseProjectRootElementCache, bool enableTargetOutputLogging)
         {
             _loadedProjects = new LoadedProjectCollection();
@@ -451,6 +463,8 @@ namespace Microsoft.Build.Evaluation
         /// May throw InvalidToolsetDefinitionException.
         /// Thread safe.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "The global collection is created with no loggers, so the reflective logger-loading path is not exercised; this foundational singleton is accessed pervasively and cannot itself be RequiresUnreferencedCode.")]
         public static ProjectCollection GlobalProjectCollection
         {
             get
@@ -1192,6 +1206,7 @@ namespace Microsoft.Build.Evaluation
         /// </summary>
         /// <param name="fileName">The project file to load</param>
         /// <returns>A loaded project.</returns>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project LoadProject(string fileName)
         {
             return LoadProject(fileName, null);
@@ -1204,6 +1219,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="fileName">The project file to load</param>
         /// <param name="toolsVersion">The tools version to use. May be null.</param>
         /// <returns>A loaded project.</returns>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project LoadProject(string fileName, string toolsVersion)
         {
             return LoadProject(fileName, null /* use project collection's global properties */, toolsVersion);
@@ -1217,6 +1233,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="globalProperties">The global properties to use. May be null, in which case the containing project collection's global properties will be used.</param>
         /// <param name="toolsVersion">The tools version. May be null.</param>
         /// <returns>A loaded project.</returns>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project LoadProject(string fileName, IDictionary<string, string> globalProperties, string toolsVersion)
         {
             ArgumentException.ThrowIfNullOrEmpty(fileName);
@@ -1287,6 +1304,7 @@ namespace Microsoft.Build.Evaluation
         /// </summary>
         /// <param name="xmlReader">Xml reader to read project from</param>
         /// <returns>A loaded project.</returns>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project LoadProject(XmlReader xmlReader)
         {
             return LoadProject(xmlReader, null);
@@ -1299,6 +1317,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="xmlReader">Xml reader to read project from</param>
         /// <param name="toolsVersion">The tools version to use. May be null.</param>
         /// <returns>A loaded project.</returns>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project LoadProject(XmlReader xmlReader, string toolsVersion)
         {
             return LoadProject(xmlReader, null /* use project collection's global properties */, toolsVersion);
@@ -1312,6 +1331,7 @@ namespace Microsoft.Build.Evaluation
         /// <param name="globalProperties">The global properties to use. May be null in which case the containing project collection's global properties will be used.</param>
         /// <param name="toolsVersion">The tools version. May be null.</param>
         /// <returns>A loaded project.</returns>
+        [RequiresUnreferencedCode("Constructs and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public Project LoadProject(XmlReader xmlReader, IDictionary<string, string> globalProperties, string toolsVersion)
         {
             return new Project(xmlReader, globalProperties, toolsVersion, this);
@@ -1361,6 +1381,7 @@ namespace Microsoft.Build.Evaluation
         /// Adds some remote loggers to the collection of remote loggers used for builds of projects in this collection.
         /// May be null.
         /// </summary>
+        [RequiresUnreferencedCode("Creates forwarding loggers by reflecting over logger assemblies discovered at runtime, which is incompatible with trimming.")]
         public void RegisterForwardingLoggers(IEnumerable<ForwardingLoggerRecord> remoteLoggers)
         {
             using (_locker.EnterDisposableWriteLock())

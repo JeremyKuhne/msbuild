@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Build.BackEnd.Logging;
 using Microsoft.Build.Collections;
 using Microsoft.Build.Construction;
@@ -35,6 +36,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
             _cache.Clear();
         }
 
+        [RequiresUnreferencedCode("Resolves SDKs by loading resolver assemblies from disk and reflecting over their types, which is incompatible with trimming.")]
         public override SdkResult ResolveSdk(int submissionId, SdkReference sdk, LoggingContext loggingContext, ElementLocation sdkReferenceLocation, string solutionPath, string projectPath, bool interactive, bool isRunningInVisualStudio, bool failOnUnresolvedSdk)
         {
             SdkResult result;

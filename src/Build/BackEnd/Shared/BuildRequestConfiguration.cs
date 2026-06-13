@@ -5,6 +5,7 @@ using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -456,6 +457,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Loads the project specified by the configuration's parameters into the configuration block.
         /// </summary>
+        [RequiresUnreferencedCode("Loads and evaluates a project, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         internal void LoadProjectIntoConfiguration(
             IBuildComponentHost componentHost,
             BuildRequestDataFlags buildRequestDataFlags,

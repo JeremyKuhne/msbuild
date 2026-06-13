@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -197,6 +198,7 @@ namespace Microsoft.Build.BackEnd
         /// </summary>
         /// <param name="loggingContext">The logging context for the node.</param>
         /// <param name="entry">The entry to build.</param>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public void BuildRequest(NodeLoggingContext loggingContext, BuildRequestEntry entry)
         {
             ArgumentNullException.ThrowIfNull(loggingContext);
@@ -223,6 +225,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Continues a build request
         /// </summary>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public void ContinueRequest()
         {
             Assumed.True(HasActiveBuildRequest, "Request not building");
@@ -332,6 +335,7 @@ namespace Microsoft.Build.BackEnd
         /// <param name="waitForResults">True to wait for the results </param>
         /// <param name="skipNonexistentTargets">If set, skip targets that are not defined in the projects to be built.</param>
         /// <returns>True if the requests were satisfied, false if they were aborted.</returns>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public async Task<BuildResult[]> BuildProjects(string[] projectFiles, PropertyDictionary<ProjectPropertyInstance>[] properties, string[] toolsVersions, string[] targets, bool waitForResults, bool skipNonexistentTargets = false)
         {
             VerifyIsNotZombie();
@@ -582,6 +586,7 @@ namespace Microsoft.Build.BackEnd
         /// This mechanism is used to implement running RequestBuilder threads on the main UI thread in VS.
         /// </summary>
         /// <returns>The index of the handle which was signaled.</returns>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         internal static int WaitWithBuilderThreadStart(WaitHandle[] handles, bool recursive, LegacyThreadingData threadingData, int submissionId)
         {
             WaitHandle[] allHandles = new WaitHandle[handles.Length + 1];
@@ -638,6 +643,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Starts the thread used to build
         /// </summary>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private void StartBuilderThread()
         {
             Assumed.Null(_requestTask, "Already have a task.");
@@ -770,6 +776,7 @@ namespace Microsoft.Build.BackEnd
         /// The entry point for the request builder thread.
         /// Launch the project and gather the results, reporting them back to the BuildRequestEngine.
         /// </summary>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private async Task RequestThreadProc(bool setThreadParameters)
         {
             Exception thrownException = null;
@@ -923,6 +930,7 @@ namespace Microsoft.Build.BackEnd
         /// </summary>
         /// <param name="requests">The list of build requests to be built.</param>
         /// <returns>The results, or null if the build should terminate.</returns>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private async Task<BuildResult[]> StartNewBuildRequests(FullyQualifiedBuildRequest[] requests)
         {
             // Determine if we need to wait for results from any of these requests.
@@ -1127,6 +1135,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Kicks off the build of the project file.  Doesn't return until the build is complete (or aborted.)
         /// </summary>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private async Task<BuildResult> BuildProject()
         {
             Assumed.NotNull(_targetBuilder, "Target builder is null");

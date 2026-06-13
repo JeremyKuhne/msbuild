@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 #if FEATURE_ASSEMBLYLOADCONTEXT
 using System.Runtime.Loader;
@@ -95,8 +96,12 @@ namespace Microsoft.Build.BackEnd.Logging
         /// <param name="sender"></param>
         /// <param name="args"></param>
         /// <returns></returns>
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "This is an assembly-resolve event handler that loads a task assembly by path at runtime; the task-loading path is unsupported under trimming.")]
         internal Assembly ResolveAssembly(object sender, ResolveEventArgs args)
 #else
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "This is an assembly-resolve event handler that loads a task assembly by path at runtime; the task-loading path is unsupported under trimming.")]
         private Assembly ResolveAssembly(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)
 #endif
         {

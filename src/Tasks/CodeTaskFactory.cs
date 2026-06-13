@@ -170,6 +170,7 @@ namespace Microsoft.Build.Tasks
         /// <summary>
         /// Gets the type of the generated task.
         /// </summary>
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
         public Type TaskType { get; private set; }
 
         public string GetAssemblyPath() => _assemblyPath;
@@ -1122,6 +1123,8 @@ namespace Microsoft.Build.Tasks
         }
     }
 #else
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
     /// A task factory which can take code dom supported languages and create a task out of it
     /// </summary>
@@ -1132,6 +1135,7 @@ namespace Microsoft.Build.Tasks
     {
         public string FactoryName => "Code Task Factory";
 
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
         public Type TaskType { get; } = null;
 
         public bool Initialize(string taskName, IDictionary<string, TaskPropertyInfo> parameterGroup, string taskBody, IBuildEngine taskFactoryLoggingHost)

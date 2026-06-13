@@ -3664,6 +3664,7 @@ namespace Microsoft.Build.Evaluation
             /// <summary>
             /// The type of this function's receiver.
             /// </summary>
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
             public Type ReceiverType { get; set; }
 
             /// <summary>
@@ -3850,6 +3851,8 @@ namespace Microsoft.Build.Evaluation
             /// <summary>
             /// Extract the function details from the given property function expression.
             /// </summary>
+            [UnconditionalSuppressMessage("Trimming", "IL2072:UnrecognizedReflectionPattern",
+                Justification = "The receiver type comes from the runtime value's GetType() or from MSBuild's static-method allowlist resolved by name; the property-function evaluation path is unsupported under trimming.")]
             internal static Function<T> ExtractPropertyFunction(
                 string expressionFunction,
                 IElementLocation elementLocation,

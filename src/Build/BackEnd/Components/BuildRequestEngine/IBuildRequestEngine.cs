@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using BuildResult = Microsoft.Build.Execution.BuildResult;
 using NodeLoggingContext = Microsoft.Build.BackEnd.Logging.NodeLoggingContext;
 
@@ -159,12 +160,14 @@ namespace Microsoft.Build.BackEnd
         /// <param name="request">The request to build.</param>
         /// <remarks>It is only valid to call this method when the engine is in the Idle or
         /// Waiting state because the engine can only service one active request at a time.</remarks>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         void SubmitBuildRequest(BuildRequest request);
 
         /// <summary>
         /// Notifies the engine of a build result for a waiting build request.
         /// </summary>
         /// <param name="unblocker">The unblocking information</param>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         void UnblockBuildRequest(BuildRequestUnblocker unblocker);
 
         /// <summary>

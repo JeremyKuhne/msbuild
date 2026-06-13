@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 #if FEATURE_APPDOMAIN
 using System.Globalization;
 #endif
@@ -51,6 +52,7 @@ namespace Microsoft.Build.Evaluation
         /// </summary>
         /// <param name="assemblyName">The NuGet.Frameworks to be loaded or null to load by path.</param>
         /// <param name="assemblyFilePath">The file path from which NuGet.Frameworks should be loaded of <paramref name="assemblyName"/> is null.</param>
+        [RequiresUnreferencedCode("Loads the NuGet.Frameworks assembly at runtime and reflects over its types, which is incompatible with trimming.")]
         public void Initialize(AssemblyName assemblyName, string assemblyFilePath)
         {
             Assembly NuGetAssembly;
@@ -198,6 +200,7 @@ namespace Microsoft.Build.Evaluation
         }
 #endif
 
+        [RequiresUnreferencedCode("Loads the NuGet.Frameworks assembly at runtime and reflects over its types, which is incompatible with trimming.")]
         public static NuGetFrameworkWrapper CreateInstance()
         {
             // Resolve the location of the NuGet.Frameworks assembly

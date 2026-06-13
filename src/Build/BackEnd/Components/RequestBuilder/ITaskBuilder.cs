@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Build.Execution;
@@ -51,6 +52,7 @@ namespace Microsoft.Build.BackEnd
         /// <param name="lookupForExecution">The lookup used when executing the task to get its outputs.</param>
         /// <param name="cancellationToken">The cancellation token used to cancel processing of the task.</param>
         /// <returns>A Task representing the work to be done.</returns>
+        [RequiresUnreferencedCode("Loads and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         Task<WorkUnitResult> ExecuteTask(TargetLoggingContext targetLoggingContext, BuildRequestEntry requestEntry, ITargetBuilderCallback targetBuilderCallback, ProjectTargetInstanceChild task, TaskExecutionMode mode, Lookup lookupForInference, Lookup lookupForExecution, CancellationToken cancellationToken);
     }
 }

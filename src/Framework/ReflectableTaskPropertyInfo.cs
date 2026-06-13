@@ -24,7 +24,7 @@ namespace Microsoft.Build.Execution
         /// <summary>
         /// The type of the generated tasks.
         /// </summary>
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)]
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
         private Type _taskType;
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Microsoft.Build.Execution
         /// <param name="taskType">The type to reflect over to get the reflection propertyinfo later.</param>
         internal ReflectableTaskPropertyInfo(
             TaskPropertyInfo taskPropertyInfo,
-            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)]
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
             Type taskType)
             : base(taskPropertyInfo.Name, taskPropertyInfo.PropertyType, taskPropertyInfo.Output, taskPropertyInfo.Required)
         {
@@ -94,8 +94,12 @@ namespace Microsoft.Build.Execution
                                     $"Shadowed or duplicate property definitions are not supported.");
                             }
                             foundProperty = propertyInfo;
+                            _propertyInfo = propertyInfo;
+                            break;
                         }
                     }
+
+                    Assumed.NotNull(_propertyInfo, $"Could not find property {Name} on type {_taskType.FullName} that the task factory indicated should exist.");
 
                     Assumed.NotNull(foundProperty, $"Could not find property {Name} on type {_taskType.FullName} that the task factory indicated should exist.");
                     _propertyInfo = foundProperty;

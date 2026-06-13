@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Build.Experimental.BuildCheck.Acquisition;
 using Microsoft.Build.Framework;
@@ -130,6 +131,8 @@ internal class BuildCheckBuildEventHandler
                 _checkContextFactory.CreateCheckContext(eventArgs.BuildEventContext!),
                 eventArgs);
 
+    [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+        Justification = "Custom build check acquisition is triggered from a build event handler; the custom analyzer loading path is explicitly unsupported under trimming.")]
     private void HandleBuildCheckAcquisitionEvent(BuildCheckAcquisitionEventArgs eventArgs)
         => _buildCheckManager.ProcessCheckAcquisition(
                 eventArgs.ToCheckAcquisitionData(),

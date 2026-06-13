@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -214,6 +215,7 @@ namespace Microsoft.Build.Shared
         /// </summary>
         /// <param name="assemblyLoadInfo"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Loads task and factory assemblies discovered at runtime, which is incompatible with trimming.")]
         private static Assembly LoadAssembly(AssemblyLoadInfo assemblyLoadInfo)
         {
             try
@@ -303,6 +305,7 @@ namespace Microsoft.Build.Shared
         /// any) is unambiguous; otherwise, if there are multiple types with the same name in different namespaces, the first type
         /// found will be returned.
         /// </summary>
+        [RequiresUnreferencedCode("Loads types by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         internal LoadedType Load(
             string typeName,
             AssemblyLoadInfo assembly,
@@ -319,6 +322,7 @@ namespace Microsoft.Build.Shared
         /// found will be returned.
         /// </summary>
         /// <returns>The loaded type, or null if the type was not found.</returns>
+        [RequiresUnreferencedCode("Loads types by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         internal LoadedType ReflectionOnlyLoad(
             string typeName,
             AssemblyLoadInfo assembly) => GetLoadedType(s_cacheOfReflectionOnlyLoadedTypesByFilter, typeName, assembly, useTaskHost: false, taskHostParamsMatchCurrentProc: true, logWarning: (format, args) => { });
@@ -328,6 +332,7 @@ namespace Microsoft.Build.Shared
         /// any) is unambiguous; otherwise, if there are multiple types with the same name in different namespaces, the first type
         /// found will be returned.
         /// </summary>
+        [RequiresUnreferencedCode("Loads types by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private LoadedType GetLoadedType(
             ConcurrentDictionary<Func<Type, object, bool>, ConcurrentDictionary<AssemblyLoadInfo, AssemblyInfoToLoadedTypes>> cache,
             string typeName,
@@ -432,6 +437,7 @@ namespace Microsoft.Build.Shared
             /// <summary>
             /// Determine if a given type name is in the assembly or not. Return null if the type is not in the assembly.
             /// </summary>
+            [RequiresUnreferencedCode("Loads types by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
             internal LoadedType GetLoadedTypeByTypeName(
                 string typeName,
                 bool useTaskHost,
@@ -470,6 +476,7 @@ namespace Microsoft.Build.Shared
             /// This loads the assembly for actual execution (not metadata-only).
             /// </summary>
             /// <param name="typeName">The type to be loaded.</param>
+            [RequiresUnreferencedCode("Loads types by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
             private LoadedType LoadInProc(string typeName)
             {
                 Type type = _typeNameToType.GetOrAdd(typeName, (key) =>
@@ -530,6 +537,7 @@ namespace Microsoft.Build.Shared
             private bool ShouldUseMetadataLoadContext(bool useTaskHost, bool taskHostParamsMatchCurrentProc) =>
                 (useTaskHost || !taskHostParamsMatchCurrentProc) && _assemblyLoadInfo.AssemblyFile is not null;
 
+            [RequiresUnreferencedCode("Loads types by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
             private LoadedType GetTypeForOutOfProcExecution(string typeName) => _publicTypeNameToLoadedType
                 .GetOrAdd(typeName, typeName =>
                 {
@@ -591,6 +599,7 @@ namespace Microsoft.Build.Shared
             /// <summary>
             /// Gets architecture and runtime from the assembly using MetadataLoadContext.
             /// </summary>
+            [RequiresUnreferencedCode("Reflects over a runtime-loaded assembly to determine its target runtime and architecture, which is incompatible with trimming.")]
             private void SetArchitectureAndRuntime(Assembly assembly)
             {
                 if (_hasReadRuntimeAndArchitecture)
@@ -683,6 +692,7 @@ namespace Microsoft.Build.Shared
             /// Scan the assembly pointed to by the assemblyLoadInfo for public types. We will use these public types to do partial name matching on
             /// to find tasks, loggers, and task factories.
             /// </summary>
+            [RequiresUnreferencedCode("Loads and reflects over a runtime-discovered assembly's public types, which is incompatible with trimming.")]
             private void ScanAssemblyForPublicTypes()
             {
                 // we need to search the assembly for the type...

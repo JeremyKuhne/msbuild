@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 #if NETFRAMEWORK
 using System.Linq;
@@ -50,6 +51,8 @@ namespace Microsoft.Build.Evaluation
         private static Regex RegistrySdkRegex => s_registrySdkRegex ??= new Regex(RegistrySdkSpecification, RegexOptions.IgnoreCase);
 #endif
 
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "NuGetFrameworkWrapper.CreateInstance is invoked from this Lazy field-initializer factory; the NuGet.Frameworks reflection path is unsupported under trimming and cannot be expressed through the lambda.")]
         private static readonly Lazy<NuGetFrameworkWrapper> NuGetFramework = new Lazy<NuGetFrameworkWrapper>(() => NuGetFrameworkWrapper.CreateInstance());
 
         /// <summary>

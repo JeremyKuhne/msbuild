@@ -3,10 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-
-#if FEATURE_APARTMENT_STATE
 using System.Diagnostics.CodeAnalysis;
-#endif
 using System.Linq;
 using System.Reflection;
 #if FEATURE_APARTMENT_STATE
@@ -150,6 +147,7 @@ namespace Microsoft.Build.BackEnd
         /// 3. If the task is not batched, execute it.
         /// 4. If the task was batched, hold on to its Lookup until all of the natches are done, then merge them.
         /// </remarks>
+        [RequiresUnreferencedCode("Loads and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public async Task<WorkUnitResult> ExecuteTask(TargetLoggingContext loggingContext, BuildRequestEntry requestEntry, ITargetBuilderCallback targetBuilderCallback, ProjectTargetInstanceChild taskInstance, TaskExecutionMode mode, Lookup inferLookup, Lookup executeLookup, CancellationToken cancellationToken)
         {
             Assumed.NotNull(taskInstance, "Need to specify the task instance.");
@@ -306,6 +304,7 @@ namespace Microsoft.Build.BackEnd
         /// Called to execute a task within a target. This method instantiates the task, sets its parameters, and executes it.
         /// </summary>
         /// <returns>true, if successful</returns>
+        [RequiresUnreferencedCode("Loads and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private async ValueTask<WorkUnitResult> ExecuteTask(TaskExecutionMode mode, Lookup lookup)
         {
             ArgumentNullException.ThrowIfNull(lookup);
@@ -392,6 +391,7 @@ namespace Microsoft.Build.BackEnd
         /// Execute a single bucket
         /// </summary>
         /// <returns>true if execution succeeded</returns>
+        [RequiresUnreferencedCode("Loads and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private async ValueTask<WorkUnitResult> ExecuteBucket(TaskHost taskHost, ItemBucket bucket, TaskExecutionMode howToExecuteTask, Dictionary<string, string> lookupHash)
         {
             // On Intrinsic tasks, we do not allow batchable params, therefore metadata is excluded.

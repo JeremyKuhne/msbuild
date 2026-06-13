@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -445,6 +446,7 @@ namespace Microsoft.Build.Execution
         /// Given a task name, this method retrieves the task class. If the task has been requested before, it will be found in
         /// the class cache; otherwise, &lt;UsingTask&gt; declarations will be used to search the appropriate assemblies.
         /// </summary>
+        [RequiresUnreferencedCode("Creates and loads a task factory by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         internal TaskFactoryWrapper GetRegisteredTask(
             string taskName,
             string taskProjectFile,
@@ -503,6 +505,7 @@ namespace Microsoft.Build.Execution
         /// <param name="retrievedFromCache">True if the record was retrieved from the cache.</param>
         /// <param name="isMultiThreadedBuild">Whether the build is running in multi-threaded mode.</param>
         /// <returns>The task registration record, or null if none was found.</returns>
+        [RequiresUnreferencedCode("Creates and loads a task factory by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         internal RegisteredTaskRecord GetTaskRegistrationRecord(
             string taskName,
             string taskProjectFile,
@@ -753,6 +756,7 @@ namespace Microsoft.Build.Execution
         /// Given a task name and a list of records which may contain the task, this helper method will ask the records to see if the task name
         /// can be created by the factories which are wrapped by the records. (this is done by instantiating the task factory and asking it).
         /// </summary>
+        [RequiresUnreferencedCode("Creates and loads a task factory by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         private RegisteredTaskRecord GetMatchingRegistration(
             string taskName,
             IEnumerable<RegisteredTaskRecord> taskRecords,
@@ -1281,6 +1285,7 @@ namespace Microsoft.Build.Execution
             /// loads an external file and uses that to generate the tasks.
             /// </summary>
             /// <returns>true if the task can be created by the factory, false if it cannot be created</returns>
+            [RequiresUnreferencedCode("Creates and loads a task factory by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
             internal bool CanTaskBeCreatedByFactory(string taskName, string taskProjectFile, TaskHostParameters taskIdentityParameters, TargetLoggingContext targetLoggingContext, ElementLocation elementLocation, bool isMultiThreadedBuild)
             {
                 // First check (fast path - no locking)
@@ -1389,6 +1394,7 @@ namespace Microsoft.Build.Execution
             /// Given a Registered task record and a task name. Check create an instance of the task factory using the record.
             /// If the factory is a assembly task factory see if the assemblyFile has the correct task inside of it.
             /// </summary>
+            [RequiresUnreferencedCode("Creates and loads a task factory by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
             internal TaskFactoryWrapper GetTaskFactoryFromRegistrationRecord(string taskName, string taskProjectFile, in TaskHostParameters taskIdentityParameters, TargetLoggingContext targetLoggingContext, ElementLocation elementLocation, bool isMultiThreadedBuild)
             {
                 if (CanTaskBeCreatedByFactory(taskName, taskProjectFile, taskIdentityParameters, targetLoggingContext, elementLocation, isMultiThreadedBuild))
@@ -1403,6 +1409,7 @@ namespace Microsoft.Build.Execution
             /// Create an instance of the task factory and load it from the assembly.
             /// </summary>
             /// <exception cref="InvalidProjectFileException">If the task factory could not be properly created an InvalidProjectFileException will be thrown</exception>
+            [RequiresUnreferencedCode("Creates and loads a task factory by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
             private bool GetTaskFactory(TargetLoggingContext targetLoggingContext, ElementLocation elementLocation, string taskProjectFile, bool isMultiThreadedBuild)
             {
                 // see if we have already created the factory before, only create it once
@@ -1731,6 +1738,10 @@ namespace Microsoft.Build.Execution
                 /// </summary>
                 /// <typeparam name="P">Property type</typeparam>
                 /// <typeparam name="I">Item types</typeparam>
+                [UnconditionalSuppressMessage("Trimming", "IL2057:UnrecognizedReflectionPattern",
+                    Justification = "Resolves a user-specified task parameter type by name at evaluation time; the type cannot be statically determined and this path is unsupported under trimming.")]
+                [UnconditionalSuppressMessage("Trimming", "IL2096:UnrecognizedReflectionPattern",
+                    Justification = "The user-specified task parameter type is matched case-insensitively by name; this path is unsupported under trimming.")]
                 private void ParseUsingTaskParameterGroupElement<P, I>(UsingTaskParameterGroupElement usingTaskParameterGroup, Expander<P, I> expander, ExpanderOptions expanderOptions)
                     where P : class, IProperty
                     where I : class, IItem
@@ -1837,6 +1848,8 @@ namespace Microsoft.Build.Execution
                 }
 
                 // todo move to nested function after C# 7
+                [UnconditionalSuppressMessage("Trimming", "IL2057:UnrecognizedReflectionPattern",
+                    Justification = "Resolves a task parameter type from its serialized assembly-qualified name; the type cannot be statically determined and this path is unsupported under trimming.")]
                 private static void TranslatorForTaskParameterValue(ITranslator translator, ref TaskPropertyInfo taskPropertyInfo)
                 {
                     string name = null;

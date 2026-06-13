@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -105,6 +106,7 @@ namespace Microsoft.Build.BackEnd
         /// <param name="baseLookup">The Lookup containing all current items and properties for this target.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> to use when building the targets.</param>
         /// <returns>The target's outputs and result codes</returns>
+        [RequiresUnreferencedCode("Loads and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public async Task<BuildResult> BuildTargets(ProjectLoggingContext loggingContext, BuildRequestEntry entry, IRequestBuilderCallback callback, (string name, TargetBuiltReason reason)[] targetNames, Lookup baseLookup, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(loggingContext, "projectLoggingContext");
@@ -247,6 +249,7 @@ namespace Microsoft.Build.BackEnd
         /// 2. The changes made by this target are NOT visible to the calling target.
         /// 3. Changes made by the calling target OVERRIDE changes made by this target.
         /// </remarks>
+        [RequiresUnreferencedCode("Loads and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         async Task<ITargetResult[]> ITargetBuilderCallback.LegacyCallTarget(string[] targets, bool continueOnError, ElementLocation taskLocation)
         {
             List<TargetSpecification> targetToPush = new List<TargetSpecification>();
@@ -326,6 +329,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Forwarding implementation of BuildProjects
         /// </summary>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         async Task<BuildResult[]> IRequestBuilderCallback.BuildProjects(string[] projectFiles, Microsoft.Build.Collections.PropertyDictionary<ProjectPropertyInstance>[] properties, string[] toolsVersions, string[] targets, bool waitForResults, bool skipNonexistentTargets)
         {
             return await _requestBuilderCallback.BuildProjects(projectFiles, properties, toolsVersions, targets, waitForResults, skipNonexistentTargets);
@@ -401,6 +405,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Processes the target stack until its empty or we hit a recursive break (due to CallTarget etc.)
         /// </summary>
+        [RequiresUnreferencedCode("Loads and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private async Task ProcessTargetStack(ITaskBuilder taskBuilder)
         {
             // Keep building while we have targets to build and haven't been canceled.

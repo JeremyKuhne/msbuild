@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Frozen;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading;
 using Microsoft.Build.BackEnd.Components.Caching;
@@ -375,6 +376,8 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Dispatches the packet to the correct handler.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "This is the node message pump. It dispatches build-request packets to handlers that submit build requests; those paths reflect over task assemblies at runtime and are unsupported under trimming. The packet-type switch cannot carry RequiresUnreferencedCode.")]
         private void HandlePacket(INodePacket packet)
         {
             switch (packet.Type)
@@ -433,6 +436,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Handles the BuildRequest packet.
         /// </summary>
+        [RequiresUnreferencedCode("Submits a build request whose execution loads and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private void HandleBuildRequest(BuildRequest request)
         {
             if (_componentHost.BuildParameters.MultiThreaded)
@@ -461,6 +465,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Handles the BuildResult packet.
         /// </summary>
+        [RequiresUnreferencedCode("Unblocks a build request whose execution loads and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private void HandleBuildResult(BuildRequestUnblocker unblocker)
         {
             _buildRequestEngine.UnblockBuildRequest(unblocker);

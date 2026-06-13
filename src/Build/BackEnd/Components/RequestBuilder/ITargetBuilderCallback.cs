@@ -1,6 +1,7 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Microsoft.Build.Execution;
 using ElementLocation = Microsoft.Build.Construction.ElementLocation;
@@ -32,6 +33,7 @@ namespace Microsoft.Build.BackEnd
         ///    items and properties by the CALLING target will override any changes made by the
         ///    CALLED target.
         /// </remarks>
+        [RequiresUnreferencedCode("Loads and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         Task<ITargetResult[]> LegacyCallTarget(string[] targets, bool continueOnError, ElementLocation referenceLocation);
     }
 }

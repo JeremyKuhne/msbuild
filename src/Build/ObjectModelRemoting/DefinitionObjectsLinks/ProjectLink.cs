@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Microsoft.Build.Construction;
 using Microsoft.Build.Evaluation;
@@ -131,26 +132,31 @@ namespace Microsoft.Build.ObjectModelRemoting
         /// <summary>
         /// Facilitate remoting the <see cref="Project.GetAllGlobs(EvaluationContext)"/>.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public abstract List<GlobResult> GetAllGlobs(EvaluationContext evaluationContext);
 
         /// <summary>
         /// Facilitate remoting the <see cref="Project.GetAllGlobs(string, EvaluationContext)"/>.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public abstract List<GlobResult> GetAllGlobs(string itemType, EvaluationContext evaluationContext);
 
         /// <summary>
         /// Facilitate remoting the <see cref="Project.GetItemProvenance(string, EvaluationContext)"/>.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public abstract List<ProvenanceResult> GetItemProvenance(string itemToMatch, EvaluationContext evaluationContext);
 
         /// <summary>
         /// Facilitate remoting the <see cref="Project.GetItemProvenance(string, string, EvaluationContext)"/>.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public abstract List<ProvenanceResult> GetItemProvenance(string itemToMatch, string itemType, EvaluationContext evaluationContext);
 
         /// <summary>
         /// Facilitate remoting the <see cref="Project.GetItemProvenance(ProjectItem, EvaluationContext)"/>.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public abstract List<ProvenanceResult> GetItemProvenance(ProjectItem item, EvaluationContext evaluationContext);
 
         /// <summary>
@@ -231,6 +237,7 @@ namespace Microsoft.Build.ObjectModelRemoting
         /// <summary>
         /// Facilitate remoting the <see cref="Project.CreateProjectInstance(ProjectInstanceSettings, EvaluationContext)"/>.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public abstract ProjectInstance CreateProjectInstance(ProjectInstanceSettings settings, EvaluationContext evaluationContext);
 
         /// <summary>
@@ -241,6 +248,7 @@ namespace Microsoft.Build.ObjectModelRemoting
         /// <summary>
         /// Facilitate remoting the <see cref="Project.ReevaluateIfNecessary(EvaluationContext)"/>.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public abstract void ReevaluateIfNecessary(EvaluationContext evaluationContext);
 
         /// <summary>
@@ -251,6 +259,7 @@ namespace Microsoft.Build.ObjectModelRemoting
         /// <summary>
         /// Facilitate support for remote build.
         /// </summary>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public abstract bool Build(string[] targets, IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers, EvaluationContext evaluationContext);
 
         /// <summary>

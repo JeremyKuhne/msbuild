@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -414,6 +415,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Runs all of the tasks for this target, batched as necessary.
         /// </summary>
+        [RequiresUnreferencedCode("Loads and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         internal async Task ExecuteTarget(ITaskBuilder taskBuilder, BuildRequestEntry requestEntry, ProjectLoggingContext projectLoggingContext, CancellationToken cancellationToken)
         {
             try
@@ -810,6 +812,7 @@ namespace Microsoft.Build.BackEnd
         /// <returns>
         /// The result of the tasks, based on the last task which ran.
         /// </returns>
+        [RequiresUnreferencedCode("Loads and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private async ValueTask<WorkUnitResult> ProcessBucket(ITaskBuilder taskBuilder, TargetLoggingContext targetLoggingContext, TaskExecutionMode mode, Lookup lookupForInference, Lookup lookupForExecution)
         {
             WorkUnitResultCode aggregatedTaskResult = WorkUnitResultCode.Success;

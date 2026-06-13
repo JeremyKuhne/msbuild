@@ -208,6 +208,7 @@ namespace Microsoft.Build.Execution
         /// </summary>
         /// <param name="projectFile">The name of the project file.</param>
         /// <returns>A new project instance</returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public ProjectInstance(string projectFile)
             : this(projectFile, null, (string)null)
         {
@@ -223,6 +224,7 @@ namespace Microsoft.Build.Execution
         /// <param name="globalProperties">The global properties to use.</param>
         /// <param name="toolsVersion">The tools version.</param>
         /// <returns>A new project instance</returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public ProjectInstance(string projectFile, IDictionary<string, string> globalProperties, string toolsVersion)
             : this(projectFile, globalProperties, toolsVersion, ProjectCollection.GlobalProjectCollection)
         {
@@ -240,6 +242,7 @@ namespace Microsoft.Build.Execution
         /// <param name="toolsVersion">The tools version.</param>
         /// <param name="projectCollection">Project collection</param>
         /// <returns>A new project instance</returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public ProjectInstance(string projectFile, IDictionary<string, string> globalProperties, string toolsVersion, ProjectCollection projectCollection)
             : this(projectFile, globalProperties, toolsVersion, null /* no sub-toolset version */, projectCollection)
         {
@@ -258,6 +261,7 @@ namespace Microsoft.Build.Execution
         /// <param name="subToolsetVersion">The sub-toolset version, used in tandem with the ToolsVersion to determine the set of toolset properties.</param>
         /// <param name="projectCollection">Project collection</param>
         /// <returns>A new project instance</returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public ProjectInstance(string projectFile, IDictionary<string, string> globalProperties, string toolsVersion, string subToolsetVersion, ProjectCollection projectCollection)
             : this(projectFile, globalProperties, toolsVersion, subToolsetVersion, projectCollection, projectLoadSettings: null, evaluationContext: null, directoryCacheFactory: null, interactive: false)
         {
@@ -275,6 +279,7 @@ namespace Microsoft.Build.Execution
         /// <param name="projectCollection">Project collection</param>
         /// <param name="context">Context to evaluate inside, potentially sharing caches with other evaluations.</param>
         /// <param name="interactive">Indicates if loading the project is allowed to interact with the user.</param>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         internal ProjectInstance(string projectFile, IDictionary<string, string> globalProperties, string toolsVersion, string subToolsetVersion, ProjectCollection projectCollection, EvaluationContext context, bool interactive = false)
             : this(projectFile, globalProperties, toolsVersion, subToolsetVersion, projectCollection, projectLoadSettings: null, evaluationContext: context, directoryCacheFactory: null, interactive: interactive)
         {
@@ -298,6 +303,7 @@ namespace Microsoft.Build.Execution
         /// <param name="directoryCacheFactory">The directory cache factory to use for file I/O.</param>
         /// <param name="interactive">Indicates if loading the project is allowed to interact with the user.</param>
         /// <returns>A new project instance</returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         private ProjectInstance(string projectFile, IDictionary<string, string> globalProperties, string toolsVersion, string subToolsetVersion, ProjectCollection projectCollection,
             ProjectLoadSettings? projectLoadSettings, EvaluationContext evaluationContext, IDirectoryCacheFactory directoryCacheFactory, bool interactive)
         {
@@ -328,6 +334,7 @@ namespace Microsoft.Build.Execution
         /// </summary>
         /// <param name="xml">The project root element</param>
         /// <returns>A new project instance</returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public ProjectInstance(ProjectRootElement xml)
             : this(xml, null, null, ProjectCollection.GlobalProjectCollection)
         {
@@ -345,6 +352,7 @@ namespace Microsoft.Build.Execution
         /// <param name="toolsVersion">The tools version.</param>
         /// <param name="projectCollection">Project collection</param>
         /// <returns>A new project instance</returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public ProjectInstance(ProjectRootElement xml, IDictionary<string, string> globalProperties, string toolsVersion, ProjectCollection projectCollection)
             : this(xml, globalProperties, toolsVersion, null, projectCollection)
         {
@@ -364,6 +372,7 @@ namespace Microsoft.Build.Execution
         /// <param name="subToolsetVersion">The sub-toolset version, used in tandem with the ToolsVersion to determine the set of toolset properties.</param>
         /// <param name="projectCollection">Project collection</param>
         /// <returns>A new project instance</returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public ProjectInstance(ProjectRootElement xml, IDictionary<string, string> globalProperties, string toolsVersion, string subToolsetVersion, ProjectCollection projectCollection)
             : this(xml, globalProperties, toolsVersion, subToolsetVersion, projectCollection, projectLoadSettings: null, evaluationContext: null, directoryCacheFactory: null, interactive: false)
         {
@@ -540,6 +549,7 @@ namespace Microsoft.Build.Execution
         /// <param name="directoryCacheFactory">The directory cache factory to use for file I/O.</param>
         /// <param name="interactive">Indicates if loading the project is allowed to interact with the user.</param>
         /// <returns>A new project instance</returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         private ProjectInstance(ProjectRootElement xml, IDictionary<string, string> globalProperties, string toolsVersion, string subToolsetVersion, ProjectCollection projectCollection,
             ProjectLoadSettings? projectLoadSettings, EvaluationContext evaluationContext, IDirectoryCacheFactory directoryCacheFactory, bool interactive)
         {
@@ -616,6 +626,7 @@ namespace Microsoft.Build.Execution
         /// <param name="sdkResolverService">An <see cref="ISdkResolverService"/> instance to use when resolving SDKs.</param>
         /// <param name="submissionId">The current build submission ID.</param>
         /// <returns>A new project instance</returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         internal ProjectInstance(ProjectRootElement xml, IDictionary<string, string> globalProperties, string toolsVersion, int visualStudioVersionFromSolution, ProjectCollection projectCollection, ISdkResolverService sdkResolverService, int submissionId)
         {
             BuildEventContext buildEventContext = new BuildEventContext(0, BuildEventContext.InvalidTargetId, BuildEventContext.InvalidProjectContextId, BuildEventContext.InvalidTaskId);
@@ -631,6 +642,7 @@ namespace Microsoft.Build.Execution
         /// Used by SolutionProjectGenerator so that it can explicitly pass the vsVersionFromSolution in for use in
         /// determining the sub-toolset version.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         internal ProjectInstance(ProjectRootElement xml, IDictionary<string, string> globalProperties, string toolsVersion, ILoggingService loggingService, int visualStudioVersionFromSolution, ProjectCollection projectCollection, ISdkResolverService sdkResolverService, int submissionId)
         {
             BuildEventContext buildEventContext = new BuildEventContext(submissionId, 0, BuildEventContext.InvalidProjectInstanceId, BuildEventContext.InvalidProjectContextId, BuildEventContext.InvalidTargetId, BuildEventContext.InvalidTaskId);
@@ -642,6 +654,7 @@ namespace Microsoft.Build.Execution
         /// Assumes the project path is already normalized.
         /// Used by the RequestBuilder.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         internal ProjectInstance(string projectFile, IDictionary<string, string> globalProperties, string toolsVersion, BuildParameters buildParameters, ILoggingService loggingService, BuildEventContext buildEventContext, ISdkResolverService sdkResolverService, int submissionId, ProjectLoadSettings? projectLoadSettings)
         {
             ArgumentException.ThrowIfNullOrEmpty(projectFile);
@@ -658,6 +671,7 @@ namespace Microsoft.Build.Execution
         /// Assumes the project path is already normalized.
         /// Used by this class when generating legacy solution wrappers.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         internal ProjectInstance(ProjectRootElement xml, IDictionary<string, string> globalProperties, string toolsVersion, BuildParameters buildParameters, ILoggingService loggingService, BuildEventContext buildEventContext, ISdkResolverService sdkResolverService, int submissionId)
         {
             ArgumentNullException.ThrowIfNull(xml);
@@ -915,6 +929,7 @@ namespace Microsoft.Build.Execution
         /// <param name="file">The file to evaluate the ProjectInstance from.</param>
         /// <param name="options">The <see cref="ProjectOptions"/> to use.</param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public static ProjectInstance FromFile(string file, ProjectOptions options)
         {
             return new ProjectInstance(
@@ -934,6 +949,7 @@ namespace Microsoft.Build.Execution
         /// </summary>
         /// <param name="rootElement">The <see cref="ProjectRootElement"/> to evaluate the ProjectInstance from.</param>
         /// <param name="options">The <see cref="ProjectOptions"/> to use.</param>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         public static ProjectInstance FromProjectRootElement(ProjectRootElement rootElement, ProjectOptions options)
         {
             return new ProjectInstance(
@@ -2179,6 +2195,7 @@ namespace Microsoft.Build.Execution
         /// Returns true on success, false on failure.
         /// Only valid if mutable.
         /// </summary>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build()
         {
             return Build(null);
@@ -2194,6 +2211,7 @@ namespace Microsoft.Build.Execution
         /// If any of the loggers supplied are already attached to the logging service we
         /// were passed, throws InvalidOperationException.
         /// </remarks>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(IEnumerable<ILogger> loggers)
         {
             return Build((string[])null, loggers, null);
@@ -2209,6 +2227,7 @@ namespace Microsoft.Build.Execution
         /// If any of the loggers supplied are already attached to the logging service we
         /// were passed, throws InvalidOperationException.
         /// </remarks>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers)
         {
             return Build((string[])null, loggers, remoteLoggers);
@@ -2225,6 +2244,7 @@ namespace Microsoft.Build.Execution
         /// If any of the loggers supplied are already attached to the logging service we
         /// were passed, throws InvalidOperationException.
         /// </remarks>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(string target, IEnumerable<ILogger> loggers)
         {
             return Build(target, loggers, null);
@@ -2242,6 +2262,7 @@ namespace Microsoft.Build.Execution
         /// If any of the loggers supplied are already attached to the logging service we
         /// were passed, throws InvalidOperationException.
         /// </remarks>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(string target, IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers)
         {
             string[] targets = (target == null) ? [] : [target];
@@ -2260,6 +2281,7 @@ namespace Microsoft.Build.Execution
         /// If any of the loggers supplied are already attached to the logging service we
         /// were passed, throws InvalidOperationException.
         /// </remarks>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(string[] targets, IEnumerable<ILogger> loggers)
         {
             return Build(targets, loggers, null);
@@ -2277,6 +2299,7 @@ namespace Microsoft.Build.Execution
         /// If any of the loggers supplied are already attached to the logging service we
         /// were passed, throws InvalidOperationException.
         /// </remarks>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(string[] targets, IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers)
         {
             IDictionary<string, TargetResult> targetOutputs;
@@ -2295,6 +2318,7 @@ namespace Microsoft.Build.Execution
         /// If any of the loggers supplied are already attached to the logging service we
         /// were passed, throws InvalidOperationException.
         /// </remarks>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(string[] targets, IEnumerable<ILogger> loggers, out IDictionary<string, TargetResult> targetOutputs)
         {
             return Build(targets, loggers, null, null, out targetOutputs);
@@ -2312,6 +2336,7 @@ namespace Microsoft.Build.Execution
         /// If any of the loggers supplied are already attached to the logging service we
         /// were passed, throws InvalidOperationException.
         /// </remarks>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public bool Build(string[] targets, IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers, out IDictionary<string, TargetResult> targetOutputs)
         {
             return Build(targets, loggers, remoteLoggers, null, out targetOutputs);
@@ -2620,6 +2645,7 @@ namespace Microsoft.Build.Execution
         /// <summary>
         /// Creates a set of project instances which represent the project dependency graph for a solution build.
         /// </summary>
+        [RequiresUnreferencedCode("Evaluates a solution's projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         internal static ProjectInstance[] LoadSolutionForBuild(
             string projectFile,
             PropertyDictionary<ProjectPropertyInstance> globalPropertiesInstances,
@@ -2684,6 +2710,7 @@ namespace Microsoft.Build.Execution
             return projectInstances;
         }
 
+        [RequiresUnreferencedCode("Evaluates a solution's projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         private static ProjectInstance[] CalculateToolsVersionAndGenerateSolutionWrapper(
             string projectFile,
             BuildParameters buildParameters,
@@ -2778,6 +2805,7 @@ namespace Microsoft.Build.Execution
         /// <summary>
         /// Builds a list of targets with the specified loggers.
         /// </summary>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         internal bool Build(string[] targets, IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers, ILoggingService loggingService, int maxNodeCount, out IDictionary<string, TargetResult> targetOutputs)
         {
             VerifyThrowNotImmutable();
@@ -2833,6 +2861,7 @@ namespace Microsoft.Build.Execution
         /// <summary>
         /// Builds a list of targets with the specified loggers.
         /// </summary>
+        [RequiresUnreferencedCode("Initializes loggers and project cache plugins by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         internal bool Build(string[] targets, IEnumerable<ILogger> loggers, IEnumerable<ForwardingLoggerRecord> remoteLoggers, ILoggingService loggingService, out IDictionary<string, TargetResult> targetOutputs)
         {
             return Build(targets, loggers, remoteLoggers, loggingService, 1, out targetOutputs);
@@ -2975,6 +3004,7 @@ namespace Microsoft.Build.Execution
         /// <param name="sdkResolverService"></param>
         /// <param name="submissionId"></param>
         /// <returns>The ProjectRootElement for the root traversal and each of the metaprojects.</returns>
+        [RequiresUnreferencedCode("Evaluates a generated solution metaproject, which resolves SDKs and loads loggers by reflection at runtime; incompatible with trimming.")]
         private static ProjectInstance[] GenerateSolutionWrapper(
 
                 string projectFile,
@@ -3028,6 +3058,7 @@ namespace Microsoft.Build.Execution
         /// <param name="submissionId"></param>
         /// <returns>An appropriate ProjectRootElement</returns>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [RequiresUnreferencedCode("Evaluates a generated solution metaproject, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         private static ProjectInstance[] GenerateSolutionWrapperUsingOldOM(
         string projectFile,
             IDictionary<string, string> globalProperties,
@@ -3171,6 +3202,7 @@ namespace Microsoft.Build.Execution
         /// Tools version may be null.
         /// Does not set mutability.
         /// </summary>
+        [RequiresUnreferencedCode("Resolves SDKs during import evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         private void Initialize(
             ProjectRootElement xml,
             IDictionary<string, string> globalProperties,

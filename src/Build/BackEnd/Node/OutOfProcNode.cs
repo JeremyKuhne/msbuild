@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -627,6 +628,8 @@ namespace Microsoft.Build.Execution
         /// <summary>
         /// Dispatches the packet to the correct handler.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "This is the node message pump. It dispatches build-request and node-configuration packets to handlers that submit build requests and initialize loggers; those paths reflect over assemblies at runtime and are unsupported under trimming. The packet-type switch cannot carry RequiresUnreferencedCode.")]
         private void HandlePacket(INodePacket packet)
         {
             // Console.WriteLine("Handling packet {0} at {1}", packet.Type, DateTime.Now);
@@ -665,6 +668,7 @@ namespace Microsoft.Build.Execution
         /// <summary>
         /// Handles the BuildRequest packet.
         /// </summary>
+        [RequiresUnreferencedCode("Submits a build request whose execution loads and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private void HandleBuildRequest(BuildRequest request)
         {
             _buildRequestEngine.SubmitBuildRequest(request);
@@ -689,6 +693,7 @@ namespace Microsoft.Build.Execution
         /// <summary>
         /// Handles the BuildResult packet.
         /// </summary>
+        [RequiresUnreferencedCode("Unblocks a build request whose execution loads and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private void HandleBuildRequestUnblocker(BuildRequestUnblocker unblocker)
         {
             _buildRequestEngine.UnblockBuildRequest(unblocker);
@@ -706,6 +711,7 @@ namespace Microsoft.Build.Execution
         /// <summary>
         /// Handles the NodeConfiguration packet.
         /// </summary>
+        [RequiresUnreferencedCode("Initializes node loggers by reflecting over logger assemblies discovered at runtime, which is incompatible with trimming.")]
         private void HandleNodeConfiguration(NodeConfiguration configuration)
         {
             // Grab the system parameters.

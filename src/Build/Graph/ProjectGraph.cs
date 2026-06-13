@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -112,6 +113,7 @@ namespace Microsoft.Build.Graph
         /// <exception cref="InvalidProjectFileException">
         ///     If the evaluation of any project in the graph fails
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(string entryProjectFile)
             : this(new ProjectGraphEntryPoint(entryProjectFile).AsEnumerable(), ProjectCollection.GlobalProjectCollection, null)
         {
@@ -125,6 +127,7 @@ namespace Microsoft.Build.Graph
         /// <exception cref="InvalidProjectFileException">
         ///     If the evaluation of any project in the graph fails
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(IEnumerable<string> entryProjectFiles)
             : this(ProjectGraphEntryPoint.CreateEnumerable(entryProjectFiles), ProjectCollection.GlobalProjectCollection, null)
         {
@@ -142,6 +145,7 @@ namespace Microsoft.Build.Graph
         /// <exception cref="InvalidProjectFileException">
         ///     If the evaluation of any project in the graph fails
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(string entryProjectFile, ProjectCollection projectCollection)
             : this(new ProjectGraphEntryPoint(entryProjectFile).AsEnumerable(), projectCollection, null)
         {
@@ -159,6 +163,7 @@ namespace Microsoft.Build.Graph
         /// <exception cref="InvalidProjectFileException">
         ///     If the evaluation of any project in the graph fails
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(IEnumerable<string> entryProjectFiles, ProjectCollection projectCollection)
             : this(ProjectGraphEntryPoint.CreateEnumerable(entryProjectFiles), projectCollection, null)
         {
@@ -185,6 +190,7 @@ namespace Microsoft.Build.Graph
         ///     If a null reference is returned from <paramref name="projectInstanceFactory" />, the InnerException contains
         ///     <see cref="InvalidOperationException" />
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(string entryProjectFile, ProjectCollection projectCollection, ProjectInstanceFactoryFunc projectInstanceFactory)
             : this(new ProjectGraphEntryPoint(entryProjectFile).AsEnumerable(), projectCollection, projectInstanceFactory)
         {
@@ -202,6 +208,7 @@ namespace Microsoft.Build.Graph
         /// <exception cref="InvalidProjectFileException">
         ///     If the evaluation of any project in the graph fails
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(string entryProjectFile, IDictionary<string, string> globalProperties)
             : this(new ProjectGraphEntryPoint(entryProjectFile, globalProperties).AsEnumerable(), ProjectCollection.GlobalProjectCollection, null)
         {
@@ -219,6 +226,7 @@ namespace Microsoft.Build.Graph
         /// <exception cref="InvalidProjectFileException">
         ///     If the evaluation of any project in the graph fails
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(IEnumerable<string> entryProjectFiles, IDictionary<string, string> globalProperties)
             : this(ProjectGraphEntryPoint.CreateEnumerable(entryProjectFiles, globalProperties), ProjectCollection.GlobalProjectCollection, null)
         {
@@ -240,6 +248,7 @@ namespace Microsoft.Build.Graph
         /// <exception cref="InvalidProjectFileException">
         ///     If the evaluation of any project in the graph fails
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(string entryProjectFile, IDictionary<string, string> globalProperties, ProjectCollection projectCollection)
             : this(new ProjectGraphEntryPoint(entryProjectFile, globalProperties).AsEnumerable(), projectCollection, null)
         {
@@ -261,6 +270,7 @@ namespace Microsoft.Build.Graph
         /// <exception cref="InvalidProjectFileException">
         ///     If the evaluation of any project in the graph fails
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(IEnumerable<string> entryProjectFiles, IDictionary<string, string> globalProperties, ProjectCollection projectCollection)
             : this(ProjectGraphEntryPoint.CreateEnumerable(entryProjectFiles, globalProperties), projectCollection, null)
         {
@@ -273,6 +283,7 @@ namespace Microsoft.Build.Graph
         /// <exception cref="InvalidProjectFileException">
         ///     If the evaluation of any project in the graph fails
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(ProjectGraphEntryPoint entryPoint)
             : this(entryPoint.AsEnumerable(), ProjectCollection.GlobalProjectCollection, null)
         {
@@ -285,6 +296,7 @@ namespace Microsoft.Build.Graph
         /// <exception cref="InvalidProjectFileException">
         ///     If the evaluation of any project in the graph fails
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(IEnumerable<ProjectGraphEntryPoint> entryPoints)
             : this(entryPoints, ProjectCollection.GlobalProjectCollection, null)
         {
@@ -301,6 +313,7 @@ namespace Microsoft.Build.Graph
         /// <exception cref="InvalidProjectFileException">
         ///     If the evaluation of any project in the graph fails
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(ProjectGraphEntryPoint entryPoint, ProjectCollection projectCollection)
             : this(entryPoint.AsEnumerable(), projectCollection, null)
         {
@@ -330,6 +343,7 @@ namespace Microsoft.Build.Graph
         ///     If the evaluation is successful but the project graph contains a circular
         ///     dependency
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(
             IEnumerable<ProjectGraphEntryPoint> entryPoints,
             ProjectCollection projectCollection,
@@ -370,6 +384,7 @@ namespace Microsoft.Build.Graph
         ///     If the evaluation is successful but the project graph contains a circular
         ///     dependency
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(
             IEnumerable<ProjectGraphEntryPoint> entryPoints,
             ProjectCollection projectCollection,
@@ -414,6 +429,7 @@ namespace Microsoft.Build.Graph
         ///     If the evaluation is successful but the project graph contains a circular
         ///     dependency
         /// </exception>
+        [RequiresUnreferencedCode("Constructs a project graph by evaluating projects, which resolves SDKs and reflects over their types; incompatible with trimming.")]
         public ProjectGraph(
             IEnumerable<ProjectGraphEntryPoint> entryPoints,
             ProjectCollection projectCollection,
@@ -936,6 +952,7 @@ namespace Microsoft.Build.Graph
             }
         }
 
+        [RequiresUnreferencedCode("Resolves SDKs during project evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         internal ProjectInstance DefaultProjectInstanceFactory(
             string projectPath,
             Dictionary<string, string> globalProperties,
@@ -950,6 +967,7 @@ namespace Microsoft.Build.Graph
                                 _evaluationContext);
         }
 
+        [RequiresUnreferencedCode("Resolves SDKs during project evaluation, which loads SDK resolver assemblies and reflects over their types; incompatible with trimming.")]
         internal static ProjectInstance StaticProjectInstanceFactory(
             string projectPath,
             Dictionary<string, string> globalProperties,

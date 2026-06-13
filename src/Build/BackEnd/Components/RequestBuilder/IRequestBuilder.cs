@@ -1,6 +1,7 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Build.Execution;
 using NodeLoggingContext = Microsoft.Build.BackEnd.Logging.NodeLoggingContext;
 
@@ -60,11 +61,13 @@ namespace Microsoft.Build.BackEnd
         /// </summary>
         /// <param name="nodeLoggingContext">The logging context for the node.</param>
         /// <param name="entry">The entry to be built.</param>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         void BuildRequest(NodeLoggingContext nodeLoggingContext, BuildRequestEntry entry);
 
         /// <summary>
         /// Continues building a request which was previously waiting for results.
         /// </summary>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         void ContinueRequest();
 
         /// <summary>

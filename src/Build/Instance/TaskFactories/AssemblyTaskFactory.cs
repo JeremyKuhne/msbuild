@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 #if FEATURE_APPDOMAIN
 using System.Collections.Concurrent;
@@ -89,6 +90,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Gets the type of task this factory creates.
         /// </summary>
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
         public Type TaskType
         {
             get { return _loadedType.Type; }
@@ -227,6 +229,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Initialize the factory from the task registry.
         /// </summary>
+        [RequiresUnreferencedCode("Loads the task type by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         internal LoadedType InitializeFactory(
             AssemblyLoadInfo loadInfo,
             string taskName,
@@ -459,6 +462,7 @@ namespace Microsoft.Build.BackEnd
         /// Is the given task name able to to be created by the task factory. In the case of an assembly task factory
         /// this question is answered by checking the assembly wrapped by the task factory to see if it exists.
         /// </summary>
+        [RequiresUnreferencedCode("Loads the task type by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         internal bool TaskNameCreatableByFactory(string taskName, in TaskHostParameters taskIdentityParameters, string taskProjectFile, TargetLoggingContext targetLoggingContext, ElementLocation elementLocation)
         {
             if (!TaskIdentityParametersMatchFactory(_factoryIdentityParameters, taskIdentityParameters))

@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 #nullable disable
 
@@ -22,6 +23,7 @@ namespace Microsoft.Build.Framework
         /// <summary>
         /// Gets the type of the task this factory will instantiate.  Implementations must return a value for this property.
         /// </summary>
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
         Type TaskType { get; }
 
         /// <summary>

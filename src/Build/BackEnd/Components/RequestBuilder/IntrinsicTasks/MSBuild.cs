@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Build.Framework;
@@ -510,6 +511,8 @@ namespace Microsoft.Build.BackEnd
             return targetLists;
         }
 
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "This is the shared implementation of the intrinsic MSBuild/CallTarget tasks, which are invoked through the reflective task-execution wall; the nested builds it triggers reflect over assemblies at runtime and are unsupported under trimming.")]
         internal static async Task<bool> ExecuteTargets(
             ITaskItem[] projects,
             Dictionary<string, string> propertiesTable,

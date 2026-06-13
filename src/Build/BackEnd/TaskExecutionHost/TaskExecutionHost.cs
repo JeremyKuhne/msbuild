@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -297,6 +298,7 @@ namespace Microsoft.Build.BackEnd
         /// Ask the task host to find its task in the registry and get it ready for initializing the batch
         /// </summary>
         /// <returns>The task requirements and task factory wrapper if the task is found, (null, null) otherwise.</returns>
+        [RequiresUnreferencedCode("Creates and loads a task factory by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         public (TaskRequirements? requirements, TaskFactoryWrapper taskFactoryWrapper) FindTask(in TaskHostParameters taskIdentityParameters)
         {
             _taskFactoryWrapper ??= FindTaskInRegistry(taskIdentityParameters);
@@ -941,6 +943,7 @@ namespace Microsoft.Build.BackEnd
         /// If the set of task identity parameters are defined, only tasks that match that identity are chosen.
         /// </summary>
         /// <returns>The Type of the task, or null if it was not found.</returns>
+        [RequiresUnreferencedCode("Creates and loads a task factory by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         private TaskFactoryWrapper FindTaskInRegistry(in TaskHostParameters taskIdentityParameters)
         {
             if (!_intrinsicTasks.TryGetValue(_taskName, out TaskFactoryWrapper returnClass))
@@ -1121,6 +1124,8 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Set the specified parameter based on its type.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2057:UnrecognizedReflectionPattern",
+            Justification = "Resolves the task parameter type from its assembly-qualified name; the type cannot be statically determined and this path is unsupported under trimming.")]
         private bool SetTaskParameter(
             string parameterName,
             string parameterValue,
@@ -1801,6 +1806,8 @@ namespace Microsoft.Build.BackEnd
         /// <param name="outOfProcTaskFactory">The out-of-process task factory instance.</param>
         /// <param name="scheduledNodeId">Node for which the task host should be called</param>
         /// <returns>A TaskHostTask that will execute the inner task out of process, or <code>null</code> if task creation fails.</returns>
+        [UnconditionalSuppressMessage("Trimming", "IL2072:UnrecognizedReflectionPattern",
+            Justification = "The Type comes from an already-instantiated task's GetType(); the instance and its members exist at runtime and the task-host path is unsupported under trimming.")]
         private ITask CreateTaskHostTaskForOutOfProcFactory(
             in TaskHostParameters taskIdentityParameters,
             TaskFactoryEngineContext taskFactoryEngineContext,

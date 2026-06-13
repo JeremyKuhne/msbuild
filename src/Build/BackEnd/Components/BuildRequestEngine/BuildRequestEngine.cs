@@ -363,6 +363,7 @@ namespace Microsoft.Build.BackEnd
         /// <remarks>
         /// Called by the Node.  Non-overlapping with other calls from the Node.
         /// </remarks>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public void SubmitBuildRequest(BuildRequest request)
         {
             QueueAction(
@@ -448,6 +449,7 @@ namespace Microsoft.Build.BackEnd
         /// <remarks>
         /// Called by the Node.  Non-overlapping with other calls from the Node.
         /// </remarks>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         public void UnblockBuildRequest(BuildRequestUnblocker unblocker)
         {
             QueueAction(
@@ -969,6 +971,7 @@ namespace Microsoft.Build.BackEnd
         /// Makes the specified build request entry the active one, loading the project if necessary.
         /// </summary>
         /// <param name="entry">The entry to activate.</param>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private void ActivateBuildRequest(BuildRequestEntry entry)
         {
             Assumed.NotNull(_componentHost, "No host object set");
@@ -1043,6 +1046,8 @@ namespace Microsoft.Build.BackEnd
         /// <param name="issuingEntry">The request issuing the requests.</param>
         /// <param name="newRequests">The requests being issued.</param>
         /// <remarks>Called by the RequestBuilder (implicitly through an event).  Non-overlapping with other RequestBuilders.</remarks>
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "This is an event handler attached to the IRequestBuilder.OnNewBuildRequests event; the requests it issues drive the reflective task-execution path that is unsupported under trimming. The event delegate type cannot carry RequiresUnreferencedCode.")]
         private void Builder_OnNewBuildRequests(BuildRequestEntry issuingEntry, FullyQualifiedBuildRequest[] newRequests)
         {
             QueueAction(
@@ -1060,6 +1065,8 @@ namespace Microsoft.Build.BackEnd
         /// </summary>
         /// <remarks>
         /// Called by the RequestBuilder (implicitly through an event).  Non-overlapping with other RequestBuilders.</remarks>
+        [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+            Justification = "This is an event handler attached to the IRequestBuilder.OnBuildRequestBlocked event; the requests it issues drive the reflective task-execution path that is unsupported under trimming. The event delegate type cannot carry RequiresUnreferencedCode.")]
         private void Builder_OnBlockedRequest(BuildRequestEntry issuingEntry, int blockingGlobalRequestId, string blockingTarget, BuildResult partialBuildResult = null)
         {
             QueueAction(
@@ -1085,6 +1092,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Dequeue some requests from the unsubmitted request queue and submit them.
         /// </summary>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private void IssueUnsubmittedRequests()
         {
             // We will only submit as many items as were in the queue at the time this method was called.
@@ -1169,6 +1177,7 @@ namespace Microsoft.Build.BackEnd
         /// the request, we give them back to the request, otherwise we have to forward the request to the Build Mangager
         /// for scheduling.
         /// </remarks>
+        [RequiresUnreferencedCode("Loads and evaluates projects and runs tasks by reflecting over assemblies discovered at runtime, which is incompatible with trimming.")]
         private void IssueBuildRequests(BuildRequestEntry issuingEntry, FullyQualifiedBuildRequest[] newRequests)
         {
             Assumed.NotNull(_componentHost, "No host object set");
