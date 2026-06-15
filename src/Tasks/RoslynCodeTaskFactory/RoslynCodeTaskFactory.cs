@@ -143,8 +143,7 @@ namespace Microsoft.Build.Tasks
         }
 
         /// <inheritdoc cref="ITaskFactory.CreateTask(IBuildEngine)"/>
-        [UnconditionalSuppressMessage("TrimAnalysis", "IL2026:RequiresUnreferencedCode",
-            Justification = "RoslynCodeTaskFactory implements the public ITaskFactory contract, which cannot carry RequiresUnreferencedCode. The trim-incompatible instantiation of the runtime-compiled task type is isolated in the RequiresUnreferencedCode helper CreateTaskInstance; this factory is documented as unsupported under trimming.")]
+        [RequiresUnreferencedCode("Instantiates a task type from an assembly compiled at runtime from user-supplied source, which is incompatible with trimming.")]
         public ITask CreateTask(IBuildEngine taskFactoryLoggingHost)
         {
             // The type of the task has already been determined and the assembly is already loaded after compilation so
@@ -176,8 +175,7 @@ namespace Microsoft.Build.Tasks
         public string GetAssemblyPath() => _assemblyPath;
 
         /// <inheritdoc cref="ITaskFactory.Initialize"/>
-        [UnconditionalSuppressMessage("TrimAnalysis", "IL2026:RequiresUnreferencedCode",
-            Justification = "RoslynCodeTaskFactory implements the public ITaskFactory contract, which cannot carry RequiresUnreferencedCode. It compiles and loads a task assembly at runtime and reflects over its exported types; that trim-incompatible work is isolated in the RequiresUnreferencedCode helpers TryCompileAssembly and TryResolveCompiledTaskType, and is documented as unsupported under trimming.")]
+        [RequiresUnreferencedCode("Compiles and loads a task assembly at runtime and reflects over its exported types, which is incompatible with trimming.")]
         public bool Initialize(string taskName, IDictionary<string, TaskPropertyInfo> parameterGroup, string taskBody, IBuildEngine taskFactoryLoggingHost)
         {
             _log = new TaskLoggingHelper(taskFactoryLoggingHost, taskName)

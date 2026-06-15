@@ -674,6 +674,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Initializes and executes the task.
         /// </summary>
+        [RequiresUnreferencedCode("Instantiates and runs a task by reflecting over a task type discovered at runtime, which is incompatible with trimming.")]
         private async Task<WorkUnitResult> InitializeAndExecuteTask(TaskLoggingContext taskLoggingContext, ItemBucket bucket, TaskHostParameters taskIdentityParameters, TaskHost taskHost, TaskExecutionMode howToExecuteTask)
         {
             if (!_taskExecutionHost.InitializeForBatch(taskLoggingContext, bucket, taskIdentityParameters, _buildRequestEntry.Request.ScheduledNodeId))

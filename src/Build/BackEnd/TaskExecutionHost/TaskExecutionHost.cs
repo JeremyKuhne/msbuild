@@ -330,6 +330,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Initialize to run a specific batch of the current task.
         /// </summary>
+        [RequiresUnreferencedCode("Instantiates a task by reflecting over a task type discovered at runtime, which is incompatible with trimming.")]
         public bool InitializeForBatch(TaskLoggingContext loggingContext, ItemBucket batchBucket, in TaskHostParameters taskIdentityParameters, int scheduledNodeId)
         {
             ArgumentNullException.ThrowIfNull(loggingContext);
@@ -1008,6 +1009,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Instantiates the task.
         /// </summary>
+        [RequiresUnreferencedCode("Instantiates a task by reflecting over a task type discovered at runtime, which is incompatible with trimming.")]
         private ITask InstantiateTask(int scheduledNodeId, in TaskHostParameters taskIdentityParameters)
         {
             ITask task = null;
@@ -1806,6 +1808,7 @@ namespace Microsoft.Build.BackEnd
         /// <param name="outOfProcTaskFactory">The out-of-process task factory instance.</param>
         /// <param name="scheduledNodeId">Node for which the task host should be called</param>
         /// <returns>A TaskHostTask that will execute the inner task out of process, or <code>null</code> if task creation fails.</returns>
+        [RequiresUnreferencedCode("Instantiates a task by reflecting over a task type discovered at runtime, which is incompatible with trimming.")]
         [UnconditionalSuppressMessage("Trimming", "IL2072:UnrecognizedReflectionPattern",
             Justification = "The Type comes from an already-instantiated task's GetType(); the instance and its members exist at runtime and the task-host path is unsupported under trimming.")]
         private ITask CreateTaskHostTaskForOutOfProcFactory(

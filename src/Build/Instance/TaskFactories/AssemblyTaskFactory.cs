@@ -111,6 +111,7 @@ namespace Microsoft.Build.BackEnd
         /// The taskFactoryLoggingHost will log messages in the context of the target where the task is first used.
         /// </para>
         /// </remarks>
+        [RequiresUnreferencedCode("Loads the task type by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         public bool Initialize(string taskName, IDictionary<string, TaskPropertyInfo> parameterGroup, string taskBody, IBuildEngine taskFactoryLoggingHost)
             => InternalError.Throw<bool>("Use internal call to properly initialize the assembly task factory");
 
@@ -133,6 +134,7 @@ namespace Microsoft.Build.BackEnd
         /// The taskFactoryLoggingHost will log messages in the context of the target where the task is first used.
         /// </para>
         /// </remarks>
+        [RequiresUnreferencedCode("Loads the task type by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         public bool Initialize(string taskName, IDictionary<string, string> factoryIdentityParameters, IDictionary<string, TaskPropertyInfo> parameterGroup, string taskBody, IBuildEngine taskFactoryLoggingHost)
             => InternalError.Throw<bool>("Use internal call to properly initialize the assembly task factory");
 
@@ -154,6 +156,7 @@ namespace Microsoft.Build.BackEnd
         /// <returns>
         /// The generated task, or <c>null</c> if the task failed to be created.
         /// </returns>
+        [RequiresUnreferencedCode("Loads the task type by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         public ITask CreateTask(IBuildEngine taskFactoryLoggingHost)
             => InternalError.Throw<ITask>("Use internal call to properly create a task instance from the assembly task factory");
 
@@ -174,6 +177,7 @@ namespace Microsoft.Build.BackEnd
         /// <returns>
         /// The generated task, or <c>null</c> if the task failed to be created.
         /// </returns>
+        [RequiresUnreferencedCode("Loads the task type by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         public ITask CreateTask(IBuildEngine taskFactoryLoggingHost, IDictionary<string, string> taskIdentityParameters)
             => InternalError.Throw<ITask>("Use internal call to properly create a task instance from the assembly task factory");
 
@@ -769,6 +773,7 @@ namespace Microsoft.Build.BackEnd
         /// The taskFactoryLoggingHost will log messages in the context of the target where the task is first used.
         /// </para>
         /// </remarks>
+        [RequiresUnreferencedCode("Loads the task type by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         public bool Initialize(string taskName, TaskHostParameters factoryIdentityParameters, IDictionary<string, TaskPropertyInfo> parameterGroup, string taskBody, IBuildEngine taskFactoryLoggingHost)
             => InternalError.Throw<bool>("Use internal call to properly initialize the assembly task factory");
 
@@ -789,6 +794,7 @@ namespace Microsoft.Build.BackEnd
         /// <returns>
         /// The generated task, or <c>null</c> if the task failed to be created.
         /// </returns>
+        [RequiresUnreferencedCode("Loads the task type by reflecting over an assembly discovered at runtime, which is incompatible with trimming.")]
         public ITask CreateTask(IBuildEngine taskFactoryLoggingHost, TaskHostParameters taskIdentityParameters)
             => InternalError.Throw<ITask>("Use internal call to properly create a task instance from the assembly task factory");
 

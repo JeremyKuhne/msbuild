@@ -46,6 +46,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Initialize the factory.
         /// </summary>
+        [RequiresUnreferencedCode("Task factories create tasks by reflecting over a task type discovered or generated at runtime, which is incompatible with trimming.")]
         public bool Initialize(string taskName, IDictionary<string, TaskPropertyInfo> parameterGroup, string taskBody, IBuildEngine taskFactoryLoggingHost)
         {
             Assumed.Equal(taskName, TaskType.Name, StringComparison.OrdinalIgnoreCase, $"Unexpected task name {taskName}.  Expected {TaskType.Name}");
@@ -71,6 +72,7 @@ namespace Microsoft.Build.BackEnd
         /// <summary>
         /// Creates an instance of the task.
         /// </summary>
+        [RequiresUnreferencedCode("Task factories create tasks by reflecting over a task type discovered or generated at runtime, which is incompatible with trimming.")]
         public ITask CreateTask(IBuildEngine taskFactoryLoggingHost)
         {
             if (TaskType == typeof(MSBuild))
