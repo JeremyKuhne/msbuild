@@ -3734,7 +3734,7 @@ namespace Microsoft.Build.Evaluation
             /// <summary>
             /// The type of this function's receiver.
             /// </summary>
-            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.NonPublicMethods | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
             private Type _receiverType;
 
             /// <summary>
@@ -3780,7 +3780,7 @@ namespace Microsoft.Build.Evaluation
             /// Construct a function that will be executed during property evaluation.
             /// </summary>
             internal Function(
-                [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type receiverType,
+                [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.NonPublicMethods | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type receiverType,
                 string expression,
                 string receiver,
                 string methodName,
