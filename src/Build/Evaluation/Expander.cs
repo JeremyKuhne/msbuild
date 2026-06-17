@@ -3734,7 +3734,19 @@ namespace Microsoft.Build.Evaluation
             /// <summary>
             /// The type of this function's receiver.
             /// </summary>
-            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.NonPublicMethods | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+            [DynamicallyAccessedMembers(
+                DynamicallyAccessedMemberTypes.PublicConstructors |
+                DynamicallyAccessedMemberTypes.PublicMethods |
+                DynamicallyAccessedMemberTypes.PublicProperties |
+                DynamicallyAccessedMemberTypes.PublicFields |
+                DynamicallyAccessedMemberTypes.NonPublicConstructors |
+                DynamicallyAccessedMemberTypes.NonPublicMethods |
+                DynamicallyAccessedMemberTypes.NonPublicProperties |
+                DynamicallyAccessedMemberTypes.NonPublicFields |
+                DynamicallyAccessedMemberTypes.PublicNestedTypes |
+                DynamicallyAccessedMemberTypes.NonPublicNestedTypes |
+                DynamicallyAccessedMemberTypes.PublicEvents |
+                DynamicallyAccessedMemberTypes.NonPublicEvents)]
             private Type _receiverType;
 
             /// <summary>
@@ -3780,7 +3792,19 @@ namespace Microsoft.Build.Evaluation
             /// Construct a function that will be executed during property evaluation.
             /// </summary>
             internal Function(
-                [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.NonPublicMethods | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type receiverType,
+                [DynamicallyAccessedMembers(
+                    DynamicallyAccessedMemberTypes.PublicConstructors |
+                    DynamicallyAccessedMemberTypes.PublicMethods |
+                    DynamicallyAccessedMemberTypes.PublicProperties |
+                    DynamicallyAccessedMemberTypes.PublicFields |
+                    DynamicallyAccessedMemberTypes.NonPublicConstructors |
+                    DynamicallyAccessedMemberTypes.NonPublicMethods |
+                    DynamicallyAccessedMemberTypes.NonPublicProperties |
+                    DynamicallyAccessedMemberTypes.NonPublicFields |
+                    DynamicallyAccessedMemberTypes.PublicNestedTypes |
+                    DynamicallyAccessedMemberTypes.NonPublicNestedTypes |
+                    DynamicallyAccessedMemberTypes.PublicEvents |
+                    DynamicallyAccessedMemberTypes.NonPublicEvents)] Type receiverType,
                 string expression,
                 string receiver,
                 string methodName,
@@ -3985,6 +4009,8 @@ namespace Microsoft.Build.Evaluation
             /// </summary>
             [UnconditionalSuppressMessage("Trimming", "IL2074:UnrecognizedReflectionPattern",
                 Justification = "_receiverType is reassigned from a runtime property value whose type is restricted to the property-function allowlist, whose members are preserved for trimming.")]
+            [UnconditionalSuppressMessage("Trimming", "IL2080",
+                Justification = "Property-function invocation uses reflection APIs with conservative contracts, but the runtime path here only uses public intrinsic methods after removing the IntrinsicFunctions NonPublic binding flag special case.")]
             internal object Execute(object objectInstance, IPropertyProvider<T> properties, ExpanderOptions options, IElementLocation elementLocation)
             {
                 object functionResult = String.Empty;
@@ -4002,13 +4028,6 @@ namespace Microsoft.Build.Evaluation
                         }
 
                         _bindingFlags |= BindingFlags.Static;
-
-                        // For our intrinsic function we need to support calling of internal methods
-                        // since we don't want them to be public
-                        if (_receiverType == typeof(IntrinsicFunctions))
-                        {
-                            _bindingFlags |= BindingFlags.NonPublic;
-                        }
                     }
                     else
                     {
@@ -4248,6 +4267,8 @@ namespace Microsoft.Build.Evaluation
 
             [UnconditionalSuppressMessage("Trimming", "IL2072:UnrecognizedReflectionPattern",
                 Justification = "Activator.CreateInstance is only invoked for value types (guarded by Type.IsValueType), which always have a public parameterless constructor.")]
+            [UnconditionalSuppressMessage("Trimming", "IL2080",
+                Justification = "Property-function invocation uses reflection APIs with conservative contracts, but the runtime path here only uses public intrinsic methods after removing the IntrinsicFunctions NonPublic binding flag special case.")]
             private object GetMethodResult(object objectInstance, IEnumerable<MethodInfo> methods, object[] args, int index)
             {
                 for (int i = index; i < args.Length; i++)
@@ -4796,6 +4817,8 @@ namespace Microsoft.Build.Evaluation
             /// Construct and instance of objectType based on the constructor or method arguments provided.
             /// Arguments must never be null.
             /// </summary>
+            [UnconditionalSuppressMessage("Trimming", "IL2080",
+                Justification = "Property-function invocation uses reflection APIs with conservative contracts, but the runtime path here only uses public intrinsic methods after removing the IntrinsicFunctions NonPublic binding flag special case.")]
             private object LateBindExecute(Exception ex, BindingFlags bindingFlags, object objectInstance /* null unless instance method */, object[] args, bool isConstructor)
             {
                 // First let's try for a method where all arguments are strings..
