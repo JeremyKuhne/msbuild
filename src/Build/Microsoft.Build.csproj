@@ -41,6 +41,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!--
+      Property functions resolve receiver types outside the curated allowlist (by probing and loading
+      assemblies at runtime) only when MSBUILDENABLEALLPROPERTYFUNCTIONS=1. That reflection is
+      incompatible with trimming, so the feature switch defaults to disabled for trim analysis, which
+      lets the trimmer remove the unreachable probing path. The environment variable is still honored
+      at run time (this library emits no runtimeconfig.json, so the AppContext switch stays unset).
+    -->
+    <RuntimeHostConfigurationOption Include="Microsoft.Build.EnableAllPropertyFunctions" Value="false" Trim="true" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Collections" PrivateAssets="all" />
 
     <!-- Display files included by the Microsoft.CodeAnalysis.Collections source package in a 'SourcePackages\Collections' folder -->
@@ -165,6 +176,7 @@
     <Compile Include="Evaluation\IItemTypeDefinition.cs" />
     <Compile Include="Evaluation\PropertiesUseTracker.cs" />
     <Compile Include="Evaluation\ToolsetElement.cs" />
+    <Compile Include="FeatureSwitches.cs" />
     <Compile Include="FileAccess\DesiredAccess.cs" />
     <Compile Include="FileAccess\FileAccessData.cs" />
     <Compile Include="FileAccess\FlagsAndAttributes.cs" />

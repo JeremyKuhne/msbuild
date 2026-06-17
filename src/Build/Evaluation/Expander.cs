@@ -3705,6 +3705,8 @@ namespace Microsoft.Build.Evaluation
             /// </summary>
             public PropertiesUseTracker PropertiesUseTracker { get; set; }
 
+            [UnconditionalSuppressMessage("Trimming", "IL2072:UnrecognizedReflectionPattern",
+                Justification = "The receiver type stored in ReceiverType is a property-function receiver, restricted to the curated AvailableStaticMethods allowlist (whose members are preserved for trimming) or to a property value of an allowlist type; the DynamicallyAccessedMembers requirement of the Function constructor is satisfied for those preserved types.")]
             internal readonly Function<T> Build()
             {
                 return new Function<T>(
@@ -3732,6 +3734,7 @@ namespace Microsoft.Build.Evaluation
             /// <summary>
             /// The type of this function's receiver.
             /// </summary>
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
             private Type _receiverType;
 
             /// <summary>
@@ -3777,7 +3780,7 @@ namespace Microsoft.Build.Evaluation
             /// Construct a function that will be executed during property evaluation.
             /// </summary>
             internal Function(
-                Type receiverType,
+                [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type receiverType,
                 string expression,
                 string receiver,
                 string methodName,
@@ -3980,6 +3983,8 @@ namespace Microsoft.Build.Evaluation
             /// <summary>
             /// Execute the function on the given instance.
             /// </summary>
+            [UnconditionalSuppressMessage("Trimming", "IL2074:UnrecognizedReflectionPattern",
+                Justification = "_receiverType is reassigned from a runtime property value whose type is restricted to the property-function allowlist, whose members are preserved for trimming.")]
             internal object Execute(object objectInstance, IPropertyProvider<T> properties, ExpanderOptions options, IElementLocation elementLocation)
             {
                 object functionResult = String.Empty;
@@ -4241,6 +4246,8 @@ namespace Microsoft.Build.Evaluation
                 }
             }
 
+            [UnconditionalSuppressMessage("Trimming", "IL2072:UnrecognizedReflectionPattern",
+                Justification = "Activator.CreateInstance is only invoked for value types (guarded by Type.IsValueType), which always have a public parameterless constructor.")]
             private object GetMethodResult(object objectInstance, IEnumerable<MethodInfo> methods, object[] args, int index)
             {
                 for (int i = index; i < args.Length; i++)
@@ -4289,6 +4296,10 @@ namespace Microsoft.Build.Evaluation
             /// <param name="typeName">May be full name or assembly qualified name.</param>
             /// <param name="simpleMethodName">simple name of the method.</param>
             /// <returns></returns>
+            [UnconditionalSuppressMessage("Trimming", "IL2096:UnrecognizedReflectionPattern",
+                Justification = "The type name is resolved against the curated AvailableStaticMethods allowlist; the case-insensitive lookup only resolves to allowlist types, whose members are preserved for trimming.")]
+            [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+                Justification = "The GetTypeFromAssembly / GetTypeFromAssemblyUsingNamespace calls below are reached only when the EnableAllPropertyFunctions feature switch is enabled (MSBUILDENABLEALLPROPERTYFUNCTIONS=1). That switch is a FeatureSwitchDefinition defaulting to false under trimming (see the RuntimeHostConfigurationOption in Microsoft.Build.csproj), so the trimmer removes this branch from a trimmed application; the trim analyzer does not evaluate the feature-switch default and therefore still reports the call as reachable.")]
             private static Type GetTypeForStaticMethod(string typeName, string simpleMethodName)
             {
                 Type receiverType;
@@ -4347,8 +4358,11 @@ namespace Microsoft.Build.Evaluation
                 }
 
                 // Note the following code path is only entered when MSBUILDENABLEALLPROPERTYFUNCTIONS == 1.
-                // This environment variable must not be cached - it should be dynamically settable while the application is executing.
-                if (Environment.GetEnvironmentVariable("MSBUILDENABLEALLPROPERTYFUNCTIONS") == "1")
+                // It is modeled as a trimmer feature switch (see FeatureSwitches) so this reflective
+                // probing is removed from trimmed applications, where only the curated allowlist of
+                // receiver types is supported. The environment variable is still honored at runtime when
+                // not trimmed, and must not be cached so it stays dynamically settable.
+                if (FeatureSwitches.EnableAllPropertyFunctions)
                 {
                     // We didn't find the type, so go probing. First in System
                     receiverType = GetTypeFromAssembly(typeName, "System");
@@ -4379,6 +4393,7 @@ namespace Microsoft.Build.Evaluation
             /// <summary>
             /// Gets the specified type using the namespace to guess the assembly that its in.
             /// </summary>
+            [RequiresUnreferencedCode("Resolves a property-function receiver type by probing and loading assemblies at runtime; reachable only via the MSBUILDENABLEALLPROPERTYFUNCTIONS feature switch, which is disabled under trimming.")]
             private static Type GetTypeFromAssemblyUsingNamespace(string typeName)
             {
                 string baseName = typeName;
@@ -4420,6 +4435,7 @@ namespace Microsoft.Build.Evaluation
             /// Get the specified type from the assembly partial name supplied.
             /// </summary>
             [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Reflection.Assembly.LoadWithPartialName", Justification = "Necessary since we don't have the full assembly name. ")]
+            [RequiresUnreferencedCode("Resolves a property-function receiver type by loading an assembly by partial name at runtime; reachable only via the MSBUILDENABLEALLPROPERTYFUNCTIONS feature switch, which is disabled under trimming.")]
             private static Type GetTypeFromAssembly(string typeName, string candidateAssemblyName)
             {
                 Type objectType = null;
