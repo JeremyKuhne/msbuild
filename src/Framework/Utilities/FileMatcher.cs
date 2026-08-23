@@ -156,6 +156,7 @@ namespace Microsoft.Build.Shared
         public const RegexOptions DefaultRegexOptions = RegexOptions.IgnoreCase;
 
         private readonly GetFileSystemEntries _getFileSystemEntries;
+        private readonly GetFileSystemEntries _getFileSystemEntriesForOptimizedCallback;
 
         private static class FileSpecRegexParts
         {
@@ -202,7 +203,8 @@ namespace Microsoft.Build.Shared
             fileEntryExpansionCache,
             implementation,
             allowDirectEnumeration: true,
-            caseFolding)
+            caseFolding,
+            useDirectDirectoryEntryCache: true)
         {
         }
 
@@ -212,7 +214,8 @@ namespace Microsoft.Build.Shared
             ConcurrentDictionary<string, IReadOnlyList<string>> getFileSystemDirectoryEntriesCache = null,
             FileMatcherImplementation implementation = FileMatcherImplementation.Auto,
             bool allowDirectEnumeration = false,
-            FileMatcherCaseFolding caseFolding = FileMatcherCaseFolding.Auto)
+            FileMatcherCaseFolding caseFolding = FileMatcherCaseFolding.Auto,
+            bool useDirectDirectoryEntryCache = false)
         {
             if (Traits.Instance.MSBuildCacheFileEnumerations)
             {
@@ -243,13 +246,13 @@ namespace Microsoft.Build.Shared
                         _ => throw new NotImplementedException()
                     } + ";" + path;
                     IReadOnlyList<string> allEntriesForPath = getFileSystemDirectoryEntriesCache.GetOrAdd(
-                            cacheKey,
-                            s => getFileSystemEntries(
-                                type,
-                                path,
-                                "*",
-                                directory,
-                                false));
+                        cacheKey,
+                        _ => getFileSystemEntries(
+                            type,
+                            path,
+                            "*",
+                            directory,
+                            false));
                     IEnumerable<string> filteredEntriesForPath = (pattern != null && !IsAllFilesWildcard(pattern))
                         ? allEntriesForPath.Where(o => IsFileNameMatch(o, pattern))
                         : allEntriesForPath;
@@ -257,6 +260,53 @@ namespace Microsoft.Build.Shared
                         ? RemoveProjectDirectory(filteredEntriesForPath, directory).ToList()
                         : filteredEntriesForPath.ToList();
                 };
+
+            _getFileSystemEntriesForOptimizedCallback = _getFileSystemEntries;
+#if NET || FEATURE_MSIOREDIST
+            if (getFileSystemDirectoryEntriesCache is not null
+                && useDirectDirectoryEntryCache
+#if FEATURE_MSIOREDIST
+                && NativeMethods.IsWindows
+#endif
+                && fileSystem is IDirectFileSystemEnumeration { SupportsDirectEnumeration: true })
+            {
+                _getFileSystemEntriesForOptimizedCallback =
+                    (type, path, pattern, directory, stripProjectDirectory) =>
+                    {
+                        if (type is not (FileSystemEntity.Files or FileSystemEntity.Directories)
+                            || !Path.IsPathRooted(path))
+                        {
+                            return _getFileSystemEntries(type, path, pattern, directory, stripProjectDirectory);
+                        }
+
+                        string cacheKey = (type == FileSystemEntity.Files ? "F;" : "D;") + path;
+                        if (!getFileSystemDirectoryEntriesCache.TryGetValue(cacheKey, out IReadOnlyList<string> allEntriesForPath))
+                        {
+                            var entries = GetAccessibleDirectoryEntries(path);
+                            IReadOnlyList<string> requestedEntries;
+                            if (type == FileSystemEntity.Files)
+                            {
+                                requestedEntries = entries.Files;
+                                getFileSystemDirectoryEntriesCache.TryAdd("D;" + path, entries.Directories);
+                            }
+                            else
+                            {
+                                requestedEntries = entries.Directories;
+                                getFileSystemDirectoryEntriesCache.TryAdd("F;" + path, entries.Files);
+                            }
+
+                            allEntriesForPath = getFileSystemDirectoryEntriesCache.GetOrAdd(cacheKey, requestedEntries);
+                        }
+
+                        IEnumerable<string> filteredEntriesForPath = (pattern is not null && !IsAllFilesWildcard(pattern))
+                            ? allEntriesForPath.Where(entry => IsFileNameMatch(entry, pattern))
+                            : allEntriesForPath;
+                        return stripProjectDirectory
+                            ? RemoveProjectDirectory(filteredEntriesForPath, directory).ToList()
+                            : filteredEntriesForPath.ToList();
+                    };
+            }
+#endif
         }
 
         /// <summary>
@@ -3157,7 +3207,13 @@ namespace Microsoft.Build.Shared
                     return;
                 }
 
-                if (includeMatcher.MatchesFilesInDirectory(relativeDirectory))
+                bool matchesFilesInDirectory = includeMatcher.MatchesFilesInDirectory(relativeDirectory);
+                bool canMatchDescendants = includeMatcher.CanMatchDescendants(relativeDirectory);
+                GetFileSystemEntries getFileSystemEntries = matchesFilesInDirectory && canMatchDescendants
+                    ? _getFileSystemEntriesForOptimizedCallback
+                    : _getFileSystemEntries;
+
+                if (matchesFilesInDirectory)
                 {
                     int excludeCount = excludesToMatch?.Count ?? 0;
                     using BufferScope<byte> activeExcludes = new(stackalloc byte[8], excludeCount);
@@ -3177,7 +3233,7 @@ namespace Microsoft.Build.Shared
                         }
                     }
 
-                    IReadOnlyList<string> filesInDirectory = _getFileSystemEntries(
+                    IReadOnlyList<string> filesInDirectory = getFileSystemEntries(
                         FileSystemEntity.Files,
                         directory,
                         state.SearchData.Filespec,
@@ -3210,12 +3266,12 @@ namespace Microsoft.Build.Shared
                     }
                 }
 
-                if (!includeMatcher.CanMatchDescendants(relativeDirectory))
+                if (!canMatchDescendants)
                 {
                     return;
                 }
 
-                IReadOnlyList<string> subdirectories = _getFileSystemEntries(
+                IReadOnlyList<string> subdirectories = getFileSystemEntries(
                     FileSystemEntity.Directories,
                     directory,
                     null,
@@ -3458,6 +3514,80 @@ namespace Microsoft.Build.Shared
         }
 
 #if NET || FEATURE_MSIOREDIST
+        private sealed class DirectoryEntriesEnumerator :
+#if FEATURE_MSIOREDIST
+            Microsoft.IO.Enumeration.FileSystemEnumerator<byte>
+#else
+            System.IO.Enumeration.FileSystemEnumerator<byte>
+#endif
+        {
+            private readonly string _outputRoot;
+
+            internal DirectoryEntriesEnumerator(string directory)
+                : base(directory, CreateEnumerationOptions())
+            {
+                _outputRoot = directory;
+            }
+
+            internal List<string> Files { get; } = [];
+            internal List<string> Directories { get; } = [];
+
+            protected override bool ShouldIncludeEntry(ref DirectFileSystemEntry entry) => true;
+
+            protected override bool ShouldRecurseIntoEntry(ref DirectFileSystemEntry entry) => false;
+
+            protected override byte TransformEntry(ref DirectFileSystemEntry entry)
+            {
+                using ValueStringBuilder builder = new(stackalloc char[256]);
+                builder.Append(_outputRoot);
+                if (!FileUtilities.IsSlash(_outputRoot[^1]))
+                {
+                    builder.Append(Path.DirectorySeparatorChar);
+                }
+
+                builder.Append(entry.FileName);
+                string entryPath = builder.AsSpan().ToString();
+                (entry.IsDirectory ? Directories : Files).Add(entryPath);
+                return 0;
+            }
+
+            private static DirectEnumerationOptions CreateEnumerationOptions() => new()
+            {
+                RecurseSubdirectories = false,
+                IgnoreInaccessible = false,
+                AttributesToSkip = 0,
+                ReturnSpecialDirectories = false,
+            };
+        }
+
+        private static (IReadOnlyList<string> Files, IReadOnlyList<string> Directories) GetAccessibleDirectoryEntries(string path)
+        {
+            try
+            {
+                using DirectoryEntriesEnumerator enumerator = new(FileUtilities.FixFilePath(path));
+                while (enumerator.MoveNext()) { }
+                return (enumerator.Files, enumerator.Directories);
+            }
+#if FEATURE_MSIOREDIST
+            catch (System.IO.FileLoadException ex)
+            {
+                throw new InvalidOperationException(ex.Message, ex);
+            }
+            catch (System.IO.FileNotFoundException ex) when (ex.FusionLog is not null)
+            {
+                throw new InvalidOperationException(ex.Message, ex);
+            }
+#endif
+            catch (System.Security.SecurityException)
+            {
+                return ([], []);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return ([], []);
+            }
+        }
+
         private sealed class OptimizedFileSystemEnumerator :
 #if FEATURE_MSIOREDIST
             Microsoft.IO.Enumeration.FileSystemEnumerator<string>
@@ -3536,7 +3666,8 @@ namespace Microsoft.Build.Shared
 
                 string directory = entry.ToFullPath();
 
-                if (ShouldSkipRecursiveDirectory(directory))
+                if ((entry.Attributes & System.IO.FileAttributes.ReparsePoint) != 0
+                    && ShouldSkipRecursiveDirectory(directory))
                 {
                     return false;
                 }

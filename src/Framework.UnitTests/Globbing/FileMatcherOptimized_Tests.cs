@@ -173,6 +173,29 @@ public sealed class FileMatcherOptimized_Tests : IDisposable
         }
     }
 
+    [Fact]
+    public void OptimizedCacheBackedTraversalPreservesLexicalParentSegments()
+    {
+        TransientTestFolder root = _environment.CreateFolder();
+        string projectDirectory = Path.Combine(root.Path, "test", "OrchardCore.Tests");
+        string contentDirectory = Path.Combine(root.Path, "src", "OrchardCore.Cms.Web");
+        Directory.CreateDirectory(projectDirectory);
+        Directory.CreateDirectory(contentDirectory);
+        File.WriteAllText(Path.Combine(contentDirectory, "appsettings.json"), string.Empty);
+
+        string include = ToPlatformPath("../../src/OrchardCore.Cms.Web/**/*.json");
+        List<string> excludes = [ToPlatformPath("../../src/OrchardCore.Cms.Web/**/ignored.json")];
+        FileMatcher optimized = new(
+            FileSystems.Default,
+            new ConcurrentDictionary<string, IReadOnlyList<string>>(),
+            FileMatcherImplementation.Optimized);
+
+        optimized.SelectDriver(projectDirectory, include, excludes).Driver
+            .ShouldBe(FileMatcherDriver.OptimizedCallback);
+        optimized.GetFiles(projectDirectory, include, excludes).FileList
+            .ShouldBe([ToPlatformPath("../../src/OrchardCore.Cms.Web/appsettings.json")]);
+    }
+
     [WindowsOnlyTheory]
     [InlineData("LICENSE.*")]
     [InlineData("LICE*.*")]
@@ -2035,15 +2058,28 @@ public sealed class FileMatcherOptimized_Tests : IDisposable
     }
 
     [Fact]
-    public void EntryCacheUsesOptimizedCallbackDriverWhenExcludesArePresent()
+    public void EntryCacheUsesOptimizedCallbackDriverAndDirectSnapshotWhenExcludesArePresent()
     {
         TransientTestFolder root = _environment.CreateFolder();
         CreateTree(root.Path);
         DirectRecordingFileSystem fileSystem = new(FileSystems.Default);
+        ConcurrentDictionary<string, IReadOnlyList<string>> entryCache = new();
         FileMatcher optimized = new(
             fileSystem,
-            new ConcurrentDictionary<string, IReadOnlyList<string>>(),
+            entryCache,
             FileMatcherImplementation.Optimized);
+        FileMatcher.GetFileSystemEntries enumerateSnapshot = GetOptimizedCallbackEnumerator(optimized);
+
+        enumerateSnapshot(
+            FileMatcher.FileSystemEntity.Files,
+            root.Path,
+            "*.cs",
+            root.Path,
+            stripProjectDirectory: false).ShouldNotBeEmpty();
+        entryCache.ShouldContainKey($"F;{root.Path}");
+        entryCache.ShouldContainKey($"D;{root.Path}");
+        entryCache.Clear();
+        fileSystem.EnumerationCalls.Clear();
 
         string[] files = optimized.GetFiles(
             root.Path,
@@ -2051,7 +2087,83 @@ public sealed class FileMatcherOptimized_Tests : IDisposable
             [ToPlatformPath("**/obj/**")]).FileList;
 
         files.ShouldNotBeEmpty();
-        fileSystem.EnumerationCalls.ShouldNotBeEmpty();
+        optimized.SelectDriver(root.Path, ToPlatformPath("**/*.cs"), [ToPlatformPath("**/obj/**")]).Driver
+            .ShouldBe(FileMatcherDriver.OptimizedCallback);
+        fileSystem.EnumerationCalls.ShouldBeEmpty();
+        entryCache.ShouldContainKey($"F;{root.Path}");
+        entryCache.ShouldContainKey($"D;{root.Path}");
+    }
+
+    [Fact]
+    public void EntryCacheLegacyTraversalDoesNotUseDirectSnapshot()
+    {
+        TransientTestFolder root = _environment.CreateFolder();
+        CreateTree(root.Path);
+        DirectRecordingFileSystem fileSystem = new(FileSystems.Default);
+        ConcurrentDictionary<string, IReadOnlyList<string>> entryCache = new();
+        FileMatcher legacy = new(
+            fileSystem,
+            entryCache,
+            FileMatcherImplementation.Legacy);
+
+        legacy.GetFiles(root.Path, "*.cs").FileList.ShouldNotBeEmpty();
+
+        fileSystem.EnumerationCalls.ShouldContain(
+            call => call.Operation == nameof(IFileSystem.EnumerateFiles));
+        entryCache.ShouldContainKey($"F;{root.Path}");
+        entryCache.ShouldNotContainKey($"D;{root.Path}");
+    }
+
+    [Fact]
+    public void EntryCacheOptimizedCallbackDoesNotSnapshotOneSidedEnumeration()
+    {
+        TransientTestFolder root = _environment.CreateFolder();
+        CreateTree(root.Path);
+        DirectRecordingFileSystem fileSystem = new(FileSystems.Default);
+        ConcurrentDictionary<string, IReadOnlyList<string>> entryCache = new();
+        FileMatcher optimized = new(
+            fileSystem,
+            entryCache,
+            FileMatcherImplementation.Optimized);
+        List<string> excludes = ["*.generated.cs"];
+
+        optimized.SelectDriver(root.Path, "*.cs", excludes).Driver
+            .ShouldBe(FileMatcherDriver.OptimizedCallback);
+        optimized.GetFiles(root.Path, "*.cs", excludes).FileList.ShouldNotBeEmpty();
+
+        fileSystem.EnumerationCalls.ShouldContain(
+            call => call.Operation == nameof(IFileSystem.EnumerateFiles));
+        entryCache.ShouldContainKey($"F;{root.Path}");
+        entryCache.ShouldNotContainKey($"D;{root.Path}");
+    }
+
+    [UnixOnlyFact]
+    public void DirectSnapshotUsesSupportedPlatformEnumerator()
+    {
+        TransientTestFolder root = _environment.CreateFolder();
+        CreateTree(root.Path);
+        DirectRecordingFileSystem fileSystem = new(FileSystems.Default);
+        ConcurrentDictionary<string, IReadOnlyList<string>> entryCache = new();
+        FileMatcher optimized = new(
+            fileSystem,
+            entryCache,
+            FileMatcherImplementation.Optimized);
+
+        GetOptimizedCallbackEnumerator(optimized)(
+            FileMatcher.FileSystemEntity.Files,
+            root.Path,
+            "*.cs",
+            root.Path,
+            stripProjectDirectory: false).ShouldNotBeEmpty();
+
+#if NETFRAMEWORK
+        fileSystem.EnumerationCalls.ShouldContain(
+            call => call.Operation == nameof(IFileSystem.EnumerateFiles));
+        entryCache.ShouldNotContainKey($"D;{root.Path}");
+#else
+        fileSystem.EnumerationCalls.ShouldBeEmpty();
+        entryCache.ShouldContainKey($"D;{root.Path}");
+#endif
     }
 
     [Fact]
@@ -2214,6 +2326,37 @@ public sealed class FileMatcherOptimized_Tests : IDisposable
             }
         }
     }
+
+    [RequiresSymbolicLinksFact]
+    public void DirectDriverRejectsNestedRecursiveSymlink()
+    {
+        TransientTestFolder project = _environment.CreateFolder();
+        string subdirectory = Path.Combine(project.Path, "sub");
+        string link = Path.Combine(subdirectory, "loop");
+        Directory.CreateDirectory(subdirectory);
+        File.WriteAllText(Path.Combine(project.Path, "root.cs"), string.Empty);
+        File.WriteAllText(Path.Combine(subdirectory, "child.cs"), string.Empty);
+
+        try
+        {
+            Directory.CreateSymbolicLink(link, project.Path);
+
+            string include = ToPlatformPath("**/*.cs");
+            FileMatcher legacy = new(FileSystems.Default, implementation: FileMatcherImplementation.Legacy);
+            FileMatcher optimized = new(FileSystems.Default, implementation: FileMatcherImplementation.Optimized);
+
+            AssertEquivalent(
+                legacy.GetFiles(project.Path, include),
+                optimized.GetFiles(project.Path, include));
+        }
+        finally
+        {
+            if (Directory.Exists(link))
+            {
+                Directory.Delete(link);
+            }
+        }
+    }
 #endif
 
     private static void CreateTree(string root)
@@ -2256,6 +2399,12 @@ public sealed class FileMatcherOptimized_Tests : IDisposable
     private static string ToPlatformPath(string path) => path
         .Replace('\\', Path.DirectorySeparatorChar)
         .Replace('/', Path.DirectorySeparatorChar);
+
+    private static FileMatcher.GetFileSystemEntries GetOptimizedCallbackEnumerator(FileMatcher matcher) =>
+        (FileMatcher.GetFileSystemEntries)typeof(FileMatcher).GetField(
+            "_getFileSystemEntriesForOptimizedCallback",
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!
+            .GetValue(matcher)!;
 
     private class RecordingFileSystem : IFileSystem
     {
