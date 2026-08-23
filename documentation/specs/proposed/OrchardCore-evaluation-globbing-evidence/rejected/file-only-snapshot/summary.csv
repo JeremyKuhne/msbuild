@@ -1,0 +1,5 @@
+"Scenario","Arm","MeanMicroseconds","AllocatedKilobytes"
+"FileOnly","T0","255.6","7.55"
+"FileOnly","Candidate","265.4","23.71"
+"OrchardOrdered","T0","5066.0","201.8"
+"OrchardOrdered","Candidate","5097.5","207.23"

@@ -1,0 +1,112 @@
+diff --git a/src/MSBuild.OrchardCore.Benchmarks/MSBuild.OrchardCore.Benchmarks.csproj b/src/MSBuild.OrchardCore.Benchmarks/MSBuild.OrchardCore.Benchmarks.csproj
+index 8b0d5f4acb49ab7f1c07dab8f97836f821329ac6..076a7ad272f5ae697eb2972276b1e1302220336f 100644
+--- a/src/MSBuild.OrchardCore.Benchmarks/MSBuild.OrchardCore.Benchmarks.csproj
++++ b/src/MSBuild.OrchardCore.Benchmarks/MSBuild.OrchardCore.Benchmarks.csproj
+@@ -13,6 +13,8 @@
+   <ItemGroup>
+     <PackageReference Include="BenchmarkDotNet" />
+     <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" />
++    <PackageReference Include="Microsoft.VisualStudio.SolutionPersistence" />
++    <PackageReference Include="NuGet.Frameworks" />
+   </ItemGroup>
+ 
+   <ItemGroup>
+diff --git a/src/MSBuild.OrchardCore.Benchmarks/Program.cs b/src/MSBuild.OrchardCore.Benchmarks/Program.cs
+index 330311dfd26bb7a4406aea1301cecfbf661b0d7a..c451531441ba3f5fe1d403cbff66c6ce06590c95 100644
+--- a/src/MSBuild.OrchardCore.Benchmarks/Program.cs
++++ b/src/MSBuild.OrchardCore.Benchmarks/Program.cs
+@@ -18,25 +18,58 @@ if (!TryParseAndRemoveStringParameter(
+         argList,
+         "--orchard-core-project",
+         out string? projectPath,
+-        out string? error))
++        out string? error) ||
++    !TryParseAndRemoveStringParameter(
++        argList,
++        "--orchard-core-repository",
++        out string? repositoryPath,
++        out error))
+ {
+     Console.Error.WriteLine(error);
+     return 1;
+ }
+ 
+-if (projectPath is null)
++if (projectPath is null && repositoryPath is null)
+ {
+-    Console.Error.WriteLine("Specify the Orchard Core project with --orchard-core-project <path>.");
++    Console.Error.WriteLine(
++        "Specify --orchard-core-project <path> or --orchard-core-repository <path>.");
+     return 1;
+ }
+ 
+-projectPath = Path.GetFullPath(projectPath);
+-if (!File.Exists(projectPath))
++if (projectPath is not null && repositoryPath is not null)
+ {
+-    Console.Error.WriteLine($"The Orchard Core project does not exist: {projectPath}");
++    Console.Error.WriteLine(
++        "Specify either --orchard-core-project or --orchard-core-repository, not both.");
+     return 1;
+ }
+ 
++string? solutionPath = null;
++if (projectPath is not null)
++{
++    projectPath = Path.GetFullPath(projectPath);
++    if (!File.Exists(projectPath))
++    {
++        Console.Error.WriteLine($"The Orchard Core project does not exist: {projectPath}");
++        return 1;
++    }
++}
++else
++{
++    repositoryPath = Path.GetFullPath(repositoryPath!);
++    if (!Directory.Exists(repositoryPath))
++    {
++        Console.Error.WriteLine($"The Orchard Core repository does not exist: {repositoryPath}");
++        return 1;
++    }
++
++    solutionPath = Path.Combine(repositoryPath, "OrchardCore.slnx");
++    if (!File.Exists(solutionPath))
++    {
++        Console.Error.WriteLine($"The Orchard Core solution does not exist: {solutionPath}");
++        return 1;
++    }
++}
++
+ string sdkPath;
+ try
+ {
+@@ -51,18 +84,22 @@ catch (InvalidOperationException exception)
+ Environment.SetEnvironmentVariable(
+     OrchardCoreEvaluationBenchmark.ProjectPathEnvironmentVariable,
+     projectPath);
++Environment.SetEnvironmentVariable(
++    OrchardCoreRepositoryEvaluationBenchmark.SolutionPathEnvironmentVariable,
++    solutionPath);
+ Environment.SetEnvironmentVariable(
+     OrchardCoreEvaluationBenchmark.DotNetSdkPathEnvironmentVariable,
+     sdkPath);
+ Environment.SetEnvironmentVariable("MSBUILDTERMINALLOGGER", "off");
+ 
+-return BenchmarkRunner
+-    .Run<OrchardCoreEvaluationBenchmark>(
+-        GetConfig(collectEtw, disableNGen, disableJitInlining),
+-        [.. argList])
+-    .HasAnyErrors()
+-        ? 1
+-        : 0;
++IConfig config = GetConfig(collectEtw, disableNGen, disableJitInlining);
++bool hasErrors = solutionPath is null
++    ? BenchmarkRunner.Run<OrchardCoreEvaluationBenchmark>(config, [.. argList]).HasAnyErrors()
++    : BenchmarkRunner.Run<OrchardCoreRepositoryEvaluationBenchmark>(config, [.. argList]).HasAnyErrors();
++
++return hasErrors
++    ? 1
++    : 0;
+ 
+ static IConfig GetConfig(bool collectEtw, bool disableNGen, bool disableJitInlining)
+ {

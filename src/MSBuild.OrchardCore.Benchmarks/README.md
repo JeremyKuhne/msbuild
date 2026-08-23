@@ -5,12 +5,14 @@ checkout as a real-world MSBuild evaluation workload.
 
 ## Repository-scale evaluation
 
-Restore the Orchard Core solution, then pass the repository root to the benchmark:
+From the MSBuild repository root, prepare the pinned Orchard Core checkout and pass its
+root to the benchmark:
 
 ```powershell
-dotnet restore C:\src\OrchardCore\OrchardCore.slnx
+.\scripts\Prepare-OrchardCoreInvestigation.ps1 -Destination ..\OrchardCore-investigation
+$orchardCore = (Resolve-Path ..\OrchardCore-investigation).Path
 .\.dotnet\dotnet.exe run --project src\MSBuild.OrchardCore.Benchmarks -c Release -- `
-  --orchard-core-repository C:\src\OrchardCore --job short
+  --orchard-core-repository $orchardCore --job short
 ```
 
 One measured operation sequentially evaluates every MSBuild project listed in
@@ -40,12 +42,12 @@ Use BenchmarkDotNet filters to select a stage or method:
 ```powershell
 # Higher-sample item-stage comparison
 .\.dotnet\dotnet.exe run --project src\MSBuild.OrchardCore.Benchmarks -c Release -- `
-  --orchard-core-repository C:\src\OrchardCore --filter "*Items*" `
+  --orchard-core-repository $orchardCore --filter "*Items*" `
   --iterationCount 10 --warmupCount 5 --launchCount 1
 
 # Fast validation of one case (global setup still validates the full matrix)
 .\.dotnet\dotnet.exe run --project src\MSBuild.OrchardCore.Benchmarks -c Release -- `
-  --orchard-core-repository C:\src\OrchardCore --job Dry `
+  --orchard-core-repository $orchardCore --job Dry `
   --filter "*ItemsSharedSdkCache*"
 ```
 
@@ -55,7 +57,7 @@ Generate an untimed canonical JSON manifest before comparing benchmark binaries:
 
 ```powershell
 .\.dotnet\dotnet.exe run --project src\MSBuild.OrchardCore.Benchmarks -c Release -- `
-  --orchard-core-repository C:\src\OrchardCore `
+  --orchard-core-repository $orchardCore `
   --semantic-manifest C:\results\orchard-full-shared.json `
   --evaluation-stage Full --sharing-policy Shared
 ```
@@ -95,7 +97,7 @@ sharing policy as the repository benchmark:
 
 ```powershell
 .\.dotnet\dotnet.exe run --project src\MSBuild.OrchardCore.Benchmarks -c Release -- `
-  --orchard-core-repository C:\src\OrchardCore `
+  --orchard-core-repository $orchardCore `
   --evaluation-profile C:\results\orchard-items-shared.md `
   --evaluation-stage Items --sharing-policy Shared
 ```
@@ -113,7 +115,7 @@ always use full evaluation with the graph's shared evaluation context. Omit
 
 ```powershell
 .\.dotnet\dotnet.exe run --project src\MSBuild.OrchardCore.Benchmarks -c Release -- `
-  --orchard-core-repository C:\src\OrchardCore `
+  --orchard-core-repository $orchardCore `
   --project-graph --evaluation-profile C:\results\orchard-graph.tsv
 ```
 
@@ -125,7 +127,7 @@ logical-core parallelism:
 
 ```powershell
 .\.dotnet\dotnet.exe run --project src\MSBuild.OrchardCore.Benchmarks -c Release -- `
-  --orchard-core-repository C:\src\OrchardCore --project-graph --job short
+  --orchard-core-repository $orchardCore --project-graph --job short
 ```
 
 BenchmarkDotNet's memory diagnoser counts only the invoking thread, so it is not used as
@@ -134,7 +136,7 @@ delta and deterministic graph topology in a fresh process instead:
 
 ```powershell
 .\.dotnet\dotnet.exe run --project src\MSBuild.OrchardCore.Benchmarks -c Release -- `
-  --orchard-core-repository C:\src\OrchardCore `
+  --orchard-core-repository $orchardCore `
   --project-graph-measurement C:\results\orchard-graph-default.json `
   --degree-of-parallelism default
 ```
@@ -146,6 +148,6 @@ project:
 
 ```powershell
 .\.dotnet\dotnet.exe run --project src\MSBuild.OrchardCore.Benchmarks -c Release -- `
-  --orchard-core-project C:\src\OrchardCore\src\OrchardCore.Cms.Web\OrchardCore.Cms.Web.csproj `
+  --orchard-core-project (Join-Path $orchardCore "src\OrchardCore.Cms.Web\OrchardCore.Cms.Web.csproj") `
   --job short
 ```

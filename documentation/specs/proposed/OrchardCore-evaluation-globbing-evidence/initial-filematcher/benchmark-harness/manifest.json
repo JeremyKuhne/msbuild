@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "c9b4d14f91c2de6d46f9e43f31603dc93b8aab4d",
+  "sourceRepository": "N:\\repos\\msbuild",
+  "files": [
+    {
+      "path": "src/MSBuild.OrchardCore.Benchmarks/MSBuild.OrchardCore.Benchmarks.csproj",
+      "classification": "tracked-modified",
+      "bytes": 881,
+      "sha256": "4077D64DBA18F26B0ECFC3467FD5D2247FF39613A8E272BEFE8BCDC6D2EAC6EB"
+    },
+    {
+      "path": "src/MSBuild.OrchardCore.Benchmarks/Program.cs",
+      "classification": "tracked-modified",
+      "bytes": 5405,
+      "sha256": "AC17B78C6EC80DE4475008E264BD62742925615AA7193202EE7C78138AE7B270"
+    },
+    {
+      "path": "src/MSBuild.OrchardCore.Benchmarks/OrchardCoreRepositoryEvaluationBenchmark.cs",
+      "classification": "untracked",
+      "bytes": 9473,
+      "sha256": "D293EEAF17946EF11D27D4EFAF2BDA77CA1B259CE86BA54BE5B4E736C86DA9AB"
+    },
+    {
+      "path": "src/MSBuild.OrchardCore.Benchmarks/README.md",
+      "classification": "untracked",
+      "bytes": 2582,
+      "sha256": "6D749E019F3C25D727095F204E24D40770C91632435F36F3AAC3E7329F32CD09"
+    }
+  ],
+  "trackedPatch": {
+    "path": "tracked.patch",
+    "bytes": 4109,
+    "sha256": "D4A06995BFEAC0CF0618DCF5CD49BA601BB78C7625DFD18612ABE1F4DA0439E9"
+  },
+  "restore": [
+    "git switch --detach c9b4d14f91c2de6d46f9e43f31603dc93b8aab4d git apply --index tracked.patch copy source-snapshot contents over the repository root verify every file against this manifest"
+  ]
+}
