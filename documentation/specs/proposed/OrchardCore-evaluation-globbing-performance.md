@@ -194,7 +194,7 @@ attributed to a candidate unless the targeted frame or phase also moves.
 
 The complete small initial archive and compact final evidence are committed under
 [OrchardCore-evaluation-globbing-evidence](./OrchardCore-evaluation-globbing-evidence/README.md).
-The original small archive was copied byte-for-byte from this historical path:
+The original small archive's file contents were copied from this historical path:
 
 ```text
 N:\repos\msbuild-perf-reports\2026-08-20-orchardcore-filematcher

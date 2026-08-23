@@ -9,7 +9,7 @@ and the [report](../OrchardCore-evaluation-globbing-performance.md) for interpre
 
 | Directory | Contents |
 | --- | --- |
-| `initial-filematcher` | Byte-for-byte copy of the complete 30-file, 78,967-byte initial archive, including its original `SHA256SUMS.csv` |
+| `initial-filematcher` | Content-preserving copy of the complete 30-file, 78,967-byte initial archive, including its original `SHA256SUMS.csv` |
 | `retained/mechanism` | Final T0/candidate BenchmarkDotNet reports in both measured orders |
 | `retained/product` | Six sequential and two graph workloads, each with 16 alternating measurements |
 | `controls/coordinated-first-miss` | Rejected lock/no-lock mechanism reports and the 10-pair Shared-policy control |
@@ -24,6 +24,12 @@ the original per-process JSON: they preserve arm, pair, order, elapsed ticks and
 milliseconds, process-wide allocation, checksum, node/edge counts, source filename,
 topology length, and SHA-256 of the UTF-8 topology JSON. The repeated 30,036,476-character
 topology value is not embedded in every row.
+
+The historical benchmark project is stored as
+`MSBuild.OrchardCore.Benchmarks.csproj.snapshot`. Its bytes are unchanged, but the
+non-project suffix prevents BenchmarkDotNet from discovering it as a second live project.
+Rename it back to `.csproj` only when reconstructing the historical source snapshot
+outside this repository.
 
 `SHA256SUMS.csv` hashes every file in this compact directory except itself. Regenerate it
 only when intentionally changing the evidence set.
