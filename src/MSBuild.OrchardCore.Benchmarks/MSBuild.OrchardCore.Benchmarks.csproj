@@ -13,9 +13,12 @@
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" />
     <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" />
+    <PackageReference Include="Microsoft.VisualStudio.SolutionPersistence" />
+    <PackageReference Include="NuGet.Frameworks" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Framework\Microsoft.Build.Framework.csproj" />
     <ProjectReference Include="..\MSBuild\MSBuild.csproj" />
   </ItemGroup>
 
