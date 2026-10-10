@@ -130,14 +130,14 @@ namespace Microsoft.Build.Tasks
         {
             if (!NativeMethodsShared.IsWindows)
             {
-                Log.LogErrorWithCodeFromResources("General.TaskRequiresWindows", nameof(GetInstalledSDKLocations));
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_TaskRequiresWindows, nameof(GetInstalledSDKLocations));
                 return false;
             }
 
             // TargetPlatformVersion and TargetPlatformIdentifier are requried to correctly look for SDKs.
             if (String.IsNullOrEmpty(TargetPlatformVersion) || String.IsNullOrEmpty(TargetPlatformIdentifier))
             {
-                Log.LogErrorWithCodeFromResources("GetInstalledSDKs.TargetPlatformInformationMissing");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetInstalledSDKs_TargetPlatformInformationMissing);
                 return false;
             }
 
@@ -149,7 +149,7 @@ namespace Microsoft.Build.Tasks
 
             try
             {
-                Log.LogMessageFromResources("GetInstalledSDKs.SearchingForSDKs", _targetPlatformIdentifier, _targetPlatformVersion);
+                Log.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetInstalledSDKs_SearchingForSDKs, _targetPlatformIdentifier, _targetPlatformVersion);
 
                 Version platformVersion = Version.Parse(TargetPlatformVersion);
                 installedSDKs = ToolLocationHelper.GetPlatformExtensionSDKLocationsAndVersions(
@@ -159,20 +159,20 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e) when (!ExceptionHandling.IsCriticalException(e))
             {
-                Log.LogErrorWithCodeFromResources("GetInstalledSDKs.CouldNotGetSDKList", e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetInstalledSDKs_CouldNotGetSDKList, e.Message);
             }
 
             var outputItems = new List<ITaskItem>();
 
             if (installedSDKs?.Count > 0)
             {
-                Log.LogMessageFromResources(MessageImportance.Low, "GetInstalledSDKs.FoundSDKs", installedSDKs.Count);
-                Log.LogMessageFromResources(MessageImportance.Low, "GetInstalledSDKs.ListInstalledSDKs");
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetInstalledSDKs_FoundSDKs, installedSDKs.Count);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetInstalledSDKs_ListInstalledSDKs);
 
                 foreach (KeyValuePair<string, Tuple<string, string>> sdk in installedSDKs)
                 {
-                    string sdkInfo = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("GetInstalledSDKs.SDKNameAndLocation", sdk.Key, sdk.Value.Item1);
-                    Log.LogMessageFromResources(MessageImportance.Low, "ResolveAssemblyReference.FourSpaceIndent", sdkInfo);
+                    string sdkInfo = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetInstalledSDKs_SDKNameAndLocation, sdk.Key, sdk.Value.Item1);
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_FourSpaceIndent, sdkInfo);
 
                     var item = new TaskItem(sdk.Value.Item1);
                     item.SetMetadata("SDKName", sdk.Key);
@@ -190,7 +190,7 @@ namespace Microsoft.Build.Tasks
             {
                 if (WarnWhenNoSDKsFound)
                 {
-                    Log.LogWarningWithCodeFromResources("GetInstalledSDKs.NoSDksFound", TargetPlatformIdentifier, TargetPlatformVersion);
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetInstalledSDKs_NoSDksFound, TargetPlatformIdentifier, TargetPlatformVersion);
                 }
             }
 

@@ -29,9 +29,9 @@ namespace Microsoft.Build.Exceptions
         /// Constructs a standard BuildAbortedException.
         /// </summary>
         public BuildAbortedException()
-            : base(ResourceUtilities.GetResourceString("BuildAborted"))
+            : base(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildAborted))
         {
-            ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, "BuildAborted");
+            ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildAborted);
 
             ErrorCode = errorCode;
         }
@@ -40,9 +40,9 @@ namespace Microsoft.Build.Exceptions
         /// Constructs a BuildAbortedException with an additional message attached.
         /// </summary>
         public BuildAbortedException(string message)
-            : base(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("BuildAbortedWithMessage", message))
+            : base(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildAbortedWithMessage, message))
         {
-            ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, "BuildAbortedWithMessage", message);
+            ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildAbortedWithMessage, message);
 
             ErrorCode = errorCode;
         }
@@ -63,12 +63,12 @@ namespace Microsoft.Build.Exceptions
             : base(
                 calledFromDeserialization
                     ? message
-                    : ResourceUtilities.FormatResourceStringStripCodeAndKeyword("BuildAbortedWithMessage", message),
+                    : ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildAbortedWithMessage, message),
                 innerException)
         {
             if (!calledFromDeserialization)
             {
-                ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, "BuildAbortedWithMessage", message);
+                ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildAbortedWithMessage, message);
 
                 ErrorCode = errorCode;
             }

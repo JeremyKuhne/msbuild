@@ -147,7 +147,7 @@ namespace Microsoft.Build.Tasks
             if (pAttrs == null)
             {
                 throw new COMException(
-                    ResourceUtilities.GetResourceString("ResolveComReference.CannotGetTypeLibAttrForTypeLib"));
+                    ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_CannotGetTypeLibAttrForTypeLib));
             }
 
             try
@@ -175,7 +175,7 @@ namespace Microsoft.Build.Tasks
             if (pAttrs == null)
             {
                 throw new COMException(
-                    ResourceUtilities.GetResourceString("ResolveComReference.CannotRetrieveTypeInformation"));
+                    ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_CannotRetrieveTypeInformation));
             }
 
             try
@@ -203,7 +203,7 @@ namespace Microsoft.Build.Tasks
             if (pVarDesc == null)
             {
                 throw new COMException(
-                    ResourceUtilities.GetResourceString("ResolveComReference.CannotRetrieveTypeInformation"));
+                    ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_CannotRetrieveTypeInformation));
             }
 
             varDesc = pVarDesc;
@@ -224,7 +224,7 @@ namespace Microsoft.Build.Tasks
             if (pFuncDesc == null)
             {
                 throw new COMException(
-                    ResourceUtilities.GetResourceString("ResolveComReference.CannotRetrieveTypeInformation"));
+                    ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_CannotRetrieveTypeInformation));
             }
 
             funcDesc = pFuncDesc;
@@ -301,7 +301,7 @@ namespace Microsoft.Build.Tasks
                 // If anything fails log a warning and just return the type library name.
                 if (!silent)
                 {
-                    log.LogWarningWithCodeFromResources("ResolveComReference.CannotAccessTypeLibName", typeLibId, ex.Message);
+                    log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_CannotAccessTypeLibName, typeLibId, ex.Message);
                 }
                 typeLibName = GetTypeLibNameFromDocumentation(typeLib);
                 return true;
@@ -324,13 +324,13 @@ namespace Microsoft.Build.Tasks
             {
                 if (!silent)
                 {
-                    log.LogWarningWithCodeFromResources("ResolveComReference.CannotLoadTypeLib", typeLibAttr.guid, typeLibAttr.wMajorVerNum, typeLibAttr.wMinorVerNum, Marshal.GetExceptionForHR((int)hr)?.Message);
+                    log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_CannotLoadTypeLib, typeLibAttr.guid, typeLibAttr.wMajorVerNum, typeLibAttr.wMinorVerNum, Marshal.GetExceptionForHR((int)hr)?.Message);
                 }
 
                 return false;
             }
 
-            string typeLibId = log.FormatResourceString("ResolveComReference.TypeLibAttrId", typeLibAttr.guid.ToString(), typeLibAttr.wMajorVerNum, typeLibAttr.wMinorVerNum);
+            string typeLibId = log.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_TypeLibAttrId, typeLibAttr.guid.ToString(), typeLibAttr.wMajorVerNum, typeLibAttr.wMinorVerNum);
 
             return GetTypeLibNameForITypeLib(log, silent, typeLib, typeLibId, out typeLibName);
         }
@@ -475,7 +475,7 @@ namespace Microsoft.Build.Tasks
             {
                 if (!silent)
                 {
-                    log.LogWarningWithCodeFromResources("ResolveComReference.CannotGetPathForTypeLib", typeLibAttr.guid, typeLibAttr.wMajorVerNum, typeLibAttr.wMinorVerNum, ex.Message);
+                    log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_CannotGetPathForTypeLib, typeLibAttr.guid, typeLibAttr.wMajorVerNum, typeLibAttr.wMinorVerNum, ex.Message);
                 }
 
                 return false;
@@ -498,7 +498,7 @@ namespace Microsoft.Build.Tasks
 
             if (!silent)
             {
-                log.LogWarningWithCodeFromResources("ResolveComReference.CannotGetPathForTypeLib", typeLibAttr.guid, typeLibAttr.wMajorVerNum, typeLibAttr.wMinorVerNum, "");
+                log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_CannotGetPathForTypeLib, typeLibAttr.guid, typeLibAttr.wMajorVerNum, typeLibAttr.wMinorVerNum, "");
             }
 
             return false;
@@ -537,7 +537,7 @@ namespace Microsoft.Build.Tasks
                         if (!silent)
                         {
                             // it's not registered. Don't change the original typelib then.
-                            log.LogWarningWithCodeFromResources("ResolveComReference.FailedToRemapAdoTypeLib", typeLibAttr.wMajorVerNum, typeLibAttr.wMinorVerNum, Ado27ErrorMessage);
+                            log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_FailedToRemapAdoTypeLib, typeLibAttr.wMajorVerNum, typeLibAttr.wMinorVerNum, Ado27ErrorMessage);
                         }
 
                         return false;

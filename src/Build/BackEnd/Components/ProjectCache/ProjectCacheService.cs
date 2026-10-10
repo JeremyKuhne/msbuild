@@ -262,7 +262,7 @@ namespace Microsoft.Build.ProjectCache
             // In practice, the underlying type of the ICollection is a List<string> so attempt to cast first
             IReadOnlyList<string> requestedTargetsList = requestedTargets as List<string> ?? requestedTargets.ToList();
 
-            _loggingService.LogComment(buildEventContext, MessageImportance.High, "LoadingProjectCachePlugin", pluginTypeName);
+            _loggingService.LogComment(buildEventContext, MessageImportance.High, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@LoadingProjectCachePlugin, pluginTypeName);
             MSBuildEventSource.Log.ProjectCacheBeginBuildStart(pluginTypeName);
 
             try
@@ -601,11 +601,11 @@ namespace Microsoft.Build.ProjectCache
                 : null;
             if (string.IsNullOrEmpty(targetNames))
             {
-                _loggingService.LogComment(buildEventContext, MessageImportance.Normal, "ProjectCacheQueryStartedWithDefaultTargets", buildRequest.ProjectFullPath);
+                _loggingService.LogComment(buildEventContext, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectCacheQueryStartedWithDefaultTargets, buildRequest.ProjectFullPath);
             }
             else
             {
-                _loggingService.LogComment(buildEventContext, MessageImportance.Normal, "ProjectCacheQueryStartedWithTargetNames", buildRequest.ProjectFullPath, targetNames);
+                _loggingService.LogComment(buildEventContext, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectCacheQueryStartedWithTargetNames, buildRequest.ProjectFullPath, targetNames);
             }
 
             HashSet<ProjectCacheDescriptor> queriedCaches = new(ProjectCacheDescriptorEqualityComparer.Instance);
@@ -678,40 +678,40 @@ namespace Microsoft.Build.ProjectCache
                 case CacheResultType.CacheHit:
                     if (string.IsNullOrEmpty(targetNames))
                     {
-                        _loggingService.LogComment(buildEventContext, MessageImportance.Normal, "ProjectCacheHitWithDefaultTargets", buildRequest.ProjectFullPath);
+                        _loggingService.LogComment(buildEventContext, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectCacheHitWithDefaultTargets, buildRequest.ProjectFullPath);
                     }
                     else
                     {
-                        _loggingService.LogComment(buildEventContext, MessageImportance.Normal, "ProjectCacheHitWithTargetNames", buildRequest.ProjectFullPath, targetNames);
+                        _loggingService.LogComment(buildEventContext, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectCacheHitWithTargetNames, buildRequest.ProjectFullPath, targetNames);
                     }
 
                     // Similar to CopyFilesToOutputDirectory from Microsoft.Common.CurrentVersion.targets, so that progress can be seen.
                     // TODO: This should be indented by the console logger. That requires making these log events structured.
                     if (!buildRequestConfiguration.IsTraversal)
                     {
-                        _loggingService.LogComment(buildEventContext, MessageImportance.High, "ProjectCacheHitWithOutputs", buildRequest.ProjectInstance!.GetPropertyValue(ReservedPropertyNames.projectName));
+                        _loggingService.LogComment(buildEventContext, MessageImportance.High, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectCacheHitWithOutputs, buildRequest.ProjectInstance!.GetPropertyValue(ReservedPropertyNames.projectName));
                     }
 
                     break;
                 case CacheResultType.CacheMiss:
                     if (string.IsNullOrEmpty(targetNames))
                     {
-                        _loggingService.LogComment(buildEventContext, MessageImportance.Normal, "ProjectCacheMissWithDefaultTargets", buildRequest.ProjectFullPath);
+                        _loggingService.LogComment(buildEventContext, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectCacheMissWithDefaultTargets, buildRequest.ProjectFullPath);
                     }
                     else
                     {
-                        _loggingService.LogComment(buildEventContext, MessageImportance.Normal, "ProjectCacheMissWithTargetNames", buildRequest.ProjectFullPath, targetNames);
+                        _loggingService.LogComment(buildEventContext, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectCacheMissWithTargetNames, buildRequest.ProjectFullPath, targetNames);
                     }
 
                     break;
                 case CacheResultType.CacheNotApplicable:
                     if (string.IsNullOrEmpty(targetNames))
                     {
-                        _loggingService.LogComment(buildEventContext, MessageImportance.Normal, "ProjectCacheNotApplicableWithDefaultTargets", buildRequest.ProjectFullPath);
+                        _loggingService.LogComment(buildEventContext, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectCacheNotApplicableWithDefaultTargets, buildRequest.ProjectFullPath);
                     }
                     else
                     {
-                        _loggingService.LogComment(buildEventContext, MessageImportance.Normal, "ProjectCacheNotApplicableWithTargetNames", buildRequest.ProjectFullPath, targetNames);
+                        _loggingService.LogComment(buildEventContext, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectCacheNotApplicableWithTargetNames, buildRequest.ProjectFullPath, targetNames);
                     }
 
                     break;
@@ -964,7 +964,7 @@ namespace Microsoft.Build.ProjectCache
                 buildEventContext,
                 buildEventFileInfo);
 
-            _loggingService.LogComment(buildEventContext, MessageImportance.Low, "ProjectCacheEndBuild");
+            _loggingService.LogComment(buildEventContext, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectCacheEndBuild);
 
             Task[] cleanupTasks = new Task[_projectCachePlugins.Count];
             int idx = 0;

@@ -64,7 +64,7 @@ namespace Microsoft.Build.Evaluation
             {
                 ProjectErrorUtilities.ThrowInvalidProject(
                     state.ElementLocation,
-                    "ConditionNotBooleanDetail",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ConditionNotBooleanDetail,
                     state.Condition,
                     GetExpandedValue(state));
             }

@@ -153,6 +153,21 @@ namespace Microsoft.Build.Exceptions
             Throw(null, resourceName, args);
         }
 
+        internal static void Throw(
+            global::Microsoft.Build.Framework.Resources.StringResource resourceName,
+            params string[] args)
+            => Throw(null, resourceName, args);
+
+        internal static void Throw(
+            Exception innerException,
+            global::Microsoft.Build.Framework.Resources.StringResource resourceName,
+            params string[] args)
+        {
+            ResourceUtilities.VerifyResourceStringExists(resourceName);
+            string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, resourceName, (object[])args);
+            throw new InvalidToolsetDefinitionException(message, errorCode, innerException);
+        }
+
         /// <summary>
         /// Throws an InvalidToolsetDefinitionException including a specified inner exception,
         /// which may be interesting to hosts.

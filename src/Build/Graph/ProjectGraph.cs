@@ -706,7 +706,7 @@ namespace Microsoft.Build.Graph
                                 ProjectErrorUtilities.VerifyThrowInvalidProject(
                                     projectTargetName.Length > 0 && !projectTargetName.Equals("Build", StringComparison.OrdinalIgnoreCase),
                                     ElementLocation.Create(Solution.FullPath),
-                                    "TargetDoesNotExist",
+                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TargetDoesNotExist,
                                     targetName);
 
                                 ProjectGraphNode node = GetNodeForProject(project);
@@ -821,7 +821,7 @@ namespace Microsoft.Build.Graph
 
                 if (targetNames.Any(targetName => string.IsNullOrWhiteSpace(targetName)))
                 {
-                    throw new ArgumentException(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("OM_TargetNameNullOrEmpty", nameof(GetTargetLists)));
+                    throw new ArgumentException(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_TargetNameNullOrEmpty, nameof(GetTargetLists)));
                 }
             }
         }

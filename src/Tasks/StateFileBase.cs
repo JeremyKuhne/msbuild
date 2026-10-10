@@ -82,7 +82,7 @@ namespace Microsoft.Build.Tasks
             {
                 // Not being able to serialize the cache is not an error, but we let the user know anyway.
                 // Don't want to hold up processing just because we couldn't read the file.
-                log.LogWarningWithCodeFromResources("General.CouldNotWriteStateFile", stateFile.OriginalValue, e.Message);
+                log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_CouldNotWriteStateFile, stateFile.OriginalValue, e.Message);
             }
         }
 
@@ -127,7 +127,7 @@ namespace Microsoft.Build.Tasks
                         // For the latter case, internals may be unexpectedly null.
                         if (version != CurrentSerializationVersion)
                         {
-                            log.LogMessageFromResources("General.CouldNotReadStateFileMessage", stateFile.OriginalValue, log.FormatResourceString("General.IncompatibleStateFileType"));
+                            log.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_CouldNotReadStateFileMessage, stateFile.OriginalValue, log.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_IncompatibleStateFileType));
                             return null;
                         }
 
@@ -143,8 +143,8 @@ namespace Microsoft.Build.Tasks
 
                         if (retVal == null)
                         {
-                            log.LogMessageFromResources("General.CouldNotReadStateFileMessage", stateFile.OriginalValue,
-                                log.FormatResourceString("General.IncompatibleStateFileType"));
+                            log.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_CouldNotReadStateFileMessage, stateFile.OriginalValue,
+                                log.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_IncompatibleStateFileType));
                         }
                     }
                 }
@@ -155,7 +155,7 @@ namespace Microsoft.Build.Tasks
                 // any exception imaginable.  Catch them all here.
                 // Not being able to deserialize the cache is not an error, but we let the user know anyway.
                 // Don't want to hold up processing just because we couldn't read the file.
-                log.LogMessageFromResources("General.CouldNotReadStateFileMessage", stateFile.OriginalValue, e.Message);
+                log.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_CouldNotReadStateFileMessage, stateFile.OriginalValue, e.Message);
             }
 
             return retVal;
@@ -181,7 +181,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
             {
-                log.LogWarningWithCodeFromResources("General.CouldNotDeleteStateFile", stateFile, e.Message);
+                log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_CouldNotDeleteStateFile, stateFile, e.Message);
             }
         }
     }

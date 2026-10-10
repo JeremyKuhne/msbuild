@@ -79,7 +79,7 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (ArgumentException)
                 {
-                    Log.LogErrorWithCodeFromResources("General.InvalidValue", "FormatType", "FormatVersion");
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidValue, "FormatType", "FormatVersion");
                     return false;
                 }
             }

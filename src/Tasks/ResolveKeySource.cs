@@ -104,7 +104,7 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (ArgumentException ex)
                 {
-                    Log.LogErrorWithCodeFromResources("ResolveKeySource.InvalidKeyName", KeyFile, ex.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveKeySource_InvalidKeyName, KeyFile, ex.Message);
                     pfxSuccess = false;
                 }
                 if (pfxSuccess)
@@ -146,8 +146,8 @@ namespace Microsoft.Build.Tasks
                             }
                             else
                             {
-                                Log.LogErrorWithCodeFromResources("ResolveKeySource.KeyFileForSignAssemblyNotImported", KeyFile, hashedContainerName);
-                                Log.LogErrorWithCodeFromResources("ResolveKeySource.KeyImportError", KeyFile);
+                                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveKeySource_KeyFileForSignAssemblyNotImported, KeyFile, hashedContainerName);
+                                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveKeySource_KeyImportError, KeyFile);
                             }
                             if (pfxSuccess)
                             {
@@ -156,14 +156,14 @@ namespace Microsoft.Build.Tasks
                         }
                         catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                         {
-                            Log.LogErrorWithCodeFromResources("ResolveKeySource.KeyMD5SumError", KeyFile, e.Message);
+                            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveKeySource_KeyMD5SumError, KeyFile, e.Message);
                         }
                         finally
                         {
                             fs?.Close();
                         }
 #else
-                        Log.LogErrorWithCodeFromResources("ResolveKeySource.PfxUnsupported");
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveKeySource_PfxUnsupported);
                         pfxSuccess = false;
 #endif
                     }
@@ -202,7 +202,7 @@ namespace Microsoft.Build.Tasks
                 }
                 if (!certSuccess)
                 {
-                    Log.LogWarningWithCodeFromResources("ResolveKeySource.ResolvedThumbprintEmpty");
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveKeySource_ResolvedThumbprintEmpty);
                 }
             }
 
@@ -213,7 +213,7 @@ namespace Microsoft.Build.Tasks
                 // if the cert isn't on disk, we can't import it
                 if (!FileSystems.Default.FileExists(certificateFilePath))
                 {
-                    Log.LogErrorWithCodeFromResources("ResolveKeySource.CertificateNotInStore");
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveKeySource_CertificateNotInStore);
                 }
                 else
                 {
@@ -243,11 +243,11 @@ namespace Microsoft.Build.Tasks
                         }
                         if (!imported && ShowImportDialogDespitePreviousFailures)
                         {
-                            Log.LogErrorWithCodeFromResources("ResolveKeySource.KeyFileForManifestNotImported", KeyFile);
+                            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveKeySource_KeyFileForManifestNotImported, KeyFile);
                         }
                         if (!certSuccess)
                         {
-                            Log.LogErrorWithCodeFromResources("ResolveKeySource.KeyImportError", CertificateFile);
+                            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveKeySource_KeyImportError, CertificateFile);
                         }
                     }
                     else
@@ -263,7 +263,7 @@ namespace Microsoft.Build.Tasks
                         }
                         catch (CryptographicException)
                         {
-                            Log.LogErrorWithCodeFromResources("ResolveKeySource.KeyImportError", CertificateFile);
+                            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveKeySource_KeyImportError, CertificateFile);
                         }
                         finally
                         {
@@ -272,13 +272,13 @@ namespace Microsoft.Build.Tasks
                     }
                 }
 #else
-                Log.LogErrorWithCodeFromResources("ResolveKeySource.PfxUnsupported");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveKeySource_PfxUnsupported);
 #endif
             }
             else if (!certInStore && !string.IsNullOrEmpty(CertificateFile) && !string.IsNullOrEmpty(CertificateThumbprint))
             {
                 // no file and not in store, error out
-                Log.LogErrorWithCodeFromResources("ResolveKeySource.CertificateNotInStore");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveKeySource_CertificateNotInStore);
             }
             else
             {

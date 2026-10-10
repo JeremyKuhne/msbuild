@@ -148,7 +148,7 @@ namespace Microsoft.Build.Tasks.Xaml
             {
                 if (String.IsNullOrEmpty(ToolExe))
                 {
-                    Log.LogError(ResourceUtilities.GetResourceString("Xaml.RuleMissingToolName"));
+                    Log.LogError(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Xaml_RuleMissingToolName));
                     return false;
                 }
             }
@@ -293,15 +293,15 @@ namespace Microsoft.Build.Tasks.Xaml
             // We don't want to use ToolTask's implementation because it doesn't report the command line that failed.
             if (ExitCode == NativeMethods.SE_ERR_ACCESSDENIED)
             {
-                _logPrivate.LogErrorWithCodeFromResources("Xaml.CommandFailedAccessDenied", CommandLine, ExitCode);
+                _logPrivate.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Xaml_CommandFailedAccessDenied, CommandLine, ExitCode);
             }
             else if (ExitCodeOverriddenToIndicateErrors)
             {
-                _logPrivate.LogErrorWithCodeFromResources("Xaml.CommandExitedZeroWithErrors", CommandLine);
+                _logPrivate.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Xaml_CommandExitedZeroWithErrors, CommandLine);
             }
             else
             {
-                _logPrivate.LogErrorWithCodeFromResources("Xaml.CommandFailed", CommandLine, ExitCode);
+                _logPrivate.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Xaml_CommandFailed, CommandLine, ExitCode);
             }
 
             return false;
@@ -334,7 +334,7 @@ namespace Microsoft.Build.Tasks.Xaml
         {
             if (value < min || value > max)
             {
-                _logPrivate.LogErrorWithCodeFromResources("Xaml.ArgumentOutOfRange", switchName, value);
+                _logPrivate.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Xaml_ArgumentOutOfRange, switchName, value);
                 return false;
             }
 
@@ -358,7 +358,7 @@ namespace Microsoft.Build.Tasks.Xaml
                     }
                 }
 
-                _logPrivate.LogErrorWithCodeFromResources("Xaml.ArgumentOutOfRange", propertyName, value);
+                _logPrivate.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Xaml_ArgumentOutOfRange, propertyName, value);
             }
 
             return String.Empty;
@@ -381,7 +381,7 @@ namespace Microsoft.Build.Tasks.Xaml
                     }
                 }
 
-                _logPrivate.LogErrorWithCodeFromResources("Xaml.ArgumentOutOfRange", propertyName, value);
+                _logPrivate.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Xaml_ArgumentOutOfRange, propertyName, value);
             }
 
             return -1;
@@ -404,8 +404,8 @@ namespace Microsoft.Build.Tasks.Xaml
                     {
                         if (isRequired)
                         {
-                            _logPrivate.LogErrorWithCodeFromResources("Xaml.MissingRequiredArgument", propertyName, argName);
-                            throw new ArgumentException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("Xaml.MissingRequiredArgument", propertyName, argName));
+                            _logPrivate.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Xaml_MissingRequiredArgument, propertyName, argName);
+                            throw new ArgumentException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Xaml_MissingRequiredArgument, propertyName, argName));
                         }
                     }
                     else

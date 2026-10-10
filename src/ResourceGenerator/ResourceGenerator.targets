@@ -1,0 +1,22 @@
+<Project>
+  <ItemGroup>
+    <ProjectReference Include="$(MSBuildThisFileDirectory)ResourceGenerator.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="false"
+                      PrivateAssets="all" />
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="StringResourceClass" />
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="LogicalName" />
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="StringResourceFormatMethods" />
+  </ItemGroup>
+  <Target Name="_AddIndexedStringResources"
+          DependsOnTargets="PrepareResourceNames"
+          BeforeTargets="GenerateMSBuildEditorConfigFileCore;CoreCompile">
+    <ItemGroup>
+      <_IndexedStringResx Include="@(EmbeddedResource)"
+                          Condition="'%(EmbeddedResource.StringResourceClass)' != ''
+                                     And '%(EmbeddedResource.Culture)' == ''
+                                     And '%(EmbeddedResource.WithCulture)' != 'true'" />
+      <AdditionalFiles Remove="@(_IndexedStringResx)" />
+      <AdditionalFiles Include="@(_IndexedStringResx)" />
+    </ItemGroup>
+  </Target>
+</Project>

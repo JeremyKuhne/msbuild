@@ -520,7 +520,7 @@ public sealed partial class TerminalLogger : INodeLogger
         }
         else
         {
-            string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string? errorCode, out string? helpKeyword, "InvalidVerbosity", parameterValue);
+            string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string? errorCode, out string? helpKeyword, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidVerbosity, parameterValue);
             throw new LoggerException(message, null, errorCode, helpKeyword);
         }
     }
@@ -616,11 +616,11 @@ public sealed partial class TerminalLogger : INodeLogger
                     bool colorizePassed = passed > 0 && _buildErrorsCount == 0 && failed == 0;
                     bool colorizeSkipped = skipped > 0 && skipped == total && _buildErrorsCount == 0 && failed == 0;
 
-                    string summaryAndTotalText = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("TestSummary_BannerAndTotal", total);
-                    string failedText = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("TestSummary_Failed", failed);
-                    string passedText = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("TestSummary_Succeeded", passed);
-                    string skippedText = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("TestSummary_Skipped", skipped);
-                    string durationText = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("TestSummary_Duration", testDuration);
+                    string summaryAndTotalText = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TestSummary_BannerAndTotal, total);
+                    string failedText = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TestSummary_Failed, failed);
+                    string passedText = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TestSummary_Succeeded, passed);
+                    string skippedText = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TestSummary_Skipped, skipped);
+                    string durationText = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TestSummary_Duration, testDuration);
 
                     failedText = colorizeFailed ? AnsiCodes.Colorize(failedText.ToString(), TerminalColor.Red) : failedText;
                     passedText = colorizePassed ? AnsiCodes.Colorize(passedText.ToString(), TerminalColor.Green) : passedText;
@@ -651,13 +651,13 @@ public sealed partial class TerminalLogger : INodeLogger
 
                 if (_restoreFailed)
                 {
-                    Terminal.WriteLine(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("RestoreCompleteWithMessage",
+                    Terminal.WriteLine(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RestoreCompleteWithMessage,
                         buildResult,
                         duration));
                 }
                 else
                 {
-                    Terminal.WriteLine(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("BuildFinished",
+                    Terminal.WriteLine(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildFinished,
                         buildResult,
                         duration));
                 }
@@ -691,7 +691,7 @@ public sealed partial class TerminalLogger : INodeLogger
             return;
         }
 
-        Terminal.WriteLine(ResourceUtilities.GetResourceString("BuildSummary"));
+        Terminal.WriteLine(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildSummary));
 
         foreach (TerminalProjectInfo project in _projects.Values.Where(p => p.HasErrorsOrWarnings))
         {
@@ -832,13 +832,13 @@ public sealed partial class TerminalLogger : INodeLogger
                         {
                             if (project.HasErrorsOrWarnings)
                             {
-                                Terminal.WriteLine(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("RestoreCompleteWithMessage",
+                                Terminal.WriteLine(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RestoreCompleteWithMessage,
                                     buildResult,
                                     duration));
                             }
                             else
                             {
-                                Terminal.WriteLine(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("RestoreComplete",
+                                Terminal.WriteLine(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RestoreComplete,
                                     duration));
                             }
                         }
@@ -865,7 +865,7 @@ public sealed partial class TerminalLogger : INodeLogger
                         if (outputPath is { } outputPathSpan)
                         {
                             (string? projectDisplayPath, var urlLink) = DetermineOutputPathToRender(outputPathSpan, _initialWorkingDirectory.AsMemory(), project.SourceRoot);
-                            Terminal.WriteLine(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("ProjectFinished_OutputPath", CreateLink(urlLink, projectDisplayPath.ToString())));
+                            Terminal.WriteLine(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectFinished_OutputPath, CreateLink(urlLink, projectDisplayPath.ToString())));
                         }
                         else
                         {
@@ -1004,50 +1004,50 @@ public sealed partial class TerminalLogger : INodeLogger
 
         return (project.TargetFramework, project.RuntimeIdentifier, project.IsTestProject) switch
         {
-            (string tfm, null, true) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("TestProjectFinished_WithTF",
+            (string tfm, null, true) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TestProjectFinished_WithTF,
                 Indentation,
                 projectFile,
                 AnsiCodes.Colorize(tfm, TargetFrameworkColor),
                 buildResult,
                 duration),
-            (string tfm, null, false) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("ProjectFinished_WithTF",
+            (string tfm, null, false) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectFinished_WithTF,
                 Indentation,
                 projectFile,
                 AnsiCodes.Colorize(tfm, TargetFrameworkColor),
                 buildResult,
                 duration),
-            (null, string rid, true) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("TestProjectFinished_WithTF",
+            (null, string rid, true) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TestProjectFinished_WithTF,
                 Indentation,
                 projectFile,
                 AnsiCodes.Colorize(rid, RuntimeIdentifierColor),
                 buildResult,
                 duration),
-            (null, string rid, false) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("ProjectFinished_WithTF",
+            (null, string rid, false) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectFinished_WithTF,
                 Indentation,
                 projectFile,
                 AnsiCodes.Colorize(rid, RuntimeIdentifierColor),
                 buildResult,
                 duration),
-            (string tfm, string rid, true) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("TestProjectFinished_WithTFAndRID",
-                Indentation,
-                projectFile,
-                AnsiCodes.Colorize(tfm, TargetFrameworkColor),
-                AnsiCodes.Colorize(rid, RuntimeIdentifierColor),
-                buildResult,
-                duration),
-            (string tfm, string rid, false) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("ProjectFinished_WithTFAndRID",
+            (string tfm, string rid, true) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TestProjectFinished_WithTFAndRID,
                 Indentation,
                 projectFile,
                 AnsiCodes.Colorize(tfm, TargetFrameworkColor),
                 AnsiCodes.Colorize(rid, RuntimeIdentifierColor),
                 buildResult,
                 duration),
-            (null, null, true) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("TestProjectFinished_NoTF",
+            (string tfm, string rid, false) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectFinished_WithTFAndRID,
+                Indentation,
+                projectFile,
+                AnsiCodes.Colorize(tfm, TargetFrameworkColor),
+                AnsiCodes.Colorize(rid, RuntimeIdentifierColor),
+                buildResult,
+                duration),
+            (null, null, true) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TestProjectFinished_NoTF,
                 Indentation,
                 projectFile,
                 buildResult,
                 duration),
-            (null, null, false) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("ProjectFinished_NoTF",
+            (null, null, false) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectFinished_NoTF,
                 Indentation,
                 projectFile,
                 buildResult,
@@ -1633,20 +1633,20 @@ public sealed partial class TerminalLogger : INodeLogger
             // If the build failed, we print one of three red strings.
             string text = (countErrors > 0, countWarnings > 0) switch
             {
-                (true, true) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("BuildResult_FailedWithErrorsAndWarnings", countErrors, countWarnings),
-                (true, _) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("BuildResult_FailedWithErrors", countErrors),
-                (false, true) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("BuildResult_FailedWithWarnings", countWarnings),
-                _ => ResourceUtilities.GetResourceString("BuildResult_Failed"),
+                (true, true) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildResult_FailedWithErrorsAndWarnings, countErrors, countWarnings),
+                (true, _) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildResult_FailedWithErrors, countErrors),
+                (false, true) => ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildResult_FailedWithWarnings, countWarnings),
+                _ => ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildResult_Failed),
             };
             return AnsiCodes.Colorize(text, TerminalColor.Red);
         }
         else if (countWarnings > 0)
         {
-            return AnsiCodes.Colorize(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("BuildResult_SucceededWithWarnings", countWarnings), TerminalColor.Yellow);
+            return AnsiCodes.Colorize(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildResult_SucceededWithWarnings, countWarnings), TerminalColor.Yellow);
         }
         else
         {
-            return AnsiCodes.Colorize(ResourceUtilities.GetResourceString("BuildResult_Succeeded"), TerminalColor.Green);
+            return AnsiCodes.Colorize(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildResult_Succeeded), TerminalColor.Green);
         }
     }
 

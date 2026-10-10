@@ -546,7 +546,7 @@ namespace Microsoft.Build.Execution
 #if FEATURE_REPORTFILEACCESSES
             ErrorUtilities.VerifyThrowInvalidOperation(
                 !parameters.ReportFileAccesses || !parameters.MultiThreaded,
-                "ReportFileAccessesIncompatibleWithMultiThreaded");
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReportFileAccessesIncompatibleWithMultiThreaded);
 #endif
 
 #if NETFRAMEWORK
@@ -733,7 +733,7 @@ namespace Microsoft.Build.Execution
                 // Log if BuildCheck is enabled
                 if (_buildParameters.IsBuildCheckEnabled)
                 {
-                    loggingService.LogComment(buildEventContext: BuildEventContext.Invalid, MessageImportance.Normal, "BuildCheckEnabled");
+                    loggingService.LogComment(buildEventContext: BuildEventContext.Invalid, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheckEnabled);
                 }
 
                 // Log known deferred telemetry
@@ -795,7 +795,7 @@ namespace Microsoft.Build.Execution
                         loggingService.LogComment(
                             BuildEventContext.Invalid,
                             MessageImportance.Low,
-                            "MultiThreadedStrictModeEnabled",
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MultiThreadedStrictModeEnabled,
                             _multiThreadedStrictModeScope.SentinelDirectory);
                     }
                     catch (Exception e) when (!ExceptionHandling.IsCriticalException(e))
@@ -844,12 +844,12 @@ namespace Microsoft.Build.Execution
 
                     if (_buildParameters.UsesInputCaches())
                     {
-                        loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, "UsingInputCaches", string.Join(";", _buildParameters.InputResultsCacheFiles));
+                        loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UsingInputCaches, string.Join(";", _buildParameters.InputResultsCacheFiles));
                     }
 
                     if (_buildParameters.UsesOutputCache())
                     {
-                        loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, "WritingToOutputCache", _buildParameters.OutputResultsCacheFile);
+                        loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WritingToOutputCache, _buildParameters.OutputResultsCacheFile);
                     }
                 }
                 catch (Exception)
@@ -932,7 +932,7 @@ namespace Microsoft.Build.Execution
         private void EnableDetouredNodeLauncher()
         {
             // Currently BuildXL only supports x64. Once this feature moves out of the experimental phase, this will need to be addressed.
-            ErrorUtilities.VerifyThrowInvalidOperation(NativeMethodsShared.ProcessorArchitecture == NativeMethodsShared.ProcessorArchitectures.X64, "ReportFileAccessesX64Only");
+            ErrorUtilities.VerifyThrowInvalidOperation(NativeMethodsShared.ProcessorArchitecture == NativeMethodsShared.ProcessorArchitectures.X64, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReportFileAccessesX64Only);
 
             // To properly report file access, we need to disable the in-proc node which won't be detoured.
             _buildParameters!.DisableInProcNode = true;
@@ -1236,10 +1236,10 @@ namespace Microsoft.Build.Execution
                         string message = recovered
                             ? ResourceUtilities.FormatResourceStringStripCodeAndKeyword(
                                 out warningCode, out helpKeyword,
-                                "MultiThreadedStrictModeSentinelMissing", _multiThreadedStrictModeScope.SentinelDirectory)
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MultiThreadedStrictModeSentinelMissing, _multiThreadedStrictModeScope.SentinelDirectory)
                             : ResourceUtilities.FormatResourceStringStripCodeAndKeyword(
                                 out warningCode, out helpKeyword,
-                                "MultiThreadedStrictModeUnresolvedPathWrite", entries, _multiThreadedStrictModeScope.SentinelDirectory);
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MultiThreadedStrictModeUnresolvedPathWrite, entries, _multiThreadedStrictModeScope.SentinelDirectory);
                         Assumed.NotNull(warningCode, "The strict-mode warning must have a diagnostic code.");
                         loggingService.LogWarningFromText(
                             BuildEventContext.Invalid, null, warningCode, helpKeyword, BuildEventFileInfo.Empty, message);
@@ -1757,7 +1757,7 @@ namespace Microsoft.Build.Execution
                         {
                             ErrorUtilities.VerifyThrowArgument(
                                 _buildParameters!.ProjectRootElementCache == projectInstance.ProjectRootElementCache,
-                                "OM_BuildSubmissionsMultipleProjectCollections");
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_BuildSubmissionsMultipleProjectCollections);
                         }
                         else
                         {
@@ -2413,7 +2413,7 @@ namespace Microsoft.Build.Execution
 
             LogMessage(
                 ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(
-                    "StaticGraphConstructionStarted"));
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@StaticGraphConstructionStarted));
 
             var projectGraph = submission.BuildRequestData.ProjectGraph;
             if (projectGraph == null)
@@ -2456,7 +2456,7 @@ namespace Microsoft.Build.Execution
 
             LogMessage(
                 ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(
-                    "StaticGraphConstructionMetrics",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@StaticGraphConstructionMetrics,
                     Math.Round(projectGraph.ConstructionMetrics.ConstructionTime.TotalSeconds, 3),
                     projectGraph.ConstructionMetrics.NodeCount,
                     projectGraph.ConstructionMetrics.EdgeCount));
@@ -2476,7 +2476,7 @@ namespace Microsoft.Build.Execution
                 // the verification explicitly before the build even starts.
                 foreach (ProjectGraphNode entryPointNode in projectGraph.EntryPointNodes)
                 {
-                    ProjectErrorUtilities.VerifyThrowInvalidProject(entryPointNode.ProjectInstance.Targets.Count > 0, entryPointNode.ProjectInstance.ProjectFileLocation, "NoTargetSpecified");
+                    ProjectErrorUtilities.VerifyThrowInvalidProject(entryPointNode.ProjectInstance.Targets.Count > 0, entryPointNode.ProjectInstance.ProjectFileLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@NoTargetSpecified);
                 }
 
                 resultsPerNode = BuildGraph(projectGraph, targetsPerNode, submission.BuildRequestData);
@@ -3016,7 +3016,7 @@ namespace Microsoft.Build.Execution
                     {
                         BuildEventContext buildEventContext = new BuildEventContext(submission.SubmissionId, BuildEventContext.InvalidNodeId, BuildEventContext.InvalidProjectInstanceId, BuildEventContext.InvalidProjectContextId, BuildEventContext.InvalidTargetId, BuildEventContext.InvalidTaskId);
                         string exception = DebugUtils.ReadAnyExceptionFromFile(_instantiationTimeUtc);
-                        loggingService?.LogError(buildEventContext, new BuildEventFileInfo(string.Empty) /* no project file */, "ChildExitedPrematurely", node, DebugUtils.DebugDumpPath, exception);
+                        loggingService?.LogError(buildEventContext, new BuildEventFileInfo(string.Empty) /* no project file */, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ChildExitedPrematurely, node, DebugUtils.DebugDumpPath, exception);
                     }
                 }
                 else if (shutdownPacket.Reason == NodeShutdownReason.Error && _buildSubmissions.Values.Count == 0)
@@ -3025,7 +3025,7 @@ namespace Microsoft.Build.Execution
                     if (shutdownPacket.Exception != null)
                     {
                         ILoggingService loggingService = ((IBuildComponentHost)this).GetComponent<ILoggingService>(BuildComponentType.LoggingService);
-                        loggingService?.LogError(BuildEventContext.Invalid, new BuildEventFileInfo(string.Empty) /* no project file */, "ChildExitedPrematurely", node, DebugUtils.DebugDumpPath, shutdownPacket.Exception.ToString());
+                        loggingService?.LogError(BuildEventContext.Invalid, new BuildEventFileInfo(string.Empty) /* no project file */, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ChildExitedPrematurely, node, DebugUtils.DebugDumpPath, shutdownPacket.Exception.ToString());
                         OnThreadException(shutdownPacket.Exception);
                     }
                 }
@@ -3171,9 +3171,9 @@ namespace Microsoft.Build.Execution
                         if (newNodes?.Count != response.NumberOfNodesToCreate || newNodes.Any(n => n == null))
                         {
                             BuildEventContext buildEventContext = new BuildEventContext(0, Scheduler.VirtualNode, BuildEventContext.InvalidProjectInstanceId, BuildEventContext.InvalidProjectContextId, BuildEventContext.InvalidTargetId, BuildEventContext.InvalidTaskId);
-                            ((IBuildComponentHost)this).LoggingService.LogError(buildEventContext, new BuildEventFileInfo(String.Empty), "UnableToCreateNode", response.RequiredNodeType.ToString("G"));
+                            ((IBuildComponentHost)this).LoggingService.LogError(buildEventContext, new BuildEventFileInfo(String.Empty), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnableToCreateNode, response.RequiredNodeType.ToString("G"));
 
-                            throw new BuildAbortedException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("UnableToCreateNode", response.RequiredNodeType.ToString("G")));
+                            throw new BuildAbortedException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnableToCreateNode, response.RequiredNodeType.ToString("G")));
                         }
 
                         foreach (var node in newNodes)
@@ -3763,7 +3763,7 @@ namespace Microsoft.Build.Execution
 
                 if (inputCacheFiles.Any(f => !FileSystems.Default.FileExists(f)))
                 {
-                    LogErrorAndShutdown(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("InputCacheFilesDoNotExist", string.Join(";", inputCacheFiles.Where(f => !FileSystems.Default.FileExists(f)))));
+                    LogErrorAndShutdown(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InputCacheFilesDoNotExist, string.Join(";", inputCacheFiles.Where(f => !FileSystems.Default.FileExists(f)))));
                     return false;
                 }
 
@@ -3775,7 +3775,7 @@ namespace Microsoft.Build.Execution
 
                     if (exception != null)
                     {
-                        LogErrorAndShutdown(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("ErrorReadingCacheFile", inputCacheFile, exception.Message));
+                        LogErrorAndShutdown(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ErrorReadingCacheFile, inputCacheFile, exception.Message));
                         return false;
                     }
 

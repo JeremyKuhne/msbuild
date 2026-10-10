@@ -509,7 +509,7 @@ namespace Microsoft.Build.BackEnd.Logging
         {
             // Write the banner
             setColor(ConsoleColor.Green);
-            WriteLinePretty(currentIndentLevel, ResourceUtilities.GetResourceString("EnvironmentHeader"));
+            WriteLinePretty(currentIndentLevel, ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@EnvironmentHeader));
 
             if (environment != null)
             {
@@ -530,7 +530,7 @@ namespace Microsoft.Build.BackEnd.Logging
         {
             // Write the banner
             setColor(ConsoleColor.Green);
-            WriteLinePretty(currentIndentLevel, ResourceUtilities.GetResourceString("PropertyListHeader"));
+            WriteLinePretty(currentIndentLevel, ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@PropertyListHeader));
             // Write each property name and its value, one per line
             foreach (DictionaryEntry prop in list)
             {
@@ -557,7 +557,7 @@ namespace Microsoft.Build.BackEnd.Logging
 
             // Write the banner
             setColor(ConsoleColor.Green);
-            WriteLinePretty(currentIndentLevel, ResourceUtilities.GetResourceString("ItemListHeader"));
+            WriteLinePretty(currentIndentLevel, ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ItemListHeader));
 
             // Write each item type and its itemspec, one per line
             foreach (DictionaryEntry entry in itemTypes)
@@ -1036,7 +1036,7 @@ namespace Microsoft.Build.BackEnd.Logging
             {
                 string errorCode;
                 string helpKeyword;
-                string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out errorCode, out helpKeyword, "InvalidVerbosity", parameterValue);
+                string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out errorCode, out helpKeyword, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidVerbosity, parameterValue);
                 throw new LoggerException(message, null, errorCode, helpKeyword);
             }
         }

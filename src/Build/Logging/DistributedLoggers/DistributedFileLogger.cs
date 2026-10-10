@@ -72,7 +72,7 @@ namespace Microsoft.Build.Logging
             {
                 if (string.IsNullOrEmpty(parameterValue))
                 {
-                    string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword("InvalidFileLoggerFile", string.Empty, ResourceUtilities.GetResourceString("logfilePathNullOrEmpty"));
+                    string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFileLoggerFile, string.Empty, ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@logfilePathNullOrEmpty));
                     throw new LoggerException(message);
                 }
 
@@ -121,7 +121,7 @@ namespace Microsoft.Build.Logging
 
                 string errorCode;
                 string helpKeyword;
-                string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out errorCode, out helpKeyword, "InvalidFileLoggerFile", fileName, e.Message);
+                string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out errorCode, out helpKeyword, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFileLoggerFile, fileName, e.Message);
                 throw new LoggerException(message, e, errorCode, helpKeyword);
             }
 

@@ -49,7 +49,7 @@ namespace Microsoft.Build.Tasks
         /// <returns></returns>
         public override bool Execute()
         {
-            Log.LogWarning(null, Code, HelpKeyword, HelpLink, File, 0, 0, 0, 0, Text ?? TaskResources.GetString("ErrorAndWarning.EmptyMessage"));
+            Log.LogWarning(null, Code, HelpKeyword, HelpLink, File, 0, 0, 0, 0, Text ?? global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.ErrorAndWarning_EmptyMessage.GetString(TaskResources, null));
 
             return true;
         }

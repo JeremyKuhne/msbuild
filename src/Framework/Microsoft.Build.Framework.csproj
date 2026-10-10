@@ -154,7 +154,10 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Resources\SR.resx">
-      <GenerateSource>true</GenerateSource>
+      <GenerateSource>false</GenerateSource>
+      <LogicalName>Microsoft.Build.Framework.Resources.SR.resources</LogicalName>
+      <StringResourceClass>Microsoft.Build.Framework.Resources.SR</StringResourceClass>
+      <StringResourceFormatMethods>true</StringResourceFormatMethods>
     </EmbeddedResource>
 
     <Using Include="$(RootNamespace).Resources" />
@@ -268,4 +271,5 @@
            Text="Detected changes in Framework\EngineServices.cs without a version bump. If you are making API changes, please bump the version. If the changes in the file are cosmetic, please change an inline comment on the &quot;int Version =&quot; line in EngineServices.cs to silence the error." />
   </Target>
 
+  <Import Project="..\ResourceGenerator\ResourceGenerator.targets" />
 </Project>

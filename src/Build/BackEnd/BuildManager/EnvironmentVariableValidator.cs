@@ -42,7 +42,7 @@ namespace Microsoft.Build.Execution
             {
                 if (FileSystems.Default.DirectoryExists(dotnetHostPath))
                 {
-                    loggingService.LogWarning(BuildEventContext.Invalid, null, BuildEventFileInfo.Empty, "DotnetHostPathIsDirectory", dotnetHostPath);
+                    loggingService.LogWarning(BuildEventContext.Invalid, null, BuildEventFileInfo.Empty, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@DotnetHostPathIsDirectory, dotnetHostPath);
                 }
             }
             catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))

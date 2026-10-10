@@ -198,14 +198,14 @@ namespace Microsoft.Build.Tasks
                     // We did not find the SP1 sentinel assembly in the GAC. Therefore we must assume that SP1 isn't installed
                     if (!s_net35SP1SentinelAssemblyFound.Value)
                     {
-                        Log.LogErrorWithCodeFromResources("GetReferenceAssemblyPaths.NETFX35SP1NotIntstalled", TargetFrameworkMoniker);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetReferenceAssemblyPaths_NETFX35SP1NotIntstalled, TargetFrameworkMoniker);
                     }
                 }
 #endif
             }
             catch (ArgumentException e)
             {
-                Log.LogErrorWithCodeFromResources("GetReferenceAssemblyPaths.InvalidTargetFrameworkMoniker", TargetFrameworkMoniker, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetReferenceAssemblyPaths_InvalidTargetFrameworkMoniker, TargetFrameworkMoniker, e.Message);
                 return false;
             }
 
@@ -235,7 +235,7 @@ namespace Microsoft.Build.Tasks
             {
                 // The reason we need to do exception E here is because we are in a task and have the ability to log the message and give the user
                 // feedback as to its cause, tasks if at all possible should not have exception leave them.
-                Log.LogErrorWithCodeFromResources("GetReferenceAssemblyPaths.ProblemGeneratingReferencePaths", TargetFrameworkMoniker, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetReferenceAssemblyPaths_ProblemGeneratingReferencePaths, TargetFrameworkMoniker, e.Message);
 
                 if (ExceptionHandling.IsCriticalException(e))
                 {
@@ -273,11 +273,11 @@ namespace Microsoft.Build.Tasks
                     // https://github.com/dotnet/msbuild/issues/5820
                     if (frameworkmoniker.Identifier == ".NETFramework" && frameworkmoniker.Version.Major >= 5)
                     {
-                        Log.LogErrorWithCodeFromResources("GetReferenceAssemblyPaths.OutOfDateSDK", frameworkmoniker.ToString());
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetReferenceAssemblyPaths_OutOfDateSDK, frameworkmoniker.ToString());
                     }
                     else
                     {
-                        Log.LogErrorWithCodeFromResources("GetReferenceAssemblyPaths.NoReferenceAssemblyDirectoryFound", frameworkmoniker.ToString());
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetReferenceAssemblyPaths_NoReferenceAssemblyDirectoryFound, frameworkmoniker.ToString());
                     }
                 }
             }

@@ -171,7 +171,7 @@ namespace Microsoft.Build.Logging
         private void InvokeFileIOErrorEvent(string filePath, string message)
         {
             BuildEventArgs args = new BuildMessageEventArgs(
-                ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("ProjectImportsCollectorFileIOFail", filePath, message),
+                ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectImportsCollectorFileIOFail, filePath, message),
                 helpKeyword: null,
                 senderName: nameof(ProjectImportsCollector),
                 MessageImportance.Low);
@@ -271,7 +271,7 @@ namespace Microsoft.Build.Logging
 
                 if (fileStream.Length > int.MaxValue)
                 {
-                    onError(ResourceUtilities.GetResourceString("Binlog_ImportFileSizeError"));
+                    onError(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Binlog_ImportFileSizeError));
                 }
                 else
                 {

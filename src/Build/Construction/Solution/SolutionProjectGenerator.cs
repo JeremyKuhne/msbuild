@@ -286,7 +286,7 @@ namespace Microsoft.Build.Construction
                             if (!solutionFile.ProjectsByGuid.TryGetValue(dependencyProjectGuid, out ProjectInSolution dependencyProject))
                             {
                                 // If it's not itself part of the solution, that's an invalid solution
-                                ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(dependencyProject != null, "SubCategoryForSolutionParsingErrors", new BuildEventFileInfo(solutionFile.FullPath), "SolutionParseProjectDepNotFoundError", project.ProjectGuid, dependencyProjectGuid);
+                                ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(dependencyProject != null, "SubCategoryForSolutionParsingErrors", new BuildEventFileInfo(solutionFile.FullPath), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseProjectDepNotFoundError, project.ProjectGuid, dependencyProjectGuid);
                             }
 
                             // Add it to the list of dependencies, but only if it should build in this solution configuration
@@ -749,7 +749,7 @@ namespace Microsoft.Build.Construction
                     _solutionFile.Version >= SolutionFile.slnFileMinVersion,
                     "SubCategoryForSolutionParsingErrors",
                     new BuildEventFileInfo(_solutionFile.FullPath),
-                    "SolutionParseUpgradeNeeded");
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseUpgradeNeeded);
             }
 
             // This is needed in order to make decisions about tools versions such as whether to put a
@@ -1104,7 +1104,7 @@ namespace Microsoft.Build.Construction
                     metaproject.Save(writer);
                 }
 
-                string message = ResourceUtilities.GetResourceString("MetaprojectGenerated");
+                string message = ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MetaprojectGenerated);
                 var eventArgs = new MetaprojectGeneratedEventArgs(xml.ToString(), path, message)
                 {
                     BuildEventContext = _projectBuildEventContext,
@@ -1221,7 +1221,7 @@ namespace Microsoft.Build.Construction
                         ProjectFileErrorUtilities.ThrowInvalidProjectFile(
                             "SubCategoryForSolutionParsingErrors",
                             new BuildEventFileInfo(traversalProject.FullPath),
-                            "SolutionParseProjectDepNotFoundError",
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseProjectDepNotFoundError,
                             projectToAdd.ProjectGuid,
                             dependencyProjectGuid);
                     }
@@ -1291,7 +1291,7 @@ namespace Microsoft.Build.Construction
                 ProjectFileErrorUtilities.ThrowInvalidProjectFile(
                     "SubCategoryForSolutionParsingErrors",
                     new BuildEventFileInfo(_solutionFile.FullPath),
-                    "AspNetCompiler.UnsupportedMSBuildVersion",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AspNetCompiler_UnsupportedMSBuildVersion,
                     project.ProjectName);
 #else
                 // Set WebConfigFileName property if web.config exists (for RAR AppConfigFile parameter)
@@ -1387,7 +1387,7 @@ namespace Microsoft.Build.Construction
                     ProjectFileErrorUtilities.ThrowInvalidProjectFile(
                         "SubCategoryForSolutionParsingErrors",
                         new BuildEventFileInfo(traversalProject.FullPath),
-                        "SolutionParseProjectDepNotFoundError",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseProjectDepNotFoundError,
                         project.ProjectGuid,
                         dependencyProjectGuid);
                 }
@@ -1617,7 +1617,7 @@ namespace Microsoft.Build.Construction
                 ProjectFileErrorUtilities.ThrowInvalidProjectFile(
                     new BuildEventFileInfo(_solutionFile.FullPath),
                     e,
-                    "AspNetCompiler.InvalidTargetFrameworkMonikerFromException",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AspNetCompiler_InvalidTargetFrameworkMonikerFromException,
                     project.ProjectName,
                     project.TargetFrameworkMoniker,
                     e.Message);
@@ -1634,7 +1634,7 @@ namespace Microsoft.Build.Construction
                 _loggingService.LogComment(
                     _projectBuildEventContext,
                     MessageImportance.Low,
-                    "AspNetCompiler.TargetingHigherFrameworksDefaultsTo40",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AspNetCompiler_TargetingHigherFrameworksDefaultsTo40,
                     project.ProjectName,
                     targetFramework.Version.ToString());
             }
@@ -1643,7 +1643,7 @@ namespace Microsoft.Build.Construction
                 ProjectFileErrorUtilities.ThrowInvalidProjectFile(
                     "SubCategoryForSolutionParsingErrors",
                     new BuildEventFileInfo(_solutionFile.FullPath),
-                    "AspNetCompiler.InvalidTargetFrameworkMonikerNotDotNET",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AspNetCompiler_InvalidTargetFrameworkMonikerNotDotNET,
                     project.ProjectName,
                     project.TargetFrameworkMoniker);
             }
@@ -1664,7 +1664,7 @@ namespace Microsoft.Build.Construction
                 aspnetCompilerPath != null,
                 "SubCategoryForSolutionParsingErrors",
                 new BuildEventFileInfo(_solutionFile.FullPath),
-                "AspNetCompiler.20NotInstalled");
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AspNetCompiler_20NotInstalled);
 
             task.SetParameter("ToolPath", aspnetCompilerPath);
         }
@@ -1794,7 +1794,7 @@ namespace Microsoft.Build.Construction
                         "SubCategoryForSolutionParsingErrors",
                         new BuildEventFileInfo(solutionFile),
                         e,
-                        "SolutionParseInvalidProjectFileName",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseInvalidProjectFileName,
                         project.RelativePath,
                         e.Message);
                 }
@@ -2258,7 +2258,7 @@ namespace Microsoft.Build.Construction
                             _projectBuildEventContext,
                             "SubCategoryForSolutionParsingErrors",
                             new BuildEventFileInfo(project.RelativePath),
-                            "SolutionScanProjectDependenciesFailed",
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionScanProjectDependenciesFailed,
                             project.RelativePath,
                             e.Message);
                     }
@@ -2286,7 +2286,7 @@ namespace Microsoft.Build.Construction
                         _projectBuildEventContext,
                         "SubCategoryForSolutionParsingErrors",
                         new BuildEventFileInfo(_solutionFile.FullPath),
-                        "SolutionParseProjectDepNotFoundError",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseProjectDepNotFoundError,
                         project.ProjectGuid,
                         dependencyGuid);
                 }

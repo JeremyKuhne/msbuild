@@ -152,7 +152,7 @@ internal class BuildCheckBuildEventHandler
             string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(
                 out string? errorCode,
                 out string? helpKeyword,
-                "BuildCheckCustomCheckNotSupportedInTrimmedHost",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheckCustomCheckNotSupportedInTrimmedHost,
                 acquisitionData.AssemblyPath);
 
             checkContext.DispatchAsErrorFromText(

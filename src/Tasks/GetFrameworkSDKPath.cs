@@ -55,7 +55,7 @@ namespace Microsoft.Build.Tasks
                             {
                                 Log.LogMessageFromResources(
                                     MessageImportance.High,
-                                    "GetFrameworkSdkPath.CouldNotFindSDK",
+                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_CouldNotFindSDK,
                                     ToolLocationHelper.GetDotNetFrameworkSdkInstallKeyValue(TargetDotNetFrameworkVersion.Latest, VisualStudioVersion.VersionLatest),
                                     ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(TargetDotNetFrameworkVersion.Latest, VisualStudioVersion.VersionLatest));
 
@@ -64,7 +64,7 @@ namespace Microsoft.Build.Tasks
                             else
                             {
                                 path = FileUtilities.EnsureTrailingSlash(path);
-                                Log.LogMessageFromResources(MessageImportance.Low, "GetFrameworkSdkPath.FoundSDK", path);
+                                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_FoundSDK, path);
                             }
                             
                             s_path = path;
@@ -102,7 +102,7 @@ namespace Microsoft.Build.Tasks
                             {
                                 Log.LogMessageFromResources(
                                     MessageImportance.High,
-                                    "GetFrameworkSdkPath.CouldNotFindSDK",
+                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_CouldNotFindSDK,
                                     ToolLocationHelper.GetDotNetFrameworkSdkInstallKeyValue(TargetDotNetFrameworkVersion.Version20),
                                     ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(TargetDotNetFrameworkVersion.Version20));
 
@@ -111,7 +111,7 @@ namespace Microsoft.Build.Tasks
                             else
                             {
                                 path = FileUtilities.EnsureTrailingSlash(path);
-                                Log.LogMessageFromResources(MessageImportance.Low, "GetFrameworkSdkPath.FoundSDK", path);
+                                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_FoundSDK, path);
                             }
                             
                             s_version20Path = path;
@@ -145,7 +145,7 @@ namespace Microsoft.Build.Tasks
                             {
                                 Log.LogMessageFromResources(
                                     MessageImportance.High,
-                                    "GetFrameworkSdkPath.CouldNotFindSDK",
+                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_CouldNotFindSDK,
                                     ToolLocationHelper.GetDotNetFrameworkSdkInstallKeyValue(TargetDotNetFrameworkVersion.Version35, VisualStudioVersion.VersionLatest),
                                     ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(TargetDotNetFrameworkVersion.Version35, VisualStudioVersion.VersionLatest));
 
@@ -154,7 +154,7 @@ namespace Microsoft.Build.Tasks
                             else
                             {
                                 path = FileUtilities.EnsureTrailingSlash(path);
-                                Log.LogMessageFromResources(MessageImportance.Low, "GetFrameworkSdkPath.FoundSDK", path);
+                                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_FoundSDK, path);
                             }
                             
                             s_version35Path = path;
@@ -188,7 +188,7 @@ namespace Microsoft.Build.Tasks
                             {
                                 Log.LogMessageFromResources(
                                     MessageImportance.High,
-                                    "GetFrameworkSdkPath.CouldNotFindSDK",
+                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_CouldNotFindSDK,
                                     ToolLocationHelper.GetDotNetFrameworkSdkInstallKeyValue(TargetDotNetFrameworkVersion.Version40, VisualStudioVersion.VersionLatest),
                                     ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(TargetDotNetFrameworkVersion.Version40, VisualStudioVersion.VersionLatest));
 
@@ -197,7 +197,7 @@ namespace Microsoft.Build.Tasks
                             else
                             {
                                 path = FileUtilities.EnsureTrailingSlash(path);
-                                Log.LogMessageFromResources(MessageImportance.Low, "GetFrameworkSdkPath.FoundSDK", path);
+                                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_FoundSDK, path);
                             }
                             
                             s_version40Path = path;
@@ -231,7 +231,7 @@ namespace Microsoft.Build.Tasks
                             {
                                 Log.LogMessageFromResources(
                                     MessageImportance.High,
-                                    "GetFrameworkSdkPath.CouldNotFindSDK",
+                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_CouldNotFindSDK,
                                     ToolLocationHelper.GetDotNetFrameworkSdkInstallKeyValue(TargetDotNetFrameworkVersion.Version45, VisualStudioVersion.VersionLatest),
                                     ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(TargetDotNetFrameworkVersion.Version45, VisualStudioVersion.VersionLatest));
 
@@ -240,7 +240,7 @@ namespace Microsoft.Build.Tasks
                             else
                             {
                                 path = FileUtilities.EnsureTrailingSlash(path);
-                                Log.LogMessageFromResources(MessageImportance.Low, "GetFrameworkSdkPath.FoundSDK", path);
+                                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_FoundSDK, path);
                             }
                             
                             s_version45Path = path;
@@ -274,7 +274,7 @@ namespace Microsoft.Build.Tasks
                             {
                                 Log.LogMessageFromResources(
                                     MessageImportance.High,
-                                    "GetFrameworkSdkPath.CouldNotFindSDK",
+                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_CouldNotFindSDK,
                                     ToolLocationHelper.GetDotNetFrameworkSdkInstallKeyValue(TargetDotNetFrameworkVersion.Version451, VisualStudioVersion.VersionLatest),
                                     ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(TargetDotNetFrameworkVersion.Version451, VisualStudioVersion.VersionLatest));
 
@@ -283,7 +283,7 @@ namespace Microsoft.Build.Tasks
                             else
                             {
                                 path = FileUtilities.EnsureTrailingSlash(path);
-                                Log.LogMessageFromResources(MessageImportance.Low, "GetFrameworkSdkPath.FoundSDK", path);
+                                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_FoundSDK, path);
                             }
                             
                             s_version451Path = path;
@@ -317,7 +317,7 @@ namespace Microsoft.Build.Tasks
                             {
                                 Log.LogMessageFromResources(
                                     MessageImportance.High,
-                                    "GetFrameworkSdkPath.CouldNotFindSDK",
+                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_CouldNotFindSDK,
                                     ToolLocationHelper.GetDotNetFrameworkSdkInstallKeyValue(TargetDotNetFrameworkVersion.Version46, VisualStudioVersion.VersionLatest),
                                     ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(TargetDotNetFrameworkVersion.Version46, VisualStudioVersion.VersionLatest));
 
@@ -326,7 +326,7 @@ namespace Microsoft.Build.Tasks
                             else
                             {
                                 path = FileUtilities.EnsureTrailingSlash(path);
-                                Log.LogMessageFromResources(MessageImportance.Low, "GetFrameworkSdkPath.FoundSDK", path);
+                                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_FoundSDK, path);
                             }
                             
                             s_version46Path = path;
@@ -360,7 +360,7 @@ namespace Microsoft.Build.Tasks
                             {
                                 Log.LogMessageFromResources(
                                     MessageImportance.High,
-                                    "GetFrameworkSdkPath.CouldNotFindSDK",
+                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_CouldNotFindSDK,
                                     ToolLocationHelper.GetDotNetFrameworkSdkInstallKeyValue(TargetDotNetFrameworkVersion.Version461, VisualStudioVersion.VersionLatest),
                                     ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(TargetDotNetFrameworkVersion.Version461, VisualStudioVersion.VersionLatest));
 
@@ -369,7 +369,7 @@ namespace Microsoft.Build.Tasks
                             else
                             {
                                 path = FileUtilities.EnsureTrailingSlash(path);
-                                Log.LogMessageFromResources(MessageImportance.Low, "GetFrameworkSdkPath.FoundSDK", path);
+                                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetFrameworkSdkPath_FoundSDK, path);
                             }
                             
                             s_version461Path = path;

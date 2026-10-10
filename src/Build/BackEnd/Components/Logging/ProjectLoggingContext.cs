@@ -107,7 +107,7 @@ namespace Microsoft.Build.BackEnd.Logging
             // No need to log a redundant message in the common case
             if (projectStarted.ToolsVersion != "Current")
             {
-                LoggingService.LogComment(this.BuildEventContext, MessageImportance.Low, "ToolsVersionInEffectForBuild", projectStarted.ToolsVersion);
+                LoggingService.LogComment(this.BuildEventContext, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ToolsVersionInEffectForBuild, projectStarted.ToolsVersion);
             }
 
             this.IsValid = true;
@@ -146,7 +146,7 @@ namespace Microsoft.Build.BackEnd.Logging
             // No need to log a redundant message in the common case
             if (toolsVersion != "Current")
             {
-                LoggingService.LogComment(this.BuildEventContext, MessageImportance.Low, "ToolsVersionInEffectForBuild", toolsVersion);
+                LoggingService.LogComment(this.BuildEventContext, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ToolsVersionInEffectForBuild, toolsVersion);
             }
 
             this.IsValid = true;

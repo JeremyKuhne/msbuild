@@ -324,7 +324,7 @@ namespace Microsoft.Build.Construction
             {
                 ArgumentException.ThrowIfNullOrEmpty(name);
                 ArgumentNullException.ThrowIfNull(unevaluatedValue);
-                ErrorUtilities.VerifyThrowArgument(!XMakeAttributes.IsSpecialTaskAttribute(name), "CannotAccessKnownAttributes", name);
+                ErrorUtilities.VerifyThrowArgument(!XMakeAttributes.IsSpecialTaskAttribute(name), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotAccessKnownAttributes, name);
 
                 _parameters = null;
                 XmlElement.SetAttribute(name, unevaluatedValue);
@@ -424,7 +424,7 @@ namespace Microsoft.Build.Construction
         /// </summary>
         internal override void VerifyThrowInvalidOperationAcceptableLocation(ProjectElementContainer parent, ProjectElement previousSibling, ProjectElement nextSibling)
         {
-            ErrorUtilities.VerifyThrowInvalidOperation(parent is ProjectTargetElement, "OM_CannotAcceptParent");
+            ErrorUtilities.VerifyThrowInvalidOperation(parent is ProjectTargetElement, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_CannotAcceptParent);
         }
 
         /// <inheritdoc />

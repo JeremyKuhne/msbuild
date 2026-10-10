@@ -72,14 +72,14 @@ namespace Microsoft.Build.Tasks
             {
                 if (Assemblies == null)
                 {
-                    Log.LogErrorWithCodeFromResources("UnregisterAssembly.AssemblyPathOrStateFileIsRequired", GetType().Name);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_AssemblyPathOrStateFileIsRequired, GetType().Name);
                     return false;
                 }
 
                 // TypeLibFiles isn't [Required], but if it is specified, it must have the same length as Assemblies
                 if (TypeLibFiles != null && TypeLibFiles.Length != Assemblies.Length)
                 {
-                    Log.LogErrorWithCodeFromResources("General.TwoVectorsMustHaveSameLength", Assemblies.Length, TypeLibFiles.Length, "Assemblies", "TypeLibFiles");
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_TwoVectorsMustHaveSameLength, Assemblies.Length, TypeLibFiles.Length, "Assemblies", "TypeLibFiles");
                     return false;
                 }
 
@@ -118,7 +118,7 @@ namespace Microsoft.Build.Tasks
                     }
                     catch (ArgumentException ex) // assembly path has invalid chars in it
                     {
-                        Log.LogErrorWithCodeFromResources("General.InvalidAssemblyName", assemblyPath, ex.Message);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidAssemblyName, assemblyPath, ex.Message);
                         taskReturnValue = false;
                     }
 #if DEBUG
@@ -154,7 +154,7 @@ namespace Microsoft.Build.Tasks
         {
             ArgumentNullException.ThrowIfNull(typeLibPath);
 
-            Log.LogMessageFromResources(MessageImportance.Low, "UnregisterAssembly.UnregisteringAssembly", assemblyPath);
+            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_UnregisteringAssembly, assemblyPath);
 
             if (FileSystems.Default.FileExists(assemblyPath))
             {
@@ -174,7 +174,7 @@ namespace Microsoft.Build.Tasks
                         {
                             // If the assembly doesn't contain any types that could be registered for COM interop,
                             // warn the user about it
-                            Log.LogWarningWithCodeFromResources("UnregisterAssembly.NoValidTypes", assemblyPath);
+                            Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_NoValidTypes, assemblyPath);
                         }
                     }
                     finally
@@ -184,55 +184,55 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (ArgumentNullException e)
                 {
-                    Log.LogErrorWithCodeFromResources("UnregisterAssembly.CantUnregisterAssembly", assemblyPath, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_CantUnregisterAssembly, assemblyPath, e.Message);
                     return false;
                 }
                 catch (InvalidOperationException e)
                 {
-                    Log.LogErrorWithCodeFromResources("UnregisterAssembly.CantUnregisterAssembly", assemblyPath, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_CantUnregisterAssembly, assemblyPath, e.Message);
                     return false;
                 }
                 catch (TargetInvocationException e)
                 {
-                    Log.LogErrorWithCodeFromResources("UnregisterAssembly.CantUnregisterAssembly", assemblyPath, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_CantUnregisterAssembly, assemblyPath, e.Message);
                     return false;
                 }
                 catch (IOException e)
                 {
-                    Log.LogErrorWithCodeFromResources("UnregisterAssembly.CantUnregisterAssembly", assemblyPath, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_CantUnregisterAssembly, assemblyPath, e.Message);
                     return false;
                 }
                 catch (TypeLoadException e)
                 {
-                    Log.LogErrorWithCodeFromResources("UnregisterAssembly.CantUnregisterAssembly", assemblyPath, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_CantUnregisterAssembly, assemblyPath, e.Message);
                     return false;
                 }
                 catch (UnauthorizedAccessException e)
                 {
-                    Log.LogErrorWithCodeFromResources("UnregisterAssembly.UnauthorizedAccess", assemblyPath, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_UnauthorizedAccess, assemblyPath, e.Message);
                     return false;
                 }
                 catch (BadImageFormatException)
                 {
-                    Log.LogErrorWithCodeFromResources("General.InvalidAssembly", assemblyPath);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidAssembly, assemblyPath);
                     return false;
                 }
                 catch (SecurityException e) // running as normal user
                 {
-                    Log.LogErrorWithCodeFromResources("UnregisterAssembly.UnauthorizedAccess", assemblyPath, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_UnauthorizedAccess, assemblyPath, e.Message);
                     return false;
                 }
             }
             else
             {
-                Log.LogWarningWithCodeFromResources("UnregisterAssembly.UnregisterAsmFileDoesNotExist", assemblyPath);
+                Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_UnregisterAsmFileDoesNotExist, assemblyPath);
             }
 
-            Log.LogMessageFromResources(MessageImportance.Low, "UnregisterAssembly.UnregisteringTypeLib", typeLibPath);
+            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_UnregisteringTypeLib, typeLibPath);
 
             if (!FileSystems.Default.FileExists(typeLibPath))
             {
-                Log.LogMessageFromResources(MessageImportance.Low, "UnregisterAssembly.UnregisterTlbFileDoesNotExist", typeLibPath);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_UnregisterTlbFileDoesNotExist, typeLibPath);
                 return true;
             }
 
@@ -242,7 +242,7 @@ namespace Microsoft.Build.Tasks
             // if the typelib can't be loaded (say because it's not a valid typelib file) we should report an error
             if (hr == HRESULT.TYPE_E_CANTLOADLIBRARY)
             {
-                Log.LogErrorWithCodeFromResources("UnregisterAssembly.UnregisterTlbCantLoadFile", typeLibPath);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_UnregisterTlbCantLoadFile, typeLibPath);
                 return false;
             }
 
@@ -265,7 +265,7 @@ namespace Microsoft.Build.Tasks
             // if the typelib to be unregistered is not registered, then we don't have anything left to do
             if (hr == HRESULT.TYPE_E_REGISTRYACCESS)
             {
-                Log.LogWarningWithCodeFromResources("UnregisterAssembly.UnregisterTlbFileNotRegistered", typeLibPath);
+                Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnregisterAssembly_UnregisterTlbFileNotRegistered, typeLibPath);
             }
             else
             {

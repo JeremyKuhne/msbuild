@@ -85,13 +85,13 @@ namespace Microsoft.Build.Tasks
         {
             if (String.IsNullOrEmpty(Language))
             {
-                Log.LogErrorWithCodeFromResources("General.InvalidValue", nameof(Language), "WriteCodeFragment");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidValue, nameof(Language), "WriteCodeFragment");
                 return false;
             }
 
             if (OutputFile == null && OutputDirectory == null)
             {
-                Log.LogErrorWithCodeFromResources("WriteCodeFragment.MustSpecifyLocation");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WriteCodeFragment_MustSpecifyLocation);
                 return false;
             }
 
@@ -104,7 +104,7 @@ namespace Microsoft.Build.Tasks
 
             if (code.Length == 0)
             {
-                Log.LogMessageFromResources(MessageImportance.Low, "WriteCodeFragment.NoWorkToDo");
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WriteCodeFragment_NoWorkToDo);
                 OutputFile = null;
                 return true;
             }
@@ -136,11 +136,11 @@ namespace Microsoft.Build.Tasks
             {
                 string itemSpec = OutputFile?.ItemSpec ?? String.Empty;
                 string lockedFileMessage = LockCheck.GetLockedFileMessage(outputFilePath.Value ?? itemSpec);
-                Log.LogErrorWithCodeFromResources("WriteCodeFragment.CouldNotWriteOutput", itemSpec, ex.Message, lockedFileMessage);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WriteCodeFragment_CouldNotWriteOutput, itemSpec, ex.Message, lockedFileMessage);
                 return false;
             }
 
-            Log.LogMessageFromResources(MessageImportance.Low, "WriteCodeFragment.GeneratedFile", OutputFile.ItemSpec);
+            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WriteCodeFragment_GeneratedFile, OutputFile.ItemSpec);
 
             return !Log.HasLoggedErrors;
         }
@@ -173,7 +173,7 @@ namespace Microsoft.Build.Tasks
             (e.GetType().Name == "ConfigurationErrorsException") // TODO: catch specific exception type once it is public https://github.com/dotnet/corefx/issues/40456
 #endif
                 {
-                    Log.LogErrorWithCodeFromResources("WriteCodeFragment.CouldNotCreateProvider", Language, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WriteCodeFragment_CouldNotCreateProvider, Language, e.Message);
                     return null;
                 }
 
@@ -185,7 +185,7 @@ namespace Microsoft.Build.Tasks
                 unit.Namespaces.Add(globalNamespace);
 
                 // Declare authorship. Unfortunately CodeDOM puts this comment after the attributes.
-                string comment = AssemblyResources.GetString("WriteCodeFragment.Comment", CultureInfo.InvariantCulture);
+                string comment = AssemblyResources.GetString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WriteCodeFragment_Comment, CultureInfo.InvariantCulture);
                 globalNamespace.Comments.Add(new CodeCommentStatement(comment));
 
                 if (AssemblyAttributes == null)
@@ -235,13 +235,13 @@ namespace Microsoft.Build.Tasks
 #endif
                                 out int index))
                             {
-                                Log.LogErrorWithCodeFromResources("General.InvalidValue", name, "WriteCodeFragment");
+                                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidValue, name, "WriteCodeFragment");
                                 return null;
                             }
 
                             if (index > orderedParameters.Count || index < 1)
                             {
-                                Log.LogErrorWithCodeFromResources("WriteCodeFragment.SkippedNumberedParameter", index);
+                                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WriteCodeFragment_SkippedNumberedParameter, index);
                                 return null;
                             }
 
@@ -267,7 +267,7 @@ namespace Microsoft.Build.Tasks
 
                         if (encounteredNull)
                         {
-                            Log.LogErrorWithCodeFromResources("WriteCodeFragment.SkippedNumberedParameter", i + 1 /* back to 1 based */);
+                            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WriteCodeFragment_SkippedNumberedParameter, i + 1 /* back to 1 based */);
                             return null;
                         }
 
@@ -515,7 +515,7 @@ namespace Microsoft.Build.Tasks
                 }
                 else if (candidates.Count > 1)
                 {
-                    Log.LogMessageFromResources("WriteCodeFragment.MultipleConstructorsFound");
+                    Log.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WriteCodeFragment_MultipleConstructorsFound);
 
                     // Before parameter types could be specified, all parameter values were
                     // treated as strings. To be backward-compatible, we need to prefer
@@ -563,7 +563,7 @@ namespace Microsoft.Build.Tasks
 
             if (parameterType is null)
             {
-                Log.LogErrorWithCodeFromResources("WriteCodeFragment.ParameterTypeNotFound", typeName);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WriteCodeFragment_ParameterTypeNotFound, typeName);
                 value = null;
                 return false;
             }
@@ -575,7 +575,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception ex) when (!ExceptionHandling.IsCriticalException(ex))
             {
-                Log.LogErrorWithCodeFromResources("WriteCodeFragment.CouldNotConvertValue", rawValue, typeName, ex.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WriteCodeFragment_CouldNotConvertValue, rawValue, typeName, ex.Message);
                 value = null;
                 return false;
             }
@@ -593,7 +593,7 @@ namespace Microsoft.Build.Tasks
             // can't convert the type. We'll just treat is as a string.
             if (inferredType is null)
             {
-                Log.LogMessageFromResources("WriteCodeFragment.CouldNotInferParameterType", parameterName, attributeTypeName);
+                Log.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WriteCodeFragment_CouldNotInferParameterType, parameterName, attributeTypeName);
                 return new CodePrimitiveExpression(rawValue);
             }
 
@@ -605,7 +605,7 @@ namespace Microsoft.Build.Tasks
             {
                 // The conversion failed, but since we are inferring the type,
                 // we won't fail. We'll just treat the value as a string.
-                Log.LogMessageFromResources("WriteCodeFragment.CouldNotConvertToInferredType", parameterName, inferredType.Name, ex.Message);
+                Log.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WriteCodeFragment_CouldNotConvertToInferredType, parameterName, inferredType.Name, ex.Message);
                 return new CodePrimitiveExpression(rawValue);
             }
         }

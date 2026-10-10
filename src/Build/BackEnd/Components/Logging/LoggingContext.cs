@@ -127,6 +127,12 @@ namespace Microsoft.Build.BackEnd.Logging
             CheckValidity();
             _loggingService.LogComment(_eventContext, importance, messageResourceName, messageArgs);
         }
+        internal void LogComment(MessageImportance importance, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object?[]? messageArgs)
+        {
+            CheckValidity();
+            _loggingService.LogComment(_eventContext, importance, messageResourceName, messageArgs);
+        }
+
 
         /// <summary>
         ///  Helper method to create a message build event from a string resource and some parameters
@@ -157,6 +163,29 @@ namespace Microsoft.Build.BackEnd.Logging
                 BuildEventContext = _eventContext
             });
         }
+        internal void LogComment(MessageImportance importance, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object?[]? messageArgs)
+        {
+            CheckValidity();
+
+            _loggingService.LogBuildEvent(new BuildMessageEventArgs(
+                null,
+                null,
+                file.File,
+                file.Line,
+                file.Column,
+                file.EndLine,
+                file.EndColumn,
+                ResourceUtilities.GetResourceString(messageResourceName),
+                helpKeyword: null,
+                senderName: "MSBuild",
+                importance,
+                DateTime.UtcNow,
+                messageArgs)
+            {
+                BuildEventContext = _eventContext
+            });
+        }
+
 
         /// <summary>
         /// Helper method to create a message build event from a string
@@ -193,6 +222,13 @@ namespace Microsoft.Build.BackEnd.Logging
             _loggingService.LogError(_eventContext, file, messageResourceName, messageArgs);
             _hasLoggedErrors = true;
         }
+        internal void LogError(BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            CheckValidity();
+            _loggingService.LogError(_eventContext, file, messageResourceName, messageArgs);
+            _hasLoggedErrors = true;
+        }
+
 
         /// <summary>
         /// Log an error
@@ -207,6 +243,13 @@ namespace Microsoft.Build.BackEnd.Logging
             _loggingService.LogError(_eventContext, subcategoryResourceName, file, messageResourceName, messageArgs);
             _hasLoggedErrors = true;
         }
+        internal void LogErrorWithSubcategory(string? subcategoryResourceName, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            CheckValidity();
+            _loggingService.LogError(_eventContext, subcategoryResourceName, file, messageResourceName, messageArgs);
+            _hasLoggedErrors = true;
+        }
+
 
         /// <summary>
         /// Log an error
@@ -247,12 +290,25 @@ namespace Microsoft.Build.BackEnd.Logging
             _loggingService.LogFatalError(_eventContext, exception, file, messageResourceName, messageArgs);
             _hasLoggedErrors = true;
         }
+        internal void LogFatalError(Exception exception, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object?[]? messageArgs)
+        {
+            CheckValidity();
+            _loggingService.LogFatalError(_eventContext, exception, file, messageResourceName, messageArgs);
+            _hasLoggedErrors = true;
+        }
+
 
         internal void LogWarning(string messageResourceName, params object[] messageArgs)
         {
             CheckValidity();
             _loggingService.LogWarning(_eventContext, null, BuildEventFileInfo.Empty, messageResourceName, messageArgs);
         }
+        internal void LogWarning(global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            CheckValidity();
+            _loggingService.LogWarning(_eventContext, null, BuildEventFileInfo.Empty, messageResourceName, messageArgs);
+        }
+
 
         /// <summary>
         /// Log a warning
@@ -266,6 +322,12 @@ namespace Microsoft.Build.BackEnd.Logging
             CheckValidity();
             _loggingService.LogWarning(_eventContext, subcategoryResourceName, file, messageResourceName, messageArgs);
         }
+        internal void LogWarning(string? subcategoryResourceName, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object?[]? messageArgs)
+        {
+            CheckValidity();
+            _loggingService.LogWarning(_eventContext, subcategoryResourceName, file, messageResourceName, messageArgs);
+        }
+
 
         /// <summary>
         /// Log a warning based on a text message

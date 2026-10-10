@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
@@ -91,8 +91,8 @@ namespace Microsoft.Build.Tasks
         public override string FormatResourceString(string resourceName, params object[] args)
         {
             ArgumentNullException.ThrowIfNull(resourceName);
-            ErrorUtilities.VerifyThrowInvalidOperation(TaskResources != null, "TaskResourcesNotRegistered", TaskName);
-            ErrorUtilities.VerifyThrowInvalidOperation(TaskSharedResources != null, "TaskResourcesNotRegistered", TaskName);
+            ErrorUtilities.VerifyThrowInvalidOperation(TaskResources != null, global::Microsoft.Build.Framework.Resources.SR.Resources.@TaskResourcesNotRegistered, TaskName);
+            ErrorUtilities.VerifyThrowInvalidOperation(TaskSharedResources != null, global::Microsoft.Build.Framework.Resources.SR.Resources.@TaskResourcesNotRegistered, TaskName);
 
             // NOTE: the ResourceManager.GetString() method is thread-safe
             string resourceString = TaskResources.GetString(resourceName, CultureInfo.CurrentUICulture);
@@ -102,8 +102,36 @@ namespace Microsoft.Build.Tasks
                 resourceString = TaskSharedResources.GetString(resourceName, CultureInfo.CurrentUICulture);
             }
 
-            ErrorUtilities.VerifyThrowArgument(resourceString != null, "TaskResourceNotFound", resourceName, TaskName);
+            ErrorUtilities.VerifyThrowArgument(resourceString != null, global::Microsoft.Build.Framework.Resources.SR.Resources.@TaskResourceNotFound, resourceName, TaskName);
 
+            return FormatString(resourceString, args);
+        }
+
+#if BUILD_ENGINE
+        internal override
+#else
+        internal
+#endif
+        bool UsesDefaultResourceFormatting => GetType() == typeof(TaskLoggingHelperExtension);
+
+#if BUILD_ENGINE
+        internal override
+#else
+        internal
+#endif
+        string FormatResourceString(global::Microsoft.Build.Framework.Resources.StringResource resourceName, params object[] args)
+        {
+            if (!UsesDefaultResourceFormatting)
+            {
+                return FormatResourceString(resourceName.Name, args);
+            }
+
+            ArgumentNullException.ThrowIfNull(resourceName.Name);
+            ErrorUtilities.VerifyThrowInvalidOperation(TaskResources is not null, global::Microsoft.Build.Framework.Resources.SR.Resources.@TaskResourcesNotRegistered, TaskName);
+            ErrorUtilities.VerifyThrowInvalidOperation(TaskSharedResources is not null, global::Microsoft.Build.Framework.Resources.SR.Resources.@TaskResourcesNotRegistered, TaskName);
+            string resourceString = resourceName.GetString(TaskResources, CultureInfo.CurrentUICulture) ??
+                                    resourceName.GetString(TaskSharedResources, CultureInfo.CurrentUICulture);
+            ErrorUtilities.VerifyThrowArgument(resourceString is not null, global::Microsoft.Build.Framework.Resources.SR.Resources.@TaskResourceNotFound, resourceName.Name, TaskName);
             return FormatString(resourceString, args);
         }
 

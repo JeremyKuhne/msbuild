@@ -614,7 +614,7 @@ internal partial class Expander<P, I>
 
                 if (n == -1)
                 {
-                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionPropertyExpression", expressionFunction, AssemblyResources.GetString("InvalidFunctionPropertyExpressionDetailMismatchedParenthesis"));
+                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression, expressionFunction, AssemblyResources.GetString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpressionDetailMismatchedParenthesis));
                 }
 
                 FlushCurrentArgumentToArgumentBuilder(argumentEndIndex: nestedPropertyStart);
@@ -629,7 +629,7 @@ internal partial class Expander<P, I>
 
                 if (n == -1)
                 {
-                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionPropertyExpression", expressionFunction, AssemblyResources.GetString("InvalidFunctionPropertyExpressionDetailMismatchedQuote"));
+                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression, expressionFunction, AssemblyResources.GetString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpressionDetailMismatchedQuote));
                 }
 
                 FlushCurrentArgumentToArgumentBuilder(argumentEndIndex: quoteStart);

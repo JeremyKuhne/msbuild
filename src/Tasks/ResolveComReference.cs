@@ -338,14 +338,14 @@ namespace Microsoft.Build.Tasks
             {
                 if (!Silent)
                 {
-                    Log.LogMessageFromResources(MessageImportance.Low, "ResolveComReference.NotUsingCacheFile", StateFile ?? String.Empty);
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_NotUsingCacheFile, StateFile ?? String.Empty);
                 }
 
                 _timestampCache = new ResolveComReferenceCache(_tlbimpPath, _aximpPath);
             }
             else if (!Silent)
             {
-                Log.LogMessageFromResources(MessageImportance.Low, "ResolveComReference.UsingCacheFile", StateFile ?? String.Empty);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_UsingCacheFile, StateFile ?? String.Empty);
             }
 
             try
@@ -408,7 +408,7 @@ namespace Microsoft.Build.Tasks
                                 // delay signed wrappers, otherwise rethrow, since it's an unexpected exception.
                                 if (DelaySign)
                                 {
-                                    Log.LogErrorWithCodeFromResources(null, projectRefInfo.SourceItemSpec, 0, 0, 0, 0, "ResolveComReference.LoadingDelaySignedAssemblyWithStrongNameVerificationEnabled", ex.Message);
+                                    Log.LogErrorWithCodeFromResources(null, projectRefInfo.SourceItemSpec, 0, 0, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_LoadingDelaySignedAssemblyWithStrongNameVerificationEnabled, ex.Message);
 
                                     // no point in printing the same thing multiple times...
                                     return false;
@@ -425,12 +425,12 @@ namespace Microsoft.Build.Tasks
                                 // This exception is thrown when we try to convert some of the Metadata from the project
                                 // file and the conversion fails.  Most likely, the user needs to correct a type in the
                                 // project file.
-                                Log.LogErrorWithCodeFromResources("General.InvalidArgument", ex.Message);
+                                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidArgument, ex.Message);
                                 return false;
                             }
                             catch (SystemException ex)
                             {
-                                Log.LogErrorWithCodeFromResources("ResolveComReference.FailedToResolveComReference",
+                                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_FailedToResolveComReference,
                                     projectRefInfo.attr.guid, projectRefInfo.attr.wMajorVerNum, projectRefInfo.attr.wMinorVerNum,
                                     ex.Message);
                             }
@@ -499,7 +499,7 @@ namespace Microsoft.Build.Tasks
 
                 if (_tlbimpPath == null && ExecuteAsTool)
                 {
-                    Log.LogErrorWithCodeFromResources("General.PlatformSDKFileNotFound", "TlbImp.exe",
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_PlatformSDKFileNotFound, "TlbImp.exe",
                         ToolLocationHelper.GetDotNetFrameworkSdkInstallKeyValue(TargetDotNetFrameworkVersion.Version35, VisualStudioVersion.VersionLatest),
                         ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(TargetDotNetFrameworkVersion.Version35, VisualStudioVersion.VersionLatest));
                 }
@@ -548,7 +548,7 @@ namespace Microsoft.Build.Tasks
 
                 if (_aximpPath == null)
                 {
-                    Log.LogErrorWithCodeFromResources("General.PlatformSDKFileNotFound", "AxImp.exe",
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_PlatformSDKFileNotFound, "AxImp.exe",
                         ToolLocationHelper.GetDotNetFrameworkSdkInstallKeyValue(targetAxImpVersion, VisualStudioVersion.VersionLatest),
                         ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(targetAxImpVersion, VisualStudioVersion.VersionLatest));
                 }
@@ -633,7 +633,7 @@ namespace Microsoft.Build.Tasks
         {
             if (!string.IsNullOrEmpty(KeyContainer) && !string.IsNullOrEmpty(KeyFile))
             {
-                Log.LogErrorWithCodeFromResources("ResolveComReference.CannotSpecifyBothKeyFileAndKeyContainer");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_CannotSpecifyBothKeyFileAndKeyContainer);
                 return false;
             }
 
@@ -641,7 +641,7 @@ namespace Microsoft.Build.Tasks
             {
                 if (string.IsNullOrEmpty(KeyContainer) && string.IsNullOrEmpty(KeyFile))
                 {
-                    Log.LogErrorWithCodeFromResources("ResolveComReference.CannotSpecifyDelaySignWithoutEitherKeyFileOrKeyContainer");
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_CannotSpecifyDelaySignWithoutEitherKeyFileOrKeyContainer);
                     return false;
                 }
             }
@@ -659,7 +659,7 @@ namespace Microsoft.Build.Tasks
             // so let's just exit.
             if (typeLibFilesLength + typeLibNamesLength == 0)
             {
-                Log.LogErrorWithCodeFromResources("ResolveComReference.NoComReferencesSpecified");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_NoComReferencesSpecified);
                 return false;
             }
 
@@ -671,7 +671,7 @@ namespace Microsoft.Build.Tasks
 
                 if (!VerifyReferenceMetadataForNameItem(TypeLibNames[i], out string missingMetadata))
                 {
-                    Log.LogErrorWithCodeFromResources(null, TypeLibNames[i].ItemSpec, 0, 0, 0, 0, "ResolveComReference.MissingOrUnknownComReferenceAttribute", missingMetadata, TypeLibNames[i].ItemSpec);
+                    Log.LogErrorWithCodeFromResources(null, TypeLibNames[i].ItemSpec, 0, 0, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_MissingOrUnknownComReferenceAttribute, missingMetadata, TypeLibNames[i].ItemSpec);
 
                     // don't exit immediately... check all the refs and display all errors
                     metadataValid = false;
@@ -722,7 +722,7 @@ namespace Microsoft.Build.Tasks
                 {
                     if (!Silent)
                     {
-                        Log.LogWarningWithCodeFromResources("ResolveComReference.CannotLoadTypeLibItemSpec", typeLibAttrs[i].ItemSpec, ex.Message);
+                        Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_CannotLoadTypeLibItemSpec, typeLibAttrs[i].ItemSpec, ex.Message);
                     }
 
                     projectRefInfo.ReleaseTypeLibPtr();
@@ -766,7 +766,7 @@ namespace Microsoft.Build.Tasks
                 {
                     if (!Silent)
                     {
-                        Log.LogWarningWithCodeFromResources("ResolveComReference.CannotLoadTypeLibItemSpec", tlbFiles[i].ItemSpec, ex.Message);
+                        Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_CannotLoadTypeLibItemSpec, tlbFiles[i].ItemSpec, ex.Message);
                     }
 
                     projectRefInfo.ReleaseTypeLibPtr();
@@ -811,7 +811,7 @@ namespace Microsoft.Build.Tasks
                                     {
                                         if (!Silent)
                                         {
-                                            Log.LogMessageFromResources(MessageImportance.High, "ResolveComReference.TreatingTlbOfActiveXAsNonEmbedded", tlbRefInfo.taskItem.ItemSpec, axRefInfo.taskItem.ItemSpec);
+                                            Log.LogMessageFromResources(MessageImportance.High, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_TreatingTlbOfActiveXAsNonEmbedded, tlbRefInfo.taskItem.ItemSpec, axRefInfo.taskItem.ItemSpec);
                                         }
 
                                         tlbRefInfo.taskItem.SetMetadata(ItemMetadataNames.embedInteropTypes, "false");
@@ -829,7 +829,7 @@ namespace Microsoft.Build.Tasks
                     {
                         if (!Silent)
                         {
-                            Log.LogMessageFromResources(MessageImportance.Low, "ResolveComReference.AddingMissingTlbReference", axRefInfo.taskItem.ItemSpec);
+                            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_AddingMissingTlbReference, axRefInfo.taskItem.ItemSpec);
                         }
 
                         var newTlbRef = new ComReferenceInfo(axRefInfo);
@@ -899,7 +899,7 @@ namespace Microsoft.Build.Tasks
             {
                 if (!Silent)
                 {
-                    Log.LogMessageFromResources(MessageImportance.Low, "ResolveComReference.Resolving", referenceInfo.taskItem.ItemSpec, referenceInfo.taskItem.GetMetadata(ComReferenceItemMetadataNames.wrapperTool));
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_Resolving, referenceInfo.taskItem.ItemSpec, referenceInfo.taskItem.GetMetadata(ComReferenceItemMetadataNames.wrapperTool));
                 }
 
                 List<string> dependencyPaths = ScanAndResolveAllDependencies(dependencyWalker, referenceInfo);
@@ -920,7 +920,7 @@ namespace Microsoft.Build.Tasks
 
                     if (!Silent)
                     {
-                        Log.LogMessageFromResources(MessageImportance.Low, "ResolveComReference.ResolvedReference", referenceInfo.taskItem.ItemSpec, wrapperInfo.path);
+                        Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_ResolvedReference, referenceInfo.taskItem.ItemSpec, wrapperInfo.path);
                     }
 
                     return true;
@@ -928,7 +928,7 @@ namespace Microsoft.Build.Tasks
 
                 if (!Silent)
                 {
-                    Log.LogWarningWithCodeFromResources("ResolveComReference.CannotFindWrapperForTypeLib", referenceInfo.taskItem.ItemSpec);
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_CannotFindWrapperForTypeLib, referenceInfo.taskItem.ItemSpec);
                 }
 
                 return false;
@@ -1079,7 +1079,7 @@ namespace Microsoft.Build.Tasks
             if (ComReference.RemapAdoTypeLib(Log, Silent, ref typeLibAttr) && !Silent)
             {
                 // if successfully remapped the reference to ADO 2.7, notify the user
-                Log.LogMessageFromResources(MessageImportance.Low, "ResolveComReference.RemappingAdoTypeLib", oldAttr.wMajorVerNum, oldAttr.wMinorVerNum);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_RemappingAdoTypeLib, oldAttr.wMajorVerNum, oldAttr.wMinorVerNum);
             }
 
             // find an existing ref in the project (taking the desired wrapperType into account, if any)
@@ -1130,7 +1130,7 @@ namespace Microsoft.Build.Tasks
                 {
                     if (!Silent)
                     {
-                        Log.LogWarningWithCodeFromResources("ResolveComReference.CannotLoadTypeLib", typeLibAttr.guid,
+                        Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_CannotLoadTypeLib, typeLibAttr.guid,
                             typeLibAttr.wMajorVerNum.ToString(CultureInfo.InvariantCulture),
                             typeLibAttr.wMinorVerNum.ToString(CultureInfo.InvariantCulture),
                             ex.Message);
@@ -1578,7 +1578,7 @@ namespace Microsoft.Build.Tasks
                             {
                                 if (!Silent)
                                 {
-                                    Log.LogWarningWithCodeFromResources("ResolveComReference.ConflictingReferences", projectRefInfo.taskItem.ItemSpec, conflictingRef.taskItem.ItemSpec);
+                                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_ConflictingReferences, projectRefInfo.taskItem.ItemSpec, conflictingRef.taskItem.ItemSpec);
                                 }
 
                                 // mark the reference for removal, can't do it here because we're iterating through the ref's container
@@ -1670,7 +1670,7 @@ namespace Microsoft.Build.Tasks
 
             if (!Silent)
             {
-                Log.LogMessageFromResources(MessageImportance.Low, "ResolveComReference.ScanningDependencies", reference.SourceItemSpec);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_ScanningDependencies, reference.SourceItemSpec);
             }
 
             unsafe
@@ -1685,7 +1685,7 @@ namespace Microsoft.Build.Tasks
                 {
                     // A failure to resolve a reference due to something possibly being missing from disk is not
                     // an error; the user may not be actually consuming types from it
-                    Log.LogWarningWithCodeFromResources("ResolveComReference.FailedToScanDependencies",
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_FailedToScanDependencies,
                         reference.SourceItemSpec, ex.Message);
                 }
             }
@@ -1722,7 +1722,7 @@ namespace Microsoft.Build.Tasks
                     {
                         if (!Silent)
                         {
-                            Log.LogMessageFromResources(MessageImportance.Low, "ResolveComReference.ResolvingDependency",
+                            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_ResolvingDependency,
                                 dependencyTypeLibAttr.guid, dependencyTypeLibAttr.wMajorVerNum, dependencyTypeLibAttr.wMinorVerNum);
                         }
 
@@ -1731,7 +1731,7 @@ namespace Microsoft.Build.Tasks
 
                         if (!Silent)
                         {
-                            Log.LogMessageFromResources(MessageImportance.Low, "ResolveComReference.ResolvedDependentComReference",
+                            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_ResolvedDependentComReference,
                                 dependencyTypeLibAttr.guid, dependencyTypeLibAttr.wMajorVerNum, dependencyTypeLibAttr.wMinorVerNum,
                                 wrapperInfo.path);
                         }

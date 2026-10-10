@@ -71,7 +71,7 @@ namespace Microsoft.Build.Tasks
             // TypeLibFiles isn't [Required], but if it is specified, it must have the same length as Assemblies
             if ((TypeLibFiles != null) && (TypeLibFiles.Length != Assemblies.Length))
             {
-                Log.LogErrorWithCodeFromResources("General.TwoVectorsMustHaveSameLength", Assemblies.Length, TypeLibFiles.Length, "Assemblies", "TypeLibFiles");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_TwoVectorsMustHaveSameLength, Assemblies.Length, TypeLibFiles.Length, "Assemblies", "TypeLibFiles");
                 return false;
             }
 
@@ -122,7 +122,7 @@ namespace Microsoft.Build.Tasks
                     }
                     catch (ArgumentException ex) // assembly path has invalid chars in it
                     {
-                        Log.LogErrorWithCodeFromResources("General.InvalidAssemblyName", Assemblies[i], ex.Message);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidAssemblyName, Assemblies[i], ex.Message);
                         taskReturnValue = false;
                     }
 #if DEBUG
@@ -197,7 +197,7 @@ namespace Microsoft.Build.Tasks
         {
             ArgumentNullException.ThrowIfNull(assemblyToResolve);
 
-            Log.LogErrorWithCodeFromResources("RegisterAssembly.AssemblyNotRegisteredForComInterop", assemblyToResolve.GetName().FullName);
+            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_AssemblyNotRegisteredForComInterop, assemblyToResolve.GetName().FullName);
             _typeLibExportFailed = true;
             return null;
         }
@@ -213,11 +213,11 @@ namespace Microsoft.Build.Tasks
         {
             ArgumentNullException.ThrowIfNull(typeLibPath);
 
-            Log.LogMessageFromResources(MessageImportance.Low, "RegisterAssembly.RegisteringAssembly", assemblyPath);
+            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_RegisteringAssembly, assemblyPath);
 
             if (!FileSystems.Default.FileExists(assemblyPath))
             {
-                Log.LogErrorWithCodeFromResources("RegisterAssembly.RegisterAsmFileDoesNotExist", assemblyPath);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_RegisterAsmFileDoesNotExist, assemblyPath);
                 return false;
             }
 
@@ -233,12 +233,12 @@ namespace Microsoft.Build.Tasks
                 {
                     // If the assembly doesn't contain any types that could be registered for COM interop,
                     // warn the user about it.
-                    Log.LogWarningWithCodeFromResources("RegisterAssembly.NoValidTypes", assemblyPath);
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_NoValidTypes, assemblyPath);
                 }
 
                 // Even if there aren't any types that could be registered for COM interop,
                 // regasm still creates and tries to register the type library, so we should too.
-                Log.LogMessageFromResources(MessageImportance.Low, "RegisterAssembly.RegisteringTypeLib", typeLibPath);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_RegisteringTypeLib, typeLibPath);
 
                 // only regenerate the type lib if necessary
                 if ((!FileSystems.Default.FileExists(typeLibPath)) ||
@@ -255,13 +255,13 @@ namespace Microsoft.Build.Tasks
                     }
                     catch (COMException ex)
                     {
-                        Log.LogErrorWithCodeFromResources("RegisterAssembly.CantExportTypeLib", assemblyPath, ex.Message);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_CantExportTypeLib, assemblyPath, ex.Message);
                         return false;
                     }
                 }
                 else
                 {
-                    Log.LogMessageFromResources(MessageImportance.Low, "RegisterAssembly.TypeLibUpToDate", typeLibPath);
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_TypeLibUpToDate, typeLibPath);
                 }
 
                 // Also register the type library
@@ -286,48 +286,48 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (COMException ex)
                 {
-                    Log.LogErrorWithCodeFromResources("RegisterAssembly.CantRegisterTypeLib", typeLibPath, ex.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_CantRegisterTypeLib, typeLibPath, ex.Message);
                     return false;
                 }
             }
             catch (ArgumentNullException e)
             {
-                Log.LogErrorWithCodeFromResources("RegisterAssembly.CantRegisterAssembly", assemblyPath, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_CantRegisterAssembly, assemblyPath, e.Message);
                 return false;
             }
             catch (InvalidOperationException e)
             {
-                Log.LogErrorWithCodeFromResources("RegisterAssembly.CantRegisterAssembly", assemblyPath, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_CantRegisterAssembly, assemblyPath, e.Message);
                 return false;
             }
             catch (TargetInvocationException e)
             {
-                Log.LogErrorWithCodeFromResources("RegisterAssembly.CantRegisterAssembly", assemblyPath, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_CantRegisterAssembly, assemblyPath, e.Message);
                 return false;
             }
             catch (IOException e)
             {
-                Log.LogErrorWithCodeFromResources("RegisterAssembly.CantRegisterAssembly", assemblyPath, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_CantRegisterAssembly, assemblyPath, e.Message);
                 return false;
             }
             catch (TypeLoadException e)
             {
-                Log.LogErrorWithCodeFromResources("RegisterAssembly.CantRegisterAssembly", assemblyPath, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_CantRegisterAssembly, assemblyPath, e.Message);
                 return false;
             }
             catch (UnauthorizedAccessException e)
             {
-                Log.LogErrorWithCodeFromResources("RegisterAssembly.UnauthorizedAccess", assemblyPath, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_UnauthorizedAccess, assemblyPath, e.Message);
                 return false;
             }
             catch (BadImageFormatException)
             {
-                Log.LogErrorWithCodeFromResources("General.InvalidAssembly", assemblyPath);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidAssembly, assemblyPath);
                 return false;
             }
             catch (SecurityException e)
             {
-                Log.LogErrorWithCodeFromResources("RegisterAssembly.CantRegisterAssembly", assemblyPath, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RegisterAssembly_CantRegisterAssembly, assemblyPath, e.Message);
                 return false;
             }
 

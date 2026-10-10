@@ -304,7 +304,7 @@ namespace Microsoft.Build.Tasks
 
             if (pathToTool == null)
             {
-                Log.LogErrorWithCodeFromResources("General.FrameworksFileNotFound", ToolExe,
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_FrameworksFileNotFound, ToolExe,
                     ToolLocationHelper.GetDotNetFrameworkVersionFolderPrefix(TargetDotNetFrameworkVersion.Latest));
             }
 
@@ -318,25 +318,25 @@ namespace Microsoft.Build.Tasks
         {
             if (MetabasePath != null && (VirtualPath != null || PhysicalPath != null))
             {
-                Log.LogErrorWithCodeFromResources("AspNetCompiler.CannotCombineMetabaseAndVirtualPathOrPhysicalPath");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AspNetCompiler_CannotCombineMetabaseAndVirtualPathOrPhysicalPath);
                 return false;
             }
 
             if (MetabasePath == null && VirtualPath == null)
             {
-                Log.LogErrorWithCodeFromResources("AspNetCompiler.MissingMetabasePathAndVirtualPath");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AspNetCompiler_MissingMetabasePathAndVirtualPath);
                 return false;
             }
 
             if (Updateable && TargetPath == null)
             {
-                Log.LogErrorWithCodeFromResources("AspNetCompiler.MissingTargetPathForUpdatableApplication");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AspNetCompiler_MissingTargetPathForUpdatableApplication);
                 return false;
             }
 
             if (Force && TargetPath == null)
             {
-                Log.LogErrorWithCodeFromResources("AspNetCompiler.MissingTargetPathForOverwrittenApplication");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AspNetCompiler_MissingTargetPathForOverwrittenApplication);
                 return false;
             }
 

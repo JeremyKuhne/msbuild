@@ -274,11 +274,11 @@ namespace Microsoft.Build.Graph
             {
                 throw new ArgumentException(
                     ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(
-                        "StaticGraphAcceptsSingleSolutionEntryPoint",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@StaticGraphAcceptsSingleSolutionEntryPoint,
                         string.Join(";", entryPoints.Select(e => e.ProjectFile))));
             }
 
-            ErrorUtilities.VerifyThrowArgument(entryPoints.Count == 1, "StaticGraphAcceptsSingleSolutionEntryPoint");
+            ErrorUtilities.VerifyThrowArgument(entryPoints.Count == 1, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@StaticGraphAcceptsSingleSolutionEntryPoint);
 
             ProjectGraphEntryPoint solutionEntryPoint = entryPoints.Single();
             ImmutableDictionary<string, string>.Builder solutionGlobalPropertiesBuilder = ImmutableDictionary.CreateBuilder(
@@ -296,7 +296,7 @@ namespace Microsoft.Build.Graph
             {
                 throw new InvalidProjectFileException(
                     ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(
-                        "StaticGraphSolutionLoaderEncounteredSolutionWarningsAndErrors",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@StaticGraphSolutionLoaderEncounteredSolutionWarningsAndErrors,
                         solutionEntryPoint.ProjectFile,
                         string.Join(";", Solution.SolutionParserWarnings),
                         string.Join(";", Solution.SolutionParserErrorCodes)));
@@ -367,7 +367,7 @@ namespace Microsoft.Build.Graph
                             ProjectFileErrorUtilities.ThrowInvalidProjectFile(
                                 "SubCategoryForSolutionParsingErrors",
                                 new BuildEventFileInfo(Solution.FullPath),
-                                "SolutionParseProjectDepNotFoundError",
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseProjectDepNotFoundError,
                                 project.ProjectGuid,
                                 dependencyProjectGuid);
                         }
@@ -497,7 +497,7 @@ namespace Microsoft.Build.Graph
                                     FormatCircularDependencyError(new List<string> { node.ProjectInstance.FullPath, node.ProjectInstance.FullPath });
                                 throw new CircularDependencyException(
                                     string.Format(
-                                        ResourceUtilities.GetResourceString("CircularDependencyInProjectGraph"),
+                                        ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CircularDependencyInProjectGraph),
                                         selfReferencingProjectString));
                             }
 
@@ -522,7 +522,7 @@ namespace Microsoft.Build.Graph
                                 var errorMessage = FormatCircularDependencyError(loadReference.projectsInCycle);
                                 throw new CircularDependencyException(
                                     string.Format(
-                                        ResourceUtilities.GetResourceString("CircularDependencyInProjectGraph"),
+                                        ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CircularDependencyInProjectGraph),
                                         errorMessage));
                             }
 
@@ -558,7 +558,7 @@ namespace Microsoft.Build.Graph
                 string referrerList = string.Join(", ", referrers.Distinct().OrderBy(r => r));
 
                 string enrichedMessage = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(
-                    "ProjectGraphProjectFileCannotBeLoadedWithReferrers",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectGraphProjectFileCannotBeLoadedWithReferrers,
                     configurationMetadata.ProjectFullPath,
                     referrerList);
 
@@ -585,7 +585,7 @@ namespace Microsoft.Build.Graph
 
             if (projectInstance == null)
             {
-                throw new InvalidOperationException(ResourceUtilities.GetResourceString("NullReferenceFromProjectInstanceFactory"));
+                throw new InvalidOperationException(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@NullReferenceFromProjectInstanceFactory));
             }
 
             var graphNode = new ProjectGraphNode(projectInstance);
@@ -630,7 +630,7 @@ namespace Microsoft.Build.Graph
                 if (FileUtilities.IsSolutionFilename(referenceInfo.ReferenceConfiguration.ProjectFullPath))
                 {
                     throw new InvalidOperationException(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(
-                        "StaticGraphDoesNotSupportSlnReferences",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@StaticGraphDoesNotSupportSlnReferences,
                         referenceInfo.ReferenceConfiguration.ProjectFullPath,
                         referenceInfo.ReferenceConfiguration.ProjectFullPath));
                 }

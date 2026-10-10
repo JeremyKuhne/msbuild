@@ -111,7 +111,7 @@ namespace Microsoft.Build.Graph
                         String.Format(
                             CultureInfo.InvariantCulture,
                             ResourceUtilities.GetResourceString(
-                                "ProjectGraphDoesNotSupportProjectReferenceWithToolset"),
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectGraphDoesNotSupportProjectReferenceWithToolset),
                             projectReferenceItem.EvaluatedInclude,
                             requesterInstance.FullPath));
                 }
@@ -487,7 +487,7 @@ namespace Microsoft.Build.Graph
             throw new InvalidProjectFileException(
                 String.Format(
                     CultureInfo.InvariantCulture,
-                    ResourceUtilities.GetResourceString("General.InvalidPropertyError"),
+                    ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidPropertyError),
                     syntaxName,
                     propertyNameAndValuesString));
         }

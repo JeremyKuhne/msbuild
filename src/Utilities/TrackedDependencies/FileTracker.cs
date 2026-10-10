@@ -760,6 +760,14 @@ namespace Microsoft.Build.Utilities
             }
         }
 
+        internal static void LogMessageFromResources(TaskLoggingHelper Log, MessageImportance importance, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            if (Log is not null)
+            {
+                Log.LogMessage(importance, AssemblyResources.GetString(messageResourceName), messageArgs);
+            }
+        }
+
         /// <summary>
         /// Logs a message of the given importance using the specified string.
         /// </summary>
@@ -788,6 +796,9 @@ namespace Microsoft.Build.Utilities
             Log?.LogWarningWithCodeFromResources(messageResourceName, messageArgs);
         }
 
+        internal static void LogWarningWithCodeFromResources(TaskLoggingHelper Log, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+            => Log?.LogWarningWithCodeFromResources(messageResourceName, messageArgs);
+
         #endregion
     }
 #pragma warning restore format
@@ -801,4 +812,3 @@ namespace Microsoft.Build.Utilities
 }
 
 #endif
-

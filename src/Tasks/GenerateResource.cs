@@ -693,7 +693,7 @@ namespace Microsoft.Build.Tasks
                 // If there are no sources to process, just return (with success) and report the condition.
                 if ((Sources == null) || (Sources.Length == 0))
                 {
-                    Log.LogMessageFromResources(MessageImportance.Low, "GenerateResource.NoSources");
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_NoSources);
                     // Indicate we generated nothing
                     OutputResources = null;
                     return true;
@@ -731,7 +731,7 @@ namespace Microsoft.Build.Tasks
                             OutputResources = cachedOutputFiles.ToArray();
                         }
 
-                        Log.LogMessageFromResources("GenerateResource.NothingOutOfDate");
+                        Log.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_NothingOutOfDate);
                     }
                     else
                     {
@@ -746,7 +746,7 @@ namespace Microsoft.Build.Tasks
 
                     for (int index = 0; index < maxCount; index++)
                     {
-                        Log.LogErrorFromResources("GenerateResource.ProcessingFile", inputsToProcess[index], outputsToProcess[index]);
+                        Log.LogErrorFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_ProcessingFile, inputsToProcess[index], outputsToProcess[index]);
                     }
 
                     return false;
@@ -768,7 +768,7 @@ namespace Microsoft.Build.Tasks
                     {
                         if (IsDangerous(source.ItemSpec))
                         {
-                            Log.LogErrorWithCodeFromResources("GenerateResource.MOTW", source.ItemSpec);
+                            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_MOTW, source.ItemSpec);
                             dangerousResourceFound = true;
                         }
                     }
@@ -1148,7 +1148,7 @@ namespace Microsoft.Build.Tasks
 
                 if (_resgenPath == null && ExecuteAsTool)
                 {
-                    Log.LogErrorWithCodeFromResources("General.PlatformSDKFileNotFound", "resgen.exe",
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_PlatformSDKFileNotFound, "resgen.exe",
                         ToolLocationHelper.GetDotNetFrameworkSdkInstallKeyValue(version),
                         ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(version));
                 }
@@ -1401,7 +1401,7 @@ namespace Microsoft.Build.Tasks
             // make sure that if the output resources were set, they exactly match the number of input sources
             if ((OutputResources != null) && (OutputResources.Length != Sources.Length))
             {
-                Log.LogErrorWithCodeFromResources("General.TwoVectorsMustHaveSameLength", Sources.Length, OutputResources.Length, "Sources", "OutputResources");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_TwoVectorsMustHaveSameLength, Sources.Length, OutputResources.Length, "Sources", "OutputResources");
                 return false;
             }
 
@@ -1413,7 +1413,7 @@ namespace Microsoft.Build.Tasks
                 // STR classes for each input, but then the class name and file name parameters would have to be vectors.
                 if (Sources.Length != 1)
                 {
-                    Log.LogErrorWithCodeFromResources("GenerateResource.STRLanguageButNotExactlyOneSourceFile");
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_STRLanguageButNotExactlyOneSourceFile);
                     return false;
                 }
             }
@@ -1423,7 +1423,7 @@ namespace Microsoft.Build.Tasks
                 {
                     // We have no language to generate a STR, but nevertheless the user passed us a class,
                     // namespace, and/or filename. Let them know that they probably wanted to pass a language too.
-                    Log.LogErrorWithCodeFromResources("GenerateResource.STRClassNamespaceOrFilenameWithoutLanguage");
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_STRClassNamespaceOrFilenameWithoutLanguage);
                     return false;
                 }
             }
@@ -1433,7 +1433,7 @@ namespace Microsoft.Build.Tasks
                 // This combination isn't currently supported, because ResGen may produce some not-easily-predictable
                 // set of ResW files and we don't have any logic to get that set of files back into GenerateResource
                 // at the moment.  This could be solved fixed with some engineering effort.
-                Log.LogErrorWithCodeFromResources("GenerateResource.ExecuteAsToolAndExtractResWNotSupported");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_ExecuteAsToolAndExtractResWNotSupported);
                 return false;
             }
 
@@ -1484,7 +1484,7 @@ namespace Microsoft.Build.Tasks
                 if (!FileSystems.Default.FileExists(Sources[i].ItemSpec))
                 {
                     // Error but continue with the files that do exist
-                    Log.LogErrorWithCodeFromResources("GenerateResource.ResourceNotFound", Sources[i].ItemSpec);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_ResourceNotFound, Sources[i].ItemSpec);
                     _unsuccessfullyCreatedOutFiles.Add(OutputResources[i].ItemSpec);
                 }
                 else
@@ -1549,13 +1549,13 @@ namespace Microsoft.Build.Tasks
                     // Get the fully qualified path, to ensure two file names don't end up pointing to the same directory.
                     if (!set.Add(item.GetMetadata("FullPath")))
                     {
-                        Log.LogErrorWithCodeFromResources("GenerateResource.DuplicateOutputFilenames", item.ItemSpec);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_DuplicateOutputFilenames, item.ItemSpec);
                         return true;
                     }
                 }
                 catch (InvalidOperationException e)
                 {
-                    Log.LogErrorWithCodeFromResources("GenerateResource.InvalidFilename", item.ItemSpec, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_InvalidFilename, item.ItemSpec, e.Message);
                     // Returning true causes us to not continue executing.
                     return true;
                 }
@@ -1590,7 +1590,7 @@ namespace Microsoft.Build.Tasks
             if (_newestUncorrelatedInput != null && _newestUncorrelatedInputWriteTime > outputTime)
             {
                 // An uncorrelated input is newer, need to build
-                Log.LogMessageFromResources(MessageImportance.Low, "GenerateResource.InputNewer", _newestUncorrelatedInput, outputFilePath);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_InputNewer, _newestUncorrelatedInput, outputFilePath);
                 return true;
             }
 
@@ -1646,14 +1646,14 @@ namespace Microsoft.Build.Tasks
                     {
                         // Linked file is missing - force a build, so that resource generation
                         // will produce a nice error message
-                        Log.LogMessageFromResources(MessageImportance.Low, "GenerateResource.LinkedInputDoesntExist", linkedFilePath);
+                        Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_LinkedInputDoesntExist, linkedFilePath);
                         return true;
                     }
 
                     if (linkedFileTime > outputTime)
                     {
                         // Linked file is newer, need to build
-                        Log.LogMessageFromResources(MessageImportance.Low, "GenerateResource.LinkedInputNewer", linkedFilePath, outputFilePath);
+                        Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_LinkedInputNewer, linkedFilePath, outputFilePath);
                         return true;
                     }
                 }
@@ -1671,14 +1671,14 @@ namespace Microsoft.Build.Tasks
             if (outputTime == DateTime.MinValue)
             {
                 // Output file is missing, need to build
-                Log.LogMessageFromResources(MessageImportance.Low, "GenerateResource.OutputDoesntExist", outputFilePath);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_OutputDoesntExist, outputFilePath);
                 return true;
             }
 
             if (sourceTime > outputTime)
             {
                 // Source file is newer, need to build
-                Log.LogMessageFromResources(MessageImportance.Low, "GenerateResource.InputNewer", sourceFilePath, outputFilePath);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_InputNewer, sourceFilePath, outputFilePath);
                 return true;
             }
 
@@ -1686,7 +1686,7 @@ namespace Microsoft.Build.Tasks
             if (_newestUncorrelatedInput != null && _newestUncorrelatedInputWriteTime > outputTime)
             {
                 // An uncorrelated input is newer, need to build
-                Log.LogMessageFromResources(MessageImportance.Low, "GenerateResource.InputNewer", _newestUncorrelatedInput, outputFilePath);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_InputNewer, _newestUncorrelatedInput, outputFilePath);
                 return true;
             }
 
@@ -1714,7 +1714,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
             {
-                Log.LogErrorWithCodeFromResources("GenerateResource.CannotWriteSTRFile", StronglyTypedFileName, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_CannotWriteSTRFile, StronglyTypedFileName, e.Message);
                 // Now that we've logged an error, we know we're not going to do anything more, so
                 // don't bother to correctly populate the inputs / outputs.
                 _unsuccessfullyCreatedOutFiles.Add(OutputResources[0].ItemSpec);
@@ -1734,19 +1734,19 @@ namespace Microsoft.Build.Tasks
             {
                 // Source file is missing - force a build, so that resource generation
                 // will produce a nice error message
-                Log.LogMessageFromResources(MessageImportance.Low, "GenerateResource.InputDoesntExist", Sources[0].ItemSpec);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_InputDoesntExist, Sources[0].ItemSpec);
                 needToRebuildSTR = true;
             }
             else if (outputTime == DateTime.MinValue)
             {
                 // Output file is missing, need to build it
-                Log.LogMessageFromResources(MessageImportance.Low, "GenerateResource.OutputDoesntExist", StronglyTypedFileName);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_OutputDoesntExist, StronglyTypedFileName);
                 needToRebuildSTR = true;
             }
             else if (sourceTime > outputTime)
             {
                 // Source file is newer, need to build
-                Log.LogMessageFromResources(MessageImportance.Low, "GenerateResource.InputNewer", Sources[0].ItemSpec, StronglyTypedFileName);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_InputNewer, Sources[0].ItemSpec, StronglyTypedFileName);
                 needToRebuildSTR = true;
             }
 
@@ -1794,7 +1794,7 @@ namespace Microsoft.Build.Tasks
                     _newestUncorrelatedInput = input.ItemSpec;
                     _newestUncorrelatedInputWriteTime = time;
                     // Log it here so it's logged only once for all inputs
-                    Log.LogMessageFromResources(MessageImportance.Low, "GenerateResource.InputDoesntExist", _newestUncorrelatedInput);
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_InputDoesntExist, _newestUncorrelatedInput);
                     return;
                 }
 
@@ -1818,7 +1818,7 @@ namespace Microsoft.Build.Tasks
         {
             if (NeverLockTypeAssemblies)
             {
-                Log.LogMessageFromResources(MessageImportance.Low, "GenerateResource.SeparateAppDomainBecauseNeverLockTypeAssembliesTrue");
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_SeparateAppDomainBecauseNeverLockTypeAssembliesTrue);
                 return true;
             }
 
@@ -1906,7 +1906,7 @@ namespace Microsoft.Build.Tasks
                                             // The type didn't start with "System." so return true.
                                             Log.LogMessageFromResources(
                                                 MessageImportance.Low,
-                                                "GenerateResource.SeparateAppDomainBecauseOfType",
+                                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_SeparateAppDomainBecauseOfType,
                                                 name ?? String.Empty,
                                                 typeName,
                                                 source.ItemSpec,
@@ -1950,7 +1950,7 @@ namespace Microsoft.Build.Tasks
                                         {
                                             Log.LogMessageFromResources(
                                                 MessageImportance.Low,
-                                                "GenerateResource.SeparateAppDomainBecauseOfMimeType",
+                                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_SeparateAppDomainBecauseOfMimeType,
                                                 name ?? String.Empty,
                                                 mimeType,
                                                 source.ItemSpec,
@@ -1980,7 +1980,7 @@ namespace Microsoft.Build.Tasks
                     {
                         Log.LogMessageFromResources(
                                         MessageImportance.Low,
-                                        "GenerateResource.SeparateAppDomainBecauseOfExceptionLineNumber",
+                                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_SeparateAppDomainBecauseOfExceptionLineNumber,
                                         source.ItemSpec,
                                         ((IXmlLineInfo)reader).LineNumber,
                                         e.Message);
@@ -1991,7 +1991,7 @@ namespace Microsoft.Build.Tasks
                     {
                         Log.LogMessageFromResources(
                                         MessageImportance.Low,
-                                        "GenerateResource.SeparateAppDomainBecauseOfErrorDeserializingLineNumber",
+                                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_SeparateAppDomainBecauseOfErrorDeserializingLineNumber,
                                         source.ItemSpec,
                                         name ?? String.Empty,
                                         ((IXmlLineInfo)reader).LineNumber,
@@ -2015,7 +2015,7 @@ namespace Microsoft.Build.Tasks
                         // fall back to using a separate AppDomain.
                         Log.LogMessageFromResources(
                                         MessageImportance.Low,
-                                        "GenerateResource.SeparateAppDomainBecauseOfException",
+                                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_SeparateAppDomainBecauseOfException,
                                         source.ItemSpec,
                                         e.Message);
 
@@ -2142,7 +2142,7 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (ArgumentException e)
                 {
-                    Log.LogErrorWithCodeFromResources("GenerateResource.InvalidFilename", Sources[i].ItemSpec, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_InvalidFilename, Sources[i].ItemSpec, e.Message);
                     return false;
                 }
             }
@@ -2643,7 +2643,7 @@ namespace Microsoft.Build.Tasks
                 Format outFileFormat = GetFormat(outFileOrDir);
                 if (outFileFormat == Format.Assembly)
                 {
-                    _logger.LogErrorFromResources("GenerateResource.CannotWriteAssembly", outFileOrDir);
+                    _logger.LogErrorFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_CannotWriteAssembly, outFileOrDir);
                     return false;
                 }
                 else if (outFileFormat == Format.Error)
@@ -2654,7 +2654,7 @@ namespace Microsoft.Build.Tasks
 
             if (!_extractResWFiles)
             {
-                _logger.LogMessageFromResources("GenerateResource.ProcessingFile", inFile, outFileOrDir);
+                _logger.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_ProcessingFile, inFile, outFileOrDir);
             }
 
             // Reset state
@@ -2667,13 +2667,13 @@ namespace Microsoft.Build.Tasks
             catch (InputFormatNotSupportedException)
             {
                 _logger.LogErrorWithCodeFromResources(null, FileUtilities.GetFullPathNoThrow(inFile), 0, 0, 0, 0,
-                                                      "GenerateResource.CoreSupportsLimitedScenarios");
+                                                      messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_CoreSupportsLimitedScenarios);
                 return false;
             }
             catch (MSBuildResXException msbuildResXException)
             {
                 _logger.LogErrorWithCodeFromResources(null, FileUtilities.GetFullPathNoThrow(inFile), 0, 0, 0, 0,
-                    "General.InvalidResxFile", msbuildResXException.InnerException.ToString());
+                    messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidResxFile, msbuildResXException.InnerException.ToString());
                 return false;
             }
             catch (ArgumentException ae)
@@ -2681,12 +2681,12 @@ namespace Microsoft.Build.Tasks
                 if (ae.InnerException is XmlException xe)
                 {
                     _logger.LogErrorWithCodeFromResources(null, FileUtilities.GetFullPathNoThrow(inFile), xe.LineNumber,
-                        xe.LinePosition, 0, 0, "General.InvalidResxFile", xe.Message);
+                        xe.LinePosition, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidResxFile, xe.Message);
                 }
                 else
                 {
                     _logger.LogErrorWithCodeFromResources(null, FileUtilities.GetFullPathNoThrow(inFile), 0, 0, 0, 0,
-                        "General.InvalidResxFile", ae.Message);
+                        messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidResxFile, ae.Message);
                 }
                 return false;
             }
@@ -2694,13 +2694,13 @@ namespace Microsoft.Build.Tasks
             {
                 // Used to pass back error context from ReadTextResources to here.
                 _logger.LogErrorWithCodeFromResources(null, tfe.FileName, tfe.LineNumber, tfe.LinePosition, 1, 1,
-                    "GenerateResource.MessageTunnel", tfe.Message);
+                    messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_MessageTunnel, tfe.Message);
                 return false;
             }
             catch (XmlException xe)
             {
                 _logger.LogErrorWithCodeFromResources(null, FileUtilities.GetFullPathNoThrow(inFile), xe.LineNumber,
-                    xe.LinePosition, 0, 0, "General.InvalidResxFile", xe.Message);
+                    xe.LinePosition, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidResxFile, xe.Message);
                 return false;
             }
             catch (Exception e) when (
@@ -2711,7 +2711,7 @@ namespace Microsoft.Build.Tasks
                 // SerializationException and TargetInvocationException can occur when trying to deserialize a type from a resource format (typically with other exceptions inside)
                 // This is a bug in the type being serialized, so the best we can do is dump diagnostic information and move on to the next input resource file.
                 _logger.LogErrorWithCodeFromResources(null, FileUtilities.GetFullPathNoThrow(inFile), 0, 0, 0, 0,
-                    "General.InvalidResxFile", e.Message);
+                    messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidResxFile, e.Message);
 
                 // Log the stack, so the problem with the type in the .resx is diagnosable by the customer
                 _logger.LogErrorFromException(e, /* stack */ true, /* inner exceptions */ true,
@@ -2722,7 +2722,7 @@ namespace Microsoft.Build.Tasks
             {
                 // Regular IO error
                 _logger.LogErrorWithCodeFromResources(null, FileUtilities.GetFullPathNoThrow(inFile), 0, 0, 0, 0,
-                    "General.InvalidResxFile", e.Message);
+                    messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidResxFile, e.Message);
                 return false;
             }
 
@@ -2806,7 +2806,7 @@ namespace Microsoft.Build.Tasks
                     catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                     {
                         // IO Error
-                        _logger.LogErrorWithCodeFromResources("GenerateResource.CannotWriteSTRFile",
+                        _logger.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_CannotWriteSTRFile,
                             _stronglyTypedFilename, e.Message);
 
                         if (FileSystems.Default.FileExists(outFileOrDir)
@@ -2829,7 +2829,7 @@ namespace Microsoft.Build.Tasks
             {
                 if (currentOutputFile != null)
                 {
-                    _logger.LogErrorWithCodeFromResources("GenerateResource.CannotWriteOutput",
+                    _logger.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_CannotWriteOutput,
                         FileUtilities.GetFullPathNoThrow(currentOutputFile), io.Message);
                     if (FileSystems.Default.FileExists(currentOutputFile))
                     {
@@ -2863,7 +2863,7 @@ namespace Microsoft.Build.Tasks
                 // DDB #9819
                 // SerializationException and TargetInvocationException can occur when trying to serialize a type into a resource format (typically with other exceptions inside)
                 // This is a bug in the type being serialized, so the best we can do is dump diagnostic information and move on to the next input resource file.
-                _logger.LogErrorWithCodeFromResources("GenerateResource.CannotWriteOutput",
+                _logger.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_CannotWriteOutput,
                     FileUtilities.GetFullPathNoThrow(inFile), e.Message); // Input file is more useful to log
 
                 // Log the stack, so the problem with the type in the .resx is diagnosable by the customer
@@ -2874,7 +2874,7 @@ namespace Microsoft.Build.Tasks
             catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
             {
                 // Regular IO error
-                _logger.LogErrorWithCodeFromResources("GenerateResource.CannotWriteOutput",
+                _logger.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_CannotWriteOutput,
                     FileUtilities.GetFullPathNoThrow(currentOutputFile), e.Message);
                 return false;
             }
@@ -2939,7 +2939,7 @@ namespace Microsoft.Build.Tasks
                 // Can't do anything more without violating correctness.
                 if (!success)
                 {
-                    _logger.LogErrorWithCodeFromResources("GenerateResource.PathTooLong", currentOutputFile);
+                    _logger.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_PathTooLong, currentOutputFile);
                     currentOutputFile = null;
                     // We've logged an error message.  This MSBuild task will fail, but can continue processing other input (to find other errors).
                 }
@@ -2953,14 +2953,14 @@ namespace Microsoft.Build.Tasks
         /// <param name="filename">Full path to file to delete</param>
         private void RemoveCorruptedFile(string filename)
         {
-            _logger.LogMessageFromResources("GenerateResource.CorruptOutput", FileUtilities.GetFullPathNoThrow(filename));
+            _logger.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_CorruptOutput, FileUtilities.GetFullPathNoThrow(filename));
             try
             {
                 File.Delete(filename);
             }
             catch (Exception deleteException)
             {
-                _logger.LogWarningWithCodeFromResources("GenerateResource.DeleteCorruptOutputFailed", FileUtilities.GetFullPathNoThrow(filename), deleteException.Message);
+                _logger.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_DeleteCorruptOutputFailed, FileUtilities.GetFullPathNoThrow(filename), deleteException.Message);
 
                 if (ExceptionHandling.NotExpectedException(deleteException))
                 {
@@ -2983,7 +2983,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (ArgumentException ex)
             {
-                _logger.LogErrorWithCodeFromResources("GenerateResource.InvalidFilename", filename, ex.Message);
+                _logger.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_InvalidFilename, filename, ex.Message);
                 return Format.Error;
             }
 
@@ -3009,7 +3009,7 @@ namespace Microsoft.Build.Tasks
             }
             else
             {
-                _logger.LogErrorWithCodeFromResources("GenerateResource.UnknownFileExtension", Path.GetExtension(filename), filename);
+                _logger.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_UnknownFileExtension, Path.GetExtension(filename), filename);
                 return Format.Error;
             }
         }
@@ -3113,7 +3113,7 @@ namespace Microsoft.Build.Tasks
                         Debug.Fail($"Unknown format {format}");
                         return;
                 }
-                _logger.LogMessageFromResources(MessageImportance.Low, "GenerateResource.ReadResourceMessage", reader.resources.Count, filename);
+                _logger.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_ReadResourceMessage, reader.resources.Count, filename);
             }
         }
 
@@ -3147,7 +3147,7 @@ namespace Microsoft.Build.Tasks
             // If something else in the solution failed to build...
             if (!FileSystems.Default.FileExists(name))
             {
-                _logger.LogErrorWithCodeFromResources("GenerateResource.MissingFile", name);
+                _logger.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_MissingFile, name);
                 return;
             }
 
@@ -3172,11 +3172,11 @@ namespace Microsoft.Build.Tasks
                                 targetFrameworkAttribute.FrameworkName.StartsWith("WindowsPhone,", StringComparison.OrdinalIgnoreCase)))
                     {
                         // Skip Silverlight assemblies.
-                        _logger.LogMessageFromResources("GenerateResource.SkippingExtractingFromNonSupportedFramework", name, targetFrameworkAttribute.FrameworkName);
+                        _logger.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_SkippingExtractingFromNonSupportedFramework, name, targetFrameworkAttribute.FrameworkName);
                         return;
                     }
 
-                    _logger.LogMessageFromResources("GenerateResource.ExtractingResWFiles", name, outFileOrDir);
+                    _logger.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_ExtractingResWFiles, name, outFileOrDir);
                 }
 
                 CultureInfo ci = null;
@@ -3186,7 +3186,7 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (ArgumentException e)
                 {
-                    _logger.LogWarningWithCodeFromResources(null, name, 0, 0, 0, 0, "GenerateResource.CreatingCultureInfoFailed", e.GetType().Name, e.Message, assemblyName.ToString());
+                    _logger.LogWarningWithCodeFromResources(null, name, 0, 0, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_CreatingCultureInfoFailed, e.GetType().Name, e.Message, assemblyName.ToString());
                     failedLoadingCultureInfo = true;
                 }
 
@@ -3210,7 +3210,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e) when (!ExceptionHandling.IsCriticalException(e))
             {
-                _logger.LogErrorWithCodeFromResources("GenerateResource.CannotLoadAssemblyLoadFromFailed", name, e);
+                _logger.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_CannotLoadAssemblyLoadFromFailed, name, e);
             }
 
             if (a != null)
@@ -3238,19 +3238,19 @@ namespace Microsoft.Build.Tasks
                     {
                         if (CultureInfo.InvariantCulture.CompareInfo.IsSuffix(resName, ".en-US.resources", CompareOptions.IgnoreCase))
                         {
-                            _logger.LogErrorFromResources("GenerateResource.ImproperlyBuiltMainAssembly", resName, name);
+                            _logger.LogErrorFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_ImproperlyBuiltMainAssembly, resName, name);
                             continue;
                         }
 
                         if (neutralResourcesLanguageAttribute == null)
                         {
-                            _logger.LogWarningWithCodeFromResources(null, name, 0, 0, 0, 0, "GenerateResource.MainAssemblyMissingNeutralResourcesLanguage", name);
+                            _logger.LogWarningWithCodeFromResources(null, name, 0, 0, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_MainAssemblyMissingNeutralResourcesLanguage, name);
                             break;
                         }
                     }
                     else if (!failedLoadingCultureInfo && !CultureInfo.InvariantCulture.CompareInfo.IsSuffix(resName, expectedExt, CompareOptions.IgnoreCase))
                     {
-                        _logger.LogErrorFromResources("GenerateResource.ImproperlyBuiltSatelliteAssembly", resName, expectedExt, name);
+                        _logger.LogErrorFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_ImproperlyBuiltSatelliteAssembly, resName, expectedExt, name);
                         continue;
                     }
 
@@ -3298,7 +3298,7 @@ namespace Microsoft.Build.Tasks
                     }
                     catch (FileNotFoundException)
                     {
-                        _logger.LogErrorWithCodeFromResources(null, name, 0, 0, 0, 0, "GenerateResource.NoResourcesFileInAssembly", resName);
+                        _logger.LogErrorWithCodeFromResources(null, name, 0, 0, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_NoResourcesFileInAssembly, resName);
                     }
                 }
             }
@@ -3331,7 +3331,7 @@ namespace Microsoft.Build.Tasks
                     bool fallbackToSatellite = neutralResourcesLanguageAttribute.Location == UltimateResourceFallbackLocation.Satellite;
                     if (!fallbackToSatellite && neutralResourcesLanguageAttribute.Location != UltimateResourceFallbackLocation.MainAssembly)
                     {
-                        _logger.LogWarningWithCodeFromResources(null, name, 0, 0, 0, 0, "GenerateResource.UnrecognizedUltimateResourceFallbackLocation", neutralResourcesLanguageAttribute.Location, name);
+                        _logger.LogWarningWithCodeFromResources(null, name, 0, 0, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_UnrecognizedUltimateResourceFallbackLocation, neutralResourcesLanguageAttribute.Location, name);
                     }
                     // This MSBuild task needs to not report an error for main assemblies that don't have managed resources.
                 }
@@ -3341,18 +3341,18 @@ namespace Microsoft.Build.Tasks
                 // Additional error checking from ResView.
                 if (!assemblyName.Name.EndsWith(".resources", StringComparison.OrdinalIgnoreCase))
                 {
-                    _logger.LogWarningWithCodeFromResources(null, name, 0, 0, 0, 0, "GenerateResource.SatelliteOrMalformedAssembly", name, culture.Name, assemblyName.Name);
+                    _logger.LogWarningWithCodeFromResources(null, name, 0, 0, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_SatelliteOrMalformedAssembly, name, culture.Name, assemblyName.Name);
                     return null;
                 }
                 Type[] types = a.GetTypes();
                 if (types.Length > 0)
                 {
-                    _logger.LogWarningWithCodeFromResources("GenerateResource.SatelliteAssemblyContainsCode", name);
+                    _logger.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_SatelliteAssemblyContainsCode, name);
                 }
 
                 if (!ContainsProperlyNamedResourcesFiles(a, false))
                 {
-                    _logger.LogWarningWithCodeFromResources("GenerateResource.SatelliteAssemblyContainsNoResourcesFile", assemblyName.CultureInfo.Name);
+                    _logger.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_SatelliteAssemblyContainsNoResourcesFile, assemblyName.CultureInfo.Name);
                 }
             }
             return neutralResourcesLanguageAttribute;
@@ -3396,7 +3396,7 @@ namespace Microsoft.Build.Tasks
                     break;
 
                 case Format.Assembly:
-                    _logger.LogErrorFromResources("GenerateResource.CannotWriteAssembly", filename);
+                    _logger.LogErrorFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_CannotWriteAssembly, filename);
                     break;
 
                 case Format.Binary:
@@ -3426,12 +3426,12 @@ namespace Microsoft.Build.Tasks
             {
                 if (!_usePreserializedResources)
                 {
-                    _logger.LogErrorWithCodeFromResources("GenerateResource.PreserializedResourcesRequiresProperty");
+                    _logger.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_PreserializedResourcesRequiresProperty);
                 }
 
                 if (!HaveSystemResourcesExtensionsReference)
                 {
-                    _logger.LogErrorWithCodeFromResources("GenerateResource.PreserializedResourcesRequiresExtensions");
+                    _logger.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_PreserializedResourcesRequiresExtensions);
                 }
 
                 // one of the above should have been logged as we would have used preserialized writer otherwise.
@@ -3513,7 +3513,7 @@ namespace Microsoft.Build.Tasks
                 }
                 sourceFile = this.StronglyTypedFilename;
 
-                _logger.LogMessageFromResources("GenerateResource.CreatingSTR", _stronglyTypedFilename);
+                _logger.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_CreatingSTR, _stronglyTypedFilename);
 
                 // Generate the STR class
                 StronglyTypedResourceBuilder.SkippedResource[] skippedResources;
@@ -3601,7 +3601,7 @@ namespace Microsoft.Build.Tasks
              (e is SystemException && e.GetType().Name == "ConfigurationErrorsException") // TODO: catch specific exception type once it is public https://github.com/dotnet/corefx/issues/40456
 #endif
             {
-                logger.LogErrorWithCodeFromResources("GenerateResource.STRCodeDomProviderFailed", stronglyTypedLanguage, e.Message);
+                logger.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_STRCodeDomProviderFailed, stronglyTypedLanguage, e.Message);
                 return false;
             }
 
@@ -3673,11 +3673,11 @@ namespace Microsoft.Build.Tasks
                         String skip = sr.ReadLine();
                         if (skip.Equals("strings]"))
                         {
-                            _logger.LogWarningWithCodeFromResources(null, fileName, sr.LineNumber - 1, 1, 0, 0, "GenerateResource.ObsoleteStringsTag");
+                            _logger.LogWarningWithCodeFromResources(null, fileName, sr.LineNumber - 1, 1, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_ObsoleteStringsTag);
                         }
                         else
                         {
-                            throw new TextFileException(_logger.FormatResourceString("GenerateResource.UnexpectedInfBracket", "[" + skip), fileName, sr.LineNumber - 1, 1);
+                            throw new TextFileException(_logger.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_UnexpectedInfBracket, "[" + skip), fileName, sr.LineNumber - 1, 1);
                         }
                         ch = sr.Read();
                         continue;
@@ -3689,7 +3689,7 @@ namespace Microsoft.Build.Tasks
                     {
                         if (ch == '\r' || ch == '\n')
                         {
-                            throw new TextFileException(_logger.FormatResourceString("GenerateResource.NoEqualsInLine", name), fileName, sr.LineNumber, sr.LinePosition);
+                            throw new TextFileException(_logger.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_NoEqualsInLine, name), fileName, sr.LineNumber, sr.LinePosition);
                         }
 
                         name.Append((char)ch);
@@ -3701,7 +3701,7 @@ namespace Microsoft.Build.Tasks
                     }
                     if (name.Length == 0)
                     {
-                        throw new TextFileException(_logger.FormatResourceString("GenerateResource.NoNameInLine"), fileName, sr.LineNumber, sr.LinePosition);
+                        throw new TextFileException(_logger.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_NoNameInLine), fileName, sr.LineNumber, sr.LinePosition);
                     }
 
                     // For the INF file, we must allow a space on both sides of the equals
@@ -3756,7 +3756,7 @@ namespace Microsoft.Build.Tasks
                                         int n = sr.Read(hex, index, numChars);
                                         if (n == 0)
                                         {
-                                            throw new TextFileException(_logger.FormatResourceString("GenerateResource.InvalidEscape", name.ToString(), (char)ch), fileName, sr.LineNumber, sr.LinePosition);
+                                            throw new TextFileException(_logger.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_InvalidEscape, name.ToString(), (char)ch), fileName, sr.LineNumber, sr.LinePosition);
                                         }
 
                                         index += n;
@@ -3775,18 +3775,18 @@ namespace Microsoft.Build.Tasks
                                     catch (FormatException)
                                     {
                                         // We know about this one...
-                                        throw new TextFileException(_logger.FormatResourceString("GenerateResource.InvalidHexEscapeValue", name.ToString(), new String(hex)), fileName, sr.LineNumber, sr.LinePosition);
+                                        throw new TextFileException(_logger.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_InvalidHexEscapeValue, name.ToString(), new String(hex)), fileName, sr.LineNumber, sr.LinePosition);
                                     }
                                     catch (OverflowException)
                                     {
                                         // We know about this one, too...
-                                        throw new TextFileException(_logger.FormatResourceString("GenerateResource.InvalidHexEscapeValue", name.ToString(), new String(hex)), fileName, sr.LineNumber, sr.LinePosition);
+                                        throw new TextFileException(_logger.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_InvalidHexEscapeValue, name.ToString(), new String(hex)), fileName, sr.LineNumber, sr.LinePosition);
                                     }
                                     quotedNewLine = (ch == '\n' || ch == '\r');
                                     break;
 
                                 default:
-                                    throw new TextFileException(_logger.FormatResourceString("GenerateResource.InvalidEscape", name.ToString(), (char)ch), fileName, sr.LineNumber, sr.LinePosition);
+                                    throw new TextFileException(_logger.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_InvalidEscape, name.ToString(), (char)ch), fileName, sr.LineNumber, sr.LinePosition);
                             }
                         }
 
@@ -3887,7 +3887,7 @@ namespace Microsoft.Build.Tasks
                     String value = v as String;
                     if (value == null)
                     {
-                        _logger.LogErrorWithCodeFromResources(null, fileName, 0, 0, 0, 0, "GenerateResource.OnlyStringsSupported", key, v?.GetType().FullName);
+                        _logger.LogErrorWithCodeFromResources(null, fileName, 0, 0, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_OnlyStringsSupported, key, v?.GetType().FullName);
                     }
                     else
                     {
@@ -3923,7 +3923,7 @@ namespace Microsoft.Build.Tasks
         {
             if (reader.resourcesHashTable.ContainsKey(entry.Name))
             {
-                _logger.LogWarningWithCodeFromResources(null, inputFileName, lineNumber, linePosition, 0, 0, "GenerateResource.DuplicateResourceName", entry.Name);
+                _logger.LogWarningWithCodeFromResources(null, inputFileName, lineNumber, linePosition, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_DuplicateResourceName, entry.Name);
                 return;
             }
 
@@ -4243,7 +4243,7 @@ namespace Microsoft.Build.Tasks
 
                 if (result == null && throwOnError)
                 {
-                    ErrorUtilities.ThrowArgument("GenerateResource.CouldNotLoadType", name);
+                    ErrorUtilities.ThrowArgument(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_CouldNotLoadType, name);
                 }
 
                 _cachedTypes[name] = result;

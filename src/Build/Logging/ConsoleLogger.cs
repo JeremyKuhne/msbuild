@@ -300,7 +300,7 @@ namespace Microsoft.Build.Logging
         /// </summary>
         public void ApplyParameter(string parameterName, string parameterValue)
         {
-            ErrorUtilities.VerifyThrowInvalidOperation(_consoleLogger != null, "MustCallInitializeBeforeApplyParameter");
+            ErrorUtilities.VerifyThrowInvalidOperation(_consoleLogger != null, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MustCallInitializeBeforeApplyParameter);
             _consoleLogger.ApplyParameter(parameterName, parameterValue);
         }
 

@@ -424,7 +424,7 @@ internal partial class Expander<P, I>
                     {
                         // In the event that we have been handed an unrecognized property body, throw
                         // an invalid function property exception.
-                        ProjectErrorUtilities.ThrowInvalidProject(_elementLocation, "InvalidFunctionPropertyExpression", propertyBody, String.Empty);
+                        ProjectErrorUtilities.ThrowInvalidProject(_elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression, propertyBody, String.Empty);
                         return null;
                     }
                 }
@@ -435,7 +435,7 @@ internal partial class Expander<P, I>
 
                     if (indexerStart < 0 || indexerEnd < 0)
                     {
-                        ProjectErrorUtilities.ThrowInvalidProject(_elementLocation, "InvalidFunctionPropertyExpression", propertyBody, AssemblyResources.GetString("InvalidFunctionPropertyExpressionDetailMismatchedSquareBrackets"));
+                        ProjectErrorUtilities.ThrowInvalidProject(_elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression, propertyBody, AssemblyResources.GetString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpressionDetailMismatchedSquareBrackets));
                     }
                     else
                     {
@@ -450,7 +450,7 @@ internal partial class Expander<P, I>
                 {
                     // In the event that we have been handed an unrecognized property body, throw
                     // an invalid function property exception.
-                    ProjectErrorUtilities.ThrowInvalidProject(_elementLocation, "InvalidFunctionPropertyExpression", propertyBody, string.Empty);
+                    ProjectErrorUtilities.ThrowInvalidProject(_elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression, propertyBody, string.Empty);
                     return null;
                 }
             }
@@ -689,7 +689,7 @@ internal partial class Expander<P, I>
             int firstAtSignOffset = registryLocation.IndexOf('@');
             int lastAtSignOffset = registryLocation.LastIndexOf('@');
 
-            ProjectErrorUtilities.VerifyThrowInvalidProject(firstAtSignOffset == lastAtSignOffset, _elementLocation, "InvalidRegistryPropertyExpression", "$(" + registryExpression + ")", String.Empty);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(firstAtSignOffset == lastAtSignOffset, _elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidRegistryPropertyExpression, "$(" + registryExpression + ")", String.Empty);
 
             string valueName = lastAtSignOffset == -1 || lastAtSignOffset == registryLocation.Length - 1
                 ? null : registryLocation.Substring(lastAtSignOffset + 1);
@@ -748,7 +748,7 @@ internal partial class Expander<P, I>
                 }
                 catch (Exception ex) when (!ExceptionHandling.NotExpectedRegistryException(ex))
                 {
-                    ProjectErrorUtilities.ThrowInvalidProject(_elementLocation, "InvalidRegistryPropertyExpression", $"$({registryExpression})", ex.Message);
+                    ProjectErrorUtilities.ThrowInvalidProject(_elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidRegistryPropertyExpression, $"$({registryExpression})", ex.Message);
                 }
             }
 

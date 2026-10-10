@@ -14,7 +14,7 @@ namespace Microsoft.Build.Logging
         {
             if (bytesCount is < 0 or > int.MaxValue)
             {
-                throw new ArgumentOutOfRangeException(nameof(bytesCount), ResourceUtilities.FormatResourceStringStripCodeAndKeyword("Binlog_StreamUtils_UnsupportedSkipOffset",
+                throw new ArgumentOutOfRangeException(nameof(bytesCount), ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Binlog_StreamUtils_UnsupportedSkipOffset,
                     bytesCount));
             }
 

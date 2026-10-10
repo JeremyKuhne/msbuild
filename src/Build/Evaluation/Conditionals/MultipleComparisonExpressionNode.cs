@@ -41,7 +41,7 @@ namespace Microsoft.Build.Evaluation
             ProjectErrorUtilities.VerifyThrowInvalidProject(
                 LeftChild != null && RightChild != null,
                  state.ElementLocation,
-                 "IllFormedCondition",
+                 global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@IllFormedCondition,
                  state.Condition);
 
             // It's sometimes possible to bail out of expansion early if we just need to know whether
@@ -89,7 +89,7 @@ namespace Microsoft.Build.Evaluation
             ProjectErrorUtilities.VerifyThrowInvalidProject(
                 leftExpandedValue != null && rightExpandedValue != null,
                     state.ElementLocation,
-                    "IllFormedCondition",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@IllFormedCondition,
                     state.Condition);
 
             UpdateConditionedProperties(state);

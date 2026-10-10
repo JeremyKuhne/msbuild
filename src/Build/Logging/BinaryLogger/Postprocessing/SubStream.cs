@@ -26,7 +26,7 @@ namespace Microsoft.Build.Logging
 
             if (!stream.CanRead)
             {
-                throw new NotSupportedException(ResourceUtilities.GetResourceString("Binlog_StreamUtils_MustBeReadable"));
+                throw new NotSupportedException(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Binlog_StreamUtils_MustBeReadable));
             }
         }
 

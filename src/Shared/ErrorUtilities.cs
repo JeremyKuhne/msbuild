@@ -56,6 +56,12 @@ internal static class ErrorUtilities
     {
         throw new InvalidOperationException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(resourceName, args));
     }
+        [DoesNotReturn]
+    internal static void ThrowInvalidOperation(global::Microsoft.Build.Framework.Resources.StringResource resourceName, params object?[] args)
+    {
+        throw new InvalidOperationException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(resourceName, args));
+    }
+
 
     /// <summary>
     /// Throws an InvalidOperationException if the given condition is false.
@@ -68,6 +74,15 @@ internal static class ErrorUtilities
             ThrowInvalidOperation(resourceName);
         }
     }
+        internal static void VerifyThrowInvalidOperation([DoesNotReturnIf(false)] bool condition, global::Microsoft.Build.Framework.Resources.StringResource resourceName)
+    {
+        ResourceUtilities.VerifyResourceStringExists(resourceName);
+        if (!condition)
+        {
+            ThrowInvalidOperation(resourceName);
+        }
+    }
+
 
     /// <summary>
     /// Overload for one string format argument.
@@ -83,6 +98,18 @@ internal static class ErrorUtilities
             ThrowInvalidOperation(resourceName, arg0);
         }
     }
+        internal static void VerifyThrowInvalidOperation([DoesNotReturnIf(false)] bool condition, global::Microsoft.Build.Framework.Resources.StringResource resourceName, object arg0)
+    {
+        ResourceUtilities.VerifyResourceStringExists(resourceName);
+        // PERF NOTE: check the condition here instead of pushing it into
+        // the ThrowInvalidOperation() method, because that method always
+        // allocates memory for its variable array of arguments
+        if (!condition)
+        {
+            ThrowInvalidOperation(resourceName, arg0);
+        }
+    }
+
 
     /// <summary>
     /// Overload for two string format arguments.
@@ -98,6 +125,18 @@ internal static class ErrorUtilities
             ThrowInvalidOperation(resourceName, arg0, arg1);
         }
     }
+        internal static void VerifyThrowInvalidOperation([DoesNotReturnIf(false)] bool condition, global::Microsoft.Build.Framework.Resources.StringResource resourceName, object arg0, object arg1)
+    {
+        ResourceUtilities.VerifyResourceStringExists(resourceName);
+        // PERF NOTE: check the condition here instead of pushing it into
+        // the ThrowInvalidOperation() method, because that method always
+        // allocates memory for its variable array of arguments
+        if (!condition)
+        {
+            ThrowInvalidOperation(resourceName, arg0, arg1);
+        }
+    }
+
 
     /// <summary>
     /// Overload for three string format arguments.
@@ -113,6 +152,18 @@ internal static class ErrorUtilities
             ThrowInvalidOperation(resourceName, arg0, arg1, arg2);
         }
     }
+        internal static void VerifyThrowInvalidOperation([DoesNotReturnIf(false)] bool condition, global::Microsoft.Build.Framework.Resources.StringResource resourceName, object arg0, object arg1, object arg2)
+    {
+        ResourceUtilities.VerifyResourceStringExists(resourceName);
+        // PERF NOTE: check the condition here instead of pushing it into
+        // the ThrowInvalidOperation() method, because that method always
+        // allocates memory for its variable array of arguments
+        if (!condition)
+        {
+            ThrowInvalidOperation(resourceName, arg0, arg1, arg2);
+        }
+    }
+
 
     /// <summary>
     /// Overload for four string format arguments.
@@ -129,6 +180,19 @@ internal static class ErrorUtilities
             ThrowInvalidOperation(resourceName, arg0, arg1, arg2, arg3);
         }
     }
+        internal static void VerifyThrowInvalidOperation([DoesNotReturnIf(false)] bool condition, global::Microsoft.Build.Framework.Resources.StringResource resourceName, object arg0, object arg1, object arg2, object arg3)
+    {
+        ResourceUtilities.VerifyResourceStringExists(resourceName);
+
+        // PERF NOTE: check the condition here instead of pushing it into
+        // the ThrowInvalidOperation() method, because that method always
+        // allocates memory for its variable array of arguments
+        if (!condition)
+        {
+            ThrowInvalidOperation(resourceName, arg0, arg1, arg2, arg3);
+        }
+    }
+
 
     /// <summary>
     /// Throws an ArgumentException that can include an inner exception.
@@ -142,6 +206,12 @@ internal static class ErrorUtilities
     {
         ThrowArgument(null, resourceName, args);
     }
+        [DoesNotReturn]
+    internal static void ThrowArgument(global::Microsoft.Build.Framework.Resources.StringResource resourceName, params object?[] args)
+    {
+        ThrowArgument(null, resourceName, args);
+    }
+
 
     /// <summary>
     /// Throws an ArgumentException that can include an inner exception.
@@ -161,6 +231,12 @@ internal static class ErrorUtilities
     {
         throw new ArgumentException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(resourceName, args), innerException);
     }
+        [DoesNotReturn]
+    internal static void ThrowArgument(Exception? innerException, global::Microsoft.Build.Framework.Resources.StringResource resourceName, params object?[] args)
+    {
+        throw new ArgumentException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(resourceName, args), innerException);
+    }
+
 
     /// <summary>
     /// Throws an ArgumentException if the given condition is false.
@@ -169,6 +245,11 @@ internal static class ErrorUtilities
     {
         VerifyThrowArgument(condition, null, resourceName);
     }
+        internal static void VerifyThrowArgument([DoesNotReturnIf(false)] bool condition, global::Microsoft.Build.Framework.Resources.StringResource resourceName)
+    {
+        VerifyThrowArgument(condition, null, resourceName);
+    }
+
 
     /// <summary>
     /// Overload for one string format argument.
@@ -177,6 +258,11 @@ internal static class ErrorUtilities
     {
         VerifyThrowArgument(condition, null, resourceName, arg0);
     }
+        internal static void VerifyThrowArgument([DoesNotReturnIf(false)] bool condition, global::Microsoft.Build.Framework.Resources.StringResource resourceName, object arg0)
+    {
+        VerifyThrowArgument(condition, null, resourceName, arg0);
+    }
+
 
     /// <summary>
     /// Overload for two string format arguments.
@@ -185,6 +271,11 @@ internal static class ErrorUtilities
     {
         VerifyThrowArgument(condition, null, resourceName, arg0, arg1);
     }
+        internal static void VerifyThrowArgument([DoesNotReturnIf(false)] bool condition, global::Microsoft.Build.Framework.Resources.StringResource resourceName, object arg0, object arg1)
+    {
+        VerifyThrowArgument(condition, null, resourceName, arg0, arg1);
+    }
+
 
     /// <summary>
     /// Overload for three string format arguments.
@@ -193,6 +284,11 @@ internal static class ErrorUtilities
     {
         VerifyThrowArgument(condition, null, resourceName, arg0, arg1, arg2);
     }
+        internal static void VerifyThrowArgument([DoesNotReturnIf(false)] bool condition, global::Microsoft.Build.Framework.Resources.StringResource resourceName, object arg0, object arg1, object arg2)
+    {
+        VerifyThrowArgument(condition, null, resourceName, arg0, arg1, arg2);
+    }
+
 
     /// <summary>
     /// Overload for four string format arguments.
@@ -201,6 +297,11 @@ internal static class ErrorUtilities
     {
         VerifyThrowArgument(condition, null, resourceName, arg0, arg1, arg2, arg3);
     }
+        internal static void VerifyThrowArgument([DoesNotReturnIf(false)] bool condition, global::Microsoft.Build.Framework.Resources.StringResource resourceName, object arg0, object arg1, object arg2, object arg3)
+    {
+        VerifyThrowArgument(condition, null, resourceName, arg0, arg1, arg2, arg3);
+    }
+
 
     /// <summary>
     /// Throws an ArgumentException that includes an inner exception, if
@@ -217,6 +318,15 @@ internal static class ErrorUtilities
             ThrowArgument(innerException, resourceName);
         }
     }
+        internal static void VerifyThrowArgument([DoesNotReturnIf(false)] bool condition, Exception? innerException, global::Microsoft.Build.Framework.Resources.StringResource resourceName)
+    {
+        ResourceUtilities.VerifyResourceStringExists(resourceName);
+        if (!condition)
+        {
+            ThrowArgument(innerException, resourceName);
+        }
+    }
+
 
     /// <summary>
     /// Overload for one string format argument.
@@ -230,6 +340,16 @@ internal static class ErrorUtilities
             ThrowArgument(innerException, resourceName, arg0);
         }
     }
+        internal static void VerifyThrowArgument([DoesNotReturnIf(false)] bool condition, Exception? innerException, global::Microsoft.Build.Framework.Resources.StringResource resourceName, object arg0)
+    {
+        ResourceUtilities.VerifyResourceStringExists(resourceName);
+
+        if (!condition)
+        {
+            ThrowArgument(innerException, resourceName, arg0);
+        }
+    }
+
 
     /// <summary>
     /// Overload for two string format arguments.
@@ -243,6 +363,16 @@ internal static class ErrorUtilities
             ThrowArgument(innerException, resourceName, arg0, arg1);
         }
     }
+        internal static void VerifyThrowArgument([DoesNotReturnIf(false)] bool condition, Exception? innerException, global::Microsoft.Build.Framework.Resources.StringResource resourceName, object arg0, object arg1)
+    {
+        ResourceUtilities.VerifyResourceStringExists(resourceName);
+
+        if (!condition)
+        {
+            ThrowArgument(innerException, resourceName, arg0, arg1);
+        }
+    }
+
 
     /// <summary>
     /// Overload for three string format arguments.
@@ -256,6 +386,16 @@ internal static class ErrorUtilities
             ThrowArgument(innerException, resourceName, arg0, arg1, arg2);
         }
     }
+        internal static void VerifyThrowArgument([DoesNotReturnIf(false)] bool condition, Exception? innerException, global::Microsoft.Build.Framework.Resources.StringResource resourceName, object arg0, object arg1, object arg2)
+    {
+        ResourceUtilities.VerifyResourceStringExists(resourceName);
+
+        if (!condition)
+        {
+            ThrowArgument(innerException, resourceName, arg0, arg1, arg2);
+        }
+    }
+
 
     /// <summary>
     /// Overload for four string format arguments.
@@ -269,6 +409,16 @@ internal static class ErrorUtilities
             ThrowArgument(innerException, resourceName, arg0, arg1, arg2, arg3);
         }
     }
+        internal static void VerifyThrowArgument([DoesNotReturnIf(false)] bool condition, Exception? innerException, global::Microsoft.Build.Framework.Resources.StringResource resourceName, object arg0, object arg1, object arg2, object arg3)
+    {
+        ResourceUtilities.VerifyResourceStringExists(resourceName);
+
+        if (!condition)
+        {
+            ThrowArgument(innerException, resourceName, arg0, arg1, arg2, arg3);
+        }
+    }
+
 
     /// <summary>
     /// Throws an argument out of range exception.
@@ -302,6 +452,15 @@ internal static class ErrorUtilities
             ThrowArgumentNull(parameterName, resourceName);
         }
     }
+        internal static void VerifyThrowArgumentNull([NotNull] object? parameter, string? parameterName, global::Microsoft.Build.Framework.Resources.StringResource resourceName)
+    {
+        ResourceUtilities.VerifyResourceStringExists(resourceName);
+        if (parameter is null)
+        {
+            ThrowArgumentNull(parameterName, resourceName);
+        }
+    }
+
 
     [DoesNotReturn]
     private static void ThrowArgumentNull(string? parameterName, string resourceName)
@@ -309,6 +468,13 @@ internal static class ErrorUtilities
         // Most ArgumentNullException overloads append its own rather clunky multi-line message. So use the one overload that doesn't.
         throw new ArgumentNullException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(resourceName, parameterName), (Exception?)null);
     }
+        [DoesNotReturn]
+    private static void ThrowArgumentNull(string? parameterName, global::Microsoft.Build.Framework.Resources.StringResource resourceName)
+    {
+        // Most ArgumentNullException overloads append its own rather clunky multi-line message. So use the one overload that doesn't.
+        throw new ArgumentNullException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(resourceName, parameterName), (Exception?)null);
+    }
+
 
     /// <inheritdoc cref="FrameworkErrorUtilities.VerifyCollectionCopyToArguments{T}(ICollection{T}, int, int, string, string)"/>
     internal static void VerifyCollectionCopyToArguments<T>(

@@ -550,7 +550,7 @@ namespace Microsoft.Build.Evaluation
 
             if (options.EvaluationStage != ProjectEvaluationStage.Full)
             {
-                ErrorUtilities.ThrowArgument("OM_PartialEvaluationNotSupportedForProject", options.EvaluationStage);
+                ErrorUtilities.ThrowArgument(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_PartialEvaluationNotSupportedForProject, options.EvaluationStage);
             }
         }
 
@@ -1697,7 +1697,7 @@ namespace Microsoft.Build.Evaluation
                 return false;
             }
 
-            ErrorUtilities.VerifyThrowInvalidOperation(!ThrowInsteadOfSplittingItemElement, "OM_CannotSplitItemElementWhenSplittingIsDisabled", itemElement.Location, $"{nameof(Project)}.{nameof(ThrowInsteadOfSplittingItemElement)}");
+            ErrorUtilities.VerifyThrowInvalidOperation(!ThrowInsteadOfSplittingItemElement, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_CannotSplitItemElementWhenSplittingIsDisabled, itemElement.Location, $"{nameof(Project)}.{nameof(ThrowInsteadOfSplittingItemElement)}");
 
             var relevantItems = new List<ProjectItem>();
 
@@ -1829,7 +1829,7 @@ namespace Microsoft.Build.Evaluation
         internal void VerifyThrowInvalidOperationNotImported(ProjectRootElement otherXml)
         {
             Assumed.NotNull(otherXml);
-            ErrorUtilities.VerifyThrowInvalidOperation(ReferenceEquals(Xml, otherXml), "OM_CannotModifyEvaluatedObjectInImportedFile", otherXml.Location.File);
+            ErrorUtilities.VerifyThrowInvalidOperation(ReferenceEquals(Xml, otherXml), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_CannotModifyEvaluatedObjectInImportedFile, otherXml.Location.File);
         }
 
         /// <summary>
@@ -2267,7 +2267,7 @@ namespace Microsoft.Build.Evaluation
                 {
                     if (!(_data.ShouldEvaluateForDesignTime && _data.CanEvaluateElementsWithFalseConditions))
                     {
-                        ErrorUtilities.ThrowInvalidOperation("OM_NotEvaluatedBecauseShouldEvaluateForDesignTimeIsFalse", nameof(ItemsIgnoringCondition));
+                        ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_NotEvaluatedBecauseShouldEvaluateForDesignTimeIsFalse, nameof(ItemsIgnoringCondition));
                     }
 
                     return new ReadOnlyCollection<ProjectItem>(_data.ItemsIgnoringCondition);
@@ -2309,7 +2309,7 @@ namespace Microsoft.Build.Evaluation
             {
                 get
                 {
-                    ErrorUtilities.VerifyThrowInvalidOperation((_loadSettings & ProjectLoadSettings.RecordDuplicateButNotCircularImports) != 0, "OM_MustSetRecordDuplicateInputs");
+                    ErrorUtilities.VerifyThrowInvalidOperation((_loadSettings & ProjectLoadSettings.RecordDuplicateButNotCircularImports) != 0, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_MustSetRecordDuplicateInputs);
 
                     var imports = new List<ResolvedImport>(_data.ImportClosureWithDuplicates.Count - 1 /* outer project */);
 
@@ -2809,8 +2809,8 @@ namespace Microsoft.Build.Evaluation
 
                 ProjectProperty property = _data.Properties[name];
 
-                ErrorUtilities.VerifyThrowInvalidOperation(property?.IsReservedProperty != true, "OM_ReservedName", name);
-                ErrorUtilities.VerifyThrowInvalidOperation(property?.IsGlobalProperty != true, "OM_GlobalProperty", name);
+                ErrorUtilities.VerifyThrowInvalidOperation(property?.IsReservedProperty != true, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_ReservedName, name);
+                ErrorUtilities.VerifyThrowInvalidOperation(property?.IsGlobalProperty != true, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_GlobalProperty, name);
 
                 // If there's an existing regular property, we can reuse it, unless it's not attached to its XML any more
                 if (property?.IsEnvironmentProperty == false &&
@@ -3033,9 +3033,9 @@ namespace Microsoft.Build.Evaluation
             public override bool RemoveProperty(ProjectProperty property)
             {
                 ArgumentNullException.ThrowIfNull(property);
-                ErrorUtilities.VerifyThrowInvalidOperation(!property.IsReservedProperty, "OM_ReservedName", property.Name);
-                ErrorUtilities.VerifyThrowInvalidOperation(!property.IsGlobalProperty, "OM_GlobalProperty", property.Name);
-                ErrorUtilities.VerifyThrowArgument(property.Xml.Parent != null, "OM_IncorrectObjectAssociation", "ProjectProperty", "Project");
+                ErrorUtilities.VerifyThrowInvalidOperation(!property.IsReservedProperty, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_ReservedName, property.Name);
+                ErrorUtilities.VerifyThrowInvalidOperation(!property.IsGlobalProperty, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_GlobalProperty, property.Name);
+                ErrorUtilities.VerifyThrowArgument(property.Xml.Parent != null, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_IncorrectObjectAssociation, "ProjectProperty", "Project");
                 VerifyThrowInvalidOperationNotImported(property.Xml.ContainingProject);
 
                 ProjectElementContainer parent = property.Xml.Parent;
@@ -3095,7 +3095,7 @@ namespace Microsoft.Build.Evaluation
             public override bool RemoveItem(ProjectItem item)
             {
                 ArgumentNullException.ThrowIfNull(item);
-                ErrorUtilities.VerifyThrowArgument(item.Project == Owner, "OM_IncorrectObjectAssociation", "ProjectItem", "Project");
+                ErrorUtilities.VerifyThrowArgument(item.Project == Owner, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_IncorrectObjectAssociation, "ProjectItem", "Project");
 
                 bool result = RemoveItemHelper(item);
 
@@ -3211,7 +3211,7 @@ namespace Microsoft.Build.Evaluation
             {
                 if (!IsBuildEnabled)
                 {
-                    LoggingService.LogError(s_buildEventContext, new BuildEventFileInfo(FullPath), "SecurityProjectBuildDisabled");
+                    LoggingService.LogError(s_buildEventContext, new BuildEventFileInfo(FullPath), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SecurityProjectBuildDisabled);
                     if (LoggingService is LoggingService defaultLoggingService)
                     {
                         defaultLoggingService.WaitForLoggingToProcessEvents();
@@ -3276,7 +3276,7 @@ namespace Microsoft.Build.Evaluation
                     return false;
                 }
 
-                ErrorUtilities.VerifyThrowInvalidOperation(!ThrowInsteadOfSplittingItemElement, "OM_CannotSplitItemElementWhenSplittingIsDisabled", itemElement.Location, $"{nameof(Project)}.{nameof(ThrowInsteadOfSplittingItemElement)}");
+                ErrorUtilities.VerifyThrowInvalidOperation(!ThrowInsteadOfSplittingItemElement, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_CannotSplitItemElementWhenSplittingIsDisabled, itemElement.Location, $"{nameof(Project)}.{nameof(ThrowInsteadOfSplittingItemElement)}");
 
                 var relevantItems = new List<ProjectItem>();
 
@@ -3463,7 +3463,7 @@ namespace Microsoft.Build.Evaluation
             internal void VerifyThrowInvalidOperationNotImported(ProjectRootElement otherXml)
             {
                 Assumed.NotNull(otherXml);
-                ErrorUtilities.VerifyThrowInvalidOperation(ReferenceEquals(Xml, otherXml), "OM_CannotModifyEvaluatedObjectInImportedFile", otherXml.Location.File);
+                ErrorUtilities.VerifyThrowInvalidOperation(ReferenceEquals(Xml, otherXml), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_CannotModifyEvaluatedObjectInImportedFile, otherXml.Location.File);
             }
 
             /// <summary>
@@ -3523,7 +3523,7 @@ namespace Microsoft.Build.Evaluation
                     return false;
                 }
 
-                ErrorUtilities.VerifyThrowArgument(item.Project == Owner, "OM_IncorrectObjectAssociation", "ProjectItem", "Project");
+                ErrorUtilities.VerifyThrowArgument(item.Project == Owner, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_IncorrectObjectAssociation, "ProjectItem", "Project");
 
                 VerifyThrowInvalidOperationNotImported(item.Xml.ContainingProject);
 
@@ -4194,7 +4194,7 @@ namespace Microsoft.Build.Evaluation
                 if (Toolset == null)
                 {
                     string toolsVersionList = Utilities.CreateToolsVersionListString(Project.ProjectCollection.Toolsets);
-                    ProjectErrorUtilities.ThrowInvalidProject(toolsVersionLocation, "UnrecognizedToolsVersion", toolsVersionToUse, toolsVersionList);
+                    ProjectErrorUtilities.ThrowInvalidProject(toolsVersionLocation, global::Microsoft.Build.Framework.Resources.SR.Resources.@UnrecognizedToolsVersion, toolsVersionToUse, toolsVersionList);
                 }
 
                 if (ExplicitSubToolsetVersion != null)

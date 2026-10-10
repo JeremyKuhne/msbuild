@@ -76,7 +76,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e) when (!ExceptionHandling.IsCriticalException(e))
             {
-                Log.LogErrorWithCodeFromResources("XmlPeek.ArgumentError", e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XmlPeek_ArgumentError, e.Message);
                 return false;
             }
 
@@ -93,11 +93,11 @@ namespace Microsoft.Build.Tasks
             {
                 if (XmlTaskUtility.IsDtdProhibitedException(e, ProhibitDtd, xmlinput.ContainsDtd))
                 {
-                    Log.LogErrorWithCodeFromResources("XmlPeekPoke.InputDtdProhibited", nameof(ProhibitDtd), nameof(XmlPeek));
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XmlPeekPoke_InputDtdProhibited, nameof(ProhibitDtd), nameof(XmlPeek));
                 }
                 else
                 {
-                    Log.LogErrorWithCodeFromResources("XmlPeekPoke.InputFileError", XmlInputPath?.ItemSpec, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XmlPeekPoke_InputFileError, XmlInputPath?.ItemSpec, e.Message);
                 }
 
                 return false;
@@ -116,7 +116,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e) when (!ExceptionHandling.IsCriticalException(e))
             {
-                Log.LogErrorWithCodeFromResources("XmlPeekPoke.XPathError", Query, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XmlPeekPoke_XPathError, Query, e.Message);
                 return false;
             }
 
@@ -129,7 +129,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e) when (!ExceptionHandling.IsCriticalException(e))
             {
-                Log.LogErrorWithCodeFromResources("XmlPeek.NamespacesError", e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XmlPeek_NamespacesError, e.Message);
                 return false;
             }
 
@@ -139,7 +139,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (XPathException e)
             {
-                Log.LogErrorWithCodeFromResources("XmlPeek.XPathContextError", e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XmlPeek_XPathContextError, e.Message);
                 return false;
             }
 
@@ -166,13 +166,13 @@ namespace Microsoft.Build.Tasks
                 Result[i++] = new TaskItem(EscapingUtilities.Escape(item));
 
                 // This can be logged a lot, so low importance
-                Log.LogMessageFromResources(MessageImportance.Low, "XmlPeek.Found", item);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XmlPeek_Found, item);
             }
 
             if (Result.Length == 0)
             {
                 // Logged no more than once per execute of this task
-                Log.LogMessageFromResources("XmlPeek.NotFound");
+                Log.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XmlPeek_NotFound);
             }
 
             return true;
@@ -196,7 +196,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (XmlException xe)
             {
-                throw new ArgumentException(ResourceUtilities.GetResourceString("XmlPeek.NamespacesParameterNotWellFormed"), xe);
+                throw new ArgumentException(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XmlPeek_NamespacesParameterNotWellFormed), xe);
             }
 
             XmlNodeList xnl = doc.SelectNodes("/Namespaces/*[local-name() = 'Namespace']");
@@ -208,14 +208,14 @@ namespace Microsoft.Build.Tasks
                 XmlAttribute prefix = xn.Attributes?[prefixAttr];
                 if (prefix == null)
                 {
-                    throw new ArgumentException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("XmlPeek.NamespacesParameterNoAttribute", prefixAttr));
+                    throw new ArgumentException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XmlPeek_NamespacesParameterNoAttribute, prefixAttr));
                 }
 
                 const string uriAttr = "Uri";
                 XmlAttribute uri = xn.Attributes[uriAttr];
                 if (uri == null)
                 {
-                    throw new ArgumentException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("XmlPeek.NamespacesParameterNoAttribute", uriAttr));
+                    throw new ArgumentException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XmlPeek_NamespacesParameterNoAttribute, uriAttr));
                 }
 
                 namespaceManager.AddNamespace(prefix.Value, uri.Value);
@@ -252,12 +252,12 @@ namespace Microsoft.Build.Tasks
             {
                 if (xmlInputPath != null && xmlContent != null)
                 {
-                    throw new ArgumentException(ResourceUtilities.GetResourceString("XmlPeek.XmlInput.TooMany"));
+                    throw new ArgumentException(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XmlPeek_XmlInput_TooMany));
                 }
 
                 if (xmlInputPath == null && xmlContent == null)
                 {
-                    throw new ArgumentException(ResourceUtilities.GetResourceString("XmlPeek.XmlInput.TooFew"));
+                    throw new ArgumentException(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XmlPeek_XmlInput_TooFew));
                 }
 
                 if (xmlInputPath != null)

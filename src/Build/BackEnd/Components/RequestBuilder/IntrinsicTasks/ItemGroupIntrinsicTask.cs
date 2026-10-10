@@ -396,7 +396,7 @@ namespace Microsoft.Build.BackEnd
             LoggingContext loggingContext = null)
         {
             // todo this is duplicated logic with the item computation logic from evaluation (in LazyIncludeOperation.SelectItems)
-            ProjectErrorUtilities.VerifyThrowInvalidProject(!(keepMetadata != null && removeMetadata != null), originalItem.KeepMetadataLocation, "KeepAndRemoveMetadataMutuallyExclusive");
+            ProjectErrorUtilities.VerifyThrowInvalidProject(!(keepMetadata != null && removeMetadata != null), originalItem.KeepMetadataLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@KeepAndRemoveMetadataMutuallyExclusive);
             List<ProjectItemInstance> items = new List<ProjectItemInstance>();
 
             // Expand properties and metadata in Include
@@ -662,7 +662,7 @@ namespace Microsoft.Build.BackEnd
             ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(
                 itemSpec.Fragments.All(f => f is ItemSpec<ProjectPropertyInstance, ProjectItemInstance>.ItemExpressionFragment),
                 BuildEventFileInfo.Empty,
-                "OM_MatchOnMetadataIsRestrictedToReferencedItems",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_MatchOnMetadataIsRestrictedToReferencedItems,
                 child.RemoveLocation,
                 child.Remove);
             MetadataTrie<ProjectPropertyInstance, ProjectItemInstance> metadataSet = new MetadataTrie<ProjectPropertyInstance, ProjectItemInstance>(matchingOptions, matchOnMetadata, itemSpec);

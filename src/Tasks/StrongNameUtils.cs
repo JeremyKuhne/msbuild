@@ -62,19 +62,19 @@ namespace Microsoft.Build.Tasks
             }
             catch (ArgumentException e)
             {
-                log.LogErrorWithCodeFromResources("StrongNameUtils.KeyFileReadFailure", keyFile.OriginalValue);
+                log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@StrongNameUtils_KeyFileReadFailure, keyFile.OriginalValue);
                 log.LogErrorFromException(e);
                 throw new StrongNameException(e);
             }
             catch (IOException e)
             {
-                log.LogErrorWithCodeFromResources("StrongNameUtils.KeyFileReadFailure", keyFile.OriginalValue);
+                log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@StrongNameUtils_KeyFileReadFailure, keyFile.OriginalValue);
                 log.LogErrorFromException(e);
                 throw new StrongNameException(e);
             }
             catch (SecurityException e)
             {
-                log.LogErrorWithCodeFromResources("StrongNameUtils.KeyFileReadFailure", keyFile.OriginalValue);
+                log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@StrongNameUtils_KeyFileReadFailure, keyFile.OriginalValue);
                 log.LogErrorFromException(e);
                 throw new StrongNameException(e);
             }
@@ -117,13 +117,13 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (SecurityException e)
                 {
-                    log.LogErrorWithCodeFromResources("StrongNameUtils.BadKeyContainer", keyContainer);
+                    log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@StrongNameUtils_BadKeyContainer, keyContainer);
                     log.LogErrorFromException(e);
                     throw new StrongNameException(e);
                 }
                 catch (ArgumentException e)
                 {
-                    log.LogErrorWithCodeFromResources("StrongNameUtils.BadKeyContainer", keyContainer);
+                    log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@StrongNameUtils_BadKeyContainer, keyContainer);
                     log.LogErrorFromException(e);
                     throw new StrongNameException(e);
                 }

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>$(LatestDotNetCoreForMSBuild)</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsShipping>false</IsShipping>
+    <CreateBootstrap>false</CreateBootstrap>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Filtrace.Core">
+      <HintPath>$(FiltraceDirectory)\Filtrace.Core.dll</HintPath>
+    </Reference>
+    <None Include="$(FiltraceDirectory)\*.dll;$(FiltraceDirectory)\*.pdb" CopyToOutputDirectory="PreserveNewest" TargetPath="%(Filename)%(Extension)" />
+  </ItemGroup>
+  <Target Name="ValidateFiltraceDirectory" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(FiltraceDirectory)\Filtrace.Core.dll')" Text="Set FiltraceDirectory to the pinned filtrace build output containing Filtrace.Core.dll." />
+  </Target>
+</Project>

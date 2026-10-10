@@ -31,6 +31,14 @@ namespace Microsoft.Build.Shared
         {
             ThrowInvalidProjectFile(null, projectFile, resourceName, args);
         }
+        internal static void ThrowInvalidProjectFile(
+            BuildEventFileInfo projectFile,
+            global::Microsoft.Build.Framework.Resources.StringResource resourceName,
+            params object[] args)
+        {
+            ThrowInvalidProjectFile(null, projectFile, resourceName, args);
+        }
+
 
         /// <summary>
         /// This method is used to flag errors in the project file being processed. Do NOT use this method in place of
@@ -51,6 +59,15 @@ namespace Microsoft.Build.Shared
         {
             VerifyThrowInvalidProjectFile(false, null, projectFile, innerException, resourceName, args);
         }
+        internal static void ThrowInvalidProjectFile(
+            BuildEventFileInfo projectFile,
+            Exception innerException,
+            global::Microsoft.Build.Framework.Resources.StringResource resourceName,
+            params object[] args)
+        {
+            VerifyThrowInvalidProjectFile(false, null, projectFile, innerException, resourceName, args);
+        }
+
 
         /// <summary>
         /// This method is used to flag errors in the project file being processed. Do NOT use this method in place of
@@ -71,6 +88,15 @@ namespace Microsoft.Build.Shared
         {
             VerifyThrowInvalidProjectFile(condition, null, projectFile, resourceName, args);
         }
+        internal static void VerifyThrowInvalidProjectFile(
+            bool condition,
+            BuildEventFileInfo projectFile,
+            global::Microsoft.Build.Framework.Resources.StringResource resourceName,
+            params object[] args)
+        {
+            VerifyThrowInvalidProjectFile(condition, null, projectFile, resourceName, args);
+        }
+
 
         /// <summary>
         /// This method is used to flag errors in the project file being processed. Do NOT use this method in place of
@@ -91,6 +117,15 @@ namespace Microsoft.Build.Shared
         {
             VerifyThrowInvalidProjectFile(false, errorSubCategoryResourceName, projectFile, null, resourceName, args);
         }
+        internal static void ThrowInvalidProjectFile(
+            string errorSubCategoryResourceName,
+            BuildEventFileInfo projectFile,
+            global::Microsoft.Build.Framework.Resources.StringResource resourceName,
+            params object[] args)
+        {
+            VerifyThrowInvalidProjectFile(false, errorSubCategoryResourceName, projectFile, null, resourceName, args);
+        }
+
 
         /// <summary>
         /// This method is used to flag errors in the project file being processed. Do NOT use this method in place of
@@ -113,6 +148,16 @@ namespace Microsoft.Build.Shared
         {
             VerifyThrowInvalidProjectFile(condition, errorSubCategoryResourceName, projectFile, null, resourceName, args);
         }
+        internal static void VerifyThrowInvalidProjectFile(
+            bool condition,
+            string errorSubCategoryResourceName,
+            BuildEventFileInfo projectFile,
+            global::Microsoft.Build.Framework.Resources.StringResource resourceName,
+            params object[] args)
+        {
+            VerifyThrowInvalidProjectFile(condition, errorSubCategoryResourceName, projectFile, null, resourceName, args);
+        }
+
 
         /// <summary>
         /// This method is used to flag errors in the project file being processed. Do NOT use this method in place of
@@ -133,6 +178,32 @@ namespace Microsoft.Build.Shared
             BuildEventFileInfo projectFile,
             Exception innerException,
             string resourceName,
+            params object[] args)
+        {
+            Assumed.NotNull(projectFile, "Must specify the invalid project file. If project file is not available, use VerifyThrowInvalidProject() and pass in the XML node instead.");
+
+#if DEBUG
+            if (errorSubCategoryResourceName != null)
+            {
+                ResourceUtilities.VerifyResourceStringExists(errorSubCategoryResourceName);
+            }
+
+            ResourceUtilities.VerifyResourceStringExists(resourceName);
+#endif
+            if (!condition)
+            {
+                string errorSubCategory = errorSubCategoryResourceName is null ? null : AssemblyResources.GetString(errorSubCategoryResourceName);
+                string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out string helpKeyword, resourceName, args);
+
+                throw new InvalidProjectFileException(projectFile.File, projectFile.Line, projectFile.Column, projectFile.EndLine, projectFile.EndColumn, message, errorSubCategory, errorCode, helpKeyword, innerException);
+            }
+        }
+        internal static void VerifyThrowInvalidProjectFile(
+            bool condition,
+            string errorSubCategoryResourceName,
+            BuildEventFileInfo projectFile,
+            Exception innerException,
+            global::Microsoft.Build.Framework.Resources.StringResource resourceName,
             params object[] args)
         {
             Assumed.NotNull(projectFile, "Must specify the invalid project file. If project file is not available, use VerifyThrowInvalidProject() and pass in the XML node instead.");

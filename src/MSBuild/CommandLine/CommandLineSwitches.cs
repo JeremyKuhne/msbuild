@@ -895,9 +895,9 @@ namespace Microsoft.Build.CommandLine.Experimental
                     StringBuilder sb = StringBuilderCache.Acquire();
                     foreach ((string path, string contents) in SwitchesFromResponseFiles)
                     {
-                        sb.Append($"\n{ResourceUtilities.FormatResourceStringStripCodeAndKeyword("ResponseFileSwitchFromLocation", contents, path)}");
+                        sb.Append($"\n{ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResponseFileSwitchFromLocation, contents, path)}");
                     }
-                    CommandLineSwitchException.Throw("SwitchErrorWithArguments", _badCommandLineArg, ResourceUtilities.GetResourceString(_errorMessage), _commandLine, StringBuilderCache.GetStringAndRelease(sb));
+                    CommandLineSwitchException.Throw(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SwitchErrorWithArguments, _badCommandLineArg, ResourceUtilities.GetResourceString(_errorMessage), _commandLine, StringBuilderCache.GetStringAndRelease(sb));
                 }
             }
         }

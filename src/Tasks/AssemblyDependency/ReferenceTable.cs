@@ -509,7 +509,7 @@ namespace Microsoft.Build.Tasks
 
                     reference.AddError(
                         new ReferenceResolutionException(
-                            ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("General.ExpectedFileGotDirectory", reference.FullPath),
+                            ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_ExpectedFileGotDirectory, reference.FullPath),
                             null));
                     reference.FullPath = String.Empty;
                 }
@@ -517,7 +517,7 @@ namespace Microsoft.Build.Tasks
                 if (assemblyName == null)
                 {
                     reference.AddError(
-                        new DependencyResolutionException(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("General.ExpectedFileMissing", reference.FullPath), null));
+                        new DependencyResolutionException(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_ExpectedFileMissing, reference.FullPath), null));
                 }
             }
             catch (BadImageFormatException e)
@@ -1028,7 +1028,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
             {
-                _log?.LogErrorFromResources("ResolveAssemblyReference.ProblemFindingSatelliteAssemblies", reference.FullPath, e.Message);
+                _log?.LogErrorFromResources(PrimaryResourceCatalog.Resources.ResolveAssemblyReference_ProblemFindingSatelliteAssemblies, reference.FullPath, e.Message);
             }
         }
 
@@ -1171,7 +1171,7 @@ namespace Microsoft.Build.Tasks
             if (!_fileExists(reference.FullPath))
             {
                 reference.AddError(
-                          new DependencyResolutionException(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("General.ExpectedFileMissing", reference.FullPath), null));
+                          new DependencyResolutionException(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_ExpectedFileMissing, reference.FullPath), null));
 
                 return;
             }
@@ -1422,7 +1422,7 @@ namespace Microsoft.Build.Tasks
                 {
                     reference.AddError(
                         new ReferenceResolutionException(
-                            ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("General.CouldNotLocateAssembly", assemblyName.FullName),
+                            ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_CouldNotLocateAssembly, assemblyName.FullName),
                             null));
                 }
             }
@@ -2940,7 +2940,7 @@ namespace Microsoft.Build.Tasks
 
                 if (machineType == NativeMethods.IMAGE_FILE_MACHINE_INVALID)
                 {
-                    throw new BadImageFormatException(ResourceUtilities.GetResourceString("ResolveAssemblyReference.ImplementationDllHasInvalidPEHeader"));
+                    throw new BadImageFormatException(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_ImplementationDllHasInvalidPEHeader));
                 }
 
                 switch (machineType)
@@ -2967,12 +2967,12 @@ namespace Microsoft.Build.Tasks
                     default:
                         if (_warnOrErrorOnTargetArchitectureMismatch == WarnOrErrorOnTargetArchitectureMismatchBehavior.Error)
                         {
-                            _log.LogErrorWithCodeFromResources("ResolveAssemblyReference.UnknownProcessorArchitecture", dllPath, winmdFile, machineType.ToString("X", CultureInfo.InvariantCulture));
+                            _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_UnknownProcessorArchitecture, dllPath, winmdFile, machineType.ToString("X", CultureInfo.InvariantCulture));
                             return false;
                         }
                         else if (_warnOrErrorOnTargetArchitectureMismatch == WarnOrErrorOnTargetArchitectureMismatchBehavior.Warning)
                         {
-                            _log.LogWarningWithCodeFromResources("ResolveAssemblyReference.UnknownProcessorArchitecture", dllPath, winmdFile, machineType.ToString("X", CultureInfo.InvariantCulture));
+                            _log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_UnknownProcessorArchitecture, dllPath, winmdFile, machineType.ToString("X", CultureInfo.InvariantCulture));
                             return true;
                         }
                         break;
@@ -2988,12 +2988,12 @@ namespace Microsoft.Build.Tasks
                 {
                     if (_warnOrErrorOnTargetArchitectureMismatch == WarnOrErrorOnTargetArchitectureMismatchBehavior.Error)
                     {
-                        _log.LogErrorWithCodeFromResources("ResolveAssemblyReference.MismatchBetweenTargetedAndReferencedArchOfImplementation", ResolveAssemblyReference.ProcessorArchitectureToString(_targetProcessorArchitecture), ResolveAssemblyReference.ProcessorArchitectureToString(dllArchitecture), dllPath, winmdFile);
+                        _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_MismatchBetweenTargetedAndReferencedArchOfImplementation, ResolveAssemblyReference.ProcessorArchitectureToString(_targetProcessorArchitecture), ResolveAssemblyReference.ProcessorArchitectureToString(dllArchitecture), dllPath, winmdFile);
                         return false;
                     }
                     else if (_warnOrErrorOnTargetArchitectureMismatch == WarnOrErrorOnTargetArchitectureMismatchBehavior.Warning)
                     {
-                        _log.LogWarningWithCodeFromResources("ResolveAssemblyReference.MismatchBetweenTargetedAndReferencedArchOfImplementation", ResolveAssemblyReference.ProcessorArchitectureToString(_targetProcessorArchitecture), ResolveAssemblyReference.ProcessorArchitectureToString(dllArchitecture), dllPath, winmdFile);
+                        _log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_MismatchBetweenTargetedAndReferencedArchOfImplementation, ResolveAssemblyReference.ProcessorArchitectureToString(_targetProcessorArchitecture), ResolveAssemblyReference.ProcessorArchitectureToString(dllArchitecture), dllPath, winmdFile);
                     }
                 }
 
@@ -3001,7 +3001,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e) when (!ExceptionHandling.IsCriticalException(e))
             {
-                _log.LogErrorWithCodeFromResources("ResolveAssemblyReference.ProblemReadingImplementationDll", dllPath, e.Message);
+                _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_ProblemReadingImplementationDll, dllPath, e.Message);
                 return false;
             }
         }
@@ -3079,11 +3079,11 @@ namespace Microsoft.Build.Tasks
         {
             if (displayPrimaryReferenceMessage)
             {
-                _log.LogWarningWithCodeFromResources("ResolveAssemblyReference.PrimaryReferenceOutsideOfFramework", reference.PrimarySourceItem.ItemSpec /* primary item spec*/, reference.ReferenceVersion /*Version of dependent assembly*/, reference.ExclusionListLoggingProperties.HighestVersionInRedist /*Version found in redist*/);
+                _log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_PrimaryReferenceOutsideOfFramework, reference.PrimarySourceItem.ItemSpec /* primary item spec*/, reference.ReferenceVersion /*Version of dependent assembly*/, reference.ExclusionListLoggingProperties.HighestVersionInRedist /*Version found in redist*/);
             }
             else
             {
-                _log.LogWarningWithCodeFromResources("ResolveAssemblyReference.DependencyReferenceOutsideOfFramework", referenceItem.ItemSpec /* primary item spec*/, assemblyName.FullName /*Dependent assemblyName*/, reference.ReferenceVersion /*Version of dependent assembly*/, reference.ExclusionListLoggingProperties.HighestVersionInRedist /*Version found in redist*/);
+                _log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_DependencyReferenceOutsideOfFramework, referenceItem.ItemSpec /* primary item spec*/, assemblyName.FullName /*Dependent assemblyName*/, reference.ReferenceVersion /*Version of dependent assembly*/, reference.ExclusionListLoggingProperties.HighestVersionInRedist /*Version found in redist*/);
             }
         }
 
@@ -3094,11 +3094,11 @@ namespace Microsoft.Build.Tasks
         {
             if (displayPrimaryReferenceMessage)
             {
-                _log.LogWarningWithCodeFromResources("ResolveAssemblyReference.PrimaryReferenceOutsideOfFrameworkUsingAttribute", reference.PrimarySourceItem.ItemSpec /* primary item spec*/, reference.FrameworkNameAttribute /*Version of dependent assembly*/, targetedFramework);
+                _log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_PrimaryReferenceOutsideOfFrameworkUsingAttribute, reference.PrimarySourceItem.ItemSpec /* primary item spec*/, reference.FrameworkNameAttribute /*Version of dependent assembly*/, targetedFramework);
             }
             else
             {
-                _log.LogWarningWithCodeFromResources("ResolveAssemblyReference.DependencyReferenceOutsideOfFrameworkUsingAttribute", referenceItem.ItemSpec /* primary item spec*/, assemblyName.FullName /*Dependent assemblyName*/, reference.FrameworkNameAttribute, targetedFramework);
+                _log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_DependencyReferenceOutsideOfFrameworkUsingAttribute, referenceItem.ItemSpec /* primary item spec*/, assemblyName.FullName /*Dependent assemblyName*/, reference.FrameworkNameAttribute, targetedFramework);
             }
         }
 
@@ -3109,11 +3109,11 @@ namespace Microsoft.Build.Tasks
         {
             if (displayPrimaryReferenceMessage)
             {
-                _log.LogWarningWithCodeFromResources("ResolveAssemblyReference.PrimaryReferenceInAnotherFramework", reference.PrimarySourceItem.ItemSpec /* primary item spec*/, targetedFramework);
+                _log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_PrimaryReferenceInAnotherFramework, reference.PrimarySourceItem.ItemSpec /* primary item spec*/, targetedFramework);
             }
             else
             {
-                _log.LogWarningWithCodeFromResources("ResolveAssemblyReference.DependencyReferenceInAnotherFramework", referenceItem.ItemSpec /* primary item spec*/, assemblyName.FullName /*Dependent assemblyName*/, targetedFramework);
+                _log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_DependencyReferenceInAnotherFramework, referenceItem.ItemSpec /* primary item spec*/, assemblyName.FullName /*Dependent assemblyName*/, targetedFramework);
             }
         }
 
@@ -3124,11 +3124,11 @@ namespace Microsoft.Build.Tasks
         {
             if (displayPrimaryReferenceMessage)
             {
-                _log.LogWarningWithCodeFromResources("ResolveAssemblyReference.FailedToResolveReferenceBecausePrimaryAssemblyInExclusionList", reference.PrimarySourceItem.ItemSpec, targetedFramework);
+                _log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_FailedToResolveReferenceBecausePrimaryAssemblyInExclusionList, reference.PrimarySourceItem.ItemSpec, targetedFramework);
             }
             else
             {
-                _log.LogWarningWithCodeFromResources("ResolveAssemblyReference.FailBecauseDependentAssemblyInExclusionList", referenceItem.ItemSpec, assemblyName.FullName, targetedFramework);
+                _log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_FailBecauseDependentAssemblyInExclusionList, referenceItem.ItemSpec, assemblyName.FullName, targetedFramework);
             }
         }
         #endregion

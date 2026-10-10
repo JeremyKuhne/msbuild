@@ -203,7 +203,7 @@ namespace Microsoft.Build.Tasks.ResourceHandling
                         // Warn of BinaryFormatter exposure (SDK should turn this on by default in .NET 8+)
                         if (logWarningForBinaryFormatter)
                         {
-                            log?.LogWarningWithCodeFromResources(null, resxFilename, ((IXmlLineInfo)elem).LineNumber, ((IXmlLineInfo)elem).LinePosition, 0, 0, "GenerateResource.BinaryFormatterUse", name);
+                            log?.LogWarningWithCodeFromResources(null, resxFilename, ((IXmlLineInfo)elem).LineNumber, ((IXmlLineInfo)elem).LinePosition, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_BinaryFormatterUse, name);
                         }
 
                         // BinaryFormatter from byte array
@@ -214,11 +214,11 @@ namespace Microsoft.Build.Tasks.ResourceHandling
                     default:
                         if (log is null)
                         {
-                            throw new NotSupportedException(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("GenerateResource.MimeTypeNotSupportedOnCore", name, resxFilename, mimetype));
+                            throw new NotSupportedException(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_MimeTypeNotSupportedOnCore, name, resxFilename, mimetype));
                         }
                         else
                         {
-                            log.LogErrorFromResources("GenerateResource.MimeTypeNotSupportedOnCore", name, resxFilename, mimetype);
+                            log.LogErrorFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateResource_MimeTypeNotSupportedOnCore, name, resxFilename, mimetype);
                             return;
                         }
                 }

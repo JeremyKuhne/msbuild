@@ -236,7 +236,7 @@ namespace Microsoft.Build.BackEnd
 
             // Parse the global properties into a hashtable.
             // The behavior of parsing global properties to define and undefine (below) combined with the behavior in Microsoft.Common.CurrentVersion.targets should match the logic in ProjectGraph.
-            if (!PropertyParser.GetTableWithEscaping(Log, ResourceUtilities.GetResourceString("General.GlobalProperties"), "Properties", Properties, out Dictionary<string, string> propertiesTable))
+            if (!PropertyParser.GetTableWithEscaping(Log, ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_GlobalProperties), "Properties", Properties, out Dictionary<string, string> propertiesTable))
             {
                 return false;
             }
@@ -245,7 +245,7 @@ namespace Microsoft.Build.BackEnd
             string[] undefinePropertiesArray = null;
             if (!String.IsNullOrEmpty(RemoveProperties))
             {
-                Log.LogMessageFromResources(MessageImportance.Low, "General.UndefineProperties");
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_UndefineProperties);
                 undefinePropertiesArray = RemoveProperties.Split(MSBuildConstants.SemicolonChar, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string property in undefinePropertiesArray)
                 {
@@ -260,7 +260,7 @@ namespace Microsoft.Build.BackEnd
             if (!isRunningMultipleNodes && StopOnFirstFailure && BuildInParallel)
             {
                 BuildInParallel = false;
-                Log.LogMessageFromResources(MessageImportance.Low, "MSBuild.NotBuildingInParallel");
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MSBuild_NotBuildingInParallel);
             }
 
             // When the condition below is met, provide an information message indicating stopOnFirstFailure
@@ -270,7 +270,7 @@ namespace Microsoft.Build.BackEnd
             // therefore the first failure seen will be the only failure seen.
             if (isRunningMultipleNodes && BuildInParallel && StopOnFirstFailure && !RunEachTargetSeparately)
             {
-                Log.LogMessageFromResources(MessageImportance.Low, "MSBuild.NoStopOnFirstFailure");
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MSBuild_NoStopOnFirstFailure);
             }
 
             // This is a list of string[].  That is, each element in the list is a string[].  Each
@@ -306,7 +306,7 @@ namespace Microsoft.Build.BackEnd
                 if (StopOnFirstFailure && !success)
                 {
                     // Inform the user that we skipped the remaining projects because StopOnFirstFailure=true.
-                    Log.LogMessageFromResources(MessageImportance.Low, "MSBuild.SkippingRemainingProjects");
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MSBuild_SkippingRemainingProjects);
 
                     // We have encountered a failure.  Caller has requested that we not
                     // continue with remaining projects.
@@ -337,7 +337,7 @@ namespace Microsoft.Build.BackEnd
                 {
                     if (FileUtilities.IsVCProjFilename(projectPath))
                     {
-                        Log.LogErrorWithCodeFromResources("MSBuild.ProjectUpgradeNeededToVcxProj", project.ItemSpec);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MSBuild_ProjectUpgradeNeededToVcxProj, project.ItemSpec);
                         success = false;
                         continue;
                     }
@@ -375,12 +375,12 @@ namespace Microsoft.Build.BackEnd
                 {
                     if (skipNonExistProjects == SkipNonExistentProjectsBehavior.Skip)
                     {
-                        Log.LogMessageFromResources(MessageImportance.High, "MSBuild.ProjectFileNotFoundMessage", project.ItemSpec);
+                        Log.LogMessageFromResources(MessageImportance.High, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MSBuild_ProjectFileNotFoundMessage, project.ItemSpec);
                     }
                     else
                     {
                         Assumed.Equal(skipNonExistProjects, SkipNonExistentProjectsBehavior.Error, $"skipNonexistentProjects has unexpected value {skipNonExistProjects}");
-                        Log.LogErrorWithCodeFromResources("MSBuild.ProjectFileNotFound", project.ItemSpec);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MSBuild_ProjectFileNotFound, project.ItemSpec);
                         success = false;
                     }
                 }
@@ -554,7 +554,7 @@ namespace Microsoft.Build.BackEnd
                     {
                         if (!PropertyParser.GetTableWithEscaping(
                                 log,
-                                ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("General.OverridingProperties", projectNames[i]),
+                                ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_OverridingProperties, projectNames[i]),
                                 ItemMetadataNames.PropertiesMetadataName,
                                 projects[i].GetMetadata(ItemMetadataNames.PropertiesMetadataName).Split(MSBuildConstants.SemicolonChar, StringSplitOptions.RemoveEmptyEntries),
                                 out Dictionary<string, string> preProjectPropertiesTable))
@@ -583,7 +583,7 @@ namespace Microsoft.Build.BackEnd
 
                         if (log != null && propertiesToUndefine.Length > 0)
                         {
-                            log.LogMessageFromResources(MessageImportance.Low, "General.ProjectUndefineProperties", projectNames[i]);
+                            log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_ProjectUndefineProperties, projectNames[i]);
                             foreach (string property in propertiesToUndefine)
                             {
                                 undefinePropertiesPerProject[i].Add(property);
@@ -598,7 +598,7 @@ namespace Microsoft.Build.BackEnd
                     {
                         if (!PropertyParser.GetTableWithEscaping(
                                 log,
-                                ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("General.AdditionalProperties", projectNames[i]),
+                                ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_AdditionalProperties, projectNames[i]),
                                 ItemMetadataNames.AdditionalPropertiesMetadataName,
                                 projects[i].GetMetadata(ItemMetadataNames.AdditionalPropertiesMetadataName).Split(MSBuildConstants.SemicolonChar, StringSplitOptions.RemoveEmptyEntries),
                                 out Dictionary<string, string> additionalProjectPropertiesTable))
@@ -639,7 +639,7 @@ namespace Microsoft.Build.BackEnd
                 if (stopOnFirstFailure && !success)
                 {
                     // Inform the user that we skipped the remaining targets StopOnFirstFailure=true.
-                    log.LogMessageFromResources(MessageImportance.Low, "MSBuild.SkippingRemainingTargets");
+                    log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MSBuild_SkippingRemainingTargets);
 
                     // We have encountered a failure.  Caller has requested that we not
                     // continue with remaining targets.
@@ -685,7 +685,7 @@ namespace Microsoft.Build.BackEnd
                                             }
                                             catch (ArgumentException e)
                                             {
-                                                log.LogWarningWithCodeFromResources(null, projects[i].ItemSpec, 0, 0, 0, 0, "MSBuild.CannotRebaseOutputItemPath", outputItemFromTarget.ItemSpec, e.Message);
+                                                log.LogWarningWithCodeFromResources(null, projects[i].ItemSpec, 0, 0, 0, 0, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MSBuild_CannotRebaseOutputItemPath, outputItemFromTarget.ItemSpec, e.Message);
                                             }
                                         }
 
@@ -730,7 +730,7 @@ namespace Microsoft.Build.BackEnd
             }
             else
             {
-                ErrorUtilities.VerifyThrowArgument(ConversionUtilities.CanConvertStringToBool(value), "MSBuild.InvalidSkipNonexistentProjectValue");
+                ErrorUtilities.VerifyThrowArgument(ConversionUtilities.CanConvertStringToBool(value), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MSBuild_InvalidSkipNonexistentProjectValue);
                 bool originalSkipValue = ConversionUtilities.ConvertStringToBool(value);
                 behavior = originalSkipValue ? SkipNonExistentProjectsBehavior.Skip : SkipNonExistentProjectsBehavior.Error;
             }

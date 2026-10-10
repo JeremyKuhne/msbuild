@@ -42,7 +42,7 @@ namespace Microsoft.Build.Tasks
 
                     if (item.Length != 2)
                     {
-                        Log.LogMessageFromResources(MessageImportance.Low, "Telemetry.IllegalEventDataString", pair, EventData);
+                        Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Telemetry_IllegalEventDataString, pair, EventData);
                         return false;
                     }
 

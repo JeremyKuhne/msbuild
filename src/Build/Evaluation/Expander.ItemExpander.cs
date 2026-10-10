@@ -219,7 +219,7 @@ internal partial class Expander<P, I>
                         Transforms.AnyHaveMetadataValue(input, output, arguments, functionName, elementLocation);
                         break;
                     default:
-                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "UnknownItemFunction", functionName);
+                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnknownItemFunction, functionName);
                         break;
                 }
 
@@ -349,7 +349,7 @@ internal partial class Expander<P, I>
             ProjectErrorUtilities.VerifyThrowInvalidProject(
                 itemVector.Index == 0 && itemVector.Length == expression.Length,
                 elementLocation,
-                "EmbeddedItemVectorCannotBeItemized",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@EmbeddedItemVectorCannotBeItemized,
                 expression);
 
             return true;
@@ -478,7 +478,7 @@ internal partial class Expander<P, I>
             Assumed.NotNull(evaluatedItems, "Cannot expand items without providing items");
 
             // An empty item type indicates that the expression could not be parsed correctly.
-            ProjectErrorUtilities.VerifyThrowInvalidProject(!itemVector.ItemType.IsNullOrEmpty(), elementLocation, "InvalidFunctionPropertyExpression");
+            ProjectErrorUtilities.VerifyThrowInvalidProject(!itemVector.ItemType.IsNullOrEmpty(), elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression);
 
             ICollection<I> items = evaluatedItems.GetItems(itemVector.ItemType);
             List<ExpressionShredder.ItemExpressionCapture> captures = itemVector.Captures;
@@ -532,7 +532,7 @@ internal partial class Expander<P, I>
             }
 
             // A transform item vector without any captures indicates that it could not be parsed correctly.
-            ProjectErrorUtilities.VerifyThrowInvalidProject(captures.Count > 0, elementLocation, "InvalidFunctionPropertyExpression");
+            ProjectErrorUtilities.VerifyThrowInvalidProject(captures.Count > 0, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression);
 
             if (!TryTransform(expander, elementLocation, options, includeNullEntries, captures, items, out entries))
             {

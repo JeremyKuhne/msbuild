@@ -356,7 +356,7 @@ namespace Microsoft.Build.BackEnd
             {
                 _taskLoggingContext.LogComment(
                     MessageImportance.Low,
-                    "ExecutingTaskInTaskHost",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ExecutingTaskInTaskHost,
                     _taskType.Type.Name,
                     _taskType.Assembly.AssemblyLocation,
                     _taskHostParameters.Runtime,
@@ -442,7 +442,7 @@ namespace Microsoft.Build.BackEnd
                     {
                         _taskLoggingContext.LogComment(
                             MessageImportance.Low,
-                            "TaskHostDetails",
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskHostDetails,
                             _taskType.Type.Name,
                             hostProcessId,
                             Process.GetCurrentProcess().Id,
@@ -603,7 +603,7 @@ namespace Microsoft.Build.BackEnd
             ParameterConversionRequirement requirement = _parameterConversionRequirement.Value;
             _taskLoggingContext.LogError(
                 new BuildEventFileInfo(requirement.Location),
-                "UnsupportedTaskParameterTypeError",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnsupportedTaskParameterTypeError,
                 requirement.ParameterType,
                 requirement.ParameterName,
                 requirement.TaskName);
@@ -733,7 +733,7 @@ namespace Microsoft.Build.BackEnd
                 // nothing much else to say.
                 _taskExecutionSucceeded = false;
 
-                _taskLoggingContext.LogError(new BuildEventFileInfo(_taskLocation), "TaskHostExitedPrematurely", (nodeShutdown.Exception == null) ? String.Empty : nodeShutdown.Exception.ToString());
+                _taskLoggingContext.LogError(new BuildEventFileInfo(_taskLocation), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskHostExitedPrematurely, (nodeShutdown.Exception == null) ? String.Empty : nodeShutdown.Exception.ToString());
             }
         }
 
@@ -912,13 +912,13 @@ namespace Microsoft.Build.BackEnd
 
             if (e == null)
             {
-                _taskLoggingContext.LogError(new BuildEventFileInfo(_taskLocation), "TaskHostAcquireFailed", _taskType.Type.Name, runtime, architecture, msbuildLocation);
+                _taskLoggingContext.LogError(new BuildEventFileInfo(_taskLocation), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskHostAcquireFailed, _taskType.Type.Name, runtime, architecture, msbuildLocation);
             }
             else
             {
                 _taskLoggingContext.LogError(
                     new BuildEventFileInfo(_taskLocation),
-                    "TaskHostNodeFailedToLaunch",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskHostNodeFailedToLaunch,
                     _taskType.Type.Name,
                     runtime,
                     architecture,

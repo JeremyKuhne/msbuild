@@ -375,6 +375,8 @@ namespace Microsoft.Build.BackEnd.Logging
         /// <param name="messageResourceName">string within the resource which indicates the format string to use</param>
         /// <param name="messageArgs">string resource arguments</param>
         void LogComment(BuildEventContext buildEventContext, MessageImportance importance, string messageResourceName, params object[] messageArgs);
+        void LogComment(BuildEventContext buildEventContext, MessageImportance importance, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs);
+
 
         /// <summary>
         /// Helper method to create a message build event from a string
@@ -414,6 +416,8 @@ namespace Microsoft.Build.BackEnd.Logging
         /// <param name="messageResourceName">The resource name for the error</param>
         /// <param name="messageArgs">Parameters for the resource string</param>
         void LogError(BuildEventContext buildEventContext, BuildEventFileInfo file, string messageResourceName, params object[] messageArgs);
+        void LogError(BuildEventContext buildEventContext, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs);
+
 
         /// <summary>
         /// Log an error
@@ -424,6 +428,8 @@ namespace Microsoft.Build.BackEnd.Logging
         /// <param name="messageResourceName">The resource name for the error</param>
         /// <param name="messageArgs">Parameters for the resource string</param>
         void LogError(BuildEventContext buildEventContext, string subcategoryResourceName, BuildEventFileInfo file, string messageResourceName, params object[] messageArgs);
+        void LogError(BuildEventContext buildEventContext, string subcategoryResourceName, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs);
+
 
         /// <summary>
         /// Log an error
@@ -469,6 +475,8 @@ namespace Microsoft.Build.BackEnd.Logging
         /// <param name="messageResourceName">The string resource which has the formatting string for the error</param>
         /// <param name="messageArgs">The arguments for the error message</param>
         void LogFatalError(BuildEventContext buildEventContext, Exception exception, BuildEventFileInfo file, string messageResourceName, params object[] messageArgs);
+        void LogFatalError(BuildEventContext buildEventContext, Exception exception, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs);
+
         #endregion
 
         #region Log warnings
@@ -490,6 +498,8 @@ namespace Microsoft.Build.BackEnd.Logging
         /// <param name="messageResourceName">The string resource which contains the formatted warning string</param>
         /// <param name="messageArgs">parameters for the string resource</param>
         void LogWarning(BuildEventContext buildEventContext, string subcategoryResourceName, BuildEventFileInfo file, string messageResourceName, params object[] messageArgs);
+        void LogWarning(BuildEventContext buildEventContext, string subcategoryResourceName, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs);
+
 
         /// <summary>
         /// Log a warning based on a text message

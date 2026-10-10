@@ -135,7 +135,7 @@ namespace Microsoft.Build.Tasks
 
                     AppConfigFile.SetMetadata(ItemMetadataNames.targetPath, TargetPath);
 
-                    Log.LogMessageFromResources(MessageImportance.Low, "FindInList.Found", AppConfigFile.ItemSpec);
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@FindInList_Found, AppConfigFile.ItemSpec);
                     return true;
                 }
             }
@@ -143,7 +143,7 @@ namespace Microsoft.Build.Tasks
             {
                 // Just log this: presumably this item spec is not intended to be
                 // a file path
-                Log.LogMessageFromResources(MessageImportance.Low, "FindInList.InvalidPath", item.ItemSpec, ex.Message);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@FindInList_InvalidPath, item.ItemSpec, ex.Message);
             }
             return false;
         }

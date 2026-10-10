@@ -1,0 +1,9 @@
+<Project>
+  <Target Name="_StringResourceProfileOutputs"
+          Returns="@(_StringResourceProfileOutput)">
+    <ItemGroup>
+      <_StringResourceProfileOutput Include="$([System.IO.Path]::GetFullPath('$(BaseOutputPath)', '$(MSBuildProjectDirectory)'))" />
+      <_StringResourceProfileOutput Include="$([System.IO.Path]::GetFullPath('$(BaseIntermediateOutputPath)', '$(MSBuildProjectDirectory)'))" />
+    </ItemGroup>
+  </Target>
+</Project>

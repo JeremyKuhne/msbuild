@@ -342,7 +342,7 @@ namespace Microsoft.Build.BackEnd
                         // crashing in reflection) so the host can fall back to a JIT MSBuild. This is the leaf gate
                         // that frees the whole build-execution chain above from carrying [RequiresUnreferencedCode],
                         // and it lets the trimmer remove the reflective task-loading path from the image.
-                        ProjectErrorUtilities.ThrowInvalidProject(_taskLocation, "ReflectiveTaskExecutionNotSupported", _taskName);
+                        ProjectErrorUtilities.ThrowInvalidProject(_taskLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReflectiveTaskExecutionNotSupported, _taskName);
                         return (null, null);
                     }
                 }
@@ -500,7 +500,7 @@ namespace Microsoft.Build.BackEnd
                 // See FindTask: instantiating an unregistered task reflects over a runtime-discovered type, so
                 // a trimmed/AOT host fails observably here. Normally unreachable - FindTask already failed -
                 // but it keeps the reflective InstantiateTask below behind the feature guard.
-                ProjectErrorUtilities.ThrowInvalidProject(_taskLocation, "ReflectiveTaskExecutionNotSupported", _taskName);
+                ProjectErrorUtilities.ThrowInvalidProject(_taskLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReflectiveTaskExecutionNotSupported, _taskName);
                 return false;
             }
             else
@@ -535,7 +535,7 @@ namespace Microsoft.Build.BackEnd
                 string realTaskAssemblyLocation = TaskInstance.GetType().Assembly.Location;
                 if (!string.IsNullOrWhiteSpace(realTaskAssemblyLocation) && realTaskAssemblyLocation != _taskFactoryWrapper.TaskFactoryLoadedType.Path)
                 {
-                    _taskLoggingContext.LogComment(MessageImportance.Normal, "TaskAssemblyLocationMismatch", realTaskAssemblyLocation, _taskFactoryWrapper.TaskFactoryLoadedType.Path);
+                    _taskLoggingContext.LogComment(MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskAssemblyLocationMismatch, realTaskAssemblyLocation, _taskFactoryWrapper.TaskFactoryLoadedType.Path);
                 }
             }
 
@@ -563,7 +563,7 @@ namespace Microsoft.Build.BackEnd
                 // (so binding stays trim-safe) and is exempt, as is an intrinsic MSBuild/CallTarget task (an
                 // engine-internal type); for any other task in a trimmed/AOT host this fails observably. See
                 // FindTask: normally unreachable (FindTask fails first).
-                ProjectErrorUtilities.ThrowInvalidProject(_taskLocation, "ReflectiveTaskExecutionNotSupported", _taskName);
+                ProjectErrorUtilities.ThrowInvalidProject(_taskLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReflectiveTaskExecutionNotSupported, _taskName);
                 return false;
             }
 
@@ -589,7 +589,7 @@ namespace Microsoft.Build.BackEnd
                 catch (Exception e) when (!ExceptionHandling.NotExpectedReflectionException(e))
                 {
                     // Reflection related exception
-                    _taskLoggingContext.LogError(new BuildEventFileInfo(_taskLocation), "TaskParametersError", _taskName, e.Message);
+                    _taskLoggingContext.LogError(new BuildEventFileInfo(_taskLocation), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskParametersError, _taskName, e.Message);
 
                     success = false;
                 }
@@ -623,7 +623,7 @@ namespace Microsoft.Build.BackEnd
                     ProjectErrorUtilities.VerifyThrowInvalidProject(
                         setParameters.ContainsKey(requiredParameter.Key),
                         _taskLocation,
-                        "RequiredPropertyNotSetError",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RequiredPropertyNotSetError,
                         _taskName,
                         requiredParameter.Key);
                 }
@@ -658,7 +658,7 @@ namespace Microsoft.Build.BackEnd
                 ProjectErrorUtilities.VerifyThrowInvalidProject(
                     parameter != null,
                     parameterLocation,
-                    "UnexpectedTaskOutputAttribute",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnexpectedTaskOutputAttribute,
                     parameterName,
                     _taskName);
 
@@ -666,7 +666,7 @@ namespace Microsoft.Build.BackEnd
                 ProjectErrorUtilities.VerifyThrowInvalidProject(
                     _taskFactoryWrapper.GetNamesOfPropertiesWithOutputAttribute.ContainsKey(parameterName),
                     parameterLocation,
-                    "UnmarkedOutputTaskParameter",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnmarkedOutputTaskParameter,
                     parameter.Name,
                     _taskName);
 
@@ -689,7 +689,7 @@ namespace Microsoft.Build.BackEnd
                 {
                     ProjectErrorUtilities.ThrowInvalidProject(
                         parameterLocation,
-                        "UnsupportedTaskParameterTypeError",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnsupportedTaskParameterTypeError,
                         GetTaskParameterTypeName(parameter),
                         parameter.Name,
                         _taskName);
@@ -700,7 +700,7 @@ namespace Microsoft.Build.BackEnd
                 // handle invalid TaskItems in task outputs
                 _targetLoggingContext.LogError(
                     new BuildEventFileInfo(parameterLocation),
-                    "InvalidTaskItemsInTaskOutputs",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidTaskItemsInTaskOutputs,
                     _taskName,
                     parameterName,
                     e.Message);
@@ -723,7 +723,7 @@ namespace Microsoft.Build.BackEnd
                 // so do not merely set gatheredGeneratedOutputsSuccessfully = false; here
                 ProjectErrorUtilities.ThrowInvalidProject(
                     parameterLocation,
-                    "FailedToRetrieveTaskOutputs",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@FailedToRetrieveTaskOutputs,
                     _taskName,
                     parameterName,
                     e.InnerException?.Message);
@@ -732,7 +732,7 @@ namespace Microsoft.Build.BackEnd
             {
                 ProjectErrorUtilities.ThrowInvalidProject(
                     parameterLocation,
-                    "FailedToRetrieveTaskOutputs",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@FailedToRetrieveTaskOutputs,
                     _taskName,
                     parameterName,
                     e.Message);
@@ -1094,7 +1094,7 @@ namespace Microsoft.Build.BackEnd
                 {
                     ProjectErrorUtilities.ThrowInvalidProject(
                         parameterLocation,
-                        "InvalidTaskParameterValueError",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidTaskParameterValueError,
                         currentItem.ItemSpec,
                         parameter.Name,
                         parameterType.FullName,
@@ -1217,7 +1217,7 @@ namespace Microsoft.Build.BackEnd
                             {
                                 _targetLoggingContext.LogError(
                                         new BuildEventFileInfo(_taskLocation),
-                                        "MissingTaskError",
+                                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MissingTaskError,
                                         _taskName,
                                         _projectInstance.TaskRegistry.Toolset.ToolsPath);
 
@@ -1227,7 +1227,7 @@ namespace Microsoft.Build.BackEnd
 
                         _targetLoggingContext.LogError(
                                 new BuildEventFileInfo(_taskLocation),
-                                "TaskExistsButHasMismatchedIdentityError",
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskExistsButHasMismatchedIdentityError,
                                 _taskName,
                                 returnClass.FactoryIdentityParameters.Runtime ?? XMakeAttributes.MSBuildRuntimeValues.any,
                                 returnClass.FactoryIdentityParameters.Architecture ?? XMakeAttributes.MSBuildArchitectureValues.any,
@@ -1298,7 +1298,7 @@ namespace Microsoft.Build.BackEnd
                             {
                                 _taskLoggingContext.LogError(
                                     new BuildEventFileInfo(_taskLocation),
-                                    "CustomTaskFactoryOutOfProcNotSupported",
+                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CustomTaskFactoryOutOfProcNotSupported,
                                     _taskFactoryWrapper.TaskFactory.FactoryName,
                                     _taskName);
                                 return null;
@@ -1345,7 +1345,7 @@ namespace Microsoft.Build.BackEnd
             {
                 _taskLoggingContext.LogError(
                     new BuildEventFileInfo(_taskLocation),
-                    "TaskInstantiationFailureErrorInvalidCast",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskInstantiationFailureErrorInvalidCast,
                     _taskName,
                     _taskFactoryWrapper.TaskFactory.FactoryName,
                     e.Message);
@@ -1356,7 +1356,7 @@ namespace Microsoft.Build.BackEnd
                 // Log the stack, so the task vendor can fix their code
                 _taskLoggingContext.LogError(
                     new BuildEventFileInfo(_taskLocation),
-                    "TaskInstantiationFailureError",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskInstantiationFailureError,
                     _taskName,
                     _taskFactoryWrapper.TaskFactory.FactoryName,
                     Environment.NewLine + e.InnerException);
@@ -1366,7 +1366,7 @@ namespace Microsoft.Build.BackEnd
                 // Reflection related exception
                 _taskLoggingContext.LogError(
                     new BuildEventFileInfo(_taskLocation),
-                    "TaskInstantiationFailureError",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskInstantiationFailureError,
                     _taskName,
                     _taskFactoryWrapper.TaskFactory.FactoryName,
                     e.Message);
@@ -1454,7 +1454,7 @@ namespace Microsoft.Build.BackEnd
                     {
                         ProjectErrorUtilities.ThrowInvalidProject(
                             parameterLocation,
-                            "UnsupportedTaskParameterTypeError",
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnsupportedTaskParameterTypeError,
                             GetTaskParameterTypeName(parameter),
                             parameter.Name,
                             _taskName);
@@ -1487,7 +1487,7 @@ namespace Microsoft.Build.BackEnd
                     {
                         _taskLoggingContext.LogError(
                             new BuildEventFileInfo(parameterLocation),
-                            "UnsupportedTaskParameterTypeError",
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnsupportedTaskParameterTypeError,
                             GetTaskParameterTypeName(parameter),
                             parameter.Name,
                             _taskName);
@@ -1498,7 +1498,7 @@ namespace Microsoft.Build.BackEnd
                         // flag an error if the parameter could not be set
                         _taskLoggingContext.LogError(
                             new BuildEventFileInfo(parameterLocation),
-                            "InvalidTaskAttributeError",
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidTaskAttributeError,
                             parameterName,
                             parameterValue,
                             _taskName);
@@ -1509,7 +1509,7 @@ namespace Microsoft.Build.BackEnd
                     // flag an error if we find a parameter that has no .NET property equivalent
                     _taskLoggingContext.LogError(
                         new BuildEventFileInfo(parameterLocation),
-                        "UnexpectedTaskAttribute",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnexpectedTaskAttribute,
                         parameterName,
                         _taskName,
                         _taskFactoryWrapper.TaskFactoryLoadedType.LoadedAssemblyName.FullName,
@@ -1520,7 +1520,7 @@ namespace Microsoft.Build.BackEnd
             {
                 _taskLoggingContext.LogError(
                     new BuildEventFileInfo(parameterLocation),
-                    "AmbiguousTaskParameterError",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AmbiguousTaskParameterError,
                     _taskName,
                     parameterName);
             }
@@ -1528,7 +1528,7 @@ namespace Microsoft.Build.BackEnd
             {
                 ProjectErrorUtilities.ThrowInvalidProject(
                     parameterLocation,
-                    "SetAccessorNotAvailableOnTaskParameter",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SetAccessorNotAvailableOnTaskParameter,
                     parameterName,
                     _taskName);
             }
@@ -1660,7 +1660,7 @@ namespace Microsoft.Build.BackEnd
                             // Some of the computation (expansion) here is expensive, so don't switch to VerifyThrowInvalidProject.
                             ProjectErrorUtilities.ThrowInvalidProject(
                                 parameterLocation,
-                                "CannotPassMultipleItemsIntoScalarParameter",
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotPassMultipleItemsIntoScalarParameter,
                                 _batchBucket.Expander.ExpandIntoStringAndUnescape(parameterValue, ExpanderOptions.ExpandAll, parameterLocation),
                                 parameter.Name,
                                 parameterType.FullName,
@@ -1709,7 +1709,7 @@ namespace Microsoft.Build.BackEnd
                 {
                     ProjectErrorUtilities.ThrowInvalidProject(
                         parameterLocation,
-                        "InvalidTaskParameterValueError",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidTaskParameterValueError,
                         _batchBucket.Expander.ExpandIntoStringAndUnescape(parameterValue, ExpanderOptions.ExpandAll, parameterLocation),
                         parameter.Name,
                         parameterType.FullName,
@@ -2178,9 +2178,9 @@ namespace Microsoft.Build.BackEnd
             catch (Exception e) when (!ExceptionHandling.NotExpectedReflectionException(e))
             {
                 // Reflection related exception
-                _targetLoggingContext.LogError(new BuildEventFileInfo(_taskLocation), "AttributeTypeLoadError", _taskName, e.Message);
+                _targetLoggingContext.LogError(new BuildEventFileInfo(_taskLocation), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AttributeTypeLoadError, _taskName, e.Message);
 
-                ProjectErrorUtilities.VerifyThrowInvalidProject(false, _taskLocation, "TaskDeclarationOrUsageError", _taskName);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(false, _taskLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskDeclarationOrUsageError, _taskName);
             }
 
             return requiredParameters;
@@ -2191,7 +2191,7 @@ namespace Microsoft.Build.BackEnd
         /// </summary>
         private void DisplayCancelWaitMessage()
         {
-            string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string warningCode, out string helpKeyword, "UnableToCancelTask", _taskName);
+            string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string warningCode, out string helpKeyword, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnableToCancelTask, _taskName);
             try
             {
                 _taskLoggingContext.LogWarningFromText(null, warningCode, helpKeyword, new BuildEventFileInfo(_taskLocation), message);

@@ -120,7 +120,7 @@ namespace Microsoft.Build.Tasks
 #if NET
             if (!RuntimeFeature.IsDynamicCodeSupported)
             {
-                Log.LogErrorWithCodeFromResources("XslTransform.XsltLoadError", "Dynamic code generation is not supported in this runtime environment.");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_XsltLoadError, "Dynamic code generation is not supported in this runtime environment.");
                 return false;
             }
 #endif
@@ -138,21 +138,21 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e) when (!ExceptionHandling.IsCriticalException(e))
             {
-                Log.LogErrorWithCodeFromResources("XslTransform.ArgumentError", e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_ArgumentError, e.Message);
                 return false;
             }
 
             // Check if OutputPath has same number of parameters as xmlInputPaths.
             if (XmlInputPaths != null && XmlInputPaths.Length != _outputPaths.Length)
             {
-                Log.LogErrorWithCodeFromResources("General.TwoVectorsMustHaveSameLength", _outputPaths.Length, XmlInputPaths.Length, "OutputPaths", "XmlInputPaths");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_TwoVectorsMustHaveSameLength, _outputPaths.Length, XmlInputPaths.Length, "OutputPaths", "XmlInputPaths");
                 return false;
             }
 
             // Check if OutputPath has 1 parameter if xmlString is specified.
             if (XmlContent != null && _outputPaths.Length != 1)
             {
-                Log.LogErrorWithCodeFromResources("General.TwoVectorsMustHaveSameLength", _outputPaths.Length, 1, "OutputPaths", "XmlContent");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_TwoVectorsMustHaveSameLength, _outputPaths.Length, 1, "OutputPaths", "XmlContent");
                 return false;
             }
 
@@ -165,7 +165,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e) when (!ExceptionHandling.IsCriticalException(e))
             {
-                Log.LogErrorWithCodeFromResources("XslTransform.XsltArgumentsError", e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_XsltArgumentsError, e.Message);
                 return false;
             }
 
@@ -178,18 +178,18 @@ namespace Microsoft.Build.Tasks
             }
             catch (PlatformNotSupportedException)
             {
-                Log.LogErrorWithCodeFromResources("XslTransform.PrecompiledXsltError");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_PrecompiledXsltError);
                 return false;
             }
             catch (Exception e) when (!ExceptionHandling.IsCriticalException(e))
             {
                 if (XmlTaskUtility.IsDtdProhibitedException(e, ProhibitDtd, xsltinput.ContainsDtd))
                 {
-                    Log.LogErrorWithCodeFromResources("XslTransform.XsltLoadDtdProhibited", nameof(ProhibitDtd), nameof(XslTransformation));
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_XsltLoadDtdProhibited, nameof(ProhibitDtd), nameof(XslTransformation));
                 }
                 else
                 {
-                    Log.LogErrorWithCodeFromResources("XslTransform.XsltLoadError", e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_XsltLoadError, e.Message);
                 }
 
                 return false;
@@ -200,7 +200,7 @@ namespace Microsoft.Build.Tasks
             {
                 if (UseTrustedSettings)
                 {
-                    Log.LogMessageFromResources(MessageImportance.High, "XslTransform.SecuritySettingsViaUseTrustedSettings");
+                    Log.LogMessageFromResources(MessageImportance.High, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_SecuritySettingsViaUseTrustedSettings);
                 }
 
                 for (int i = 0; i < xmlinput.Count; i++)
@@ -249,11 +249,11 @@ namespace Microsoft.Build.Tasks
                     && XmlTaskUtility.IsDtdProhibitedException(e, ProhibitDtd, currentInputContainsDtd))
                 {
                     string offendingPath = XmlInputPaths?[currentXmlInputIndex]?.ItemSpec ?? string.Empty;
-                    Log.LogErrorWithCodeFromResources("XslTransform.TransformDtdProhibited", offendingPath, nameof(ProhibitDtd), nameof(XslTransformation));
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_TransformDtdProhibited, offendingPath, nameof(ProhibitDtd), nameof(XslTransformation));
                 }
                 else
                 {
-                    Log.LogErrorWithCodeAndExceptionFromResources(e, true, true, "XslTransform.TransformError", [e.Message]);
+                    Log.LogErrorWithCodeAndExceptionFromResources(e, true, true, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_TransformError, [e.Message]);
                 }
 
                 return false;
@@ -296,7 +296,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (XmlException xe)
             {
-                throw new ArgumentException(ResourceUtilities.GetResourceString("XslTransform.XsltParameterNotWellFormed"), xe);
+                throw new ArgumentException(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_XsltParameterNotWellFormed), xe);
             }
 
             XmlNodeList xnl = doc.SelectNodes("/XsltParameters/*[local-name() = 'Parameter']");
@@ -307,12 +307,12 @@ namespace Microsoft.Build.Tasks
 
                 if (xn.Attributes["Name"] == null)
                 {
-                    throw new ArgumentException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("XslTransform.XsltParameterNoAttribute", "Name"));
+                    throw new ArgumentException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_XsltParameterNoAttribute, "Name"));
                 }
 
                 if (xn.Attributes["Value"] == null)
                 {
-                    throw new ArgumentException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("XslTransform.XsltParameterNoAttribute", "Value"));
+                    throw new ArgumentException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_XsltParameterNoAttribute, "Value"));
                 }
 
                 string ns = String.Empty;
@@ -353,11 +353,11 @@ namespace Microsoft.Build.Tasks
             {
                 if (xmlFilePaths != null && xml != null)
                 {
-                    throw new ArgumentException(ResourceUtilities.GetResourceString("XslTransform.XmlInput.TooMany"));
+                    throw new ArgumentException(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_XmlInput_TooMany));
                 }
                 else if (xmlFilePaths == null && xml == null)
                 {
-                    throw new ArgumentException(ResourceUtilities.GetResourceString("XslTransform.XmlInput.TooFew"));
+                    throw new ArgumentException(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_XmlInput_TooFew));
                 }
 
                 if (xmlFilePaths != null)
@@ -474,11 +474,11 @@ namespace Microsoft.Build.Tasks
                     (xsltFilePath != null && xsltCompiledDllSpec != null) ||
                     (xslt != null && xsltCompiledDllSpec != null))
                 {
-                    throw new ArgumentException(ResourceUtilities.GetResourceString("XslTransform.XsltInput.TooMany"));
+                    throw new ArgumentException(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_XsltInput_TooMany));
                 }
                 else if (xsltFilePath == null && xslt == null && xsltCompiledDllSpec == null)
                 {
-                    throw new ArgumentException(ResourceUtilities.GetResourceString("XslTransform.XsltInput.TooFew"));
+                    throw new ArgumentException(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_XsltInput_TooFew));
                 }
 
                 if (xsltFilePath != null)
@@ -555,7 +555,7 @@ namespace Microsoft.Build.Tasks
                     case XslModes.XsltFile:
                         if (!useTrustedSettings)
                         {
-                            _log.LogMessageFromResources(MessageImportance.Low, "XslTransform.UseTrustedSettings", _filePath.Value.OriginalValue);
+                            _log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_UseTrustedSettings, _filePath.Value.OriginalValue);
                         }
 
                         var fileSettings = new XmlReaderSettings { DtdProcessing = prohibitDtd ? DtdProcessing.Prohibit : DtdProcessing.Ignore, CloseInput = true };
@@ -636,7 +636,7 @@ namespace Microsoft.Build.Tasks
                         return types[0];
                     }
 
-                    throw new ArgumentException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("XslTransform.MustSpecifyType", assemblyPath));
+                    throw new ArgumentException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@XslTransform_MustSpecifyType, assemblyPath));
                 }
             }
 #endif

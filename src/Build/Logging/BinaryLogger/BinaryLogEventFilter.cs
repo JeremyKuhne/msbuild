@@ -72,7 +72,7 @@ public sealed class BinaryLogEventFilterException : Exception
     /// </summary>
     /// <param name="innerException">The exception thrown by the filter callback.</param>
     public BinaryLogEventFilterException(Exception innerException)
-        : base(ResourceUtilities.GetResourceString("Binlog_EventFilterThrew"), innerException)
+        : base(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Binlog_EventFilterThrew), innerException)
     {
     }
 
@@ -89,7 +89,7 @@ public sealed class BinaryLogEventFilterException : Exception
         int fileFormatVersion,
         Exception innerException)
         : base(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(
-            "Binlog_EventFilterThrewWithContext",
+            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Binlog_EventFilterThrewWithContext,
             recordNumber,
             metadata.RecordKind,
             fileFormatVersion,

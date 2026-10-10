@@ -272,7 +272,7 @@ namespace Microsoft.Build.Tasks
                 // Verify that we were actually passed a .tlb to import
                 if (String.IsNullOrEmpty(TypeLibName))
                 {
-                    Log.LogErrorWithCodeFromResources("TlbImp.NoInputFileSpecified");
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TlbImp_NoInputFileSpecified);
                     return false;
                 }
 
@@ -280,7 +280,7 @@ namespace Microsoft.Build.Tasks
                 // passed to the Transform property.
                 if (!ValidateTransformFlags())
                 {
-                    Log.LogErrorWithCodeFromResources("TlbImp.InvalidTransformParameter", Transform.ToString());
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TlbImp_InvalidTransformParameter, Transform.ToString());
                     return false;
                 }
 

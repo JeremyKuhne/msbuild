@@ -44,6 +44,16 @@ namespace Microsoft.Build.BackEnd.Logging
                 LogCommentFromText(buildEventContext, importance, ResourceUtilities.GetResourceString(messageResourceName), messageArgs);
             }
         }
+        public void LogComment(BuildEventContext buildEventContext, MessageImportance importance, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            if (!OnlyLogCriticalEvents)
+            {
+                Assumed.NotNullOrEmpty(messageResourceName.Name, "Need resource string for comment message.");
+
+                LogCommentFromText(buildEventContext, importance, ResourceUtilities.GetResourceString(messageResourceName), messageArgs);
+            }
+        }
+
 
         /// <summary>
         /// Log a comment
@@ -99,6 +109,11 @@ namespace Microsoft.Build.BackEnd.Logging
         {
             LogError(location, null, file, messageResourceName, messageArgs);
         }
+        public void LogError(BuildEventContext location, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            LogError(location, null, file, messageResourceName, messageArgs);
+        }
+
 
         /// <summary>
         /// Logs an error
@@ -117,6 +132,15 @@ namespace Microsoft.Build.BackEnd.Logging
 
             LogErrorFromText(buildEventContext, subcategoryResourceName, errorCode, helpKeyword, file, message);
         }
+        public void LogError(BuildEventContext buildEventContext, string subcategoryResourceName, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            Assumed.NotNullOrEmpty(messageResourceName.Name, "Need resource string for error message.");
+
+            string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out string helpKeyword, messageResourceName, messageArgs);
+
+            LogErrorFromText(buildEventContext, subcategoryResourceName, errorCode, helpKeyword, file, message);
+        }
+
 
         /// <summary>
         /// Logs an error with a given message
@@ -194,7 +218,7 @@ namespace Microsoft.Build.BackEnd.Logging
         /// <param name="file">Provides file information about where the build error happened</param>
         public void LogFatalBuildError(BuildEventContext buildEventContext, Exception exception, BuildEventFileInfo file)
         {
-            LogFatalError(buildEventContext, exception, file, "FatalBuildError");
+            LogFatalError(buildEventContext, exception, file, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@FatalBuildError);
         }
 
         /// <summary>
@@ -210,7 +234,7 @@ namespace Microsoft.Build.BackEnd.Logging
         {
             Assumed.NotNull(taskName, "Must specify the name of the task that failed.");
 
-            LogFatalError(buildEventContext, exception, file, "FatalTaskError", taskName);
+            LogFatalError(buildEventContext, exception, file, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@FatalTaskError, taskName);
         }
 
         /// <summary>
@@ -238,6 +262,22 @@ namespace Microsoft.Build.BackEnd.Logging
 
             LogErrorFromText(buildEventContext, null, errorCode, helpKeyword, file, message);
         }
+        public void LogFatalError(BuildEventContext buildEventContext, Exception exception, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            Assumed.NotNullOrEmpty(messageResourceName.Name, "Need resource string for error message.");
+
+            string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out string helpKeyword, messageResourceName, messageArgs);
+#if DEBUG
+            message += Environment.NewLine + "This is an unhandled exception from a task -- PLEASE OPEN A BUG AGAINST THE TASK OWNER.";
+#endif
+            if (exception != null)
+            {
+                message += Environment.NewLine + exception.ToString();
+            }
+
+            LogErrorFromText(buildEventContext, null, errorCode, helpKeyword, file, message);
+        }
+
 
         #endregion
 
@@ -261,7 +301,7 @@ namespace Microsoft.Build.BackEnd.Logging
         {
             Assumed.NotNullOrEmpty(taskName, "Must specify the name of the task that failed.");
 
-            string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string warningCode, out string helpKeyword, "FatalTaskError", taskName);
+            string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string warningCode, out string helpKeyword, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@FatalTaskError, taskName);
 #if DEBUG
             message += Environment.NewLine + "This is an unhandled exception from a task -- PLEASE OPEN A BUG AGAINST THE TASK OWNER.";
 #endif
@@ -289,6 +329,14 @@ namespace Microsoft.Build.BackEnd.Logging
             string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string warningCode, out string helpKeyword, messageResourceName, messageArgs);
             LogWarningFromText(buildEventContext, subcategoryResourceName, warningCode, helpKeyword, file, message);
         }
+        public void LogWarning(BuildEventContext buildEventContext, string subcategoryResourceName, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            Assumed.NotNullOrEmpty(messageResourceName.Name, "Need resource string for warning message.");
+
+            string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string warningCode, out string helpKeyword, messageResourceName, messageArgs);
+            LogWarningFromText(buildEventContext, subcategoryResourceName, warningCode, helpKeyword, file, message);
+        }
+
 
         /// <summary>
         /// Logs a warning
@@ -349,7 +397,7 @@ namespace Microsoft.Build.BackEnd.Logging
             string message = String.Empty;
             if (!OnlyLogCriticalEvents)
             {
-                message = ResourceUtilities.GetResourceString("BuildStarted");
+                message = ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildStarted);
             }
 
             IDictionary<string, string> environmentProperties = _componentHost?.BuildParameters?.BuildProcessEnvironment;
@@ -385,11 +433,11 @@ namespace Microsoft.Build.BackEnd.Logging
             {
                 if (Question)
                 {
-                    message = ResourceUtilities.GetResourceString(success ? "BuildFinishedQuestionSuccess" : "BuildFinishedQuestionFailure");
+                    message = ResourceUtilities.GetResourceString(success ? global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.BuildFinishedQuestionSuccess : global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.BuildFinishedQuestionFailure);
                 }
                 else
                 {
-                    message = ResourceUtilities.GetResourceString(success ? "BuildFinishedSuccess" : "BuildFinishedFailure");
+                    message = ResourceUtilities.GetResourceString(success ? global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.BuildFinishedSuccess : global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.BuildFinishedFailure);
                 }
             }
 
@@ -440,7 +488,7 @@ namespace Microsoft.Build.BackEnd.Logging
             if (listOfLoggers.Count != 0)
             {
                 var msgEvent = new BuildMessageEventArgs(
-                    ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("LogEnabledLogs", string.Join(", ", listOfLoggers)),
+                    ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@LogEnabledLogs, string.Join(", ", listOfLoggers)),
                     null, null, MessageImportance.Low);
                 msgEvent.BuildEventContext = BuildEventContext.Invalid;
                 ProcessLoggingEvent(msgEvent);
@@ -461,7 +509,7 @@ namespace Microsoft.Build.BackEnd.Logging
         /// <inheritdoc />
         public void LogBuildCanceled()
         {
-            string message = ResourceUtilities.GetResourceString("AbortingBuild");
+            string message = ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AbortingBuild);
             BuildCanceledEventArgs buildEvent = new BuildCanceledEventArgs(message);
 
             ProcessLoggingEvent(buildEvent);
@@ -494,7 +542,7 @@ namespace Microsoft.Build.BackEnd.Logging
         public void LogProjectEvaluationStarted(BuildEventContext projectEvaluationEventContext, string projectFile)
         {
             ProjectEvaluationStartedEventArgs evaluationEvent =
-                new ProjectEvaluationStartedEventArgs(ResourceUtilities.GetResourceString("EvaluationStarted"),
+                new ProjectEvaluationStartedEventArgs(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@EvaluationStarted),
                     projectFile)
                 {
                     BuildEventContext = projectEvaluationEventContext,
@@ -525,7 +573,7 @@ namespace Microsoft.Build.BackEnd.Logging
             Assumed.NotNull(projectEvaluationEventContext, "projectBuildEventContext");
 
             ProjectEvaluationFinishedEventArgs buildEvent =
-                new ProjectEvaluationFinishedEventArgs(ResourceUtilities.GetResourceString("EvaluationFinished"), projectFile)
+                new ProjectEvaluationFinishedEventArgs(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@EvaluationFinished), projectFile)
                 {
                     BuildEventContext = projectEvaluationEventContext,
                     ProjectFile = projectFile,

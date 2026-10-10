@@ -292,7 +292,7 @@ namespace Microsoft.Build.Evaluation
 
             if (propertyName?.Length == 0)
             {
-                InvalidToolsetDefinitionException.Throw("PropertyNameInRegistryHasZeroLength", toolsetWrapper.Name);
+                InvalidToolsetDefinitionException.Throw(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@PropertyNameInRegistryHasZeroLength, toolsetWrapper.Name);
             }
 
             try
@@ -332,7 +332,7 @@ namespace Microsoft.Build.Evaluation
                     // Must be a value of string type
                     if (!(result is string))
                     {
-                        InvalidToolsetDefinitionException.Throw("NonStringDataInRegistry", wrapper.Name + "@" + valueName);
+                        InvalidToolsetDefinitionException.Throw(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@NonStringDataInRegistry, wrapper.Name + "@" + valueName);
                     }
 
                     return result.ToString();

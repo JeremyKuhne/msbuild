@@ -92,7 +92,7 @@ namespace Microsoft.Build.Evaluation
                         if (toolset.toolsVersion?.Length == 0)
                         {
                             InvalidToolsetDefinitionException.Throw(
-                                "InvalidToolsetValueInConfigFileValue",
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidToolsetValueInConfigFileValue,
                                 location.LocationString);
                         }
 
@@ -168,7 +168,7 @@ namespace Microsoft.Build.Evaluation
 
                 if (propertyElement.Name?.Length == 0)
                 {
-                    InvalidToolsetDefinitionException.Throw("InvalidToolsetValueInConfigFileValue", location.LocationString);
+                    InvalidToolsetDefinitionException.Throw(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidToolsetValueInConfigFileValue, location.LocationString);
                 }
 
                 yield return new ToolsetPropertyDefinition(propertyElement.Name, propertyElement.Value, location);

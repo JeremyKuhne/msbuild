@@ -138,7 +138,7 @@ namespace Microsoft.Build.Execution
             // out of proc, in which case it will become in-proc after this call completes.  See GetNodeAffinity.
             bool isExplicit;
             bool hasExplicitOutOfProcAffinity = (GetNodeAffinity(projectFile, out isExplicit) == NodeAffinity.OutOfProc) && isExplicit;
-            ErrorUtilities.VerifyThrowInvalidOperation(!hasExplicitOutOfProcAffinity || hostObject == null, "InvalidHostObjectOnOutOfProcProject");
+            ErrorUtilities.VerifyThrowInvalidOperation(!hasExplicitOutOfProcAffinity || hostObject == null, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidHostObjectOnOutOfProcProject);
             _hostObjectMap ??= new Dictionary<string, HostObjects>(StringComparer.OrdinalIgnoreCase);
 
             HostObjects hostObjects = GetHostObjectsFromMapByKeyOrCreateNew(projectFile);
@@ -213,7 +213,7 @@ namespace Microsoft.Build.Execution
             {
                 if (HasInProcessHostObject(projectFile))
                 {
-                    ErrorUtilities.VerifyThrowInvalidOperation(nodeAffinity == NodeAffinity.InProc, "InvalidAffinityForProjectWithHostObject");
+                    ErrorUtilities.VerifyThrowInvalidOperation(nodeAffinity == NodeAffinity.InProc, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidAffinityForProjectWithHostObject);
                 }
 
                 if (_projectAffinities == null)

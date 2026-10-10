@@ -271,7 +271,7 @@ namespace Microsoft.Build.Tasks
         {
             if (!NativeMethodsShared.IsWindows)
             {
-                Log.LogErrorWithCodeFromResources("General.TaskRequiresWindows", nameof(ResolveSDKReference));
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_TaskRequiresWindows, nameof(ResolveSDKReference));
                 return false;
             }
 
@@ -279,7 +279,7 @@ namespace Microsoft.Build.Tasks
 
             if (InstalledSDKs.Length == 0)
             {
-                Log.LogMessageFromResources("ResolveSDKReference.NoSDKLocationsSpecified");
+                Log.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveSDKReference_NoSDKLocationsSpecified);
                 return true;
             }
 
@@ -424,11 +424,11 @@ namespace Microsoft.Build.Tasks
                             string incompatibleReferencesDelimited = String.Join(", ", listOfIncompatibleReferences);
                             if (notCompatibleReference.SupportsMultipleVersions == MultipleVersionSupport.Error)
                             {
-                                Log.LogErrorWithCodeFromResources("ResolveSDKReference.CannotReferenceTwoSDKsSameFamily", notCompatibleReference.SDKName, incompatibleReferencesDelimited, notCompatibleReference.ProductFamilyName);
+                                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveSDKReference_CannotReferenceTwoSDKsSameFamily, notCompatibleReference.SDKName, incompatibleReferencesDelimited, notCompatibleReference.ProductFamilyName);
                             }
                             else
                             {
-                                Log.LogWarningWithCodeFromResources("ResolveSDKReference.CannotReferenceTwoSDKsSameFamily", notCompatibleReference.SDKName, incompatibleReferencesDelimited, notCompatibleReference.ProductFamilyName);
+                                Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveSDKReference_CannotReferenceTwoSDKsSameFamily, notCompatibleReference.SDKName, incompatibleReferencesDelimited, notCompatibleReference.ProductFamilyName);
                             }
                         }
                     }
@@ -453,11 +453,11 @@ namespace Microsoft.Build.Tasks
                         string incompatibleReferencesDelimited = string.Join(", ", listOfIncompatibleReferences);
                         if (notCompatibleReference.SupportsMultipleVersions == MultipleVersionSupport.Error)
                         {
-                            Log.LogErrorWithCodeFromResources("ResolveSDKReference.CannotReferenceTwoSDKsSameName", notCompatibleReference.SDKName, incompatibleReferencesDelimited);
+                            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveSDKReference_CannotReferenceTwoSDKsSameName, notCompatibleReference.SDKName, incompatibleReferencesDelimited);
                         }
                         else
                         {
-                            Log.LogWarningWithCodeFromResources("ResolveSDKReference.CannotReferenceTwoSDKsSameName", notCompatibleReference.SDKName, incompatibleReferencesDelimited);
+                            Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveSDKReference_CannotReferenceTwoSDKsSameName, notCompatibleReference.SDKName, incompatibleReferencesDelimited);
                         }
                     }
                 }
@@ -511,7 +511,7 @@ namespace Microsoft.Build.Tasks
 
                     if (missingDependencies.Length > 0)
                     {
-                        log.LogWarningWithCodeFromResources("ResolveSDKReference.SDKMissingDependency", reference.SDKName, missingDependencies);
+                        log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveSDKReference_SDKMissingDependency, reference.SDKName, missingDependencies);
                     }
                 }
             }
@@ -600,11 +600,11 @@ namespace Microsoft.Build.Tasks
         /// </summary>
         private void LogResolution(SDKReference reference)
         {
-            Log.LogMessageFromResources(MessageImportance.Low, "ResolveSDKReference.SearchingForSDK", reference.ReferenceItem.ItemSpec);
+            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveSDKReference_SearchingForSDK, reference.ReferenceItem.ItemSpec);
 
             if (reference.Resolved)
             {
-                Log.LogMessageFromResources(MessageImportance.Low, "ResolveSDKReference.FoundSDK", reference.ResolvedPath);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveSDKReference_FoundSDK, reference.ResolvedPath);
                 if (reference.StatusMessages != null)
                 {
                     foreach (Tuple<string, object[]> message in reference.StatusMessages)
@@ -1020,7 +1020,7 @@ namespace Microsoft.Build.Tasks
 
                     if (_sdkManifest.ReadError)
                     {
-                        AddResolutionErrorOrWarning("ResolveSDKReference.ErrorResolvingSDK", ReferenceItem.ItemSpec, ResourceUtilities.FormatResourceStringStripCodeAndKeyword("ResolveSDKReference.ErrorReadingManifest", _sdkManifestPath, _sdkManifest.ReadErrorMessage));
+                        AddResolutionErrorOrWarning("ResolveSDKReference.ErrorResolvingSDK", ReferenceItem.ItemSpec, ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveSDKReference_ErrorReadingManifest, _sdkManifestPath, _sdkManifest.ReadErrorMessage));
                     }
                 }
 

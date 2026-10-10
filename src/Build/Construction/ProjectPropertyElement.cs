@@ -95,7 +95,7 @@ namespace Microsoft.Build.Construction
         {
             XmlUtilities.VerifyThrowArgumentValidElementName(name);
 
-            ErrorUtilities.VerifyThrowInvalidOperation(!XMakeElements.ReservedItemNames.Contains(name) && !ReservedPropertyNames.IsReservedProperty(name), "OM_CannotCreateReservedProperty", name);
+            ErrorUtilities.VerifyThrowInvalidOperation(!XMakeElements.ReservedItemNames.Contains(name) && !ReservedPropertyNames.IsReservedProperty(name), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_CannotCreateReservedProperty, name);
 
             XmlElementWithLocation element = containingProject.CreateElement(name);
 
@@ -112,7 +112,7 @@ namespace Microsoft.Build.Construction
         {
             ArgumentException.ThrowIfNullOrEmpty(newName);
             XmlUtilities.VerifyThrowArgumentValidElementName(newName);
-            ErrorUtilities.VerifyThrowArgument(!XMakeElements.ReservedItemNames.Contains(newName), "CannotModifyReservedProperty", newName);
+            ErrorUtilities.VerifyThrowArgument(!XMakeElements.ReservedItemNames.Contains(newName), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotModifyReservedProperty, newName);
             if (Link != null)
             {
                 PropertyLink.ChangeName(newName);
@@ -132,7 +132,7 @@ namespace Microsoft.Build.Construction
         /// </summary>
         internal override void VerifyThrowInvalidOperationAcceptableLocation(ProjectElementContainer parent, ProjectElement previousSibling, ProjectElement nextSibling)
         {
-            ErrorUtilities.VerifyThrowInvalidOperation(parent is ProjectPropertyGroupElement, "OM_CannotAcceptParent");
+            ErrorUtilities.VerifyThrowInvalidOperation(parent is ProjectPropertyGroupElement, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_CannotAcceptParent);
         }
 
         /// <inheritdoc />

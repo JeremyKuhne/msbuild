@@ -446,7 +446,7 @@ namespace Microsoft.Build.Evaluation
                             // Reserved or invalid property name
                             try
                             {
-                                ProjectErrorUtilities.ThrowInvalidProject(ElementLocation.Create("MSBUILD"), "InvalidProperty", ex.Message);
+                                ProjectErrorUtilities.ThrowInvalidProject(ElementLocation.Create("MSBUILD"), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidProperty, ex.Message);
                             }
                             catch (InvalidProjectFileException ex2)
                             {
@@ -636,7 +636,7 @@ namespace Microsoft.Build.Evaluation
                     if (!_toolsets.ContainsKey(value))
                     {
                         string toolsVersionList = Utilities.CreateToolsVersionListString(Toolsets);
-                        ErrorUtilities.ThrowInvalidOperation("UnrecognizedToolsVersion", value, toolsVersionList);
+                        ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Framework.Resources.SR.Resources.@UnrecognizedToolsVersion, value, toolsVersionList);
                     }
 
                     if (_defaultToolsVersion != value)
@@ -1504,7 +1504,7 @@ namespace Microsoft.Build.Evaluation
             using (_locker.EnterDisposableWriteLock())
             {
                 bool existed = _loadedProjects.RemoveProject(project);
-                ErrorUtilities.VerifyThrowInvalidOperation(existed, "OM_ProjectWasNotLoaded");
+                ErrorUtilities.VerifyThrowInvalidOperation(existed, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_ProjectWasNotLoaded);
 
                 project.Zombify();
 
@@ -1546,7 +1546,7 @@ namespace Microsoft.Build.Evaluation
                 Project conflictingProject = GetLoadedProjects(false, null).FirstOrDefault(project => project.UsesProjectRootElement(projectRootElement));
                 if (conflictingProject != null)
                 {
-                    ErrorUtilities.ThrowInvalidOperation("OM_ProjectXmlCannotBeUnloadedDueToLoadedProjects", projectRootElement.FullPath, conflictingProject.FullPath);
+                    ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_ProjectXmlCannotBeUnloadedDueToLoadedProjects, projectRootElement.FullPath, conflictingProject.FullPath);
                 }
 
                 ProjectRootElementCache.DiscardAnyWeakReference(projectRootElement);
@@ -1733,7 +1733,7 @@ namespace Microsoft.Build.Evaluation
                 if (oldFullPathIfAny != null)
                 {
                     bool existed = _loadedProjects.RemoveProject(oldFullPathIfAny, project);
-                    ErrorUtilities.VerifyThrowInvalidOperation(existed, "OM_ProjectWasNotLoaded");
+                    ErrorUtilities.VerifyThrowInvalidOperation(existed, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_ProjectWasNotLoaded);
                 }
 
                 // The only time this ever gets called with a null full path is when the project is first being
@@ -1764,7 +1764,7 @@ namespace Microsoft.Build.Evaluation
         {
             using (_locker.EnterDisposableWriteLock())
             {
-                ErrorUtilities.VerifyThrowInvalidOperation(ReferenceEquals(project.ProjectCollection, this), "OM_IncorrectObjectAssociation", "Project", "ProjectCollection");
+                ErrorUtilities.VerifyThrowInvalidOperation(ReferenceEquals(project.ProjectCollection, this), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_IncorrectObjectAssociation, "Project", "ProjectCollection");
 
                 if (project.FullPath == null)
                 {
@@ -2109,7 +2109,7 @@ namespace Microsoft.Build.Evaluation
                     {
                         if (HasEquivalentGlobalPropertiesAndToolsVersion(existing, project.GlobalProperties, project.ToolsVersion))
                         {
-                            ErrorUtilities.ThrowInvalidOperation("OM_MatchingProjectAlreadyInCollection", existing.FullPath);
+                            ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_MatchingProjectAlreadyInCollection, existing.FullPath);
                         }
                     }
 

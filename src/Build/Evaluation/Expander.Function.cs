@@ -228,7 +228,7 @@ internal partial class Expander<P, I>
             }
 
             // In case we ended up with something we don't understand
-            ProjectErrorUtilities.VerifyThrowInvalidProject(!expressionRoot.IsEmpty, elementLocation, "InvalidFunctionPropertyExpression", expressionFunction, String.Empty);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(!expressionRoot.IsEmpty, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression, expressionFunction, String.Empty);
 
             functionBuilder.Expression = expressionFunction;
             functionBuilder.PropertiesUseTracker = propertiesUseTracker;
@@ -242,7 +242,7 @@ internal partial class Expander<P, I>
                 if (typeEndIndex < 1)
                 {
                     // We ended up with something other than a function expression
-                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionStaticMethodSyntax", expressionFunction, String.Empty);
+                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionStaticMethodSyntax, expressionFunction, String.Empty);
                 }
 
                 var typeName = Strings.WeakIntern(expressionRoot.Slice(1, typeEndIndex - 1));
@@ -256,7 +256,7 @@ internal partial class Expander<P, I>
                 else
                 {
                     // We ended up with something other than a static function expression
-                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionStaticMethodSyntax", expressionFunction, String.Empty);
+                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionStaticMethodSyntax, expressionFunction, String.Empty);
                 }
 
                 ConstructFunction(elementLocation, expressionFunction, argumentStartIndex, methodStartIndex, ref functionBuilder);
@@ -267,7 +267,7 @@ internal partial class Expander<P, I>
                 if (receiverType == null)
                 {
                     // We ended up with something other than a type
-                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionTypeUnavailable", expressionFunction, typeName);
+                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionTypeUnavailable, expressionFunction, typeName);
                 }
 
                 functionBuilder.SetReceiverType(receiverType);
@@ -278,7 +278,7 @@ internal partial class Expander<P, I>
                 if (indexerEndIndex < 1)
                 {
                     // We ended up with something other than a function expression
-                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionPropertyExpression", expressionFunction, AssemblyResources.GetString("InvalidFunctionPropertyExpressionDetailMismatchedSquareBrackets"));
+                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression, expressionFunction, AssemblyResources.GetString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpressionDetailMismatchedSquareBrackets));
                 }
 
                 var methodStartIndex = indexerEndIndex + 1;
@@ -309,7 +309,7 @@ internal partial class Expander<P, I>
                 if (propertyValue == null && !IsValidPropertyName(functionReceiver))
                 {
                     // We extracted something that wasn't a valid property name, fail.
-                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionPropertyExpression", expressionFunction, String.Empty);
+                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression, expressionFunction, String.Empty);
                 }
 
                 // If we are recursively acting on a type that has been already produced then pass that type inwards (e.g. we are interpreting a function call chain)
@@ -377,7 +377,7 @@ internal partial class Expander<P, I>
                     // Check that the function that we're going to call is valid to call
                     if (!IsStaticMethodAvailable(_receiverType, _methodMethodName))
                     {
-                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionMethodUnavailable", _methodMethodName, _receiverType.FullName);
+                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionMethodUnavailable, _methodMethodName, _receiverType.FullName);
                     }
 
                     _bindingFlags |= BindingFlags.Static;
@@ -387,7 +387,7 @@ internal partial class Expander<P, I>
                     // Check that the function that we're going to call is valid to call
                     if (!IsInstanceMethodAvailable(_receiverType, _methodMethodName))
                     {
-                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionMethodUnavailable", _methodMethodName, _receiverType.FullName);
+                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionMethodUnavailable, _methodMethodName, _receiverType.FullName);
                     }
 
                     _bindingFlags |= BindingFlags.Instance;
@@ -523,7 +523,7 @@ internal partial class Expander<P, I>
                             return partiallyEvaluated;
                         }
 
-                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionPropertyExpression", partiallyEvaluated, ex.Message.Replace("\r\n", " "));
+                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression, partiallyEvaluated, ex.Message.Replace("\r\n", " "));
                     }
 
                     if (!wellKnownFunctionSuccess)
@@ -594,7 +594,7 @@ internal partial class Expander<P, I>
                     // If the caller wants to ignore errors (in a log statement for example), just return the partially evaluated value
                     return partiallyEvaluated;
                 }
-                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionPropertyExpression", partiallyEvaluated, ex.InnerException.Message.Replace("\r\n", " "));
+                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression, partiallyEvaluated, ex.InnerException.Message.Replace("\r\n", " "));
                 return null;
             }
 
@@ -605,13 +605,13 @@ internal partial class Expander<P, I>
                 // invocation. Give them some more relevant info in that case
                 if (s_invariantCompareInfo.IndexOf(_expression, "::", CompareOptions.OrdinalIgnoreCase) > -1)
                 {
-                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionStaticMethodSyntax", _expression, ex.Message.Replace("Microsoft.Build.Evaluation.IntrinsicFunctions.", "[MSBuild]::"));
+                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionStaticMethodSyntax, _expression, ex.Message.Replace("Microsoft.Build.Evaluation.IntrinsicFunctions.", "[MSBuild]::"));
                 }
                 else
                 {
                     // We ended up with something other than a function expression
                     string partiallyEvaluated = GenerateStringOfMethodExecuted(_expression, objectInstance, _methodMethodName, args);
-                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionPropertyExpression", partiallyEvaluated, ex.Message);
+                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression, partiallyEvaluated, ex.Message);
                 }
 
                 return null;
@@ -639,7 +639,7 @@ internal partial class Expander<P, I>
                             else if (!toReturn.Equals(currentReturnValue))
                             {
                                 // There were multiple methods that seemed viable and gave different results. We can't differentiate between them so throw.
-                                ErrorUtilities.ThrowArgument("CouldNotDifferentiateBetweenCompatibleMethods", _methodMethodName, args.Length);
+                                ErrorUtilities.ThrowArgument(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CouldNotDifferentiateBetweenCompatibleMethods, _methodMethodName, args.Length);
                                 return null;
                             }
                         }
@@ -917,7 +917,7 @@ internal partial class Expander<P, I>
 
                 if (argumentsEndIndex == -1)
                 {
-                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionPropertyExpression", expressionFunction, AssemblyResources.GetString("InvalidFunctionPropertyExpressionDetailMismatchedParenthesis"));
+                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression, expressionFunction, AssemblyResources.GetString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpressionDetailMismatchedParenthesis));
                 }
 
                 // We have been asked for a method invocation
@@ -969,7 +969,7 @@ internal partial class Expander<P, I>
 
                 ReadOnlySpan<char> netPropertyName = expressionFunctionAsSpan.Slice(methodStartIndex, methodLength).Trim();
 
-                ProjectErrorUtilities.VerifyThrowInvalidProject(netPropertyName.Length > 0, elementLocation, "InvalidFunctionPropertyExpression", expressionFunction, String.Empty);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(netPropertyName.Length > 0, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression, expressionFunction, String.Empty);
 
                 // We have been asked for a property or a field
                 defaultBindingFlags |= (BindingFlags.GetProperty | BindingFlags.GetField);
@@ -988,7 +988,7 @@ internal partial class Expander<P, I>
             else
             {
                 // We ended up with something other than a function expression
-                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidFunctionPropertyExpression", expressionFunction, String.Empty);
+                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFunctionPropertyExpression, expressionFunction, String.Empty);
             }
         }
 

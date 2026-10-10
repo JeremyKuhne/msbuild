@@ -65,7 +65,7 @@ namespace Microsoft.Build.Tasks
                 string? buildProjectReferenceAs = PlatformNegotiation.GetNearestPlatform(projectReferenceOverridePlatformNegotiationMetadata, referencedProjectPlatform, projectReferencePlatformsMetadata, projectReferenceLookupTableMetadata, PlatformLookupTable, AssignedProjectsWithPlatform[i].ItemSpec, CurrentProjectPlatform, Log);
 
                 AssignedProjectsWithPlatform[i].SetMetadata("NearestPlatform", buildProjectReferenceAs);
-                Log.LogMessageFromResources(MessageImportance.Low, "GetCompatiblePlatform.DisplayChosenPlatform", AssignedProjectsWithPlatform[i].ItemSpec, buildProjectReferenceAs);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GetCompatiblePlatform_DisplayChosenPlatform, AssignedProjectsWithPlatform[i].ItemSpec, buildProjectReferenceAs);
             }
 
             return !Log.HasLoggedErrors;

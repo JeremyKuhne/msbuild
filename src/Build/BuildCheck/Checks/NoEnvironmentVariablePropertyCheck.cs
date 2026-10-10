@@ -13,8 +13,8 @@ internal sealed class NoEnvironmentVariablePropertyCheck : Check
     public static CheckRule SupportedRule = new CheckRule(
         "BC0103",
         "NoEnvironmentVariablePropertyCheck",
-        ResourceUtilities.GetResourceString("BuildCheck_BC0103_Title")!,
-        ResourceUtilities.GetResourceString("BuildCheck_BC0103_MessageFmt")!,
+        ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheck_BC0103_Title)!,
+        ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheck_BC0103_MessageFmt)!,
         new CheckConfiguration() { Severity = CheckResultSeverity.Suggestion });
 
     private const string RuleId = "BC0103";
@@ -97,7 +97,7 @@ internal sealed class NoEnvironmentVariablePropertyCheck : Check
         CheckScopeClassifier.NotifyOnScopingReadiness -= HandleScopeReadiness;
     }
 
-    private string GetFormattedMessage(string envVariableName, string envVariableValue) => _isVerboseEnvVarOutput ? string.Format(ResourceUtilities.GetResourceString("BuildCheck_BC0103_MessageAddendum")!, envVariableName, envVariableValue) : $"'{envVariableName}'";
+    private string GetFormattedMessage(string envVariableName, string envVariableValue) => _isVerboseEnvVarOutput ? string.Format(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheck_BC0103_MessageAddendum)!, envVariableName, envVariableValue) : $"'{envVariableName}'";
 
     internal class EnvironmentVariableIdentityKey(string environmentVariableName, IMSBuildElementLocation location) : IEquatable<EnvironmentVariableIdentityKey>
     {

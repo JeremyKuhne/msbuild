@@ -524,14 +524,14 @@ namespace Microsoft.Build.Utilities
                 {
                     ErrorUtilities.VerifyThrowArgument(
                             -1 == parameter.IndexOf('"'),
-                            "General.QuotesNotAllowedInThisKindOfTaskParameterNoSwitchName",
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_QuotesNotAllowedInThisKindOfTaskParameterNoSwitchName,
                             parameter);
                 }
                 else
                 {
                     ErrorUtilities.VerifyThrowArgument(
                             -1 == parameter.IndexOf('"'),
-                            "General.QuotesNotAllowedInThisKindOfTaskParameter",
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_QuotesNotAllowedInThisKindOfTaskParameter,
                             switchName,
                             parameter);
                 }

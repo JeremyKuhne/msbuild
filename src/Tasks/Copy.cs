@@ -80,14 +80,14 @@ namespace Microsoft.Build.Tasks
 
             if (DidNotCopyBecauseOfFileMatch == null)
             {
-                CreatesDirectory = Log.GetResourceMessage("Copy.CreatesDirectory");
-                DidNotCopyBecauseOfFileMatch = Log.GetResourceMessage("Copy.DidNotCopyBecauseOfFileMatch");
-                FileComment = Log.GetResourceMessage("Copy.FileComment");
-                HardLinkComment = Log.GetResourceMessage("Copy.HardLinkComment");
-                RetryingAsFileCopy = Log.GetResourceMessage("Copy.RetryingAsFileCopy");
-                RetryingAsSymbolicLink = Log.GetResourceMessage("Copy.RetryingAsSymbolicLink");
-                RemovingReadOnlyAttribute = Log.GetResourceMessage("Copy.RemovingReadOnlyAttribute");
-                SymbolicLinkComment = Log.GetResourceMessage("Copy.SymbolicLinkComment");
+                CreatesDirectory = Log.GetResourceMessage(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_CreatesDirectory);
+                DidNotCopyBecauseOfFileMatch = Log.GetResourceMessage(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_DidNotCopyBecauseOfFileMatch);
+                FileComment = Log.GetResourceMessage(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_FileComment);
+                HardLinkComment = Log.GetResourceMessage(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_HardLinkComment);
+                RetryingAsFileCopy = Log.GetResourceMessage(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_RetryingAsFileCopy);
+                RetryingAsSymbolicLink = Log.GetResourceMessage(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_RetryingAsSymbolicLink);
+                RemovingReadOnlyAttribute = Log.GetResourceMessage(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_RemovingReadOnlyAttribute);
+                SymbolicLinkComment = Log.GetResourceMessage(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_SymbolicLinkComment);
             }
 
             _signalCopyTasksCompleted = new AutoResetEvent(false);
@@ -243,7 +243,7 @@ namespace Microsoft.Build.Tasks
         /// If MSBUILDALWAYSRETRY is set, also log useful diagnostic information -- as
         /// a warning, so it's easily visible.
         /// </summary>
-        private void LogAlwaysRetryDiagnosticFromResources(string messageResourceName, params object[] messageArgs)
+        private void LogAlwaysRetryDiagnosticFromResources(global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
         {
             if (_alwaysRetryCopy)
             {
@@ -262,7 +262,7 @@ namespace Microsoft.Build.Tasks
         {
             if (destinationFileState.DirectoryExists)
             {
-                Log.LogErrorWithCodeFromResources("Copy.DestinationIsDirectory", sourceFileState.Path.OriginalValue, destinationFileState.Path.OriginalValue);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_DestinationIsDirectory, sourceFileState.Path.OriginalValue, destinationFileState.Path.OriginalValue);
                 return false;
             }
 
@@ -272,13 +272,13 @@ namespace Microsoft.Build.Tasks
                 // error telling the user so.  Otherwise, .NET Framework's File.Copy method will throw
                 // an UnauthorizedAccessException saying "access is denied", which is not very useful
                 // to the user.
-                Log.LogErrorWithCodeFromResources("Copy.SourceIsDirectory", sourceFileState.Path.OriginalValue);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_SourceIsDirectory, sourceFileState.Path.OriginalValue);
                 return false;
             }
 
             if (!sourceFileState.FileExists)
             {
-                Log.LogErrorWithCodeFromResources("Copy.SourceFileNotFound", sourceFileState.Path.OriginalValue);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_SourceFileNotFound, sourceFileState.Path.OriginalValue);
                 return false;
             }
 
@@ -357,7 +357,7 @@ namespace Microsoft.Build.Tasks
                 {
                     if (!NativeMethodsShared.IsWindows)
                     {
-                        errorMessage = Log.FormatResourceString("Copy.NonWindowsLinkErrorMessage", "symlink()", errorMessage);
+                        errorMessage = Log.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_NonWindowsLinkErrorMessage, "symlink()", errorMessage);
                     }
 
                     Log.LogMessage(MessageImportance.Normal, RetryingAsFileCopy, sourceFileState.Path, destinationFileState.Path, errorMessage);
@@ -366,7 +366,7 @@ namespace Microsoft.Build.Tasks
 
             if (ErrorIfLinkFails && !hardLinkCreated && !symbolicLinkCreated)
             {
-                Log.LogErrorWithCodeFromResources("Copy.LinkFailed", sourceFileState.Path, destinationFileState.Path);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_LinkFailed, sourceFileState.Path, destinationFileState.Path);
                 return false;
             }
 
@@ -524,7 +524,7 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (ArgumentException ex)
                 {
-                    Log.LogErrorWithCodeFromResources("Copy.Error", sourceSpec, destSpec, ex.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_Error, sourceSpec, destSpec, ex.Message);
                     success = false;
                     continue;
                 }
@@ -690,7 +690,7 @@ namespace Microsoft.Build.Tasks
                             }
                             catch (ArgumentException ex)
                             {
-                                Log.LogErrorWithCodeFromResources("Copy.Error", sourceSpec, destSpec, ex.Message);
+                                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_Error, sourceSpec, destSpec, ex.Message);
                                 success = false;
                                 continue;
                             }
@@ -759,47 +759,47 @@ namespace Microsoft.Build.Tasks
         {
             if (Retries < 0)
             {
-                Log.LogErrorWithCodeFromResources("Copy.InvalidRetryCount", Retries);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_InvalidRetryCount, Retries);
                 return false;
             }
 
             if (RetryDelayMilliseconds < 0)
             {
-                Log.LogErrorWithCodeFromResources("Copy.InvalidRetryDelay", RetryDelayMilliseconds);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_InvalidRetryDelay, RetryDelayMilliseconds);
                 return false;
             }
 
             // There must be a destination (either files or directory).
             if (DestinationFiles == null && DestinationFolder == null)
             {
-                Log.LogErrorWithCodeFromResources("Copy.NeedsDestination", "DestinationFiles", "DestinationFolder");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_NeedsDestination, "DestinationFiles", "DestinationFolder");
                 return false;
             }
 
             // There can't be two kinds of destination.
             if (DestinationFiles != null && DestinationFolder != null)
             {
-                Log.LogErrorWithCodeFromResources("Copy.ExactlyOneTypeOfDestination", "DestinationFiles", "DestinationFolder");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_ExactlyOneTypeOfDestination, "DestinationFiles", "DestinationFolder");
                 return false;
             }
 
             // SourceFolders and DestinationFiles can't be used together.
             if (SourceFolders != null && DestinationFiles != null)
             {
-                Log.LogErrorWithCodeFromResources("Copy.IncompatibleParameters", "SourceFolders", "DestinationFiles");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_IncompatibleParameters, "SourceFolders", "DestinationFiles");
                 return false;
             }
 
             // If the caller passed in DestinationFiles, then its length must match SourceFiles.
             if (DestinationFiles != null && DestinationFiles.Length != SourceFiles.Length)
             {
-                Log.LogErrorWithCodeFromResources("General.TwoVectorsMustHaveSameLength", DestinationFiles.Length, SourceFiles.Length, "DestinationFiles", "SourceFiles");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_TwoVectorsMustHaveSameLength, DestinationFiles.Length, SourceFiles.Length, "DestinationFiles", "SourceFiles");
                 return false;
             }
 
             if (ErrorIfLinkFails && !UseHardlinksIfPossible && !UseSymboliclinksIfPossible)
             {
-                Log.LogErrorWithCodeFromResources("Copy.ErrorIfLinkFailsSetWithoutLinkOption");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_ErrorIfLinkFailsSetWithoutLinkOption);
                 return false;
             }
 
@@ -930,7 +930,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (ArgumentException e)
             {
-                Log.LogErrorWithCodeFromResources("Copy.Error", src, dest, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_Error, src, dest, e.Message);
                 return false;
             }
 
@@ -985,12 +985,12 @@ namespace Microsoft.Build.Tasks
             }
             catch (PathTooLongException e)
             {
-                Log.LogErrorWithCodeFromResources("Copy.Error", sourceFileState.Path.OriginalValue, destinationFileState.Path.OriginalValue, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_Error, sourceFileState.Path.OriginalValue, destinationFileState.Path.OriginalValue, e.Message);
                 success = false;
             }
             catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
             {
-                Log.LogErrorWithCodeFromResources("Copy.Error", sourceFileState.Path.OriginalValue, destinationFileState.Path.OriginalValue, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_Error, sourceFileState.Path.OriginalValue, destinationFileState.Path.OriginalValue, e.Message);
                 success = false;
             }
 
@@ -1030,7 +1030,7 @@ namespace Microsoft.Build.Tasks
                         case IOException: // Not clear why we can get one and not the other
                             int code = Marshal.GetHRForException(e);
 
-                            LogAlwaysRetryDiagnosticFromResources("Copy.IOException", e.ToString(), sourceFileState.Path.OriginalValue, destinationFileState.Path.OriginalValue, code);
+                            LogAlwaysRetryDiagnosticFromResources(PrimaryResourceCatalog.Resources.Copy_IOException, e.ToString(), sourceFileState.Path.OriginalValue, destinationFileState.Path.OriginalValue, code);
 #if FEATURE_WINDOWSINTEROP
                             // HRESULT_FROM_WIN32(WIN32_ERROR.ERROR_ACCESS_DENIED)
                             if (code == (int)(HRESULT)WIN32_ERROR.ERROR_ACCESS_DENIED)
@@ -1051,7 +1051,7 @@ namespace Microsoft.Build.Tasks
                                 }
                                 else
                                 {
-                                    LogAlwaysRetryDiagnosticFromResources("Copy.RetryingOnAccessDenied");
+                                    LogAlwaysRetryDiagnosticFromResources(PrimaryResourceCatalog.Resources.Copy_RetryingOnAccessDenied);
                                 }
                             }
                             // HRESULT_FROM_WIN32(WIN32_ERROR.ERROR_INVALID_NAME) -- illegal characters in name
@@ -1080,7 +1080,7 @@ namespace Microsoft.Build.Tasks
                     if (retries < Retries)
                     {
                         retries++;
-                        Log.LogWarningWithCodeFromResources("Copy.Retrying", sourceFileState.Path.OriginalValue,
+                        Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_Retrying, sourceFileState.Path.OriginalValue,
                             destinationFileState.Path.OriginalValue, retries, RetryDelayMilliseconds, e.Message,
                             LockCheck.GetLockedFileMessage(destinationFileState.Path));
 
@@ -1093,7 +1093,7 @@ namespace Microsoft.Build.Tasks
                     else if (Retries > 0)
                     {
                         // Exception message is logged in caller
-                        Log.LogErrorWithCodeFromResources("Copy.ExceededRetries", sourceFileState.Path.OriginalValue,
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_ExceededRetries, sourceFileState.Path.OriginalValue,
                             destinationFileState.Path.OriginalValue, Retries, LockCheck.GetLockedFileMessage(destinationFileState.Path));
                         throw;
                     }
@@ -1106,7 +1106,7 @@ namespace Microsoft.Build.Tasks
                 if (retries < Retries)
                 {
                     retries++;
-                    Log.LogWarningWithCodeFromResources("Copy.Retrying", sourceFileState.Path.OriginalValue,
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_Retrying, sourceFileState.Path.OriginalValue,
                         destinationFileState.Path.OriginalValue, retries, RetryDelayMilliseconds, String.Empty /* no details */,
                         LockCheck.GetLockedFileMessage(destinationFileState.Path));
 
@@ -1117,7 +1117,7 @@ namespace Microsoft.Build.Tasks
                 }
                 else if (Retries > 0)
                 {
-                    Log.LogErrorWithCodeFromResources("Copy.ExceededRetries", sourceFileState.Path.OriginalValue,
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_ExceededRetries, sourceFileState.Path.OriginalValue,
                         destinationFileState.Path.OriginalValue, Retries, LockCheck.GetLockedFileMessage(destinationFileState.Path));
                     return false;
                 }

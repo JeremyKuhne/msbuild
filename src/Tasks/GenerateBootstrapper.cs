@@ -118,7 +118,7 @@ namespace Microsoft.Build.Tasks
                         }
                         else
                         {
-                            Log.LogWarningWithCodeFromResources("GenerateBootstrapper.DuplicateItems", bootstrapperItem.ItemSpec);
+                            Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateBootstrapper_DuplicateItems, bootstrapperItem.ItemSpec);
                         }
                     }
                 }
@@ -133,7 +133,7 @@ namespace Microsoft.Build.Tasks
 
                 foreach (ITaskItem bootstrapperItem in items.Values)
                 {
-                    Log.LogWarningWithCodeFromResources("GenerateBootstrapper.ProductNotFound", bootstrapperItem.ItemSpec, bootstrapperBuilder.Path);
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateBootstrapper_ProductNotFound, bootstrapperItem.ItemSpec, bootstrapperBuilder.Path);
                 }
             }
 
@@ -174,7 +174,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (FormatException)
             {
-                Log.LogWarningWithCodeFromResources("GenerateBootstrapper.InvalidComponentsLocation", parameterValue);
+                Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateBootstrapper_InvalidComponentsLocation, parameterValue);
                 return Deployment.Bootstrapper.ComponentsLocation.HomeSite;
             }
         }

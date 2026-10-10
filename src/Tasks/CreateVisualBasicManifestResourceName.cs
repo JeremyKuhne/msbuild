@@ -134,7 +134,7 @@ namespace Microsoft.Build.Tasks
 
                 if (result.IsInsideConditionalBlock)
                 {
-                    log?.LogWarningWithCodeFromResources("CreateManifestResourceName.DefinitionFoundWithinConditionalDirective", dependentUponFileName, embeddedFileName);
+                    log?.LogWarningWithCodeFromResources(PrimaryResourceCatalog.Resources.CreateManifestResourceName_DefinitionFoundWithinConditionalDirective, dependentUponFileName, embeddedFileName);
                 }
 
                 if (!string.IsNullOrEmpty(result.Name))

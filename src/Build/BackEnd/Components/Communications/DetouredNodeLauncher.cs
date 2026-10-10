@@ -63,7 +63,7 @@ namespace Microsoft.Build.BackEnd
 
             if (!FileSystems.Default.FileExists(launchData.MSBuildLocation))
             {
-                throw new BuildAbortedException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("CouldNotFindMSBuildExe", launchData.MSBuildLocation));
+                throw new BuildAbortedException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CouldNotFindMSBuildExe, launchData.MSBuildLocation));
             }
 
             // Repeat the executable name as the first token of the command line because the command line

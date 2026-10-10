@@ -423,7 +423,7 @@ internal sealed partial class TaskRegistry
                     // Translate path API failures into the established UsingTask diagnostic at the declaration site.
                     ProjectErrorUtilities.ThrowInvalidProject(
                         projectUsingTaskXml.Location,
-                        "InvalidAttributeValueWithException",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidAttributeValueWithException,
                         assemblyFile,
                         XMakeAttributes.assemblyFile,
                         XMakeElements.usingTask,
@@ -467,7 +467,7 @@ internal sealed partial class TaskRegistry
                 ProjectErrorUtilities.VerifyThrowInvalidProject(
                     result is null || result.Length > 0,
                     location,
-                    "InvalidEvaluatedAttributeValue",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidEvaluatedAttributeValue,
                     result,
                     attributeValue,
                     attributeName,

@@ -344,7 +344,7 @@ namespace Microsoft.Build.BackEnd
             // this skip building the dependencies.)
             if (ExpressionShredder.ContainsMetadataExpressionOutsideTransform(_target.Condition))
             {
-                ProjectErrorUtilities.ThrowInvalidProject(_target.ConditionLocation, "TargetConditionHasInvalidMetadataReference", _target.Name, _target.Condition);
+                ProjectErrorUtilities.ThrowInvalidProject(_target.ConditionLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TargetConditionHasInvalidMetadataReference, _target.Name, _target.Condition);
             }
 
             // If condition is false (based on propertyBag), set this target's state to
@@ -928,7 +928,7 @@ namespace Microsoft.Build.BackEnd
             ProjectErrorUtilities.VerifyThrowInvalidProject(
                 _target != null,
                 _targetSpecification.ReferenceLocation ?? _requestEntry.RequestConfiguration.Project.ProjectFileLocation,
-                "TargetDoesNotExist",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TargetDoesNotExist,
                 _targetSpecification.TargetName);
         }
     }

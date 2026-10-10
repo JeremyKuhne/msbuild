@@ -14,6 +14,32 @@ MSBuild evaluates and builds thousands of projects in enterprise solutions. Perf
 
 See [evaluation-profiling.md](../../../documentation/evaluation-profiling.md) and [General_perf_onepager.md](../../../documentation/specs/proposed/General_perf_onepager.md) for profiling tools.
 
+### Dedicated profiling machines
+
+When the user confirms that a machine is dedicated to the investigation, do not
+stop an ETW conversion or analysis solely because working set is large or
+available RAM is low. Record process working set/private bytes, system commit,
+pagefile usage, paging rates, elapsed time, and the actual operation/cache state.
+Let the operation finish unless it fails, reaches an agreed execution limit, or
+the user requests a stop. Keep a reproducible local stress case for profiler
+follow-up; do not confuse cache conversion with subsequent stack/source analysis.
+
+Run conversions and analyses separately from authoritative build timing.
+Logging investigations should explicitly state console verbosity, terminal
+logger state, output handling, and binary-logger enablement. Binlog-on builds
+are valid timed scenarios when the binary logger is the intentional comparison
+variable, rather than an incidental diagnostic added to a baseline run.
+
+### Verify the intended call path
+
+When evaluating generated static resource accessors, migrate the built-in
+callers to those accessors before judging the strategy. Replacing the manager
+while leaving literal resource-name callers unchanged measures the dynamic
+compatibility path, not the static indexed path. Preserve lazy logging and
+diagnostic key metadata with typed resource references where necessary.
+Record caller-migration provenance and verify constant-slot usage, including
+whether the generated dynamic dispatcher still incurs cold JIT work.
+
 ## Allocation Awareness on Hot Paths
 
 The evaluation and execution engines process millions of operations per build. Unnecessary allocations cause GC pressure that compounds across large solutions.

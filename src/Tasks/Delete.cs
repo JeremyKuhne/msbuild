@@ -74,13 +74,13 @@ namespace Microsoft.Build.Tasks
         {
             if (Retries < 0)
             {
-                Log.LogErrorWithCodeFromResources("Delete.InvalidRetryCount", Retries);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Delete_InvalidRetryCount, Retries);
                 return false;
             }
 
             if (RetryDelayMilliseconds < 0)
             {
-                Log.LogErrorWithCodeFromResources("Delete.InvalidRetryDelay", RetryDelayMilliseconds);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Delete_InvalidRetryDelay, RetryDelayMilliseconds);
                 return false;
             }
 
@@ -129,19 +129,19 @@ namespace Microsoft.Build.Tasks
                         {
                             if (FailIfNotIncremental)
                             {
-                                Log.LogWarningFromResources("Delete.DeletingFile", filePath.Value.OriginalValue);
+                                Log.LogWarningFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Delete_DeletingFile, filePath.Value.OriginalValue);
                             }
                             else
                             {
                                 // Do not log a fake command line as well, as it's superfluous, and also potentially expensive
-                                Log.LogMessageFromResources(MessageImportance.Normal, "Delete.DeletingFile", filePath.Value.OriginalValue);
+                                Log.LogMessageFromResources(MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Delete_DeletingFile, filePath.Value.OriginalValue);
                             }
 
                             File.Delete(filePath);
                         }
                         else
                         {
-                            Log.LogMessageFromResources(MessageImportance.Low, "Delete.SkippingNonexistentFile", filePath.Value.OriginalValue);
+                            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Delete_SkippingNonexistentFile, filePath.Value.OriginalValue);
                         }
                         // keep a running list of the files that were actually deleted
                         // note that we include in this list files that did not exist
@@ -156,7 +156,7 @@ namespace Microsoft.Build.Tasks
                         if (retries < Retries)
                         {
                             retries++;
-                            Log.LogWarningWithCodeFromResources("Delete.Retrying", filePath?.OriginalValue ?? file.ItemSpec, retries, RetryDelayMilliseconds, e.Message, lockedFileMessage);
+                            Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Delete_Retrying, filePath?.OriginalValue ?? file.ItemSpec, retries, RetryDelayMilliseconds, e.Message, lockedFileMessage);
 
                             Thread.Sleep(RetryDelayMilliseconds);
                             continue;
@@ -165,11 +165,11 @@ namespace Microsoft.Build.Tasks
                         {
                             if (TreatErrorsAsWarnings)
                             {
-                                Log.LogWarningWithCodeFromResources("Delete.Error", filePath?.OriginalValue ?? file.ItemSpec, e.Message, lockedFileMessage);
+                                Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Delete_Error, filePath?.OriginalValue ?? file.ItemSpec, e.Message, lockedFileMessage);
                             }
                             else
                             {
-                                Log.LogErrorWithCodeFromResources("Delete.Error", filePath?.OriginalValue ?? file.ItemSpec, e.Message, lockedFileMessage);
+                                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Delete_Error, filePath?.OriginalValue ?? file.ItemSpec, e.Message, lockedFileMessage);
                             }
                             // Add on failure to avoid reattempting
                             deletedFilesSet.Add(file.ItemSpec);

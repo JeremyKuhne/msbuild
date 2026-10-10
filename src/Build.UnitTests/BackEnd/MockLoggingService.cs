@@ -341,6 +341,15 @@ namespace Microsoft.Build.UnitTests.BackEnd
                 _writer((string)o);
             }
         }
+        public void LogComment(BuildEventContext buildEventContext, MessageImportance importance, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            _writer(messageResourceName.Name);
+            foreach (object o in messageArgs)
+            {
+                _writer((string)o);
+            }
+        }
+
 
         /// <summary>
         /// Logs a text comment
@@ -387,6 +396,15 @@ namespace Microsoft.Build.UnitTests.BackEnd
                 _writer((string)o);
             }
         }
+        public void LogError(BuildEventContext buildEventContext, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            _writer(messageResourceName.Name);
+            foreach (object o in messageArgs)
+            {
+                _writer((string)o);
+            }
+        }
+
 
         /// <summary>
         /// Logs an error with a subcategory
@@ -404,6 +422,15 @@ namespace Microsoft.Build.UnitTests.BackEnd
                 _writer((string)o);
             }
         }
+        public void LogError(BuildEventContext buildEventContext, string subcategoryResourceName, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            _writer(messageResourceName.Name);
+            foreach (object o in messageArgs)
+            {
+                _writer((string)o);
+            }
+        }
+
 
         /// <summary>
         /// Logs a text error
@@ -461,6 +488,10 @@ namespace Microsoft.Build.UnitTests.BackEnd
         public void LogFatalError(BuildEventContext buildEventContext, Exception exception, BuildEventFileInfo file, string messageResourceName, params object[] messageArgs)
         {
         }
+        public void LogFatalError(BuildEventContext buildEventContext, Exception exception, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+        }
+
 
         /// <summary>
         /// Logs a task warning
@@ -489,6 +520,15 @@ namespace Microsoft.Build.UnitTests.BackEnd
                 _writer((string)o);
             }
         }
+        public void LogWarning(BuildEventContext buildEventContext, string subcategoryResourceName, BuildEventFileInfo file, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            _writer(messageResourceName.Name);
+            foreach (object o in messageArgs)
+            {
+                _writer((string)o);
+            }
+        }
+
 
         /// <summary>
         /// Logs a text warning

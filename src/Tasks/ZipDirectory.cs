@@ -68,7 +68,7 @@ namespace Microsoft.Build.Tasks
 
             if (!sourceDirectory.Exists)
             {
-                Log.LogErrorWithCodeFromResources("ZipDirectory.ErrorDirectoryDoesNotExist", sourceDirectory.FullName);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ZipDirectory_ErrorDirectoryDoesNotExist, sourceDirectory.FullName);
                 return false;
             }
 
@@ -83,7 +83,7 @@ namespace Microsoft.Build.Tasks
                 {
                     if (!Overwrite || FailIfNotIncremental)
                     {
-                        Log.LogErrorWithCodeFromResources("ZipDirectory.ErrorFileExists", destinationFile.FullName);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ZipDirectory_ErrorFileExists, destinationFile.FullName);
 
                         return false;
                     }
@@ -95,7 +95,7 @@ namespace Microsoft.Build.Tasks
                     catch (Exception e)
                     {
                         string lockedFileMessage = LockCheck.GetLockedFileMessage(destinationFile.FullName);
-                        Log.LogErrorWithCodeFromResources("ZipDirectory.ErrorFailed", sourceDirectory.FullName, destinationFile.FullName, e.Message, lockedFileMessage);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ZipDirectory_ErrorFailed, sourceDirectory.FullName, destinationFile.FullName, e.Message, lockedFileMessage);
 
                         return false;
                     }
@@ -105,11 +105,11 @@ namespace Microsoft.Build.Tasks
                 {
                     if (FailIfNotIncremental)
                     {
-                        Log.LogErrorFromResources("ZipDirectory.Comment", sourceDirectory.FullName, destinationFile.FullName);
+                        Log.LogErrorFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ZipDirectory_Comment, sourceDirectory.FullName, destinationFile.FullName);
                     }
                     else
                     {
-                        Log.LogMessageFromResources(MessageImportance.High, "ZipDirectory.Comment", sourceDirectory.FullName, destinationFile.FullName);
+                        Log.LogMessageFromResources(MessageImportance.High, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ZipDirectory_Comment, sourceDirectory.FullName, destinationFile.FullName);
                         if (CompressionLevel is null)
                         {
                             ZipFile.CreateFromDirectory(sourceDirectory.FullName, destinationFile.FullName);
@@ -124,12 +124,12 @@ namespace Microsoft.Build.Tasks
                             // If new compression levels are added to .NET in future (and not .NET Framework) we should add a check for them here.
                             if (StringComparer.OrdinalIgnoreCase.Equals(CompressionLevel, CompressionLevelSmallestSize))
                             {
-                                Log.LogWarningWithCodeFromResources("ZipDirectory.WarningCompressionLevelUnsupportedOnFramework", CompressionLevel);
+                                Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ZipDirectory_WarningCompressionLevelUnsupportedOnFramework, CompressionLevel);
                             }
                             else
 #endif
                             {
-                                Log.LogWarningWithCodeFromResources("ZipDirectory.ErrorInvalidCompressionLevel", CompressionLevel);
+                                Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ZipDirectory_ErrorInvalidCompressionLevel, CompressionLevel);
                             }
 
                             ZipFile.CreateFromDirectory(sourceDirectory.FullName, destinationFile.FullName);
@@ -138,7 +138,7 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (Exception e)
                 {
-                    Log.LogErrorWithCodeFromResources("ZipDirectory.ErrorFailed", sourceDirectory.FullName, destinationFile.FullName, e.Message, string.Empty);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ZipDirectory_ErrorFailed, sourceDirectory.FullName, destinationFile.FullName, e.Message, string.Empty);
                 }
             }
             finally

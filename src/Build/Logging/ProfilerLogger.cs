@@ -285,7 +285,7 @@ namespace Microsoft.Build.Logging
         {
             try
             {
-                Console.WriteLine(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("WritingProfilerReport", FileToLog));
+                Console.WriteLine(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WritingProfilerReport, FileToLog));
 
                 // If the extension of the file is 'md', markdown content is produced. For any other case,
                 // a tab separated format is generated
@@ -295,7 +295,7 @@ namespace Microsoft.Build.Logging
 
                 File.WriteAllText(FileToLog, content);
 
-                Console.WriteLine(ResourceUtilities.GetResourceString("WritingProfilerReportDone"));
+                Console.WriteLine(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WritingProfilerReportDone));
             }
             catch (Exception ex) when (ex is
                 DirectoryNotFoundException or
@@ -304,7 +304,7 @@ namespace Microsoft.Build.Logging
                 SecurityException or
                 ArgumentException)
             {
-                Console.WriteLine(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("ErrorWritingProfilerReport", ex.Message));
+                Console.WriteLine(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ErrorWritingProfilerReport, ex.Message));
             }
         }
     }

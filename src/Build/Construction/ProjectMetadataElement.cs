@@ -105,8 +105,8 @@ namespace Microsoft.Build.Construction
         internal static ProjectMetadataElement CreateDisconnected(string name, ProjectRootElement containingProject, ElementLocation location = null)
         {
             XmlUtilities.VerifyThrowArgumentValidElementName(name);
-            ErrorUtilities.VerifyThrowArgument(!ItemSpecModifiers.IsItemSpecModifier(name), "ItemSpecModifierCannotBeCustomMetadata", name);
-            ErrorUtilities.VerifyThrowInvalidOperation(!XMakeElements.ReservedItemNames.Contains(name), "CannotModifyReservedItemMetadata", name);
+            ErrorUtilities.VerifyThrowArgument(!ItemSpecModifiers.IsItemSpecModifier(name), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ItemSpecModifierCannotBeCustomMetadata, name);
+            ErrorUtilities.VerifyThrowInvalidOperation(!XMakeElements.ReservedItemNames.Contains(name), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotModifyReservedItemMetadata, name);
 
             XmlElementWithLocation element = containingProject.CreateElement(name, location);
 
@@ -123,7 +123,7 @@ namespace Microsoft.Build.Construction
         {
             ArgumentException.ThrowIfNullOrEmpty(newName);
             XmlUtilities.VerifyThrowArgumentValidElementName(newName);
-            ErrorUtilities.VerifyThrowArgument(!XMakeElements.ReservedItemNames.Contains(newName), "CannotModifyReservedItemMetadata", newName);
+            ErrorUtilities.VerifyThrowArgument(!XMakeElements.ReservedItemNames.Contains(newName), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotModifyReservedItemMetadata, newName);
 
             if (Link != null)
             {
@@ -150,7 +150,7 @@ namespace Microsoft.Build.Construction
         {
             if (!AttributeNameIsValidMetadataName(name))
             {
-                ProjectErrorUtilities.ThrowInvalidProject(parentLocation, "InvalidMetadataAsAttribute", name, parentName);
+                ProjectErrorUtilities.ThrowInvalidProject(parentLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidMetadataAsAttribute, name, parentName);
             }
         }
 
@@ -167,7 +167,7 @@ namespace Microsoft.Build.Construction
         /// </summary>
         internal override void VerifyThrowInvalidOperationAcceptableLocation(ProjectElementContainer parent, ProjectElement previousSibling, ProjectElement nextSibling)
         {
-            ErrorUtilities.VerifyThrowInvalidOperation(parent is ProjectItemElement || parent is ProjectItemDefinitionElement, "OM_CannotAcceptParent");
+            ErrorUtilities.VerifyThrowInvalidOperation(parent is ProjectItemElement || parent is ProjectItemDefinitionElement, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_CannotAcceptParent);
         }
 
         /// <inheritdoc />

@@ -804,7 +804,7 @@ namespace Microsoft.Build.BackEnd
             // In .NET we resolve the full path based on the tools directory that points to the directory with App Host
             return BuildEnvironmentHelper.Instance.CurrentMSBuildToolsDirectory;
 #else
-            throw new InvalidProjectFileException(ResourceUtilities.GetResourceString("NETHostTaskLoad_Failed"));
+            throw new InvalidProjectFileException(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@NETHostTaskLoad_Failed));
 #endif
 
             static void ValidateNetHostSdkVersion(string path)
@@ -813,18 +813,18 @@ namespace Microsoft.Build.BackEnd
 
                 if (string.IsNullOrEmpty(path))
                 {
-                    InternalError.Throw(ResourceUtilities.GetResourceString("SDKPathResolution_Failed"));
+                    InternalError.Throw(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SDKPathResolution_Failed));
                 }
 
                 if (!FileSystems.Default.DirectoryExists(path))
                 {
-                    InternalError.Throw(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("SDKPathCheck_Failed", path));
+                    InternalError.Throw(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SDKPathCheck_Failed, path));
                 }
 
                 var sdkVersion = ExtractSdkVersionFromPath(path);
                 if (sdkVersion is null or < MinimumSdkVersion)
                 {
-                    throw new InvalidProjectFileException(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("NETHostVersion_Failed", sdkVersion, MinimumSdkVersion));
+                    throw new InvalidProjectFileException(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@NETHostVersion_Failed, sdkVersion, MinimumSdkVersion));
                 }
             }
         }
@@ -1239,7 +1239,7 @@ namespace Microsoft.Build.BackEnd
                 var dotnetOverrides = DotnetHostEnvironmentHelper.CreateDotnetRootEnvironmentOverrides(dotnetHostPath);
 
                 return dotnetOverrides == null
-                    ? throw new NodeFailedToLaunchException(errorCode: null, ResourceUtilities.GetResourceString("DotnetHostPathNotSet"))
+                    ? throw new NodeFailedToLaunchException(errorCode: null, ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@DotnetHostPathNotSet))
                     : new NodeLaunchData(
                         launchPath,
                         commandLineArgs,

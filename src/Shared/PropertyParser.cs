@@ -57,7 +57,7 @@ namespace Microsoft.Build.Tasks
                     if (propertyName.Length == 0)
                     {
                         // No equals sign?  No property name?  That's no good to us.
-                        log?.LogErrorWithCodeFromResources("General.InvalidPropertyError", parameterName, propertyNameValuePair);
+                        log?.LogErrorWithCodeFromResources(PrimaryResourceCatalog.Resources.General_InvalidPropertyError, parameterName, propertyNameValuePair);
 
                         return false;
                     }
@@ -110,7 +110,7 @@ namespace Microsoft.Build.Tasks
                         if (propertyName.Length == 0)
                         {
                             // No property name?  That's no good to us.
-                            log?.LogErrorWithCodeFromResources("General.InvalidPropertyError", syntaxName, propertyNameValueString);
+                            log?.LogErrorWithCodeFromResources(PrimaryResourceCatalog.Resources.General_InvalidPropertyError, syntaxName, propertyNameValueString);
 
                             return false;
                         }
@@ -153,7 +153,7 @@ namespace Microsoft.Build.Tasks
                         else
                         {
                             // No equals sign in the very first property?  That's a problem.
-                            log?.LogErrorWithCodeFromResources("General.InvalidPropertyError", syntaxName, propertyNameValueString);
+                            log?.LogErrorWithCodeFromResources(PrimaryResourceCatalog.Resources.General_InvalidPropertyError, syntaxName, propertyNameValueString);
 
                             return false;
                         }

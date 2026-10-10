@@ -144,7 +144,7 @@ namespace Microsoft.Build.Tasks.AssemblyFoldersFromConfig
                             // (IO error, e.g. the file was locked or a network share dropped after the
                             // existence check). Either way, report it rather than letting it surface as
                             // an unhandled exception that fails the whole build.
-                            _taskLogger.LogError(ResourceUtilities.GetResourceString("ResolveAssemblyReference.AssemblyFoldersConfigFileMalformed"), _assemblyFolderConfigFile, e.Message);
+                            _taskLogger.LogError(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_AssemblyFoldersConfigFileMalformed), _assemblyFolderConfigFile, e.Message);
                             return;
                         }
                     }

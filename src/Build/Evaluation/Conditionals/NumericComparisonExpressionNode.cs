@@ -46,7 +46,7 @@ namespace Microsoft.Build.Evaluation
             {
                 ProjectErrorUtilities.ThrowInvalidProject(
                     state.ElementLocation,
-                    "ComparisonOnNonNumericExpression",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ComparisonOnNonNumericExpression,
                     state.Condition,
                     /* helpfully display unexpanded token and expanded result in error message */
                     isLeftNum ? RightChild.GetUnexpandedValue(state) : LeftChild.GetUnexpandedValue(state),

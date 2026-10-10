@@ -96,14 +96,14 @@ namespace Microsoft.Build.Tasks
             {
                 if (string.IsNullOrEmpty(ApplicationManifest.ItemSpec))
                 {
-                    Log.LogErrorWithCodeFromResources(null, ApplicationManifest.ItemSpec, 0, 0, 0, 0, "AddToWin32Manifest.SpecifiedApplicationManifestCanNotBeFound");
+                    Log.LogErrorWithCodeFromResources(null, ApplicationManifest.ItemSpec, 0, 0, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AddToWin32Manifest_SpecifiedApplicationManifestCanNotBeFound);
                     return null;
                 }
 
                 AbsolutePath absolutePath = TaskEnvironment.GetAbsolutePath(ApplicationManifest.ItemSpec);
                 if (!FileSystems.Default.FileExists(absolutePath))
                 {
-                    Log.LogErrorWithCodeFromResources(null, ApplicationManifest.ItemSpec, 0, 0, 0, 0, "AddToWin32Manifest.SpecifiedApplicationManifestCanNotBeFound");
+                    Log.LogErrorWithCodeFromResources(null, ApplicationManifest.ItemSpec, 0, 0, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AddToWin32Manifest_SpecifiedApplicationManifestCanNotBeFound);
                     return null;
                 }
 
@@ -134,7 +134,7 @@ namespace Microsoft.Build.Tasks
 
                 if (stream is null)
                 {
-                    Log.LogErrorWithCodeFromResources(null, manifestDisplayPath, 0, 0, 0, 0, "AddToWin32Manifest.ManifestCanNotBeOpened");
+                    Log.LogErrorWithCodeFromResources(null, manifestDisplayPath, 0, 0, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AddToWin32Manifest_ManifestCanNotBeOpened);
 
                     return !Log.HasLoggedErrors;
                 }
@@ -160,7 +160,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception ex)
             {
-                Log.LogErrorWithCodeFromResources(null, manifestDisplayPath, 0, 0, 0, 0, "AddToWin32Manifest.ManifestCanNotBeOpenedWithException", ex.Message);
+                Log.LogErrorWithCodeFromResources(null, manifestDisplayPath, 0, 0, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AddToWin32Manifest_ManifestCanNotBeOpenedWithException, ex.Message);
 
                 return !Log.HasLoggedErrors;
             }
@@ -202,7 +202,7 @@ namespace Microsoft.Build.Tasks
 
             if (assemblyNode is null)
             {
-                Log.LogErrorWithCodeFromResources(null, manifestPath, 0, 0, 0, 0, "AddToWin32Manifest.AssemblyNodeIsMissed");
+                Log.LogErrorWithCodeFromResources(null, manifestPath, 0, 0, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AddToWin32Manifest_AssemblyNodeIsMissed);
                 return ManifestValidationResult.Failure;
             }
 
@@ -211,7 +211,7 @@ namespace Microsoft.Build.Tasks
             {
                 if (!string.Equals(supportedArchitecturesNode.InnerText.Trim(), SupportedArchitectures, StringComparison.OrdinalIgnoreCase))
                 {
-                    Log.LogErrorWithCodeFromResources(null, manifestPath, 0, 0, 0, 0, "AddToWin32Manifest.InvalidValueInSupportedArchitectures", supportedArchitecturesNode.InnerText);
+                    Log.LogErrorWithCodeFromResources(null, manifestPath, 0, 0, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AddToWin32Manifest_InvalidValueInSupportedArchitectures, supportedArchitecturesNode.InnerText);
 
                     return ManifestValidationResult.Failure;
                 }

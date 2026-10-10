@@ -2057,7 +2057,7 @@ namespace Microsoft.Build.Utilities
                     return FrameworkLocationHelper.dotNetFrameworkVersion481;
 
                 default:
-                    ErrorUtilities.ThrowArgument("ToolLocationHelper.UnsupportedFrameworkVersion", version);
+                    ErrorUtilities.ThrowArgument(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ToolLocationHelper_UnsupportedFrameworkVersion, version);
                     return null;
             }
         }
@@ -2079,7 +2079,7 @@ namespace Microsoft.Build.Utilities
 
             Version Unsupported()
             {
-                ErrorUtilities.ThrowArgument("ToolLocationHelper.UnsupportedVisualStudioVersion", version);
+                ErrorUtilities.ThrowArgument(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ToolLocationHelper_UnsupportedVisualStudioVersion, version);
                 return null;
             }
         }
@@ -3169,11 +3169,11 @@ namespace Microsoft.Build.Utilities
             }
             catch (XmlException ex)
             {
-                ErrorUtilities.ThrowInvalidOperation("ToolsLocationHelper.InvalidRedistFile", redistFilePath, ex.Message);
+                ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ToolsLocationHelper_InvalidRedistFile, redistFilePath, ex.Message);
             }
             catch (Exception ex) when (ExceptionHandling.IsIoRelatedException(ex))
             {
-                ErrorUtilities.ThrowInvalidOperation("ToolsLocationHelper.InvalidRedistFile", redistFilePath, ex.Message);
+                ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ToolsLocationHelper_InvalidRedistFile, redistFilePath, ex.Message);
             }
 
             // Cache the display name if we have one
@@ -3221,7 +3221,7 @@ namespace Microsoft.Build.Utilities
             }
             catch (Exception e) when (!ExceptionHandling.IsCriticalException(e))
             {
-                ErrorUtilities.ThrowInvalidOperation("ToolsLocationHelper.CouldNotCreateChain", path, pathToReturn, e.Message);
+                ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ToolsLocationHelper_CouldNotCreateChain, path, pathToReturn, e.Message);
             }
 
             return null;

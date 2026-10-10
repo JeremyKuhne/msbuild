@@ -204,7 +204,7 @@ namespace Microsoft.Build.Logging
         {
             if (parametersString == null)
             {
-                throw new LoggerException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("InvalidBinaryLoggerParameters", ""));
+                throw new LoggerException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidBinaryLoggerParameters, ""));
             }
 
             var result = new BinaryLoggerParameters();
@@ -216,7 +216,7 @@ namespace Microsoft.Build.Logging
                 {
                     if (result.ExcludedEventKinds.Count != 0)
                     {
-                        throw new LoggerException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("InvalidBinaryLoggerEventFilter", parameter));
+                        throw new LoggerException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidBinaryLoggerEventFilter, parameter));
                     }
 
                     result.ExcludedEventKinds = ParseExcludedEventKinds(parameter);
@@ -240,7 +240,7 @@ namespace Microsoft.Build.Logging
                     continue;
                 }
 
-                throw new LoggerException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("InvalidBinaryLoggerParameters", parameter));
+                throw new LoggerException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidBinaryLoggerParameters, parameter));
             }
 
             return result;
@@ -256,7 +256,7 @@ namespace Microsoft.Build.Logging
                     || !string.Equals(Enum.GetName(typeof(BinaryLogRecordKind), kind), name, StringComparison.OrdinalIgnoreCase)
                     || !CanExclude(kind))
                 {
-                    throw new LoggerException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("InvalidBinaryLoggerEventFilter", parameter));
+                    throw new LoggerException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidBinaryLoggerEventFilter, parameter));
                 }
 
                 excludedKinds.Add(kind);
@@ -264,7 +264,7 @@ namespace Microsoft.Build.Logging
 
             if (excludedKinds.Contains(BinaryLogRecordKind.ProjectEvaluationStarted) != excludedKinds.Contains(BinaryLogRecordKind.ProjectEvaluationFinished))
             {
-                throw new LoggerException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("InvalidBinaryLoggerEventFilter", parameter));
+                throw new LoggerException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidBinaryLoggerEventFilter, parameter));
             }
 
             return excludedKinds.ToFrozenSet();
@@ -497,7 +497,7 @@ namespace Microsoft.Build.Logging
             {
                 string errorCode;
                 string helpKeyword;
-                string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out errorCode, out helpKeyword, "InvalidFileLoggerFile", FilePath, e.Message);
+                string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out errorCode, out helpKeyword, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFileLoggerFile, FilePath, e.Message);
                 throw new LoggerException(message, e, errorCode, helpKeyword);
             }
 
@@ -676,7 +676,7 @@ namespace Microsoft.Build.Logging
                         string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(
                             out _,
                             out _,
-                            "ErrorCopyingBinaryLog",
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ErrorCopyingBinaryLog,
                             FilePath,
                             additionalPath,
                             ex.Message);
@@ -823,7 +823,7 @@ namespace Microsoft.Build.Logging
             {
                 string errorCode;
                 string helpKeyword;
-                string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out errorCode, out helpKeyword, "InvalidFileLoggerFile", FilePath, e.Message);
+                string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out errorCode, out helpKeyword, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidFileLoggerFile, FilePath, e.Message);
                 throw new LoggerException(message, e, errorCode, helpKeyword);
             }
         }

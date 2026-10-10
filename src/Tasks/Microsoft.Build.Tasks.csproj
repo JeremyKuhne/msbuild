@@ -86,6 +86,7 @@
     <Compile Include="..\Shared\TaskLoggingHelperExtension.cs">
       <Link>TaskLoggingHelperExtension.cs</Link>
     </Compile>
+    <Compile Include="TaskLoggingHelperResourceExtensions.cs" />
     <Compile Include="..\Shared\LanguageParser\StreamMappedString.cs">
       <Link>StreamMappedString.cs</Link>
     </Compile>
@@ -431,6 +432,7 @@
     <!-- Resource Files -->
     <EmbeddedResource Include="Resources\Strings.resx">
       <LogicalName>$(AssemblyName).Strings.resources</LogicalName>
+      <StringResourceClass>Microsoft.Build.Shared.PrimaryResourceCatalog</StringResourceClass>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ManifestUtil\Resources\Strings.ManifestUtilities.resx">
@@ -690,4 +692,5 @@
     -->
     <Content Update="@(Content)" Pack="false" />
   </ItemGroup>
+  <Import Project="..\ResourceGenerator\ResourceGenerator.targets" />
 </Project>

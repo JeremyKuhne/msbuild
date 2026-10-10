@@ -90,7 +90,7 @@ namespace Microsoft.Build.Construction
 
             set
             {
-                ErrorUtilities.VerifyThrowInvalidOperation(String.IsNullOrEmpty(PropertyName), "OM_EitherAttributeButNotBoth", ElementName, XMakeAttributes.itemName, XMakeAttributes.propertyName);
+                ErrorUtilities.VerifyThrowInvalidOperation(String.IsNullOrEmpty(PropertyName), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_EitherAttributeButNotBoth, ElementName, XMakeAttributes.itemName, XMakeAttributes.propertyName);
                 SetOrRemoveAttribute(XMakeAttributes.itemName, value, "Set Output ItemType {0}", value);
             }
         }
@@ -110,7 +110,7 @@ namespace Microsoft.Build.Construction
 
             set
             {
-                ErrorUtilities.VerifyThrowInvalidOperation(String.IsNullOrEmpty(ItemType), "OM_EitherAttributeButNotBoth", ElementName, XMakeAttributes.itemName, XMakeAttributes.propertyName);
+                ErrorUtilities.VerifyThrowInvalidOperation(String.IsNullOrEmpty(ItemType), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_EitherAttributeButNotBoth, ElementName, XMakeAttributes.itemName, XMakeAttributes.propertyName);
                 SetOrRemoveAttribute(XMakeAttributes.propertyName, value, "Set Output PropertyName {0}", value);
             }
         }
@@ -140,7 +140,7 @@ namespace Microsoft.Build.Construction
         {
             ErrorUtilities.VerifyThrowArgument(
                 String.IsNullOrEmpty(itemType) ^ String.IsNullOrEmpty(propertyName),
-                "OM_EitherAttributeButNotBoth",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_EitherAttributeButNotBoth,
                 XMakeElements.output,
                 XMakeAttributes.propertyName,
                 XMakeAttributes.itemName);
@@ -167,7 +167,7 @@ namespace Microsoft.Build.Construction
         /// </summary>
         internal override void VerifyThrowInvalidOperationAcceptableLocation(ProjectElementContainer parent, ProjectElement previousSibling, ProjectElement nextSibling)
         {
-            ErrorUtilities.VerifyThrowInvalidOperation(parent is ProjectTaskElement, "OM_CannotAcceptParent");
+            ErrorUtilities.VerifyThrowInvalidOperation(parent is ProjectTaskElement, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_CannotAcceptParent);
         }
 
         /// <inheritdoc />

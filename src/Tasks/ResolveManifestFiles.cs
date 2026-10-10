@@ -193,7 +193,7 @@ namespace Microsoft.Build.Tasks
 
             if (!_canPublish && is35Project)
             {
-                Log.LogErrorWithCodeFromResources("GenerateManifest.ManifestsSignedHashExcluded");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateManifest_ManifestsSignedHashExcluded);
                 return false;
             }
 
@@ -201,7 +201,7 @@ namespace Microsoft.Build.Tasks
 
             if (!_canPublish && is35Project)
             {
-                Log.LogErrorWithCodeFromResources("GenerateManifest.ManifestsSignedHashExcluded");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateManifest_ManifestsSignedHashExcluded);
                 return false;
             }
 
@@ -209,7 +209,7 @@ namespace Microsoft.Build.Tasks
 
             if (!_canPublish && is35Project)
             {
-                Log.LogErrorWithCodeFromResources("GenerateManifest.ManifestsSignedHashExcluded");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateManifest_ManifestsSignedHashExcluded);
                 return false;
             }
 
@@ -217,7 +217,7 @@ namespace Microsoft.Build.Tasks
 
             if (!_canPublish && is35Project)
             {
-                Log.LogErrorWithCodeFromResources("GenerateManifest.ManifestsSignedHashExcluded");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateManifest_ManifestsSignedHashExcluded);
                 return false;
             }
 
@@ -261,7 +261,7 @@ namespace Microsoft.Build.Tasks
                     }
                     catch (ArgumentException)
                     {
-                        Log.LogErrorWithCodeFromResources("General.InvalidValue", "TargetCulture", "ResolveManifestFiles");
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidValue, "TargetCulture", "ResolveManifestFiles");
                         return false;
                     }
                 }
@@ -458,7 +458,7 @@ namespace Microsoft.Build.Tasks
                 }
                 else
                 {
-                    Log.LogWarningWithCodeFromResources("ResolveManifestFiles.PublishFileNotFound", publishInfo.key);
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveManifestFiles_PublishFileNotFound, publishInfo.key);
                 }
             }
 
@@ -583,7 +583,7 @@ namespace Microsoft.Build.Tasks
                 }
                 else
                 {
-                    Log.LogWarningWithCodeFromResources("ResolveManifestFiles.PublishFileNotFound", publishInfo.key);
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveManifestFiles_PublishFileNotFound, publishInfo.key);
                 }
             }
 
@@ -644,7 +644,7 @@ namespace Microsoft.Build.Tasks
                 }
                 else
                 {
-                    Log.LogWarningWithCodeFromResources("ResolveManifestFiles.PublishFileNotFound", publishInfo.key);
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveManifestFiles_PublishFileNotFound, publishInfo.key);
                 }
             }
 
@@ -748,7 +748,7 @@ namespace Microsoft.Build.Tasks
                             manifestEntryPointPublishInfos.Add(publishInfo);
                             break;
                         default:
-                            Log.LogWarningWithCodeFromResources("GenerateManifest.InvalidItemValue", "FileType", item.ItemSpec);
+                            Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateManifest_InvalidItemValue, "FileType", item.ItemSpec);
                             continue;
                     }
                 }

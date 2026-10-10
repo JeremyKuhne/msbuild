@@ -120,7 +120,7 @@ namespace Microsoft.Build.Tasks
                                 if (ItemSpecModifiers.IsItemSpecModifier(nameAndValue.Key))
                                 {
                                     // Explicitly setting built-in metadata, is not allowed.
-                                    Log.LogErrorWithCodeFromResources("CreateItem.AdditionalMetadataError", nameAndValue.Key);
+                                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CreateItem_AdditionalMetadataError, nameAndValue.Key);
                                     break;
                                 }
 
@@ -160,7 +160,7 @@ namespace Microsoft.Build.Tasks
                         if (logDriveEnumeratingWildcard)
                         {
                             Log.LogWarningWithCodeFromResources(
-                                "WildcardResultsInDriveEnumeration",
+                                global::Microsoft.Build.Framework.Resources.SR.Resources.@WildcardResultsInDriveEnumeration,
                                 EscapingUtilities.UnescapeAll(i.ItemSpec),
                                 attributeType,
                                 nameof(CreateItem),
@@ -170,7 +170,7 @@ namespace Microsoft.Build.Tasks
                         if (logDriveEnumeratingWildcard && Traits.Instance.ThrowOnDriveEnumeratingWildcard)
                         {
                             Log.LogErrorWithCodeFromResources(
-                                "WildcardResultsInDriveEnumeration",
+                                global::Microsoft.Build.Framework.Resources.SR.Resources.@WildcardResultsInDriveEnumeration,
                                 EscapingUtilities.UnescapeAll(i.ItemSpec),
                                 attributeType,
                                 nameof(CreateItem),

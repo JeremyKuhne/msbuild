@@ -1145,7 +1145,7 @@ namespace Microsoft.Build.BackEnd.Logging
             string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(
                 out string errorCode,
                 out string helpKeyword,
-                "ReflectiveLoggerLoadingNotSupported");
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReflectiveLoggerLoadingNotSupported);
             return new InternalLoggerException(message, innerException: null, e: null, errorCode, helpKeyword, initializationException: true);
         }
 

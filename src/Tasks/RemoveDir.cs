@@ -60,7 +60,7 @@ namespace Microsoft.Build.Tasks
                 {
                     // Skip any empty ItemSpecs, otherwise RemoveDir will wipe the root of the current drive (!).
                     // https://github.com/dotnet/msbuild/issues/7563
-                    Log.LogWarningWithCodeFromResources("RemoveDir.EmptyPath");
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RemoveDir_EmptyPath);
                     continue;
                 }
 
@@ -70,12 +70,12 @@ namespace Microsoft.Build.Tasks
                 {
                     if (FailIfNotIncremental)
                     {
-                        Log.LogErrorFromResources("RemoveDir.Removing", directoryPath.OriginalValue);
+                        Log.LogErrorFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RemoveDir_Removing, directoryPath.OriginalValue);
                         continue;
                     }
 
                     // Do not log a fake command line as well, as it's superfluous, and also potentially expensive
-                    Log.LogMessageFromResources(MessageImportance.Normal, "RemoveDir.Removing", directoryPath.OriginalValue);
+                    Log.LogMessageFromResources(MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RemoveDir_Removing, directoryPath.OriginalValue);
                     // Try to remove the directory, this will not log unauthorized access errors since
                     // we will attempt to remove read only attributes and try again.
                     bool currentSuccess = RemoveDirectory(directoryPath, false, out bool unauthorizedAccess);
@@ -103,7 +103,7 @@ namespace Microsoft.Build.Tasks
                 }
                 else
                 {
-                    Log.LogMessageFromResources(MessageImportance.Normal, "RemoveDir.SkippingNonexistentDirectory", directoryPath.OriginalValue);
+                    Log.LogMessageFromResources(MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RemoveDir_SkippingNonexistentDirectory, directoryPath.OriginalValue);
                     // keep a running list of the directories that were actually removed
                     // note that we include in this list directories that did not exist
                     removedDirectoriesList.Add(new TaskItem(directory));
@@ -132,13 +132,13 @@ namespace Microsoft.Build.Tasks
                 // Log the fact that there was a problem only if we have been asked to.
                 if (logUnauthorizedError)
                 {
-                    Log.LogErrorWithCodeFromResources("RemoveDir.Error", directoryPath.OriginalValue, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RemoveDir_Error, directoryPath.OriginalValue, e.Message);
                 }
                 unauthorizedAccess = true;
             }
             catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
             {
-                Log.LogErrorWithCodeFromResources("RemoveDir.Error", directoryPath.OriginalValue, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RemoveDir_Error, directoryPath.OriginalValue, e.Message);
                 success = false;
             }
 
@@ -176,7 +176,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
             {
-                Log.LogErrorWithCodeFromResources("RemoveDir.Error", directory, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@RemoveDir_Error, directory, e.Message);
                 success = false;
             }
 

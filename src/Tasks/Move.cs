@@ -99,21 +99,21 @@ namespace Microsoft.Build.Tasks
             // There must be a DestinationFolder (either files or directory).
             if (DestinationFiles == null && DestinationFolder == null)
             {
-                Log.LogErrorWithCodeFromResources("Move.NeedsDestination", "DestinationFiles", "DestinationDirectory");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Move_NeedsDestination, "DestinationFiles", "DestinationDirectory");
                 return false;
             }
 
             // There can't be two kinds of destination.
             if (DestinationFiles != null && DestinationFolder != null)
             {
-                Log.LogErrorWithCodeFromResources("Move.ExactlyOneTypeOfDestination", "DestinationFiles", "DestinationDirectory");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Move_ExactlyOneTypeOfDestination, "DestinationFiles", "DestinationDirectory");
                 return false;
             }
 
             // If the caller passed in DestinationFiles, then its length must match SourceFiles.
             if (DestinationFiles != null && DestinationFiles.Length != SourceFiles.Length)
             {
-                Log.LogErrorWithCodeFromResources("General.TwoVectorsMustHaveSameLength", DestinationFiles.Length, SourceFiles.Length, "DestinationFiles", "SourceFiles");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_TwoVectorsMustHaveSameLength, DestinationFiles.Length, SourceFiles.Length, "DestinationFiles", "SourceFiles");
                 return false;
             }
 
@@ -132,7 +132,7 @@ namespace Microsoft.Build.Tasks
                     }
                     catch (ArgumentException e)
                     {
-                        Log.LogErrorWithCodeFromResources("Move.Error", SourceFiles[i].ItemSpec, DestinationFolder.ItemSpec, e.Message, string.Empty);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Move_Error, SourceFiles[i].ItemSpec, DestinationFolder.ItemSpec, e.Message, string.Empty);
 
                         // Clear the outputs.
                         DestinationFiles = Array.Empty<ITaskItem>();
@@ -174,7 +174,7 @@ namespace Microsoft.Build.Tasks
                 catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                 {
                     string lockedFileMessage = LockCheck.GetLockedFileMessage(sourceFile?.OriginalValue ?? sourceSpec);
-                    Log.LogErrorWithCodeFromResources("Move.Error", sourceSpec, destinationSpec, e.Message, lockedFileMessage);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Move_Error, sourceSpec, destinationSpec, e.Message, lockedFileMessage);
                     success = false;
 
                     // Continue with the rest of the list
@@ -209,7 +209,7 @@ namespace Microsoft.Build.Tasks
         {
             if (FileSystems.Default.DirectoryExists(destinationFile))
             {
-                Log.LogErrorWithCodeFromResources("Move.DestinationIsDirectory", sourceFile.OriginalValue, destinationFile.OriginalValue);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Move_DestinationIsDirectory, sourceFile.OriginalValue, destinationFile.OriginalValue);
                 return false;
             }
 
@@ -218,14 +218,14 @@ namespace Microsoft.Build.Tasks
                 // If the source file passed in is actually a directory instead of a file, log a nice
                 // error telling the user so.  Otherwise, .NET Framework's File.Move method will throw
                 // an FileNotFoundException, which is not very useful to the user.
-                Log.LogErrorWithCodeFromResources("Move.SourceIsDirectory", sourceFile.OriginalValue);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Move_SourceIsDirectory, sourceFile.OriginalValue);
                 return false;
             }
 
             // Check the source exists.
             if (!FileSystems.Default.FileExists(sourceFile))
             {
-                Log.LogErrorWithCodeFromResources("Move.SourceDoesNotExist", sourceFile.OriginalValue);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Move_SourceDoesNotExist, sourceFile.OriginalValue);
                 return false;
             }
 
@@ -239,12 +239,12 @@ namespace Microsoft.Build.Tasks
 
             if (!string.IsNullOrEmpty(destinationFolder) && !FileSystems.Default.DirectoryExists(destinationFolder))
             {
-                Log.LogMessageFromResources(MessageImportance.Normal, "Move.CreatesDirectory", destinationFolder);
+                Log.LogMessageFromResources(MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Move_CreatesDirectory, destinationFolder);
                 Directory.CreateDirectory(destinationFolder);
             }
 
             // Do not log a fake command line as well, as it's superfluous, and also potentially expensive
-            Log.LogMessageFromResources(MessageImportance.Normal, "Move.FileComment", sourceFile.OriginalValue, destinationFile.OriginalValue);
+            Log.LogMessageFromResources(MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Move_FileComment, sourceFile.OriginalValue, destinationFile.OriginalValue);
 
             // We want to always overwrite any existing destination file.
             // Unlike File.Copy, File.Move does not have an overload to overwrite the destination.

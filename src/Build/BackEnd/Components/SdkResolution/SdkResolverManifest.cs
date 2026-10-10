@@ -91,7 +91,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
                     }
                     else
                     {
-                        throw new XmlException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("UnrecognizedElement", reader.Name));
+                        throw new XmlException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnrecognizedElement, reader.Name));
                     }
                 }
             }
@@ -134,7 +134,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
                                     }
                                     break;
                                 default:
-                                    throw new XmlException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("UnrecognizedElement", reader.Name));
+                                    throw new XmlException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnrecognizedElement, reader.Name));
                             }
                             break;
                         }
@@ -144,7 +144,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
                         break;
 
                     default:
-                        throw new XmlException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("UnrecognizedElement", reader.Name));
+                        throw new XmlException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnrecognizedElement, reader.Name));
                 }
             }
 

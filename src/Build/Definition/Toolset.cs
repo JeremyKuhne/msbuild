@@ -863,7 +863,7 @@ namespace Microsoft.Build.Evaluation
             }
             catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
             {
-                loggingContext.LogError(new BuildEventFileInfo(/* this warning truly does not involve any file it is just gathering properties */String.Empty), "TasksPropertyBagError", e.Message);
+                loggingContext.LogError(new BuildEventFileInfo(/* this warning truly does not involve any file it is just gathering properties */String.Empty), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TasksPropertyBagError, e.Message);
             }
         }
 
@@ -903,15 +903,15 @@ namespace Microsoft.Build.Evaluation
 
                                     if (!overrideDirectoryExists)
                                     {
-                                        string rootedPathMessage = ResourceUtilities.FormatResourceStringStripCodeAndKeyword("OverrideTaskNotRootedPath", _overrideTasksPath);
-                                        loggingContext.LogWarning(null, new BuildEventFileInfo(String.Empty /* this warning truly does not involve any file*/), "OverrideTasksFileFailure", rootedPathMessage);
+                                        string rootedPathMessage = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OverrideTaskNotRootedPath, _overrideTasksPath);
+                                        loggingContext.LogWarning(null, new BuildEventFileInfo(String.Empty /* this warning truly does not involve any file*/), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OverrideTasksFileFailure, rootedPathMessage);
                                     }
                                 }
                             }
                             catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                             {
-                                string rootedPathMessage = ResourceUtilities.FormatResourceStringStripCodeAndKeyword("OverrideTaskProblemWithPath", _overrideTasksPath, e.Message);
-                                loggingContext.LogWarning(null, new BuildEventFileInfo(String.Empty /* this warning truly does not involve any file*/), "OverrideTasksFileFailure", rootedPathMessage);
+                                string rootedPathMessage = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OverrideTaskProblemWithPath, _overrideTasksPath, e.Message);
+                                loggingContext.LogWarning(null, new BuildEventFileInfo(String.Empty /* this warning truly does not involve any file*/), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OverrideTasksFileFailure, rootedPathMessage);
                             }
 
                             if (overrideDirectoryExists)
@@ -987,7 +987,7 @@ namespace Microsoft.Build.Evaluation
                         {
                             ProjectErrorUtilities.ThrowInvalidProject(
                                 elementXml.Location,
-                                "UnrecognizedElement",
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnrecognizedElement,
                                 elementXml.XmlElement.Name);
                         }
 

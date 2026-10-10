@@ -32,7 +32,7 @@ namespace Microsoft.Build.BackEnd.SdkResolution
 
             return FileUtilities.DirectoryExistsNoThrow(sdkPath)
                 ? factory.IndicateSuccess(sdkPath, string.Empty)
-                : factory.IndicateFailure([ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("DefaultSDKResolverError", sdk.Name, sdkPath)], null);
+                : factory.IndicateFailure([ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@DefaultSDKResolverError, sdk.Name, sdkPath)], null);
         }
     }
 }

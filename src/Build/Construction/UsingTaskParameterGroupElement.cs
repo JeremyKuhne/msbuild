@@ -51,7 +51,7 @@ namespace Microsoft.Build.Construction
         public override string Condition
         {
             get => null;
-            set => ErrorUtilities.ThrowInvalidOperation("OM_CannotGetSetCondition");
+            set => ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_CannotGetSetCondition);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Microsoft.Build.Construction
         private static void VerifyCorrectParent(ProjectElementContainer parent)
         {
             ProjectUsingTaskElement parentUsingTask = parent as ProjectUsingTaskElement;
-            ErrorUtilities.VerifyThrowInvalidOperation(parentUsingTask != null, "OM_CannotAcceptParent");
+            ErrorUtilities.VerifyThrowInvalidOperation(parentUsingTask != null, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_CannotAcceptParent);
 
             // Now since there is not goign to be a TaskElement on the using task we need to validate and make sure there is a TaskFactory attribute on the parent element and
             // that it is not empty

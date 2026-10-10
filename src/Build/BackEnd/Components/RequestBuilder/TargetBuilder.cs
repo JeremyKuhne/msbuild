@@ -156,7 +156,7 @@ namespace Microsoft.Build.BackEnd
                 if (!targetExists && entry.Request.BuildRequestDataFlags.HasFlag(BuildRequestDataFlags.SkipNonexistentTargets))
                 {
                     _projectLoggingContext.LogComment(Framework.MessageImportance.Low,
-                        "TargetSkippedWhenSkipNonexistentTargets", targetName.name);
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TargetSkippedWhenSkipNonexistentTargets, targetName.name);
                 }
                 else
                 {
@@ -421,7 +421,7 @@ namespace Microsoft.Build.BackEnd
                         ProjectErrorUtilities.VerifyThrowInvalidProject(
                         _requestEntry.RequestConfiguration.Project.Targets.ContainsKey(currentTargetEntry.Name),
                         currentTargetEntry.ReferenceLocation,
-                        "TargetDoesNotExist",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TargetDoesNotExist,
                         currentTargetEntry.Name);
 
                         // If we already have results for this target which were not skipped, we can ignore it.  In
@@ -716,7 +716,7 @@ namespace Microsoft.Build.BackEnd
                         // continue so we could throw the exception.
                         if (_requestEntry.RequestConfiguration.ActivelyBuildingTargets.ContainsKey(targetSpecification.TargetName))
                         {
-                            ProjectErrorUtilities.ThrowInvalidProject(targetLocation, "CircularDependency", targetSpecification.TargetName);
+                            ProjectErrorUtilities.ThrowInvalidProject(targetLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CircularDependency, targetSpecification.TargetName);
                         }
                     }
                     else
@@ -728,7 +728,7 @@ namespace Microsoft.Build.BackEnd
                         }
 
                         // We are already building this target on this request. That's a circular dependency.
-                        ProjectErrorUtilities.ThrowInvalidProject(targetLocation, "CircularDependency", targetSpecification.TargetName);
+                        ProjectErrorUtilities.ThrowInvalidProject(targetLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CircularDependency, targetSpecification.TargetName);
                     }
                 }
                 else
@@ -738,7 +738,7 @@ namespace Microsoft.Build.BackEnd
                     {
                         if (HasCircularDependenceInTargets(parentTargetEntry, targetSpecification, out List<string> targetDependenceChain))
                         {
-                            ProjectErrorUtilities.ThrowInvalidProject(targetLocation, "CircularDependencyInTargetGraph", targetSpecification.TargetName, parentTargetEntry.Name, buildReason, targetSpecification.TargetName, string.Join("<-", targetDependenceChain));
+                            ProjectErrorUtilities.ThrowInvalidProject(targetLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CircularDependencyInTargetGraph, targetSpecification.TargetName, parentTargetEntry.Name, buildReason, targetSpecification.TargetName, string.Join("<-", targetDependenceChain));
                         }
                     }
                     else

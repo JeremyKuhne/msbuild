@@ -104,7 +104,7 @@ namespace Microsoft.Build.Utilities
             }
             catch (ArgumentException e)
             {
-                FileTracker.LogWarningWithCodeFromResources(_log, "Tracking_RebuildingDueToInvalidTLog", e.Message);
+                FileTracker.LogWarningWithCodeFromResources(_log, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_RebuildingDueToInvalidTLog, e.Message);
                 return;
             }
 
@@ -114,7 +114,7 @@ namespace Microsoft.Build.Utilities
 
             if (!_tlogAvailable)
             {
-                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_TrackingLogNotAvailable");
+                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_TrackingLogNotAvailable);
                 lock (DependencyTableCache.DependencyTable)
                 {
                     // The tracking logs are not available, they may have been deleted at some point.
@@ -137,7 +137,7 @@ namespace Microsoft.Build.Utilities
             {
                 DependencyTable = (Dictionary<string, Dictionary<string, DateTime>>)cachedEntry.DependencyTable;
                 // Log information about what we're using
-                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_WriteTrackingCached");
+                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_WriteTrackingCached);
                 foreach (ITaskItem tlogItem in cachedEntry.TlogFiles)
                 {
                     FileTracker.LogMessage(_log, MessageImportance.Low, "\t{0}", tlogItem.ItemSpec);
@@ -145,7 +145,7 @@ namespace Microsoft.Build.Utilities
                 return;
             }
 
-            FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_WriteTrackingLogs");
+            FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_WriteTrackingLogs);
 
             // Now we need to construct the rest of the table from the TLOG files
             // If there are any errors in the tlogs, we want to warn, stop parsing tlogs, and empty
@@ -229,13 +229,13 @@ namespace Microsoft.Build.Utilities
                 }
                 catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                 {
-                    FileTracker.LogWarningWithCodeFromResources(_log, "Tracking_RebuildingDueToInvalidTLog", e.Message);
+                    FileTracker.LogWarningWithCodeFromResources(_log, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_RebuildingDueToInvalidTLog, e.Message);
                     break;
                 }
 
                 if (encounteredInvalidTLogContents)
                 {
-                    FileTracker.LogWarningWithCodeFromResources(_log, "Tracking_RebuildingDueToInvalidTLogContents", invalidTLogName);
+                    FileTracker.LogWarningWithCodeFromResources(_log, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_RebuildingDueToInvalidTLogContents, invalidTLogName);
                     break;
                 }
             }
@@ -355,7 +355,7 @@ namespace Microsoft.Build.Utilities
             // There were no outputs for the requested root
             if (outputs.Count == 0)
             {
-                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_OutputForRootNotFound", upperSourcesRoot);
+                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_OutputForRootNotFound, upperSourcesRoot);
             }
             else
             {
@@ -365,12 +365,12 @@ namespace Microsoft.Build.Utilities
                 // Too much output logging leads to poor performance
                 if (outputs.Count > CanonicalTrackedFilesHelper.MaxLogCount)
                 {
-                    FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_OutputsNotShown", outputs.Count);
+                    FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_OutputsNotShown, outputs.Count);
                 }
                 else
                 {
                     // We have our set of outputs, log the details
-                    FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_OutputsFor", upperSourcesRoot);
+                    FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_OutputsFor, upperSourcesRoot);
 
                     foreach (ITaskItem outputItem in outputsArray)
                     {
@@ -441,7 +441,7 @@ namespace Microsoft.Build.Utilities
             // There were no outputs for the requested root
             if (outputs.Count == 0)
             {
-                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_OutputForRootNotFound", upperSourcesRoot);
+                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_OutputForRootNotFound, upperSourcesRoot);
             }
             else
             {
@@ -451,12 +451,12 @@ namespace Microsoft.Build.Utilities
                 // Too much output logging leads to poor performance
                 if (outputs.Count > CanonicalTrackedFilesHelper.MaxLogCount)
                 {
-                    FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_OutputsNotShown", outputs.Count);
+                    FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_OutputsNotShown, outputs.Count);
                 }
                 else
                 {
                     // We have our set of outputs, log the details
-                    FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_OutputsFor", upperSourcesRoot);
+                    FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_OutputsFor, upperSourcesRoot);
 
                     foreach (ITaskItem outputItem in outputsArray)
                     {
@@ -688,7 +688,7 @@ namespace Microsoft.Build.Utilities
             }
             else
             {
-                FileTracker.LogMessageFromResources(_log, MessageImportance.Normal, "Tracking_WriteLogEntryNotFound", rootingMarker);
+                FileTracker.LogMessageFromResources(_log, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_WriteLogEntryNotFound, rootingMarker);
             }
         }
 
@@ -723,7 +723,7 @@ namespace Microsoft.Build.Utilities
 
             if (correspondingOutputs != null)
             {
-                ErrorUtilities.VerifyThrowArgument(source.Length == correspondingOutputs.Length, "Tracking_SourcesAndCorrespondingOutputMismatch");
+                ErrorUtilities.VerifyThrowArgument(source.Length == correspondingOutputs.Length, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_SourcesAndCorrespondingOutputMismatch);
             }
 
             // construct a combined root marker for the sources and outputs to remove from the graph

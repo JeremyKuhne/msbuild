@@ -60,7 +60,7 @@ namespace Microsoft.Build.Tasks
         {
             if (SuggestedRedirects == null || SuggestedRedirects.Length == 0)
             {
-                Log.LogMessageFromResources("GenerateBindingRedirects.NoSuggestedRedirects");
+                Log.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateBindingRedirects_NoSuggestedRedirects);
                 OutputAppConfigFile = null;
                 return true;
             }
@@ -139,7 +139,7 @@ namespace Microsoft.Build.Tasks
 
             if (writeOutput)
             {
-                Log.LogMessageFromResources(MessageImportance.Low, "GenerateBindingRedirects.CreatingBindingRedirectionFile", OutputAppConfigFile.ItemSpec);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateBindingRedirects_CreatingBindingRedirectionFile, OutputAppConfigFile.ItemSpec);
                 using (var stream = FileUtilities.OpenWrite(outputAppConfigFile, false))
                 {
                     doc.Save(stream);
@@ -221,7 +221,7 @@ namespace Microsoft.Build.Tasks
                     {
                         // Due to MSDN documentation (https://msdn.microsoft.com/en-us/library/0ash1ksb(v=vs.110).aspx)
                         // assemblyIdentity is required subelement. Emitting a warning if it's not there.
-                        Log.LogWarningWithCodeFromResources("GenerateBindingRedirects.MissingNode", "dependentAssembly", "assemblyBinding");
+                        Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateBindingRedirects_MissingNode, "dependentAssembly", "assemblyBinding");
                         continue;
                     }
 
@@ -269,13 +269,13 @@ namespace Microsoft.Build.Tasks
 
                     if (!Version.TryParse(oldVerStrLow, out Version oldVersionLow))
                     {
-                        Log.LogWarningWithCodeFromResources("GenerateBindingRedirects.MalformedVersionNumber", oldVerStrLow);
+                        Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateBindingRedirects_MalformedVersionNumber, oldVerStrLow);
                         continue;
                     }
 
                     if (!Version.TryParse(oldVerStrHigh, out Version oldVersionHigh))
                     {
-                        Log.LogWarningWithCodeFromResources("GenerateBindingRedirects.MalformedVersionNumber", oldVerStrHigh);
+                        Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateBindingRedirects_MalformedVersionNumber, oldVerStrHigh);
                         continue;
                     }
 
@@ -317,7 +317,7 @@ namespace Microsoft.Build.Tasks
                                 newVersionAttribute.Value = maxVerStr;
                                 redirects.Remove(entry.Key);
 
-                                Log.LogWarningWithCodeFromResources("GenerateBindingRedirects.OverlappingBindingRedirect", entry.Key.ToString(), bindingRedirect.ToString());
+                                Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateBindingRedirects_OverlappingBindingRedirect, entry.Key.ToString(), bindingRedirect.ToString());
                             }
 
                             break;
@@ -358,7 +358,7 @@ namespace Microsoft.Build.Tasks
 
             if (document.Root == null || document.Root.Name != "configuration")
             {
-                Log.LogErrorWithCodeFromResources("GenerateBindingRedirects.MissingConfigurationNode");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateBindingRedirects_MissingConfigurationNode);
                 return null;
             }
 
@@ -381,7 +381,7 @@ namespace Microsoft.Build.Tasks
                 try
                 {
                     var maxVerStr = redirect.GetMetadata("MaxVersion");
-                    Log.LogMessageFromResources(MessageImportance.Low, "GenerateBindingRedirects.ProcessingSuggestedRedirect", redirectStr, maxVerStr);
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateBindingRedirects_ProcessingSuggestedRedirect, redirectStr, maxVerStr);
 
                     var assemblyIdentity = new AssemblyName(redirectStr);
 
@@ -389,7 +389,7 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (Exception)
                 {
-                    Log.LogWarningWithCodeFromResources("GenerateBindingRedirects.MalformedAssemblyName", redirectStr);
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateBindingRedirects_MalformedAssemblyName, redirectStr);
                     continue;
                 }
             }

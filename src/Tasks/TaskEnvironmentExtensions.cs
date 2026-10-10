@@ -29,7 +29,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e)
             {
-                log?.LogMessageFromResources(MessageImportance.Low, "General.FailedToCanonicalizePath", absolutePath.Value, e.Message);
+                log?.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_FailedToCanonicalizePath, absolutePath.Value, e.Message);
                 return absolutePath;
             }
         }

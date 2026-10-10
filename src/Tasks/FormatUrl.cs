@@ -46,7 +46,7 @@ namespace Microsoft.Build.Tasks
             // observes it. Whitespace remains valid on Unix where it is a legal filename character.
             if (InputUrl.Length > 0 && NativeMethodsShared.IsWindows && string.IsNullOrWhiteSpace(InputUrl))
             {
-                Log.LogErrorWithCodeFromResources("FormatUrl.WhitespaceInputUrlNotAllowedOnWindows", InputUrl);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@FormatUrl_WhitespaceInputUrlNotAllowedOnWindows, InputUrl);
                 Path.GetFullPath(InputUrl);
             }
 

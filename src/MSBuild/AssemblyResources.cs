@@ -4,6 +4,7 @@
 using System.Globalization;
 using System.Resources;
 using Microsoft.Build.Framework;
+using Microsoft.Build.Framework.Resources;
 
 namespace Microsoft.Build.Shared;
 
@@ -15,7 +16,7 @@ internal static class AssemblyResources
     /// <summary>
     ///  Gets the assembly's primary resources, i.e. the resources exclusively owned by this assembly.
     /// </summary>
-    internal static ResourceManager PrimaryResources { get; } = new ResourceManager("MSBuild.Strings", typeof(AssemblyResources).Assembly);
+    internal static ResourceManager PrimaryResources => PrimaryResourceCatalog.ResourceManager;
 
     /// <summary>
     ///  Gets the assembly's shared resources, i.e. the resources this assembly shares with other assemblies.
@@ -42,5 +43,14 @@ internal static class AssemblyResources
         Assumed.NotNull(resource, $"Missing resource '{name}'");
 
         return resource;
+    }
+
+    internal static string GetString(StringResource resource, CultureInfo? culture = null)
+    {
+        culture ??= CultureInfo.CurrentUICulture;
+        string? value = resource.GetString(PrimaryResources, culture) ??
+                        resource.GetString(SharedResources, culture);
+        Assumed.NotNull(value, $"Missing resource '{resource.Name}'");
+        return value;
     }
 }

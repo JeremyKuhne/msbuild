@@ -99,7 +99,7 @@ internal partial class Expander<P, I>
                 string functionName,
                 IElementLocation elementLocation)
             {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments == null || arguments.Length == 0, elementLocation, "InvalidItemFunctionSyntax", functionName, arguments == null ? 0 : arguments.Length);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments == null || arguments.Length == 0, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionSyntax, functionName, arguments == null ? 0 : arguments.Length);
 
                 foreach (TransformEntry item in input)
                 {
@@ -128,7 +128,7 @@ internal partial class Expander<P, I>
                     // we do not want to rethrow in that case.
                     catch (Exception e) when (!ExceptionHandling.NotExpectedException(e) || e is InvalidOperationException)
                     {
-                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidItemFunctionExpression", functionName, item.Value, e.Message);
+                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionExpression, functionName, item.Value, e.Message);
                     }
 
                     if (!String.IsNullOrEmpty(result))
@@ -154,7 +154,7 @@ internal partial class Expander<P, I>
                 string functionName,
                 IElementLocation elementLocation)
             {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments == null || arguments.Length == 0, elementLocation, "InvalidItemFunctionSyntax", functionName, arguments == null ? 0 : arguments.Length);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments == null || arguments.Length == 0, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionSyntax, functionName, arguments == null ? 0 : arguments.Length);
 
                 foreach (TransformEntry item in input)
                 {
@@ -188,7 +188,7 @@ internal partial class Expander<P, I>
                     }
                     catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                     {
-                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidItemFunctionExpression", functionName, item.Value, e.Message);
+                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionExpression, functionName, item.Value, e.Message);
                     }
 
                     if (FileSystems.Default.FileOrDirectoryExists(rootedPath))
@@ -208,7 +208,7 @@ internal partial class Expander<P, I>
                 string functionName,
                 IElementLocation elementLocation)
             {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments?.Length == 1, elementLocation, "InvalidItemFunctionSyntax", functionName, arguments == null ? 0 : arguments.Length);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments?.Length == 1, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionSyntax, functionName, arguments == null ? 0 : arguments.Length);
 
                 string relativePath = arguments[0];
 
@@ -237,7 +237,7 @@ internal partial class Expander<P, I>
                 string functionName,
                 IElementLocation elementLocation)
             {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments == null || arguments.Length == 0, elementLocation, "InvalidItemFunctionSyntax", functionName, arguments == null ? 0 : arguments.Length);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments == null || arguments.Length == 0, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionSyntax, functionName, arguments == null ? 0 : arguments.Length);
 
                 // Phase 1: find all the applicable directories.
 
@@ -284,7 +284,7 @@ internal partial class Expander<P, I>
                     }
                     catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                     {
-                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidItemFunctionExpression", functionName, item.Value, e.Message);
+                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionExpression, functionName, item.Value, e.Message);
                     }
 
                     while (!String.IsNullOrEmpty(directoryName))
@@ -321,7 +321,7 @@ internal partial class Expander<P, I>
                 string functionName,
                 IElementLocation elementLocation)
             {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments == null || arguments.Length == 0, elementLocation, "InvalidItemFunctionSyntax", functionName, arguments == null ? 0 : arguments.Length);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments == null || arguments.Length == 0, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionSyntax, functionName, arguments == null ? 0 : arguments.Length);
 
                 Dictionary<string, string> directoryNameTable = new Dictionary<string, string>(input.Count, StringComparer.OrdinalIgnoreCase);
 
@@ -365,7 +365,7 @@ internal partial class Expander<P, I>
                         }
                         catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                         {
-                            ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "InvalidItemFunctionExpression", functionName, item.Value, e.Message);
+                            ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionExpression, functionName, item.Value, e.Message);
                         }
 
                         // Escape as this is going back into the engine
@@ -396,7 +396,7 @@ internal partial class Expander<P, I>
                 string functionName,
                 IElementLocation elementLocation)
             {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments?.Length == 1, elementLocation, "InvalidItemFunctionSyntax", functionName, arguments == null ? 0 : arguments.Length);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments?.Length == 1, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionSyntax, functionName, arguments == null ? 0 : arguments.Length);
 
                 string metadataName = arguments[0];
 
@@ -413,7 +413,7 @@ internal partial class Expander<P, I>
                         catch (Exception ex) when (ex is ArgumentException || ex is InvalidOperationException)
                         {
                             // Blank metadata name
-                            ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "CannotEvaluateItemMetadata", metadataName, ex.Message);
+                            ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotEvaluateItemMetadata, metadataName, ex.Message);
                         }
 
                         if (!String.IsNullOrEmpty(metadataValue))
@@ -480,7 +480,7 @@ internal partial class Expander<P, I>
                 string functionName,
                 IElementLocation elementLocation)
             {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments == null || arguments.Length == 0, elementLocation, "InvalidItemFunctionSyntax", functionName, arguments == null ? 0 : arguments.Length);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments == null || arguments.Length == 0, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionSyntax, functionName, arguments == null ? 0 : arguments.Length);
 
                 // This dictionary will ensure that we only return one result per unique itemspec
                 HashSet<string> seenItems = new HashSet<string>(input.Count, comparer);
@@ -504,7 +504,7 @@ internal partial class Expander<P, I>
                 string functionName,
                 IElementLocation elementLocation)
             {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments == null || arguments.Length == 0, elementLocation, "InvalidItemFunctionSyntax", functionName, arguments == null ? 0 : arguments.Length);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments == null || arguments.Length == 0, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionSyntax, functionName, arguments == null ? 0 : arguments.Length);
 
                 for (int i = input.Count - 1; i >= 0; i--)
                 {
@@ -523,7 +523,7 @@ internal partial class Expander<P, I>
                 string functionName,
                 IElementLocation elementLocation)
             {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments?.Length == 1, elementLocation, "InvalidItemFunctionSyntax", functionName, arguments == null ? 0 : arguments.Length);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments?.Length == 1, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionSyntax, functionName, arguments == null ? 0 : arguments.Length);
 
                 ExpandQuotedExpressionFunction(input, output, arguments[0], includeNullEntries, elementLocation);
             }
@@ -719,7 +719,7 @@ internal partial class Expander<P, I>
                     if (itemType != null)
                     {
                         string matchValue = text.Substring(metadataMarkerIndex, refEnd - metadataMarkerIndex);
-                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "QualifiedMetadataInTransformNotAllowed", matchValue, name);
+                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@QualifiedMetadataInTransformNotAllowed, matchValue, name);
                     }
 
                     int matchLength = refEnd - metadataMarkerIndex;
@@ -853,7 +853,7 @@ internal partial class Expander<P, I>
                 string functionName,
                 IElementLocation elementLocation)
             {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments == null || arguments.Length == 0, elementLocation, "InvalidItemFunctionSyntax", functionName, arguments == null ? 0 : arguments.Length);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments == null || arguments.Length == 0, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionSyntax, functionName, arguments == null ? 0 : arguments.Length);
 
                 foreach (TransformEntry item in input)
                 {
@@ -875,7 +875,7 @@ internal partial class Expander<P, I>
                 string functionName,
                 IElementLocation elementLocation)
             {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments?.Length == 1, elementLocation, "InvalidItemFunctionSyntax", functionName, arguments == null ? 0 : arguments.Length);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments?.Length == 1, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionSyntax, functionName, arguments == null ? 0 : arguments.Length);
 
                 string metadataName = arguments[0];
 
@@ -890,7 +890,7 @@ internal partial class Expander<P, I>
                     catch (Exception ex) when (ex is ArgumentException || ex is InvalidOperationException)
                     {
                         // Blank metadata name
-                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "CannotEvaluateItemMetadata", metadataName, ex.Message);
+                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotEvaluateItemMetadata, metadataName, ex.Message);
                     }
 
                     // GetMetadataValueEscaped returns empty string for missing metadata,
@@ -914,7 +914,7 @@ internal partial class Expander<P, I>
                 string functionName,
                 IElementLocation elementLocation)
             {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments?.Length == 2, elementLocation, "InvalidItemFunctionSyntax", functionName, arguments == null ? 0 : arguments.Length);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments?.Length == 2, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionSyntax, functionName, arguments == null ? 0 : arguments.Length);
 
                 string metadataName = arguments[0];
                 string metadataValueToFind = arguments[1];
@@ -930,7 +930,7 @@ internal partial class Expander<P, I>
                     catch (Exception ex) when (ex is ArgumentException || ex is InvalidOperationException)
                     {
                         // Blank metadata name
-                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "CannotEvaluateItemMetadata", metadataName, ex.Message);
+                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotEvaluateItemMetadata, metadataName, ex.Message);
                     }
 
                     if (metadataValue != null && String.Equals(metadataValue, metadataValueToFind, StringComparison.OrdinalIgnoreCase))
@@ -952,7 +952,7 @@ internal partial class Expander<P, I>
                 string functionName,
                 IElementLocation elementLocation)
             {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments?.Length == 2, elementLocation, "InvalidItemFunctionSyntax", functionName, arguments == null ? 0 : arguments.Length);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments?.Length == 2, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionSyntax, functionName, arguments == null ? 0 : arguments.Length);
 
                 string metadataName = arguments[0];
                 string metadataValueToFind = arguments[1];
@@ -968,7 +968,7 @@ internal partial class Expander<P, I>
                     catch (Exception ex) when (ex is ArgumentException || ex is InvalidOperationException)
                     {
                         // Blank metadata name
-                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "CannotEvaluateItemMetadata", metadataName, ex.Message);
+                        ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotEvaluateItemMetadata, metadataName, ex.Message);
                     }
 
                     if (!String.Equals(metadataValue, metadataValueToFind, StringComparison.OrdinalIgnoreCase))
@@ -990,7 +990,7 @@ internal partial class Expander<P, I>
                 string functionName,
                 IElementLocation elementLocation)
             {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments?.Length == 2, elementLocation, "InvalidItemFunctionSyntax", functionName, arguments == null ? 0 : arguments.Length);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(arguments?.Length == 2, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidItemFunctionSyntax, functionName, arguments == null ? 0 : arguments.Length);
 
                 string metadataName = arguments[0];
                 string metadataValueToFind = arguments[1];
@@ -1009,7 +1009,7 @@ internal partial class Expander<P, I>
                         catch (Exception ex) when (ex is ArgumentException || ex is InvalidOperationException)
                         {
                             // Blank metadata name
-                            ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "CannotEvaluateItemMetadata", metadataName, ex.Message);
+                            ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotEvaluateItemMetadata, metadataName, ex.Message);
                         }
 
                         if (metadataValue != null && String.Equals(metadataValue, metadataValueToFind, StringComparison.OrdinalIgnoreCase))
@@ -1081,7 +1081,7 @@ internal partial class Expander<P, I>
                 }
                 catch (InvalidOperationException ex)
                 {
-                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "CannotEvaluateItemMetadata", match.Name, ex.Message);
+                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotEvaluateItemMetadata, match.Name, ex.Message);
                 }
 
                 return value;

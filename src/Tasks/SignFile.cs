@@ -51,7 +51,7 @@ namespace Microsoft.Build.Tasks
         {
             if (!NativeMethodsShared.IsWindows)
             {
-                Log.LogErrorWithCodeFromResources("General.TaskRequiresWindows", nameof(SignFile));
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_TaskRequiresWindows, nameof(SignFile));
                 return false;
             }
             try
@@ -67,37 +67,37 @@ namespace Microsoft.Build.Tasks
             }
             catch (ArgumentException ex) when (ex.ParamName.Equals("certThumbprint"))
             {
-                Log.LogErrorWithCodeFromResources("SignFile.CertNotInStore");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SignFile_CertNotInStore);
                 return false;
             }
             catch (FileNotFoundException ex)
             {
-                Log.LogErrorWithCodeFromResources("SignFile.TargetFileNotFound", ex.FileName);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SignFile_TargetFileNotFound, ex.FileName);
                 return false;
             }
             catch (ApplicationException ex)
             {
-                Log.LogErrorWithCodeFromResources("SignFile.SignToolError", ex.Message.Trim());
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SignFile_SignToolError, ex.Message.Trim());
                 return false;
             }
             catch (WarningException ex)
             {
-                Log.LogWarningWithCodeFromResources("SignFile.SignToolWarning", ex.Message.Trim());
+                Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SignFile_SignToolWarning, ex.Message.Trim());
                 return true;
             }
             catch (CryptographicException ex)
             {
-                Log.LogErrorWithCodeFromResources("SignFile.SignToolError", ex.Message.Trim());
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SignFile_SignToolError, ex.Message.Trim());
                 return false;
             }
             catch (Win32Exception ex)
             {
-                Log.LogErrorWithCodeFromResources("SignFile.SignToolError", ex.Message.Trim());
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SignFile_SignToolError, ex.Message.Trim());
                 return false;
             }
             catch (UriFormatException ex)
             {
-                Log.LogErrorWithCodeFromResources("SignFile.SignToolError", ex.Message.Trim());
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SignFile_SignToolError, ex.Message.Trim());
                 return false;
             }
         }

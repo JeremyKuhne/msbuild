@@ -141,7 +141,7 @@ namespace Microsoft.Build.BackEnd
             _uniqueTargetOutputs.Clear();
 
             ProjectErrorUtilities.VerifyThrowInvalidProject((TargetOutputSpecification.Length > 0) || (TargetInputSpecification.Length == 0),
-                _targetToAnalyze.InputsLocation, "TargetInputsSpecifiedWithoutOutputs", TargetToAnalyze.Name);
+                _targetToAnalyze.InputsLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TargetInputsSpecifiedWithoutOutputs, TargetToAnalyze.Name);
 
             DependencyAnalysisResult result = DependencyAnalysisResult.SkipUpToDate;
 
@@ -274,12 +274,12 @@ namespace Microsoft.Build.BackEnd
                 {
                     if (question)
                     {
-                        _loggingService.LogError(_buildEventContext, new BuildEventFileInfo(String.Empty), "BuildTargetCompletely", _targetToAnalyze.Name);
+                        _loggingService.LogError(_buildEventContext, new BuildEventFileInfo(String.Empty), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildTargetCompletely, _targetToAnalyze.Name);
                     }
                     else
                     {
                         // For the full build decision, there are three possible outcomes
-                        _loggingService.LogComment(_buildEventContext, MessageImportance.Low, "BuildTargetCompletely", _targetToAnalyze.Name);
+                        _loggingService.LogComment(_buildEventContext, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildTargetCompletely, _targetToAnalyze.Name);
                     }
 
                     foreach (DependencyAnalysisLogDetail logDetail in _dependencyAnalysisDetail)
@@ -292,12 +292,12 @@ namespace Microsoft.Build.BackEnd
                 {
                     if (question)
                     {
-                        _loggingService.LogError(_buildEventContext, new BuildEventFileInfo(String.Empty), "BuildTargetPartially", _targetToAnalyze.Name);
+                        _loggingService.LogError(_buildEventContext, new BuildEventFileInfo(String.Empty), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildTargetPartially, _targetToAnalyze.Name);
                     }
                     else
                     {
                         // For the partial build decision the are three possible outcomes
-                        _loggingService.LogComment(_buildEventContext, MessageImportance.Normal, "BuildTargetPartially", _targetToAnalyze.Name);
+                        _loggingService.LogComment(_buildEventContext, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildTargetPartially, _targetToAnalyze.Name);
                     }
                     foreach (DependencyAnalysisLogDetail logDetail in _dependencyAnalysisDetail)
                     {
@@ -318,17 +318,17 @@ namespace Microsoft.Build.BackEnd
             if (logDetail.Reason == OutofdateReason.NewerInput)
             {
                 // One of the inputs was newer than all of the outputs
-                reason = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("BuildTargetCompletelyInputNewer", logDetail.Input, logDetail.Output);
+                reason = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildTargetCompletelyInputNewer, logDetail.Input, logDetail.Output);
             }
             else if (logDetail.Reason == OutofdateReason.MissingOutput)
             {
                 // One of the outputs was missing
-                reason = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("BuildTargetCompletelyOutputDoesntExist", logDetail.Output);
+                reason = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildTargetCompletelyOutputDoesntExist, logDetail.Output);
             }
             else if (logDetail.Reason == OutofdateReason.MissingInput)
             {
                 // One of the inputs was missing
-                reason = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("BuildTargetCompletelyInputDoesntExist", logDetail.Input);
+                reason = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildTargetCompletelyInputDoesntExist, logDetail.Input);
             }
 
             return reason;
@@ -344,17 +344,17 @@ namespace Microsoft.Build.BackEnd
             if (logDetail.Reason == OutofdateReason.NewerInput)
             {
                 // One of the inputs was newer than its corresponding output
-                reason = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("BuildTargetPartiallyInputNewer", logDetail.InputItemName, logDetail.Input, logDetail.Output);
+                reason = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildTargetPartiallyInputNewer, logDetail.InputItemName, logDetail.Input, logDetail.Output);
             }
             else if (logDetail.Reason == OutofdateReason.MissingOutput)
             {
                 // One of the outputs was missing
-                reason = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("BuildTargetPartiallyOutputDoesntExist", logDetail.OutputItemName, logDetail.Input, logDetail.Output);
+                reason = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildTargetPartiallyOutputDoesntExist, logDetail.OutputItemName, logDetail.Input, logDetail.Output);
             }
             else if (logDetail.Reason == OutofdateReason.MissingInput)
             {
                 // One of the inputs was missing
-                reason = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("BuildTargetPartiallyInputDoesntExist", logDetail.InputItemName, logDetail.Input, logDetail.Output);
+                reason = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildTargetPartiallyInputDoesntExist, logDetail.InputItemName, logDetail.Input, logDetail.Output);
             }
 
             return reason;
@@ -454,10 +454,10 @@ namespace Microsoft.Build.BackEnd
             if (TargetInputSpecification.Length > 0)
             {
                 _loggingService.LogComment(_buildEventContext, MessageImportance.Normal,
-                    "SkipTargetBecauseNoInputs", TargetToAnalyze.Name);
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SkipTargetBecauseNoInputs, TargetToAnalyze.Name);
                 // detailed reason is low importance to keep log clean
                 _loggingService.LogComment(_buildEventContext, MessageImportance.Low,
-                    "SkipTargetBecauseNoInputsDetail");
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SkipTargetBecauseNoInputsDetail);
 
                 // don't build the target
                 result = DependencyAnalysisResult.SkipNoInputs;
@@ -465,8 +465,8 @@ namespace Microsoft.Build.BackEnd
             else
             {
                 // There were no inputs specified, so build completely
-                _loggingService.LogComment(_buildEventContext, MessageImportance.Low, "BuildTargetCompletely", _targetToAnalyze.Name);
-                _loggingService.LogComment(_buildEventContext, MessageImportance.Low, "BuildTargetCompletelyNoInputsSpecified");
+                _loggingService.LogComment(_buildEventContext, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildTargetCompletely, _targetToAnalyze.Name);
+                _loggingService.LogComment(_buildEventContext, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildTargetCompletelyNoInputsSpecified);
 
                 // otherwise, do a full build
                 result = DependencyAnalysisResult.FullBuild;
@@ -495,10 +495,10 @@ namespace Microsoft.Build.BackEnd
             else
             {
                 _loggingService.LogComment(_buildEventContext, MessageImportance.Normal,
-                    "SkipTargetBecauseNoOutputs", TargetToAnalyze.Name);
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SkipTargetBecauseNoOutputs, TargetToAnalyze.Name);
                 // detailed reason is low importance to keep log clean
                 _loggingService.LogComment(_buildEventContext, MessageImportance.Low,
-                    "SkipTargetBecauseNoOutputsDetail");
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SkipTargetBecauseNoOutputsDetail);
             }
 
             return result;
@@ -1126,8 +1126,8 @@ namespace Microsoft.Build.BackEnd
         {
             input = EscapingUtilities.UnescapeAll(FileUtilities.FixFilePath(input));
             output = EscapingUtilities.UnescapeAll(FileUtilities.FixFilePath(output));
-            ProjectErrorUtilities.VerifyThrowInvalidProject(input.AsSpan().IndexOfAny(MSBuildConstants.InvalidPathChars) < 0, _project.ProjectFileLocation, "IllegalCharactersInFileOrDirectory", input, inputItemName);
-            ProjectErrorUtilities.VerifyThrowInvalidProject(output.AsSpan().IndexOfAny(MSBuildConstants.InvalidPathChars) < 0, _project.ProjectFileLocation, "IllegalCharactersInFileOrDirectory", output, outputItemName);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(input.AsSpan().IndexOfAny(MSBuildConstants.InvalidPathChars) < 0, _project.ProjectFileLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@IllegalCharactersInFileOrDirectory, input, inputItemName);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(output.AsSpan().IndexOfAny(MSBuildConstants.InvalidPathChars) < 0, _project.ProjectFileLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@IllegalCharactersInFileOrDirectory, output, outputItemName);
             bool outOfDate = (CompareLastWriteTimes(input, output, out bool inputDoesNotExist, out bool outputDoesNotExist) == 1) || inputDoesNotExist;
 
             // Only if we are not logging just critical events should we be gathering full details

@@ -20,8 +20,8 @@ internal sealed class UntrustedLocationCheck : Check
     public static CheckRule SupportedRule = new CheckRule(
         "BC0301",
         "UntrustedLocation",
-        ResourceUtilities.GetResourceString("BuildCheck_BC0301_Title")!,
-        ResourceUtilities.GetResourceString("BuildCheck_BC0301_MessageFmt")!,
+        ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheck_BC0301_Title)!,
+        ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheck_BC0301_MessageFmt)!,
         new CheckConfiguration() { Severity = CheckResultSeverity.Error });
 
     public override string FriendlyName => "DotUtils.UntrustedLocationCheck";

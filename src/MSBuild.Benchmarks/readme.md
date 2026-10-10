@@ -2,6 +2,10 @@
 
 This project contains performance benchmarks for MSBuild using [BenchmarkDotNet](https://benchmarkdotnet.org/).
 
+String-resource mechanism benchmarks and the independently reset cold OrchardCore
+build/ETW harness are described in
+[string-resource performance](../../documentation/string-resource-performance.md).
+
 ## Running Benchmarks
 
 ### Run Benchmarks Across Supported TFMs

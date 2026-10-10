@@ -401,7 +401,7 @@ namespace Microsoft.Build.BackEnd
                     {
                         // Connection successful, use this node.
                         CommunicationsUtilities.Trace($"Successfully connected to existing node {nodeId} which is PID {nodeToReuseId}");
-                        string msg = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("NodeReused", nodeId, nodeToReuseId);
+                        string msg = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@NodeReused, nodeId, nodeToReuseId);
                         _componentHost.LoggingService.LogBuildEvent(new BuildMessageEventArgs(msg, null, null, MessageImportance.Low)
                         {
                             BuildEventContext = new BuildEventContext(nodeId, BuildEventContext.InvalidTargetId, BuildEventContext.InvalidProjectContextId, BuildEventContext.InvalidTaskId)
@@ -439,7 +439,7 @@ namespace Microsoft.Build.BackEnd
                         {
                             CommunicationsUtilities.Trace($"Failed to launch node from {msbuildLocation}. The required .NET Framework v3.5 is not installed or enabled. CommandLine: {commandLineArgs}");
 
-                            string nodeFailedToLaunchError = ResourceUtilities.GetResourceString("TaskHostNodeFailedToLaunchErrorCodeNet35NotInstalled");
+                            string nodeFailedToLaunchError = ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskHostNodeFailedToLaunchErrorCodeNet35NotInstalled);
                             throw new NodeFailedToLaunchException(null, nodeFailedToLaunchError);
                         }
                     }
@@ -1564,7 +1564,7 @@ namespace Microsoft.Build.BackEnd
                     BuildEventContext.Invalid,
                     null,
                     BuildEventFileInfo.Empty,
-                    "KillingProcessWithPid",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@KillingProcessWithPid,
                     _process.Id);
                 CommunicationsUtilities.Trace($"Killing node with pid = {_process.Id}");
 

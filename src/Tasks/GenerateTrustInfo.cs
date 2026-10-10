@@ -58,14 +58,14 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (Exception ex)
                 {
-                    Log.LogErrorWithCodeFromResources("GenerateManifest.ReadInputManifestFailed", BaseManifest.ItemSpec, ex.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateManifest_ReadInputManifestFailed, BaseManifest.ItemSpec, ex.Message);
                     return false;
                 }
             }
 
             if (!String.IsNullOrEmpty(ExcludedPermissions))
             {
-                Log.LogWarningFromResources("GenerateManifest.ExcludedPermissionsNotSupported");
+                Log.LogWarningFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateManifest_ExcludedPermissionsNotSupported);
             }
 
             try
@@ -75,7 +75,7 @@ namespace Microsoft.Build.Tasks
                     && trustInfo.PermissionSet?.Count > 0
                     && !String.Equals(TargetZone, Custom, StringComparison.OrdinalIgnoreCase))
                 {
-                    Log.LogErrorFromResources("GenerateManifest.KnownTargetZoneCannotHaveAdditionalPermissionType");
+                    Log.LogErrorFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateManifest_KnownTargetZoneCannotHaveAdditionalPermissionType);
                     return false;
                 }
                 else
@@ -83,19 +83,19 @@ namespace Microsoft.Build.Tasks
                     trustInfo.PermissionSet = SecurityUtilities.ComputeZonePermissionSetHelper(TargetZone, trustInfo.PermissionSet, ApplicationDependencies, TargetFrameworkMoniker);
                     if (trustInfo.PermissionSet == null)
                     {
-                        Log.LogErrorWithCodeFromResources("GenerateManifest.NoPermissionSetForTargetZone", dotNetVersion);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateManifest_NoPermissionSetForTargetZone, dotNetVersion);
                         return false;
                     }
                 }
             }
             catch (ArgumentNullException)
             {
-                Log.LogErrorWithCodeFromResources("GenerateManifest.NoPermissionSetForTargetZone", dotNetVersion);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateManifest_NoPermissionSetForTargetZone, dotNetVersion);
                 return false;
             }
             catch (ArgumentException ex) when (String.Equals(ex.ParamName, "TargetZone", StringComparison.OrdinalIgnoreCase))
             {
-                Log.LogWarningWithCodeFromResources("GenerateManifest.InvalidItemValue", "TargetZone", TargetZone);
+                Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@GenerateManifest_InvalidItemValue, "TargetZone", TargetZone);
             }
 
             // Write trust-info back to a stand-alone trust file

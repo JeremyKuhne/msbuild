@@ -601,7 +601,7 @@ namespace Microsoft.Build.CommandLine
             }
 
             buildEngine.LogMessageEvent(new BuildMessageEventArgs(
-                message: ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("TaskHostAcquired_NullsFiltered", parameterName, nullCount),
+                message: ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskHostAcquired_NullsFiltered, parameterName, nullCount),
                 helpKeyword: null,
                 senderName: taskName,
                 importance: MessageImportance.Normal));

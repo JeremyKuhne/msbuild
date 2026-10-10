@@ -170,7 +170,7 @@ namespace Microsoft.Build.Tasks
                             !string.IsNullOrEmpty(existingCulture) &&
                             !MSBuildNameIgnoreCaseComparer.Default.Equals(existingCulture, info.culture))
                         {
-                            Log.LogWarningWithCodeFromResources("AssignCulture.CultureOverwritten",
+                            Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AssignCulture_CultureOverwritten,
                                 existingCulture, AssignedFiles[i].ItemSpec, info.culture);
                             // Remove the culture if it's not recognized
                             if (string.IsNullOrEmpty(info.culture))
@@ -197,13 +197,13 @@ namespace Microsoft.Build.Tasks
 
                     Log.LogMessageFromResources(
                         MessageImportance.Low,
-                        "AssignCulture.Comment",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AssignCulture_Comment,
                         AssignedFiles[i].GetMetadata(ItemMetadataNames.culture),
                         AssignedFiles[i].ItemSpec);
                 }
                 catch (ArgumentException e)
                 {
-                    Log.LogErrorWithCodeFromResources("AssignCulture.CannotExtractCulture", Files[i].ItemSpec, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AssignCulture_CannotExtractCulture, Files[i].ItemSpec, e.Message);
                     retValue = false;
                 }
 #if DEBUG

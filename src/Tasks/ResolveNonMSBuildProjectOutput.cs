@@ -97,7 +97,7 @@ namespace Microsoft.Build.Tasks
 
                 foreach (ITaskItem projectRef in ProjectReferences)
                 {
-                    Log.LogMessageFromResources(MessageImportance.Low, "ResolveNonMSBuildProjectOutput.ProjectReferenceResolutionStarting", projectRef.ItemSpec);
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveNonMSBuildProjectOutput_ProjectReferenceResolutionStarting, projectRef.ItemSpec);
 
                     bool resolveSuccess = ResolveProject(projectRef, out ITaskItem resolvedPath);
                     if (resolveSuccess)
@@ -121,13 +121,13 @@ namespace Microsoft.Build.Tasks
 
                             resolvedPaths.Add(resolvedPath);
 
-                            Log.LogMessageFromResources(MessageImportance.Low, "ResolveNonMSBuildProjectOutput.ProjectReferenceResolutionSuccess", projectRef.ItemSpec, resolvedPath.ItemSpec);
+                            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveNonMSBuildProjectOutput_ProjectReferenceResolutionSuccess, projectRef.ItemSpec, resolvedPath.ItemSpec);
                         }
                         // If resolved path is empty, log a warning. This means that this reference is not an MSBuild reference,
                         // but could not be resolved in the IDE.
                         else
                         {
-                            Log.LogWarningWithCodeFromResources("ResolveNonMSBuildProjectOutput.ProjectReferenceResolutionFailure", projectRef.ItemSpec);
+                            Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveNonMSBuildProjectOutput_ProjectReferenceResolutionFailure, projectRef.ItemSpec);
                         }
                     }
                     else
@@ -136,7 +136,7 @@ namespace Microsoft.Build.Tasks
 
                         // This is not an error - we pass unresolved references to UnresolvedProjectReferences for further
                         // processing in the .targets file.
-                        Log.LogMessageFromResources(MessageImportance.Low, "ResolveNonMSBuildProjectOutput.ProjectReferenceUnresolved", projectRef.ItemSpec);
+                        Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveNonMSBuildProjectOutput_ProjectReferenceUnresolved, projectRef.ItemSpec);
                     }
                 }
 
@@ -145,7 +145,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (XmlException e)
             {
-                Log.LogErrorWithCodeFromResources("General.ErrorExecutingTask", this.GetType().Name, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_ErrorExecutingTask, this.GetType().Name, e.Message);
                 return false;
             }
 

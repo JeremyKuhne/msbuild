@@ -115,6 +115,7 @@
     <!-- Resource Files -->
     <EmbeddedResource Include="Resources\Strings.resx">
       <LogicalName>$(AssemblyName).Strings.resources</LogicalName>
+      <StringResourceClass>Microsoft.Build.Shared.PrimaryResourceCatalog</StringResourceClass>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <!-- Content Files -->
@@ -272,4 +273,5 @@
     <ValidateMSBuildPackageDependencyVersions AppConfig="@(AppConfigWithTargetPath)" AssemblyPath="$(OutputPath)" />
   </Target>
 
+  <Import Project="..\ResourceGenerator\ResourceGenerator.targets" />
 </Project>

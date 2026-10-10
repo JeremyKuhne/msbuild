@@ -2,8 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using System.Globalization;
+using System.Resources;
 using Microsoft.Build.Shared;
 using Microsoft.Build.Tasks;
+using Microsoft.Build.Utilities;
+using Shouldly;
 using Xunit;
 
 #nullable disable
@@ -12,6 +16,44 @@ namespace Microsoft.Build.UnitTests
 {
     public sealed class ErrorWarningMessage_Tests
     {
+        private readonly ITestOutputHelper _output;
+
+        public ErrorWarningMessage_Tests(ITestOutputHelper output)
+        {
+            _output = output;
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void EmptyDiagnosticsUseReplacedTaskResources(bool error)
+        {
+            var engine = new MockEngine(_output);
+            var resources = new ReplacementResourceManager();
+            Task task = error ? new Error() : new Warning();
+            task.BuildEngine = engine;
+            task.Log.TaskResources = resources;
+
+            task.Execute().ShouldBe(!error);
+
+            resources.RequestedName.ShouldBe("ErrorAndWarning.EmptyMessage");
+            engine.Log.ShouldContain("replacement empty message");
+            engine.Errors.ShouldBe(error ? 1 : 0);
+            engine.Warnings.ShouldBe(error ? 0 : 1);
+        }
+
+        private sealed class ReplacementResourceManager : ResourceManager
+        {
+            internal string RequestedName { get; private set; }
+
+            public override string GetString(string name, CultureInfo culture)
+            {
+                RequestedName = name;
+                name.ShouldBe("ErrorAndWarning.EmptyMessage");
+                return "replacement empty message";
+            }
+        }
+
         /// <summary>
         /// Simple case
         /// </summary>

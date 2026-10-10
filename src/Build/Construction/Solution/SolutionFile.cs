@@ -328,14 +328,14 @@ namespace Microsoft.Build.Construction
                     var errorLocation = ElementLocation.Create(FullPath, solutionEx.Line ?? 0, solutionEx.Column ?? 0);
                     ProjectFileErrorUtilities.ThrowInvalidProjectFile(
                         new BuildEventFileInfo(errorLocation),
-                        "InvalidProjectFile",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidProjectFile,
                         solutionEx.ToString());
                 }
                 catch (Exception ex)
                 {
                     ProjectFileErrorUtilities.ThrowInvalidProjectFile(
                         new BuildEventFileInfo(FullPath),
-                        "InvalidProjectFile",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidProjectFile,
                         ex.ToString());
                 }
             }
@@ -580,7 +580,7 @@ namespace Microsoft.Build.Construction
                             ProjectFileErrorUtilities.ThrowInvalidProjectFile(
                                     "SubCategoryForSolutionParsingErrors",
                                     new BuildEventFileInfo(solutionFile),
-                                    "SolutionParseVersionMismatchError",
+                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseVersionMismatchError,
                                     slnFileMinUpgradableVersion,
                                     slnFileMaxVersion);
                         }
@@ -592,7 +592,7 @@ namespace Microsoft.Build.Construction
                                 solutionVersion >= slnFileMinUpgradableVersion,
                                 "SubCategoryForSolutionParsingErrors",
                                 new BuildEventFileInfo(solutionFile),
-                                "SolutionParseVersionMismatchError",
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseVersionMismatchError,
                                 slnFileMinUpgradableVersion,
                                 slnFileMaxVersion);
 
@@ -623,7 +623,7 @@ namespace Microsoft.Build.Construction
             ProjectFileErrorUtilities.ThrowInvalidProjectFile(
                     "SubCategoryForSolutionParsingErrors",
                     new BuildEventFileInfo(solutionFile),
-                    "SolutionParseNoHeaderError");
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseNoHeaderError);
         }
 
         private void ParseSolutionFilter(string solutionFilterFile)
@@ -637,7 +637,7 @@ namespace Microsoft.Build.Construction
                     ProjectFileErrorUtilities.ThrowInvalidProjectFile(
                         "SubCategoryForSolutionParsingErrors",
                         new BuildEventFileInfo(_solutionFile),
-                        "SolutionFilterMissingSolutionError",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionFilterMissingSolutionError,
                         solutionFilterFile,
                         _solutionFile);
                 }
@@ -657,7 +657,7 @@ namespace Microsoft.Build.Construction
                     "SubCategoryForSolutionParsingErrors",
                     new BuildEventFileInfo(solutionFilterFile),
                     e,
-                    "SolutionFilterJsonParsingError",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionFilterJsonParsingError,
                     solutionFilterFile);
             }
         }
@@ -680,7 +680,7 @@ namespace Microsoft.Build.Construction
                     "SubCategoryForSolutionParsingErrors",
                     new BuildEventFileInfo(solutionFilterFile),
                     e,
-                    "SolutionFilterJsonParsingError",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionFilterJsonParsingError,
                     solutionFilterFile);
             }
             solution = new JsonElement();
@@ -747,7 +747,7 @@ namespace Microsoft.Build.Construction
             }
             catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
             {
-                ProjectFileErrorUtilities.ThrowInvalidProjectFile(new BuildEventFileInfo(_solutionFile), "InvalidProjectFile", e.Message);
+                ProjectFileErrorUtilities.ThrowInvalidProjectFile(new BuildEventFileInfo(_solutionFile), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidProjectFile, e.Message);
             }
             finally
             {
@@ -896,7 +896,7 @@ namespace Microsoft.Build.Construction
                     didntAlreadyExist,
                     "SubCategoryForSolutionParsingErrors",
                     new BuildEventFileInfo(FullPath),
-                    "SolutionParseDuplicateProject",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseDuplicateProject,
                     uniqueNameExists ? uniqueName : proj.ProjectName);
             }
         }
@@ -917,7 +917,7 @@ namespace Microsoft.Build.Construction
                     ProjectFileErrorUtilities.ThrowInvalidProjectFile(
                         "SubCategoryForSolutionParsingErrors",
                         new BuildEventFileInfo(FileUtilities.GetFullPath(project, Path.GetDirectoryName(_solutionFile))),
-                        "SolutionFilterFilterContainsProjectNotInSolution",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionFilterFilterContainsProjectNotInSolution,
                         _solutionFilterFile,
                         project,
                         _solutionFile);
@@ -960,7 +960,7 @@ namespace Microsoft.Build.Construction
             // Didn't find the header on either the first or second line, so the solution file
             // is invalid.
             ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(false, "SubCategoryForSolutionParsingErrors",
-                new BuildEventFileInfo(FullPath), "SolutionParseNoHeaderError");
+                new BuildEventFileInfo(FullPath), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseNoHeaderError);
         }
 
         /// <summary>
@@ -1006,7 +1006,7 @@ namespace Microsoft.Build.Construction
             if (!System.Version.TryParse(versionString, out Version version))
             {
                 ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(false, "SubCategoryForSolutionParsingErrors",
-                    new BuildEventFileInfo(FullPath, _currentLineNumber, 0), "SolutionParseVersionMismatchError",
+                    new BuildEventFileInfo(FullPath, _currentLineNumber, 0), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseVersionMismatchError,
                     slnFileMinUpgradableVersion, slnFileMaxVersion);
             }
 
@@ -1017,13 +1017,13 @@ namespace Microsoft.Build.Construction
                 Version >= slnFileMinUpgradableVersion,
                 "SubCategoryForSolutionParsingErrors",
                 new BuildEventFileInfo(FullPath, _currentLineNumber, 0),
-                "SolutionParseVersionMismatchError",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseVersionMismatchError,
                 slnFileMinUpgradableVersion, slnFileMaxVersion);
             // If the solution file version is greater than the maximum one we will create a comment rather than warn
             // as users such as blend opening a dev10 project cannot do anything about it.
             if (Version > slnFileMaxVersion)
             {
-                SolutionParserComments.Add(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("UnrecognizedSolutionComment", Version));
+                SolutionParserComments.Add(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnrecognizedSolutionComment, Version));
             }
         }
 
@@ -1075,7 +1075,7 @@ namespace Microsoft.Build.Construction
                         // be both the property name and the property value.
                         Match match = CrackPropertyLineRegex.Match(line);
                         ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(match.Success, "SubCategoryForSolutionParsingErrors",
-                            new BuildEventFileInfo(FullPath, _currentLineNumber, 0), "SolutionParseProjectDepGuidError", proj.ProjectName);
+                            new BuildEventFileInfo(FullPath, _currentLineNumber, 0), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseProjectDepGuidError, proj.ProjectName);
 
                         string referenceGuid = match.Groups["PROPERTYNAME"].Value.Trim();
                         proj.AddDependency(referenceGuid);
@@ -1093,7 +1093,7 @@ namespace Microsoft.Build.Construction
                     {
                         Match match = CrackPropertyLineRegex.Match(line);
                         ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(match.Success, "SubCategoryForSolutionParsingErrors",
-                            new BuildEventFileInfo(FullPath, _currentLineNumber, 0), "SolutionParseWebProjectPropertiesError", proj.ProjectName);
+                            new BuildEventFileInfo(FullPath, _currentLineNumber, 0), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseWebProjectPropertiesError, proj.ProjectName);
 
                         string propertyName = match.Groups["PROPERTYNAME"].Value.Trim();
                         string propertyValue = match.Groups["PROPERTYVALUE"].Value.Trim();
@@ -1106,7 +1106,7 @@ namespace Microsoft.Build.Construction
                 else if (line.StartsWith("Project(", StringComparison.Ordinal))
                 {
                     // Another Project spotted instead of EndProject for the current one - solution file is malformed
-                    string warning = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out _, out _, "ProjectFileIsMalformed",
+                    string warning = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out _, out _, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectFileIsMalformed,
                         _solutionFile, proj.ProjectName);
                     SolutionParserWarnings.Add(warning);
 
@@ -1119,7 +1119,7 @@ namespace Microsoft.Build.Construction
             }
 
             ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(line != null, "SubCategoryForSolutionParsingErrors",
-                new BuildEventFileInfo(FullPath), "SolutionParseProjectEofError", proj.ProjectName);
+                new BuildEventFileInfo(FullPath), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseProjectEofError, proj.ProjectName);
 
             // Add the project to the collection
             AddProjectToSolution(proj);
@@ -1227,7 +1227,7 @@ namespace Microsoft.Build.Construction
             catch (SecurityException e)
             {
                 // Log a warning
-                string warning = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, "ProjectFileCouldNotBeLoaded",
+                string warning = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectFileCouldNotBeLoaded,
                     etpProj.RelativePath, e.Message);
                 SolutionParserWarnings.Add(warning);
                 SolutionParserErrorCodes.Add(errorCode);
@@ -1236,7 +1236,7 @@ namespace Microsoft.Build.Construction
             catch (NotSupportedException e)
             {
                 // Log a warning
-                string warning = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, "ProjectFileCouldNotBeLoaded",
+                string warning = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectFileCouldNotBeLoaded,
                     etpProj.RelativePath, e.Message);
                 SolutionParserWarnings.Add(warning);
                 SolutionParserErrorCodes.Add(errorCode);
@@ -1245,7 +1245,7 @@ namespace Microsoft.Build.Construction
             catch (IOException e)
             {
                 // Log a warning
-                string warning = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, "ProjectFileCouldNotBeLoaded",
+                string warning = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectFileCouldNotBeLoaded,
                     etpProj.RelativePath, e.Message);
                 SolutionParserWarnings.Add(warning);
                 SolutionParserErrorCodes.Add(errorCode);
@@ -1254,7 +1254,7 @@ namespace Microsoft.Build.Construction
             catch (UnauthorizedAccessException e)
             {
                 // Log a warning
-                string warning = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, "ProjectFileCouldNotBeLoaded",
+                string warning = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectFileCouldNotBeLoaded,
                     etpProj.RelativePath, e.Message);
                 SolutionParserWarnings.Add(warning);
                 SolutionParserErrorCodes.Add(errorCode);
@@ -1263,7 +1263,7 @@ namespace Microsoft.Build.Construction
             catch (XmlException e)
             {
                 // Log a warning
-                string warning = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, "ProjectFileIsMalformed",
+                string warning = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectFileIsMalformed,
                    etpProj.RelativePath, e.Message);
                 SolutionParserWarnings.Add(warning);
                 SolutionParserErrorCodes.Add(errorCode);
@@ -1305,14 +1305,14 @@ namespace Microsoft.Build.Construction
             ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(proj.RelativePath.AsSpan().IndexOfAny(MSBuildConstants.InvalidPathChars) < 0,
               "SubCategoryForSolutionParsingErrors",
               new BuildEventFileInfo(FullPath, _currentLineNumber, 0),
-              "SolutionParseInvalidProjectFileNameCharacters",
+              global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseInvalidProjectFileNameCharacters,
               proj.ProjectName, proj.RelativePath);
 
             // Verify the relative path is not empty string
             ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(proj.RelativePath.Length > 0,
                   "SubCategoryForSolutionParsingErrors",
                   new BuildEventFileInfo(FullPath, _currentLineNumber, 0),
-                  "SolutionParseInvalidProjectFileNameEmpty",
+                  global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseInvalidProjectFileNameEmpty,
                   proj.ProjectName);
         }
 
@@ -1501,7 +1501,7 @@ namespace Microsoft.Build.Construction
         {
             Match match = CrackProjectLineRegex.Match(firstLine);
             ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(match.Success, "SubCategoryForSolutionParsingErrors",
-                new BuildEventFileInfo(FullPath, _currentLineNumber, 0), "SolutionParseProjectError");
+                new BuildEventFileInfo(FullPath, _currentLineNumber, 0), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseProjectError);
 
             string projectTypeGuid = match.Groups["PROJECTTYPEGUID"].Value.Trim();
             proj.ProjectName = match.Groups["PROJECTNAME"].Value.Trim();
@@ -1553,7 +1553,7 @@ namespace Microsoft.Build.Construction
                 {
                     if (!_parsingForConversionOnly)
                     {
-                        ProjectFileErrorUtilities.ThrowInvalidProjectFile(new BuildEventFileInfo(FullPath), "ProjectUpgradeNeededToVcxProj", proj.RelativePath);
+                        ProjectFileErrorUtilities.ThrowInvalidProjectFile(new BuildEventFileInfo(FullPath), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectUpgradeNeededToVcxProj, proj.RelativePath);
                     }
                     // otherwise, we're parsing this solution file because we want the P2P information during
                     // conversion, and it's perfectly valid for an unconverted solution file to still contain .vcprojs
@@ -1601,7 +1601,7 @@ namespace Microsoft.Build.Construction
 
                 Match match = CrackPropertyLineRegex.Match(str);
                 ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(match.Success, "SubCategoryForSolutionParsingErrors",
-                    new BuildEventFileInfo(FullPath, _currentLineNumber, 0), "SolutionParseNestedProjectError");
+                    new BuildEventFileInfo(FullPath, _currentLineNumber, 0), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseNestedProjectError);
 
                 string projectGuid = match.Groups["PROPERTYNAME"].Value.Trim();
                 string parentProjectGuid = match.Groups["PROPERTYVALUE"].Value.Trim();
@@ -1609,7 +1609,7 @@ namespace Microsoft.Build.Construction
                 if (!_projectsByGuid.TryGetValue(projectGuid, out ProjectInSolution proj))
                 {
                     ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(proj != null, "SubCategoryForSolutionParsingErrors",
-                       new BuildEventFileInfo(FullPath, _currentLineNumber, 0), "SolutionParseNestedProjectUndefinedError", projectGuid, parentProjectGuid);
+                       new BuildEventFileInfo(FullPath, _currentLineNumber, 0), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseNestedProjectUndefinedError, projectGuid, parentProjectGuid);
                 }
 
                 proj.ParentProjectGuid = parentProjectGuid;
@@ -1650,7 +1650,7 @@ namespace Microsoft.Build.Construction
 
                 // There should be exactly one '=' character, separating two names.
                 ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(configurationNames.Length == 2, "SubCategoryForSolutionParsingErrors",
-                    new BuildEventFileInfo(FullPath, _currentLineNumber, 0), "SolutionParseInvalidSolutionConfigurationEntry", str);
+                    new BuildEventFileInfo(FullPath, _currentLineNumber, 0), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseInvalidSolutionConfigurationEntry, str);
 
                 string fullConfigurationName = configurationNames[0].Trim();
 
@@ -1662,7 +1662,7 @@ namespace Microsoft.Build.Construction
 
                 // Both names must be identical
                 ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(fullConfigurationName == configurationNames[1].Trim(), "SubCategoryForSolutionParsingErrors",
-                    new BuildEventFileInfo(FullPath, _currentLineNumber, 0), "SolutionParseInvalidSolutionConfigurationEntry", str);
+                    new BuildEventFileInfo(FullPath, _currentLineNumber, 0), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseInvalidSolutionConfigurationEntry, str);
 
                 var (configuration, platform) = ParseConfigurationName(fullConfigurationName, FullPath, _currentLineNumber, str);
 
@@ -1678,7 +1678,7 @@ namespace Microsoft.Build.Construction
                 configurationPlatformParts.Length == 2,
                 "SubCategoryForSolutionParsingErrors",
                 new BuildEventFileInfo(projectPath, lineNumber, 0),
-                "SolutionParseInvalidSolutionConfigurationEntry",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseInvalidSolutionConfigurationEntry,
                 containingString);
 
             return (configurationPlatformParts[0], configurationPlatformParts[1]);
@@ -1727,7 +1727,7 @@ namespace Microsoft.Build.Construction
 
                 // There should be exactly one '=' character, separating the name and value.
                 ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(nameValue.Length == 2, "SubCategoryForSolutionParsingErrors",
-                    new BuildEventFileInfo(FullPath, _currentLineNumber, 0), "SolutionParseInvalidProjectSolutionConfigurationEntry", str);
+                    new BuildEventFileInfo(FullPath, _currentLineNumber, 0), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseInvalidProjectSolutionConfigurationEntry, str);
 
                 rawProjectConfigurationsEntries[nameValue[0].Trim()] = nameValue[1].Trim();
             } while (true);
@@ -1773,7 +1773,7 @@ namespace Microsoft.Build.Construction
 
                             // Project configuration may not necessarily contain the platform part. Some project support only the configuration part.
                             ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(configurationPlatformParts.Length <= 2, "SubCategoryForSolutionParsingErrors",
-                                new BuildEventFileInfo(FullPath), "SolutionParseInvalidProjectSolutionConfigurationEntry",
+                                new BuildEventFileInfo(FullPath), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseInvalidProjectSolutionConfigurationEntry,
                                 $"{entryNameActiveConfig} = {configurationPlatform}");
 
                             var projectConfiguration = new ProjectConfigurationInSolution(

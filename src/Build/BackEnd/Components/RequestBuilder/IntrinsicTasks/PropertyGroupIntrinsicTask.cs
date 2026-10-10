@@ -78,7 +78,7 @@ namespace Microsoft.Build.BackEnd
                             ProjectErrorUtilities.VerifyThrowInvalidProject(
                                 !ReservedPropertyNames.IsReservedProperty(property.Name),
                                 property.Location,
-                                "CannotModifyReservedProperty",
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotModifyReservedProperty,
                                 property.Name);
 
                             bucket.Expander.PropertiesUseTracker.CurrentlyEvaluatingPropertyElementName = property.Name;
@@ -98,7 +98,7 @@ namespace Microsoft.Build.BackEnd
 
                             if (LogTaskInputs && !LoggingContext.LoggingService.OnlyLogCriticalEvents)
                             {
-                                LoggingContext.LogComment(MessageImportance.Low, "PropertyGroupLogMessage", property.Name, evaluatedValue);
+                                LoggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@PropertyGroupLogMessage, property.Name, evaluatedValue);
                             }
 
                             bucket.Lookup.SetProperty(ProjectPropertyInstance.Create(property.Name, evaluatedValue, property.Location, Project.IsImmutable));

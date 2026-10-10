@@ -172,20 +172,20 @@ namespace Microsoft.Build.CommandLine.Experimental
                 {
                     foreach (string invalidArg in invalidArgs)
                     {
-                        var message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string warningCode, out _, "LoggingArgsEnvVarUnsupportedArgument", invalidArg);
+                        var message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string warningCode, out _, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@LoggingArgsEnvVarUnsupportedArgument, invalidArg);
                         deferredBuildMessages.Add(new DeferredBuildMessage(message, warningCode, messageSeverity));
                     }
                 }
 
                 if (validArgs.Count > 0)
                 {
-                    deferredBuildMessages.Add(new DeferredBuildMessage(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("LoggingArgsEnvVarUsing", string.Join(" ", validArgs)), MessageImportance.Low));
+                    deferredBuildMessages.Add(new DeferredBuildMessage(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@LoggingArgsEnvVarUsing, string.Join(" ", validArgs)), MessageImportance.Low));
                     GatherCommandLineSwitches(validArgs, switches, commandLine);
                 }
             }
             catch (Exception ex)
             {
-                var message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, "LoggingArgsEnvVarError", ex.ToString());
+                var message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out _, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@LoggingArgsEnvVarError, ex.ToString());
                 deferredBuildMessages.Add(new DeferredBuildMessage(message, errorCode, messageSeverity));
             }
         }
@@ -567,7 +567,7 @@ namespace Microsoft.Build.CommandLine.Experimental
                 }
                 else
                 {
-                    InitializationException.VerifyThrow(FileSystems.Default.FileExists(projectFile), "ProjectNotFoundError", projectFile);
+                    InitializationException.VerifyThrow(FileSystems.Default.FileExists(projectFile), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectNotFoundError, projectFile);
                     projectDirectory = Path.GetDirectoryName(Path.GetFullPath(projectFile));
                 }
             }

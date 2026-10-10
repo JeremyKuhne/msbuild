@@ -141,7 +141,7 @@ internal sealed partial class CoordinatorClient : IDisposable
 
             if (client is null)
             {
-                loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, "CoordinatorFailedToNegotiate");
+                loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CoordinatorFailedToNegotiate);
             }
 
             return client;
@@ -149,7 +149,7 @@ internal sealed partial class CoordinatorClient : IDisposable
         catch (Exception ex) when (!Debugger.IsAttached)
         {
             output.WriteLine($"CoordinatorClient: Exception during connect: {ex.Message}");
-            loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, "CoordinatorFailedToConnect");
+            loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CoordinatorFailedToConnect);
 
             // Any failure in coordinator communication should not break the build.
             return null;
@@ -187,7 +187,7 @@ internal sealed partial class CoordinatorClient : IDisposable
             if (!launchMutex.WaitOne(settings.ConnectionTimeoutMs))
             {
                 output.WriteLine("CoordinatorClient: Timed out waiting for launch mutex");
-                loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, "CoordinatorLaunchTimedOut");
+                loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CoordinatorLaunchTimedOut);
                 return null;
             }
         }
@@ -219,7 +219,7 @@ internal sealed partial class CoordinatorClient : IDisposable
                 if (!WaitForCoordinatorStartup(settings, output))
                 {
                     output.WriteLine("CoordinatorClient: Coordinator did not start in time");
-                    loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, "CoordinatorFailedToConnect");
+                    loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CoordinatorFailedToConnect);
                     return null;
                 }
             }
@@ -239,7 +239,7 @@ internal sealed partial class CoordinatorClient : IDisposable
             if (!TryConnectToPipe(pipeStream, settings.ConnectionTimeoutMs))
             {
                 output.WriteLine("CoordinatorClient: Failed to connect to coordinator");
-                loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, "CoordinatorFailedToConnect");
+                loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CoordinatorFailedToConnect);
                 return null;
             }
 
@@ -353,7 +353,7 @@ internal sealed partial class CoordinatorClient : IDisposable
             {
                 case NodeGrantMessage grant:
                     output.WriteLine($"CoordinatorClient: Granted {grant.GrantedNodes} nodes");
-                    loggingService?.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, "CoordinatorNodeGrantReceived", grant.GrantedNodes);
+                    loggingService?.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CoordinatorNodeGrantReceived, grant.GrantedNodes);
 
                     CoordinatorClient client = grantOwnership == GrantOwnership.Root
                         ? CreateRootClient(connection, grant, settings.HeartbeatIntervalMs, output)
@@ -365,7 +365,7 @@ internal sealed partial class CoordinatorClient : IDisposable
                     Assumed.Equal(grantOwnership, GrantOwnership.Root, "Nested coordinator grant joins should not wait for global resources.");
 
                     output.WriteLine("CoordinatorClient: Received WaitMessage, waiting for deferred grant");
-                    loggingService?.LogComment(BuildEventContext.Invalid, MessageImportance.High, "CoordinatorWaitingForNodes");
+                    loggingService?.LogComment(BuildEventContext.Invalid, MessageImportance.High, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CoordinatorWaitingForNodes);
 
                     CoordinatorClient? deferredClient = WaitForDeferredGrant(connection, settings, output, loggingService);
                     if (deferredClient is not null)
@@ -412,7 +412,7 @@ internal sealed partial class CoordinatorClient : IDisposable
         {
             case NodeGrantMessage grant:
                 output.WriteLine($"CoordinatorClient: Deferred grant received: {grant.GrantedNodes} nodes (waited {waitTimer.Elapsed.TotalSeconds:F2}s)");
-                loggingService?.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, "CoordinatorNodeGrantReceived", grant.GrantedNodes);
+                loggingService?.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CoordinatorNodeGrantReceived, grant.GrantedNodes);
 
                 return CreateRootClient(connection, grant, settings.HeartbeatIntervalMs, output, waitTimer.Elapsed);
 
@@ -476,7 +476,7 @@ internal sealed partial class CoordinatorClient : IDisposable
         catch (Exception ex) when (!Debugger.IsAttached)
         {
             output.WriteLine($"CoordinatorClient: Exception during launch: {ex}");
-            loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, "CoordinatorFailedToLaunch");
+            loggingService.LogComment(BuildEventContext.Invalid, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CoordinatorFailedToLaunch);
             return false;
         }
     }

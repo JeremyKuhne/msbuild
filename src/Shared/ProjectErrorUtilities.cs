@@ -29,6 +29,11 @@ namespace Microsoft.Build.Shared
         {
             VerifyThrowInvalidProject(condition, null, elementLocation, resourceName);
         }
+        internal static void VerifyThrowInvalidProject(bool condition, IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName)
+        {
+            VerifyThrowInvalidProject(condition, null, elementLocation, resourceName);
+        }
+
 
         /// <summary>
         /// Overload for one string format argument.
@@ -40,6 +45,11 @@ namespace Microsoft.Build.Shared
         {
             ThrowInvalidProject(null, elementLocation, resourceName, arg0);
         }
+        internal static void ThrowInvalidProject<T1>(IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName, T1 arg0)
+        {
+            ThrowInvalidProject(null, elementLocation, resourceName, arg0);
+        }
+
 
         /// <summary>
         /// Overload for one string format argument.
@@ -52,6 +62,11 @@ namespace Microsoft.Build.Shared
         {
             VerifyThrowInvalidProject(condition, null, elementLocation, resourceName, arg0);
         }
+        internal static void VerifyThrowInvalidProject<T1>(bool condition, IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName, T1 arg0)
+        {
+            VerifyThrowInvalidProject(condition, null, elementLocation, resourceName, arg0);
+        }
+
 
         /// <summary>
         /// Overload for two string format arguments.
@@ -64,6 +79,11 @@ namespace Microsoft.Build.Shared
         {
             ThrowInvalidProject(null, elementLocation, resourceName, arg0, arg1);
         }
+        internal static void ThrowInvalidProject<T1, T2>(IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName, T1 arg0, T2 arg1)
+        {
+            ThrowInvalidProject(null, elementLocation, resourceName, arg0, arg1);
+        }
+
 
         /// <summary>
         /// Overload for three string format arguments.
@@ -77,6 +97,11 @@ namespace Microsoft.Build.Shared
         {
             ThrowInvalidProject(null, elementLocation, resourceName, arg0, arg1, arg2);
         }
+        internal static void ThrowInvalidProject<T1, T2, T3>(IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName, T1 arg0, T2 arg1, T3 arg2)
+        {
+            ThrowInvalidProject(null, elementLocation, resourceName, arg0, arg1, arg2);
+        }
+
 
         /// <summary>
         /// Overload for four string format arguments.
@@ -91,6 +116,11 @@ namespace Microsoft.Build.Shared
         {
             ThrowInvalidProject(null, elementLocation, resourceName, arg0, arg1, arg2, arg3);
         }
+        internal static void ThrowInvalidProject<T1, T2, T3, T4>(IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName, T1 arg0, T2 arg1, T3 arg2, T4 arg3)
+        {
+            ThrowInvalidProject(null, elementLocation, resourceName, arg0, arg1, arg2, arg3);
+        }
+
 
         /// <summary>
         /// Overload for if there are more than four string format arguments.
@@ -102,6 +132,11 @@ namespace Microsoft.Build.Shared
         {
             ThrowInvalidProject(null, elementLocation, resourceName, args);
         }
+        internal static void ThrowInvalidProject(IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName, params object[] args)
+        {
+            ThrowInvalidProject(null, elementLocation, resourceName, args);
+        }
+
 
         /// <summary>
         /// Overload for two string format arguments.
@@ -115,6 +150,11 @@ namespace Microsoft.Build.Shared
         {
             VerifyThrowInvalidProject(condition, null, elementLocation, resourceName, arg0, arg1);
         }
+        internal static void VerifyThrowInvalidProject<T1, T2>(bool condition, IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName, T1 arg0, T2 arg1)
+        {
+            VerifyThrowInvalidProject(condition, null, elementLocation, resourceName, arg0, arg1);
+        }
+
 
         /// <summary>
         /// Overload for three string format arguments.
@@ -129,6 +169,11 @@ namespace Microsoft.Build.Shared
         {
             VerifyThrowInvalidProject(condition, null, elementLocation, resourceName, arg0, arg1, arg2);
         }
+        internal static void VerifyThrowInvalidProject<T1, T2, T3>(bool condition, IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName, T1 arg0, T2 arg1, T3 arg2)
+        {
+            VerifyThrowInvalidProject(condition, null, elementLocation, resourceName, arg0, arg1, arg2);
+        }
+
 
         /// <summary>
         /// Overload for four string format arguments.
@@ -144,6 +189,11 @@ namespace Microsoft.Build.Shared
         {
             VerifyThrowInvalidProject(condition, null, elementLocation, resourceName, arg0, arg1, arg2, arg3);
         }
+        internal static void VerifyThrowInvalidProject<T1, T2, T3, T4>(bool condition, IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName, T1 arg0, T2 arg1, T3 arg2, T4 arg3)
+        {
+            VerifyThrowInvalidProject(condition, null, elementLocation, resourceName, arg0, arg1, arg2, arg3);
+        }
+
 
         /// <summary>
         /// This method is used to flag errors in the project file being processed.
@@ -162,6 +212,14 @@ namespace Microsoft.Build.Shared
                 ThrowInvalidProject(errorSubCategoryResourceName, elementLocation, resourceName, null);
             }
         }
+        internal static void VerifyThrowInvalidProject(bool condition, string errorSubCategoryResourceName, IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName)
+        {
+            if (!condition)
+            {
+                ThrowInvalidProject(errorSubCategoryResourceName, elementLocation, resourceName, null);
+            }
+        }
+
 
         /// <summary>
         /// Overload for one string format argument.
@@ -179,6 +237,14 @@ namespace Microsoft.Build.Shared
                 ThrowInvalidProject(errorSubCategoryResourceName, elementLocation, resourceName, arg0);
             }
         }
+        internal static void VerifyThrowInvalidProject<T1>(bool condition, string errorSubCategoryResourceName, IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName, T1 arg0)
+        {
+            if (!condition)
+            {
+                ThrowInvalidProject(errorSubCategoryResourceName, elementLocation, resourceName, arg0);
+            }
+        }
+
 
         /// <summary>
         /// Overload for two string format arguments.
@@ -197,6 +263,14 @@ namespace Microsoft.Build.Shared
                 ThrowInvalidProject(errorSubCategoryResourceName, elementLocation, resourceName, arg0, arg1);
             }
         }
+        internal static void VerifyThrowInvalidProject<T1, T2>(bool condition, string errorSubCategoryResourceName, IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName, T1 arg0, T2 arg1)
+        {
+            if (!condition)
+            {
+                ThrowInvalidProject(errorSubCategoryResourceName, elementLocation, resourceName, arg0, arg1);
+            }
+        }
+
 
         /// <summary>
         /// Overload for three string format arguments.
@@ -216,6 +290,14 @@ namespace Microsoft.Build.Shared
                 ThrowInvalidProject(errorSubCategoryResourceName, elementLocation, resourceName, arg0, arg1, arg2);
             }
         }
+        internal static void VerifyThrowInvalidProject<T1, T2, T3>(bool condition, string errorSubCategoryResourceName, IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName, T1 arg0, T2 arg1, T3 arg2)
+        {
+            if (!condition)
+            {
+                ThrowInvalidProject(errorSubCategoryResourceName, elementLocation, resourceName, arg0, arg1, arg2);
+            }
+        }
+
 
         /// <summary>
         /// Overload for four string format arguments.
@@ -236,6 +318,14 @@ namespace Microsoft.Build.Shared
                 ThrowInvalidProject(errorSubCategoryResourceName, elementLocation, resourceName, arg0, arg1, arg2, arg3);
             }
         }
+        internal static void VerifyThrowInvalidProject<T1, T2, T3, T4>(bool condition, string errorSubCategoryResourceName, IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName, T1 arg0, T2 arg1, T3 arg2, T4 arg3)
+        {
+            if (!condition)
+            {
+                ThrowInvalidProject(errorSubCategoryResourceName, elementLocation, resourceName, arg0, arg1, arg2, arg3);
+            }
+        }
+
 
         /// <summary>
         /// Throws an InvalidProjectFileException using the given data.
@@ -251,6 +341,23 @@ namespace Microsoft.Build.Shared
         /// <param name="resourceName">The resource string for the error message.</param>
         /// <param name="args">Extra arguments for formatting the error message.</param>
         private static void ThrowInvalidProject(string errorSubCategoryResourceName, IElementLocation elementLocation, string resourceName, params object[] args)
+        {
+            Assumed.NotNull(elementLocation);
+#if DEBUG
+            if (errorSubCategoryResourceName != null)
+            {
+                ResourceUtilities.VerifyResourceStringExists(errorSubCategoryResourceName);
+            }
+
+            ResourceUtilities.VerifyResourceStringExists(resourceName);
+#endif
+            string errorSubCategory = errorSubCategoryResourceName is null ? null : AssemblyResources.GetString(errorSubCategoryResourceName);
+
+            string message = ResourceUtilities.FormatResourceStringStripCodeAndKeyword(out string errorCode, out string helpKeyword, resourceName, args);
+
+            throw new InvalidProjectFileException(elementLocation.File, elementLocation.Line, elementLocation.Column, 0 /* Unknown end line */, 0 /* Unknown end column */, message, errorSubCategory, errorCode, helpKeyword);
+        }
+        private static void ThrowInvalidProject(string errorSubCategoryResourceName, IElementLocation elementLocation, global::Microsoft.Build.Framework.Resources.StringResource resourceName, params object[] args)
         {
             Assumed.NotNull(elementLocation);
 #if DEBUG

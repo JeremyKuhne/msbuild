@@ -118,7 +118,7 @@ namespace Microsoft.Build.Tasks
 
         public override bool Execute()
         {
-            Log.LogErrorWithCodeFromResources("SGen.TaskNotSupported", nameof(SGen));
+            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SGen_TaskNotSupported, nameof(SGen));
             return false;
         }
 
@@ -167,7 +167,7 @@ namespace Microsoft.Build.Tasks
                 catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                 {
                     // If it is an Expected Exception log the error
-                    Log.LogErrorWithCodeFromResources("SGen.InvalidPath", "BuildAssemblyPath", e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SGen_InvalidPath, "BuildAssemblyPath", e.Message);
                     throw;
                 }
 
@@ -239,7 +239,7 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (ArgumentException e)
                 {
-                    Log.LogErrorWithCodeFromResources("SGen.InvalidPath", "BuildAssemblyName", e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SGen_InvalidPath, "BuildAssemblyName", e.Message);
                     throw;
                 }
                 prunedAssemblyName += ".XmlSerializers.dll";
@@ -321,7 +321,7 @@ namespace Microsoft.Build.Tasks
                 {
                     if (string.IsNullOrEmpty(reference) || !FileSystems.Default.FileExists(TaskEnvironment.GetAbsolutePath(reference)))
                     {
-                        Log.LogErrorWithCodeFromResources("SGen.ResourceNotFound", reference);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SGen_ResourceNotFound, reference);
                         return false;
                     }
                 }
@@ -430,11 +430,11 @@ namespace Microsoft.Build.Tasks
                 // leave the earlier produced assembly around to be propagated by later processes.
                 catch (UnauthorizedAccessException e)
                 {
-                    Log.LogErrorWithCodeFromResources("SGen.CouldNotDeleteSerializer", SerializationAssemblyPath.OriginalValue, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SGen_CouldNotDeleteSerializer, SerializationAssemblyPath.OriginalValue, e.Message);
                 }
                 catch (IOException e)
                 {
-                    Log.LogErrorWithCodeFromResources("SGen.CouldNotDeleteSerializer", SerializationAssemblyPath.OriginalValue, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SGen_CouldNotDeleteSerializer, SerializationAssemblyPath.OriginalValue, e.Message);
                 }
                 // The DirectoryNotFoundException is safely ignorable since that means that there is no
                 // existing serialization assembly.  This would be extremely unlikely anyway because we

@@ -70,7 +70,7 @@ namespace Microsoft.Build.Tasks
                     }
                     catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                     {
-                        Log.LogErrorWithCodeFromResources("ReadLinesFromFile.ErrorOrWarning", filePath.OriginalValue, e.Message);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReadLinesFromFile_ErrorOrWarning, filePath.OriginalValue, e.Message);
                         success = false;
                     }
                 }

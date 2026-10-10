@@ -156,8 +156,8 @@ namespace Microsoft.Build.BackEnd.Logging
                 ProjectStartedEventMinimumFields projectStartedEvent = projectStackTrace[i];
 
                 stackTrace[stackTrace.Length - i - 1] = !string.IsNullOrEmpty(projectStartedEvent.TargetNames) ?
-                    ResourceUtilities.FormatResourceStringStripCodeAndKeyword("ProjectStackWithTargetNames", projectStartedEvent.ProjectFile, projectStartedEvent.TargetNames, projectStartedEvent.FullProjectKey) :
-                    ResourceUtilities.FormatResourceStringStripCodeAndKeyword("ProjectStackWithDefaultTargets", projectStartedEvent.ProjectFile, projectStartedEvent.FullProjectKey);
+                    ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectStackWithTargetNames, projectStartedEvent.ProjectFile, projectStartedEvent.TargetNames, projectStartedEvent.FullProjectKey) :
+                    ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectStackWithDefaultTargets, projectStartedEvent.ProjectFile, projectStartedEvent.FullProjectKey);
             }
 
             return stackTrace;

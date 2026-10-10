@@ -78,7 +78,7 @@ namespace Microsoft.Build.CommandLine
                 }
                 else
                 {
-                    return base.Message + Environment.NewLine + ResourceUtilities.FormatResourceStringStripCodeAndKeyword("InvalidSwitchIndicator", invalidSwitch);
+                    return base.Message + Environment.NewLine + ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidSwitchIndicator, invalidSwitch);
                 }
             }
         }
@@ -111,6 +111,11 @@ namespace Microsoft.Build.CommandLine
         {
             VerifyThrow(condition, messageResourceName, null);
         }
+        internal static void VerifyThrow(bool condition, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName)
+        {
+            VerifyThrow(condition, messageResourceName, null);
+        }
+
 
         /// <summary>
         /// Throws the exception if the specified condition is not met.
@@ -131,6 +136,20 @@ namespace Microsoft.Build.CommandLine
             }
 #endif
         }
+        internal static void VerifyThrow(bool condition, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, string invalidSwitch)
+        {
+            if (!condition)
+            {
+                Throw(messageResourceName, invalidSwitch, null, false);
+            }
+#if DEBUG
+            else
+            {
+                ResourceUtilities.VerifyResourceStringExists(messageResourceName);
+            }
+#endif
+        }
+
 
         /// <summary>
         /// Throws the exception using the given exception context.
@@ -157,6 +176,25 @@ namespace Microsoft.Build.CommandLine
 
             InitializationException.Throw(errorMessage, invalidSwitch);
         }
+        internal static void Throw(global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, string invalidSwitch, Exception e, bool showStackTrace)
+        {
+            string errorMessage = AssemblyResources.GetString(messageResourceName);
+
+            Assumed.NotNull(errorMessage, "The resource string must exist.");
+
+            if (showStackTrace && e != null)
+            {
+                errorMessage += Environment.NewLine + e.ToString();
+            }
+            else
+            {
+                // the exception message can contain a format item i.e. "{0}" to hold the given exception's message
+                errorMessage = MessageFormatter.Format(errorMessage, e?.Message ?? string.Empty);
+            }
+
+            InitializationException.Throw(errorMessage, invalidSwitch);
+        }
+
 
         /// <summary>
         /// Throws the exception using the given exception context and can include the logger name.
@@ -179,6 +217,25 @@ namespace Microsoft.Build.CommandLine
 
             InitializationException.Throw(errorMessage, invalidSwitch);
         }
+        internal static void Throw(global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, string invalidSwitch, Exception e, bool showStackTrace, params object[] formatArgs)
+        {
+            string errorMessage = AssemblyResources.GetString(messageResourceName);
+
+            Assumed.NotNull(errorMessage, "The resource string must exist.");
+
+            // the exception message can contain a format item i.e.
+            // "{0}" to hold the logger name
+            // "{1}" to hold the given exception's message
+            errorMessage = MessageFormatter.Format(errorMessage, formatArgs);
+
+            if (showStackTrace && e != null)
+            {
+                errorMessage += Environment.NewLine + e.ToString();
+            }
+
+            InitializationException.Throw(errorMessage, invalidSwitch);
+        }
+
 
         /// <summary>
         /// Throws the exception if the specified condition is not met.
@@ -196,6 +253,20 @@ namespace Microsoft.Build.CommandLine
                 InitializationException.Throw(errorMessage, invalidSwitch);
             }
         }
+        internal static void VerifyThrow(bool condition, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, string invalidSwitch, params object[] args)
+        {
+            if (!condition)
+            {
+                string errorMessage = AssemblyResources.GetString(messageResourceName);
+
+                Assumed.NotNull(errorMessage, "The resource string must exist.");
+
+                errorMessage = MessageFormatter.Format(errorMessage, args);
+
+                InitializationException.Throw(errorMessage, invalidSwitch);
+            }
+        }
+
 
         /// <summary>
         /// Throws the exception using the given exception context.

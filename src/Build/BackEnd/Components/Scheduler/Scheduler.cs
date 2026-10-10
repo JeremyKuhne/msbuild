@@ -615,13 +615,13 @@ namespace Microsoft.Build.BackEnd
         {
             ILoggingService loggingService = _componentHost.LoggingService;
             BuildEventContext context = new BuildEventContext(submissionId, 0, 0, 0, 0, 0);
-            loggingService.LogComment(context, MessageImportance.Normal, "DetailedSummaryHeader");
+            loggingService.LogComment(context, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@DetailedSummaryHeader);
 
             foreach (SchedulableRequest request in _schedulingData.GetRequestsByHierarchy(null))
             {
                 if (request.BuildRequest.SubmissionId == submissionId)
                 {
-                    loggingService.LogComment(context, MessageImportance.Normal, "BuildHierarchyHeader");
+                    loggingService.LogComment(context, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildHierarchyHeader);
                     WriteRecursiveSummary(loggingService, context, submissionId, request, 0, false /* useConfigurations */, true /* isLastChild */);
                 }
             }
@@ -1457,7 +1457,7 @@ namespace Microsoft.Build.BackEnd
 
                     if (loggedWarnings == 0)
                     {
-                        _inprocNodeContext.LogWarning("ProxyRequestNotScheduledOnInprocNode");
+                        _inprocNodeContext.LogWarning(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProxyRequestNotScheduledOnInprocNode);
                     }
                 }
             }
@@ -1843,7 +1843,7 @@ namespace Microsoft.Build.BackEnd
                                 request,
                                 new InvalidOperationException(
                                     ResourceUtilities.FormatResourceStringStripCodeAndKeyword(
-                                        "AffinityConflict",
+                                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AffinityConflict,
                                         requestAffinity,
                                         existingRequestAffinity,
                                         config.ProjectFullPath,
@@ -2083,7 +2083,7 @@ namespace Microsoft.Build.BackEnd
                                 BuildEventContext.InvalidTargetId,
                                 BuildEventContext.InvalidTaskId),
                             MessageImportance.Normal,
-                            "SkippedConstraintsOnRequest",
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SkippedConstraintsOnRequest,
                             parentProjectFullPath,
                             projectFullPath);
                 }
@@ -2101,7 +2101,7 @@ namespace Microsoft.Build.BackEnd
             }
 
             var errorMessage = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(
-                "CacheMissesNotAllowedInIsolatedGraphBuilds",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CacheMissesNotAllowedInIsolatedGraphBuilds,
                 parentConfig.ProjectFullPath,
                 ConcatenateGlobalProperties(parentConfig),
                 requestConfig.ProjectFullPath,
@@ -2465,7 +2465,7 @@ namespace Microsoft.Build.BackEnd
                 nodeIndices.AppendFormat(CultureInfo.InvariantCulture, "{0,-5}   ", indexToAvailableNodeId[i]);
             }
 
-            loggingService.LogComment(context, MessageImportance.Normal, "NodeUtilizationHeader", nodeIndices.ToString());
+            loggingService.LogComment(context, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@NodeUtilizationHeader, nodeIndices.ToString());
 
             // Walk through each of the events and grab all of the events which have the same timestamp to determine what occurred.
             foreach (SchedulingData.SchedulingEvent buildEvent in _schedulingData.BuildEvents)
@@ -2558,7 +2558,7 @@ namespace Microsoft.Build.BackEnd
                 utilizationAverage += utilizationPercent;
             }
 
-            loggingService.LogComment(context, MessageImportance.Normal, "NodeUtilizationSummary", utilitzationPercentages.ToString(), (utilizationAverage / (double)_availableNodes.Count) * 100);
+            loggingService.LogComment(context, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@NodeUtilizationSummary, utilitzationPercentages.ToString(), (utilizationAverage / (double)_availableNodes.Count) * 100);
         }
 
         /// <summary>
@@ -2629,7 +2629,7 @@ namespace Microsoft.Build.BackEnd
             }
             if (haveNonIdleNode)
             {
-                loggingService.LogComment(context, MessageImportance.Normal, "NodeUtilizationEntry", stringBuilder, duration, accumulatedDuration, durationBar);
+                loggingService.LogComment(context, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@NodeUtilizationEntry, stringBuilder, duration, accumulatedDuration, durationBar);
             }
         }
 
@@ -2664,7 +2664,7 @@ namespace Microsoft.Build.BackEnd
             loggingService.LogComment(
                 context,
                 MessageImportance.Normal,
-                "BuildHierarchyEntry",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildHierarchyEntry,
                 prePadString.ToString(),
                 useConfigurations ? request.BuildRequest.ConfigurationId : request.BuildRequest.GlobalRequestId,
                 new String(' ', postPad),

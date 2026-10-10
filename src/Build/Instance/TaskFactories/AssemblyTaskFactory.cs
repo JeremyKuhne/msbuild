@@ -266,13 +266,13 @@ namespace Microsoft.Build.BackEnd
                 string assemblyName = loadInfo.AssemblyName ?? Path.GetFileName(loadInfo.AssemblyFile);
                 using var assemblyLoadsTracker = AssemblyLoadsTracker.StartTracking(targetLoggingContext, AssemblyLoadingContext.TaskRun, assemblyName);
                 _loadedType = _typeLoader.Load(taskName, loadInfo, targetLoggingContext.LogWarning, taskHostExplicitlyRequested, taskHostParamsMatchCurrentProc);
-                ProjectErrorUtilities.VerifyThrowInvalidProject(_loadedType != null, elementLocation, "TaskLoadFailure", taskName, loadInfo.AssemblyLocation, String.Empty);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(_loadedType != null, elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailure, taskName, loadInfo.AssemblyLocation, String.Empty);
             }
             catch (TargetInvocationException e)
             {
                 // Exception thrown by the called code itself
                 // Log the stack, so the task vendor can fix their code
-                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "TaskLoadFailure", taskName, loadInfo.AssemblyLocation, Environment.NewLine + e.InnerException.ToString());
+                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailure, taskName, loadInfo.AssemblyLocation, Environment.NewLine + e.InnerException.ToString());
             }
             catch (ReflectionTypeLoadException e)
             {
@@ -281,20 +281,20 @@ namespace Microsoft.Build.BackEnd
                 {
                     if (exception != null)
                     {
-                        targetLoggingContext.LogError(new BuildEventFileInfo(taskProjectFile), "TaskLoadFailure", taskName, loadInfo.AssemblyLocation, exception.Message);
+                        targetLoggingContext.LogError(new BuildEventFileInfo(taskProjectFile), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailure, taskName, loadInfo.AssemblyLocation, exception.Message);
                     }
                 }
 
-                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "TaskLoadFailure", taskName, loadInfo.AssemblyLocation, e.Message);
+                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailure, taskName, loadInfo.AssemblyLocation, e.Message);
             }
             catch (ArgumentNullException e)
             {
                 // taskName may be null
-                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "TaskLoadFailure", taskName, loadInfo.AssemblyLocation, e.Message);
+                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailure, taskName, loadInfo.AssemblyLocation, e.Message);
             }
             catch (Exception e) when (!ExceptionHandling.NotExpectedReflectionException(e))
             {
-                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "TaskLoadFailure", taskName, loadInfo.AssemblyLocation, e.Message);
+                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailure, taskName, loadInfo.AssemblyLocation, e.Message);
             }
 
             return _loadedType;
@@ -472,7 +472,7 @@ namespace Microsoft.Build.BackEnd
             {
                 // Exception thrown by the called code itself
                 // Log the stack, so the task vendor can fix their code
-                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "TaskLoadFailure", taskName, _loadedType.Assembly.AssemblyLocation, Environment.NewLine + e.InnerException.ToString());
+                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailure, taskName, _loadedType.Assembly.AssemblyLocation, Environment.NewLine + e.InnerException.ToString());
             }
             catch (ReflectionTypeLoadException e)
             {
@@ -481,27 +481,27 @@ namespace Microsoft.Build.BackEnd
                 {
                     if (exception != null)
                     {
-                        targetLoggingContext.LogError(new BuildEventFileInfo(taskProjectFile), "TaskLoadFailure", taskName, _loadedType.Assembly.AssemblyLocation, exception.Message);
+                        targetLoggingContext.LogError(new BuildEventFileInfo(taskProjectFile), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailure, taskName, _loadedType.Assembly.AssemblyLocation, exception.Message);
                     }
                 }
 
-                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "TaskLoadFailure", taskName, _loadedType.Assembly.AssemblyLocation, e.Message);
+                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailure, taskName, _loadedType.Assembly.AssemblyLocation, e.Message);
             }
             catch (ArgumentNullException e)
             {
                 // taskName may be null
-                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "TaskLoadFailure", taskName, _loadedType.Assembly.AssemblyLocation, e.Message);
+                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailure, taskName, _loadedType.Assembly.AssemblyLocation, e.Message);
             }
 #if NETCOREAPP
             catch (FileNotFoundException e)
             {
                 // The specified task assembly could not be found, it might be misspelled. It usually discovered during MetadataLoadContext run.
-                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "TaskLoadFailure", taskName, _loadedType.Assembly.AssemblyLocation, e.Message);
+                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailure, taskName, _loadedType.Assembly.AssemblyLocation, e.Message);
             }
 #endif
             catch (Exception e) when (!ExceptionHandling.NotExpectedReflectionException(e))
             {
-                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "TaskLoadFailure", taskName, _loadedType.Assembly.AssemblyLocation, e.Message);
+                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailure, taskName, _loadedType.Assembly.AssemblyLocation, e.Message);
             }
 
             return false;
@@ -523,7 +523,7 @@ namespace Microsoft.Build.BackEnd
                 {
                     ProjectErrorUtilities.ThrowInvalidProject(
                         errorLocation,
-                        "TaskLoadFailureInvalidTaskHostFactoryParameter",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailureInvalidTaskHostFactoryParameter,
                         taskName,
                         identityParameters.Runtime,
                         runtimeName,
@@ -540,7 +540,7 @@ namespace Microsoft.Build.BackEnd
                 {
                     ProjectErrorUtilities.ThrowInvalidProject(
                         errorLocation,
-                        "TaskLoadFailureInvalidTaskHostFactoryParameter",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailureInvalidTaskHostFactoryParameter,
                         taskName,
                         identityParameters.Architecture,
                         architectureName,

@@ -87,7 +87,7 @@ namespace Microsoft.Build.Tasks
             else
             {
                 hardLinkCreated = link(exitingFileName, newFileName) == 0;
-                errorMessage = hardLinkCreated ? null : log.FormatResourceString("Copy.NonWindowsLinkErrorMessage", "link()", Marshal.GetLastWin32Error());
+                errorMessage = hardLinkCreated ? null : log.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Copy_NonWindowsLinkErrorMessage, "link()", Marshal.GetLastWin32Error());
             }
 
             return hardLinkCreated;

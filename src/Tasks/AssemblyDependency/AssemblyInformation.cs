@@ -532,7 +532,7 @@ namespace Microsoft.Build.Tasks
                         if (!hasMetadata)
                         {
                             throw new BadImageFormatException(string.Format(CultureInfo.CurrentCulture,
-                                AssemblyResources.GetString("ResolveAssemblyReference.AssemblyDoesNotContainPEMetadata"),
+                                AssemblyResources.GetString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_AssemblyDoesNotContainPEMetadata),
                                 _sourceFile));
                         }
                     }

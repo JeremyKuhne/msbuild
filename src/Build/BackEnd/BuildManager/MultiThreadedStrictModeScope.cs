@@ -67,7 +67,7 @@ internal sealed class MultiThreadedStrictModeScope
         {
             if (s_activeScope is not null)
             {
-                throw new InvalidOperationException(ResourceUtilities.GetResourceString("MultiThreadedStrictModeAlreadyActive"));
+                throw new InvalidOperationException(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MultiThreadedStrictModeAlreadyActive));
             }
 
             string directoryToRestore = snapshot.RestoreTarget;
@@ -166,7 +166,7 @@ internal sealed class MultiThreadedStrictModeScope
             if (RecoverSentinelDirectory(taskLocation, e))
             {
                 taskLoggingContext.LogWarning(null, new BuildEventFileInfo(taskLocation),
-                    "MultiThreadedStrictModeSentinelMissing", SentinelDirectory);
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MultiThreadedStrictModeSentinelMissing, SentinelDirectory);
             }
 
             return false;
@@ -180,13 +180,13 @@ internal sealed class MultiThreadedStrictModeScope
         if (convertErrorsToWarnings)
         {
             taskLoggingContext.LogWarning(null, new BuildEventFileInfo(taskLocation),
-                "MultiThreadedStrictModeCurrentDirectoryChanged", taskName, unexpectedDirectory, SentinelDirectory);
-            taskLoggingContext.LogComment(MessageImportance.Normal, "ErrorConvertedIntoWarning");
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MultiThreadedStrictModeCurrentDirectoryChanged, taskName, unexpectedDirectory, SentinelDirectory);
+            taskLoggingContext.LogComment(MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ErrorConvertedIntoWarning);
         }
         else
         {
             taskLoggingContext.LogError(new BuildEventFileInfo(taskLocation),
-                "MultiThreadedStrictModeCurrentDirectoryChanged", taskName, unexpectedDirectory, SentinelDirectory);
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MultiThreadedStrictModeCurrentDirectoryChanged, taskName, unexpectedDirectory, SentinelDirectory);
         }
 
         return true;
@@ -260,7 +260,7 @@ internal sealed class MultiThreadedStrictModeScope
                     if (failure is not (DirectoryNotFoundException or FileNotFoundException) && sentinelExists)
                     {
                         ProjectErrorUtilities.ThrowInvalidProject(location,
-                            "MultiThreadedStrictModeSentinelRecoveryFailed", SentinelDirectory, failure.Message);
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MultiThreadedStrictModeSentinelRecoveryFailed, SentinelDirectory, failure.Message);
                     }
 
                     string? currentDirectory = null;
@@ -290,7 +290,7 @@ internal sealed class MultiThreadedStrictModeScope
                 catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                 {
                     ProjectErrorUtilities.ThrowInvalidProject(location,
-                        "MultiThreadedStrictModeSentinelRecoveryFailed", SentinelDirectory, e.Message);
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MultiThreadedStrictModeSentinelRecoveryFailed, SentinelDirectory, e.Message);
                     throw;
                 }
             }

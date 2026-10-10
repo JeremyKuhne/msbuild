@@ -220,7 +220,7 @@ namespace Microsoft.Build.Tasks
                 // If there aren't any input resources, well, we've already succeeded!
                 if (IsNullOrEmpty(InputFiles))
                 {
-                    Log.LogMessageFromResources(MessageImportance.Low, "ResGen.NoInputFiles");
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResGen_NoInputFiles);
                     return !Log.HasLoggedErrors;
                 }
 
@@ -237,7 +237,7 @@ namespace Microsoft.Build.Tasks
                 // when comparing command line length, need to add one for leading space added between command arguments and tool name
                 if (!string.IsNullOrEmpty(commandLineCommands) && (commandLineCommands.Length + 1) > s_maximumCommandLength)
                 {
-                    Log.LogErrorWithCodeFromResources("ResGen.CommandTooLong", commandLineCommands.Length);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResGen_CommandTooLong, commandLineCommands.Length);
                     success = false;
                 }
                 else
@@ -407,7 +407,7 @@ namespace Microsoft.Build.Tasks
                 // make sure that if the output resources were set, they exactly match the number of input sources
                 if (!IsNullOrEmpty(OutputFiles) && (OutputFiles.Length != InputFiles.Length))
                 {
-                    Log.LogErrorWithCodeFromResources("General.TwoVectorsMustHaveSameLength", InputFiles.Length, OutputFiles.Length, "InputFiles", "OutputFiles");
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_TwoVectorsMustHaveSameLength, InputFiles.Length, OutputFiles.Length, "InputFiles", "OutputFiles");
                     return false;
                 }
 
@@ -419,7 +419,7 @@ namespace Microsoft.Build.Tasks
                     // STR classes for each input, but then the class name and file name parameters would have to be vectors.
                     if (InputFiles.Length != 1)
                     {
-                        Log.LogErrorWithCodeFromResources("ResGen.STRLanguageButNotExactlyOneSourceFile");
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResGen_STRLanguageButNotExactlyOneSourceFile);
                         return false;
                     }
                 }
@@ -432,7 +432,7 @@ namespace Microsoft.Build.Tasks
                     {
                         // We have no language to generate a STR, but nevertheless the user passed us a class,
                         // namespace, and/or filename. Let them know that they probably wanted to pass a language too.
-                        Log.LogErrorWithCodeFromResources("ResGen.STRClassNamespaceOrFilenameWithoutLanguage");
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResGen_STRClassNamespaceOrFilenameWithoutLanguage);
                         return false;
                     }
                 }
@@ -442,7 +442,7 @@ namespace Microsoft.Build.Tasks
                 if ((String.IsNullOrEmpty(ToolPath) || !FileSystems.Default.DirectoryExists(ToolPath)) &&
                     (String.IsNullOrEmpty(SdkToolsPath) || !FileSystems.Default.DirectoryExists(SdkToolsPath)))
                 {
-                    Log.LogErrorWithCodeFromResources("ResGen.SdkOrToolPathNotSpecifiedOrInvalid", SdkToolsPath ?? "", ToolPath ?? "");
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResGen_SdkOrToolPathNotSpecifiedOrInvalid, SdkToolsPath ?? "", ToolPath ?? "");
                     return false;
                 }
 

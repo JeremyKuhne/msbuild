@@ -51,7 +51,7 @@ namespace Microsoft.Build.Construction
         public override string Condition
         {
             get => null;
-            set => ErrorUtilities.ThrowInvalidOperation("OM_CannotGetSetCondition");
+            set => ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_CannotGetSetCondition);
         }
 
         #region ChildEnumerators
@@ -99,7 +99,7 @@ namespace Microsoft.Build.Construction
         /// </summary>
         internal override void VerifyThrowInvalidOperationAcceptableLocation(ProjectElementContainer parent, ProjectElement previousSibling, ProjectElement nextSibling)
         {
-            ErrorUtilities.VerifyThrowInvalidOperation(parent is ProjectRootElement || parent is ProjectWhenElement || parent is ProjectOtherwiseElement, "OM_CannotAcceptParent");
+            ErrorUtilities.VerifyThrowInvalidOperation(parent is ProjectRootElement || parent is ProjectWhenElement || parent is ProjectOtherwiseElement, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_CannotAcceptParent);
 
             int nestingDepth = 0;
             ProjectElementContainer immediateParent = parent;
@@ -111,7 +111,7 @@ namespace Microsoft.Build.Construction
                 nestingDepth++;
 
                 // This should really be an OM error, with no error number. But it's so obscure, it's not worth a new string.
-                ProjectErrorUtilities.VerifyThrowInvalidProject(nestingDepth <= ProjectParser.MaximumChooseNesting, immediateParent.Location, "ChooseOverflow", ProjectParser.MaximumChooseNesting);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(nestingDepth <= ProjectParser.MaximumChooseNesting, immediateParent.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ChooseOverflow, ProjectParser.MaximumChooseNesting);
             }
         }
 

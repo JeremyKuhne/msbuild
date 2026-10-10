@@ -75,7 +75,7 @@ namespace Microsoft.Build.Tasks
                 catch (ArgumentException e)
                 {
                     // Catch exceptions from path.combine
-                    log.LogErrorWithCodeFromResources("General.SdkToolsPathError", toolName, e.Message);
+                    log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_SdkToolsPathError, toolName, e.Message);
                     return null;
                 }
 
@@ -89,7 +89,7 @@ namespace Microsoft.Build.Tasks
                     {
                         // Log an error indicating we could not find it in the processor specific architecture or x86 locations.
                         // We could not find the tool at all, lot a error.
-                        log.LogWarningWithCodeFromResources("General.PlatformSDKFileNotFoundSdkToolsPath", toolName, processorSpecificToolDirectory, sdkToolsPath);
+                        log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_PlatformSDKFileNotFoundSdkToolsPath, toolName, processorSpecificToolDirectory, sdkToolsPath);
                     }
                 }
             }
@@ -97,7 +97,7 @@ namespace Microsoft.Build.Tasks
             {
                 if (logErrorsAndWarnings)
                 {
-                    log.LogMessageFromResources(MessageImportance.Low, "General.SdkToolsPathNotSpecifiedOrToolDoesNotExist", toolName, sdkToolsPath);
+                    log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_SdkToolsPathNotSpecifiedOrToolDoesNotExist, toolName, sdkToolsPath);
                 }
             }
 
@@ -110,7 +110,7 @@ namespace Microsoft.Build.Tasks
 
                 if (pathToTool == null && logErrorsAndWarnings)
                 {
-                    log.LogErrorWithCodeFromResources("General.SdkToolsPathToolDoesNotExist", toolName, sdkToolsPath, ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(TargetDotNetFrameworkVersion.Latest, VisualStudioVersion.VersionLatest));
+                    log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_SdkToolsPathToolDoesNotExist, toolName, sdkToolsPath, ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(TargetDotNetFrameworkVersion.Latest, VisualStudioVersion.VersionLatest));
                 }
             }
 

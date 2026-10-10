@@ -1382,7 +1382,7 @@ namespace Microsoft.Build.Tasks
                                     var newVerStr = idealRemapping.BindingRedirects[j].NewVersion.ToString();
                                     Log.LogMessageFromResources(
                                         MessageImportance.High,
-                                        "ResolveAssemblyReference.ConflictRedirectSuggestion",
+                                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_ConflictRedirectSuggestion,
                                         idealRemappingPartialAssemblyName,
                                         conflictVictim.Version,
                                         victimReference.FullPath,
@@ -1431,13 +1431,13 @@ namespace Microsoft.Build.Tasks
                             {
                                 if (!AutoUnify)
                                 {
-                                    Log.LogWarningWithCodeFromResources("ResolveAssemblyReference.TurnOnAutoGenerateBindingRedirects");
+                                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_TurnOnAutoGenerateBindingRedirects);
                                 }
                                 // else we'll generate bindingRedirects to address the remappings
                             }
                             else if (!AutoUnify)
                             {
-                                Log.LogWarningWithCodeFromResources("ResolveAssemblyReference.SuggestedRedirects", buffer.ToString());
+                                Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_SuggestedRedirects, buffer.ToString());
                             }
                             // else AutoUnify is on and bindingRedirect generation is not supported
                             // we don't warn in this case since the binder will automatically unify these remappings
@@ -1451,7 +1451,7 @@ namespace Microsoft.Build.Tasks
                     {
                         if (error is InvalidReferenceAssemblyNameException e)
                         {
-                            Log.LogWarningWithCodeFromResources("General.MalformedAssemblyName", e.SourceItemSpec);
+                            Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_MalformedAssemblyName, e.SourceItemSpec);
                         }
                         else
                         {
@@ -1473,11 +1473,11 @@ namespace Microsoft.Build.Tasks
 
                             if (assemblyFoldersEx != null && _showAssemblyFoldersExLocations.TryGetValue(r.SearchPath, out messageImportance))
                             {
-                                Log.LogMessageFromResources(messageImportance, "ResolveAssemblyReference.AssemblyFoldersExSearchLocations", r.SearchPath);
+                                Log.LogMessageFromResources(messageImportance, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_AssemblyFoldersExSearchLocations, r.SearchPath);
                                 foreach (var path in assemblyFoldersEx.UniqueDirectoryPaths)
                                 {
                                     _cancellationTokenSource.Token.ThrowIfCancellationRequested();
-                                    Log.LogMessageFromResources(messageImportance, "ResolveAssemblyReference.EightSpaceIndent", path);
+                                    Log.LogMessageFromResources(messageImportance, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_EightSpaceIndent, path);
                                 }
                             }
                         }
@@ -1524,7 +1524,7 @@ namespace Microsoft.Build.Tasks
             Assumed.NotNull(conflictCandidate);
             log.Append(Strings.FourSpaces);
 
-            string resource = referenceIsUnified ? "AssemblyConflict_UnifiedReferenceDependsOn" : "AssemblyConflict_ReferenceDependsOn";
+            var resource = referenceIsUnified ? global::Microsoft.Build.Framework.Resources.SR.Resources.AssemblyConflict_UnifiedReferenceDependsOn : global::Microsoft.Build.Framework.Resources.SR.Resources.AssemblyConflict_ReferenceDependsOn;
 
             log.Append(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(resource, fusionName, conflictCandidate.FullPath));
 
@@ -1539,7 +1539,7 @@ namespace Microsoft.Build.Tasks
                     log
                         .AppendLine()
                         .Append(Strings.EightSpaces)
-                        .Append(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("AssemblyConflict_UnResolvedPrimaryItemSpec", conflictCandidate.PrimarySourceItem));
+                        .Append(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Framework.Resources.SR.Resources.@AssemblyConflict_UnResolvedPrimaryItemSpec, conflictCandidate.PrimarySourceItem));
                 }
             }
 
@@ -1559,7 +1559,7 @@ namespace Microsoft.Build.Tasks
         {
             log.AppendLine().Append(Strings.EightSpaces).AppendLine(dependeeReference.FullPath);
 
-            log.Append(Strings.TenSpaces).Append(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("AssemblyConflict_PrimarySourceItemsForReference", dependeeReference.FullPath));
+            log.Append(Strings.TenSpaces).Append(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Framework.Resources.SR.Resources.@AssemblyConflict_PrimarySourceItemsForReference, dependeeReference.FullPath));
             foreach (ITaskItem sourceItem in dependeeReference.GetSourceItems())
             {
                 log.AppendLine().Append(Strings.TwelveSpaces).Append(sourceItem.ItemSpec);
@@ -1902,19 +1902,19 @@ namespace Microsoft.Build.Tasks
 
                 if (itemError is ReferenceResolutionException)
                 {
-                    message = Log.FormatResourceString("ResolveAssemblyReference.FailedToResolveReference", itemError.Message);
+                    message = Log.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_FailedToResolveReference, itemError.Message);
                     helpKeyword = "MSBuild.ResolveAssemblyReference.FailedToResolveReference";
                     dependencyProblem = false;
                 }
                 else if (itemError is DependencyResolutionException)
                 {
-                    message = Log.FormatResourceString("ResolveAssemblyReference.FailedToFindDependentFiles", itemError.Message);
+                    message = Log.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_FailedToFindDependentFiles, itemError.Message);
                     helpKeyword = "MSBuild.ResolveAssemblyReference.FailedToFindDependentFiles";
                     dependencyProblem = true;
                 }
                 else if (itemError is BadImageReferenceException)
                 {
-                    message = Log.FormatResourceString("ResolveAssemblyReference.FailedWithException", itemError.Message);
+                    message = Log.FormatResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_FailedWithException, itemError.Message);
                     helpKeyword = "MSBuild.ResolveAssemblyReference.FailedWithException";
                     dependencyProblem = false;
                 }
@@ -2276,20 +2276,20 @@ namespace Microsoft.Build.Tasks
         /// <param name="log">StringBuilder holding information to be logged.</param>
         private void LogConflict(Reference reference, string fusionName, StringBuilder log)
         {
-            log.Append(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("AssemblyConflict_ConflictFound", reference.ConflictVictorName, fusionName));
+            log.Append(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Framework.Resources.SR.Resources.@AssemblyConflict_ConflictFound, reference.ConflictVictorName, fusionName));
             switch (reference.ConflictLossExplanation)
             {
                 case ConflictLossReason.HadLowerVersion:
                     {
                         Debug.Assert(!reference.IsPrimary, "A primary reference should never lose a conflict because of version. This is an insoluble conflict instead.");
-                        string message = Log.FormatResourceString("AssemblyConflict_ConflictHigherVersionChosen", reference.ConflictVictorName);
+                        string message = Log.FormatResourceString(global::Microsoft.Build.Framework.Resources.SR.Resources.@AssemblyConflict_ConflictHigherVersionChosen, reference.ConflictVictorName);
                         log.AppendLine().Append(Strings.FourSpaces).Append(message);
                         break;
                     }
 
                 case ConflictLossReason.WasNotPrimary:
                     {
-                        string message = Log.FormatResourceString("AssemblyConflict_ConflictPrimaryChosen", reference.ConflictVictorName, fusionName);
+                        string message = Log.FormatResourceString(global::Microsoft.Build.Framework.Resources.SR.Resources.@AssemblyConflict_ConflictPrimaryChosen, reference.ConflictVictorName, fusionName);
                         log.AppendLine().Append(Strings.FourSpaces).Append(message);
                         break;
                     }
@@ -2309,7 +2309,7 @@ namespace Microsoft.Build.Tasks
                     {
                         // For dependencies, adding an app.config entry could help. Log a comment, there will be
                         // a summary warning later on.
-                        log.AppendLine().Append(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("AssemblyConflict_ConflictUnsolvable", reference.ConflictVictorName, fusionName));
+                        log.AppendLine().Append(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Framework.Resources.SR.Resources.@AssemblyConflict_ConflictUnsolvable, reference.ConflictVictorName, fusionName));
                     }
                     break;
                 // Can happen if one of the references has a dependency with the same simplename, and version but no publickeytoken and the other does.
@@ -2692,7 +2692,7 @@ namespace Microsoft.Build.Tasks
                         catch (ArgumentException)
                         {
                             // The exception doesn't contain the bad value, so log it ourselves
-                            Log.LogErrorWithCodeFromResources("ResolveAssemblyReference.InvalidParameter", "TargetFrameworkMoniker", _targetedFrameworkMoniker, String.Empty);
+                            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_InvalidParameter, "TargetFrameworkMoniker", _targetedFrameworkMoniker, String.Empty);
                             return false;
                         }
                     }
@@ -2759,13 +2759,13 @@ namespace Microsoft.Build.Tasks
                             }
                             else
                             {
-                                Log.LogWarningWithCodeFromResources("ResolveAssemblyReference.NoSubsetsFound");
+                                Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_NoSubsetsFound);
                             }
 
                             // Could get into this situation if the redist list files were full of junk and no assemblies were read in.
                             if (exclusionList == null)
                             {
-                                Log.LogWarningWithCodeFromResources("ResolveAssemblyReference.NoRedistAssembliesToGenerateExclusionList");
+                                Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_NoRedistAssembliesToGenerateExclusionList);
                             }
 
                             subsetOrProfileName = GenerateSubSetName(_targetFrameworkSubsets, _installedAssemblySubsetTables);
@@ -2813,7 +2813,7 @@ namespace Microsoft.Build.Tasks
                             string filename = redistList.ErrorFileNames[i];
 
                             // Give the user a warning about the bad file (or files).
-                            Log.LogWarningWithCodeFromResources("ResolveAssemblyReference.InvalidInstalledAssemblyTablesFile", filename, RedistList.RedistListFolder, e.Message);
+                            Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_InvalidInstalledAssemblyTablesFile, filename, RedistList.RedistListFolder, e.Message);
                         }
 
                         // Some files may have been skipped. Log warnings for these.
@@ -2823,7 +2823,7 @@ namespace Microsoft.Build.Tasks
                             string filename = inclusionListErrorFilesNames[i];
 
                             // Give the user a warning about the bad file (or files).
-                            Log.LogWarningWithCodeFromResources("ResolveAssemblyReference.InvalidInstalledAssemblySubsetTablesFile", filename, SubsetListFinder.SubsetListFolder, e.Message);
+                            Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_InvalidInstalledAssemblySubsetTablesFile, filename, SubsetListFinder.SubsetListFolder, e.Message);
                         }
                     }
 
@@ -2904,15 +2904,15 @@ namespace Microsoft.Build.Tasks
                                 // When cleaning up this change wave, also clean up the _appConfigValueIsEmptyString field
                                 // and the ResolveAssemblyReference.AppConfigFilePathEmpty resource.
                                 Log.LogErrorWithCodeFromResources(
-                                    "ResolveAssemblyReference.InvalidAppConfig",
+                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_InvalidAppConfig,
                                     string.Empty,
-                                    ResourceUtilities.GetResourceString("ResolveAssemblyReference.AppConfigFilePathEmpty"));
+                                    ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_AppConfigFilePathEmpty));
                                 return false;
                             }
                         }
                         catch (AppConfigException e)
                         {
-                            Log.LogErrorWithCodeFromResources(null, e.FileName, e.Line, e.Column, 0, 0, "ResolveAssemblyReference.InvalidAppConfig", _appConfigFile.OriginalValue, e.Message);
+                            Log.LogErrorWithCodeFromResources(null, e.FileName, e.Line, e.Column, 0, 0, messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_InvalidAppConfig, _appConfigFile.OriginalValue, e.Message);
                             return false;
                         }
                     }
@@ -3001,7 +3001,7 @@ namespace Microsoft.Build.Tasks
                         }
                         catch (InvalidOperationException e)
                         {
-                            Log.LogErrorWithCodeFromResources("ResolveAssemblyReference.ProblemDeterminingFrameworkMembership", e.Message);
+                            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_ProblemDeterminingFrameworkMembership, e.Message);
                             return false;
                         }
 
@@ -3037,7 +3037,7 @@ namespace Microsoft.Build.Tasks
                         }
                         catch (InvalidOperationException e)
                         {
-                            Log.LogErrorWithCodeFromResources("ResolveAssemblyReference.ProblemDeterminingFrameworkMembership", e.Message);
+                            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_ProblemDeterminingFrameworkMembership, e.Message);
                             return false;
                         }
 
@@ -3206,11 +3206,11 @@ namespace Microsoft.Build.Tasks
                                 {
                                     if (_warnOrErrorOnTargetArchitectureMismatch == WarnOrErrorOnTargetArchitectureMismatchBehavior.Error)
                                     {
-                                        Log.LogErrorWithCodeFromResources("ResolveAssemblyReference.MismatchBetweenTargetedAndReferencedArch", ProcessorArchitectureToString(processorArchitecture), item.GetMetadata("OriginalItemSpec"), ProcessorArchitectureToString(assemblyArch));
+                                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_MismatchBetweenTargetedAndReferencedArch, ProcessorArchitectureToString(processorArchitecture), item.GetMetadata("OriginalItemSpec"), ProcessorArchitectureToString(assemblyArch));
                                     }
                                     else
                                     {
-                                        Log.LogWarningWithCodeFromResources("ResolveAssemblyReference.MismatchBetweenTargetedAndReferencedArch", ProcessorArchitectureToString(processorArchitecture), item.GetMetadata("OriginalItemSpec"), ProcessorArchitectureToString(assemblyArch));
+                                        Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_MismatchBetweenTargetedAndReferencedArch, ProcessorArchitectureToString(processorArchitecture), item.GetMetadata("OriginalItemSpec"), ProcessorArchitectureToString(assemblyArch));
                                     }
                                 }
                             }
@@ -3225,7 +3225,7 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (ArgumentException e)
                 {
-                    Log.LogErrorWithCodeFromResources("General.InvalidArgument", e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_InvalidArgument, e.Message);
                 }
 
                 // InvalidParameterValueException is thrown inside RAR when we find a specific parameter
@@ -3233,7 +3233,7 @@ namespace Microsoft.Build.Tasks
                 catch (InvalidParameterValueException e)
                 {
                     Log.LogErrorWithCodeFromResources(null, "", 0, 0, 0, 0,
-                        "ResolveAssemblyReference.InvalidParameter", e.ParamName, e.ActualValue, e.Message);
+                        messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_InvalidParameter, e.ParamName, e.ActualValue, e.Message);
                 }
             }
 
@@ -3338,7 +3338,7 @@ namespace Microsoft.Build.Tasks
                 // Cannot be missing the FrameworkDirectory if we are using this property
                 if (String.IsNullOrEmpty(item.GetMetadata("FrameworkDirectory")))
                 {
-                    Log.LogErrorWithCodeFromResources("ResolveAssemblyReference.FrameworkDirectoryOnProfiles", item.ItemSpec);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_FrameworkDirectoryOnProfiles, item.ItemSpec);
                     return;
                 }
             }
@@ -3352,7 +3352,7 @@ namespace Microsoft.Build.Tasks
                 {
                     // Generate the exclusion list by determining what assemblies are in the full framework but not in the profile.
                     // The installedAssemblyTableInfo is the list of xml files for the Client Profile redist, these are the inclusionList xml files.
-                    Log.LogMessageFromResources("ResolveAssemblyReference.ProfileExclusionListWillBeGenerated");
+                    Log.LogMessageFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_ProfileExclusionListWillBeGenerated);
 
                     // Any errors reading the profile redist list will already be logged, we do not need to re-log the errors here.
                     List<Exception> inclusionListErrors = new List<Exception>();
@@ -3363,12 +3363,12 @@ namespace Microsoft.Build.Tasks
                 // Could get into this situation if the redist list files were full of junk and no assemblies were read in.
                 if (exclusionList == null)
                 {
-                    Log.LogWarningWithCodeFromResources("ResolveAssemblyReference.NoRedistAssembliesToGenerateExclusionList");
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_NoRedistAssembliesToGenerateExclusionList);
                 }
             }
             else
             {
-                Log.LogWarningWithCodeFromResources("ResolveAssemblyReference.NoProfilesFound");
+                Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_NoProfilesFound);
             }
 
             if (fullFrameworkRedistList != null)
@@ -3381,7 +3381,7 @@ namespace Microsoft.Build.Tasks
                     string filename = fullFrameworkRedistList.ErrorFileNames[i];
 
                     // Give the user a warning about the bad file (or files).
-                    Log.LogWarningWithCodeFromResources("ResolveAssemblyReference.InvalidProfileRedistLocation", filename, RedistList.RedistListFolder, e.Message);
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_InvalidProfileRedistLocation, filename, RedistList.RedistListFolder, e.Message);
                 }
             }
         }
@@ -3439,14 +3439,14 @@ namespace Microsoft.Build.Tasks
             // Cannot target a subset and a profile at the same time
             if (targetFrameworkSubsetIsSet && profileIsSet)
             {
-                Log.LogErrorWithCodeFromResources("ResolveAssemblyReference.CannotSetProfileAndSubSet");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_CannotSetProfileAndSubSet);
                 return false;
             }
 
             // A profile name and either a FullFrameworkFolders or ProfileTableLocation must be set is a profile is being used
             if (profileNameIsSet && (!fullFrameworkFoldersIsSet && !fullFrameworkTableLocationsIsSet))
             {
-                Log.LogErrorWithCodeFromResources("ResolveAssemblyReference.MustSetProfileNameAndFolderLocations");
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_MustSetProfileNameAndFolderLocations);
                 return false;
             }
 
@@ -3469,9 +3469,9 @@ namespace Microsoft.Build.Tasks
                 return;
             }
 
-            Log.LogMessageFromResources(MessageImportance.Low, "ResolveAssemblyReference.TargetFrameworkSubsetLogHeader");
+            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_TargetFrameworkSubsetLogHeader);
 
-            Log.LogMessageFromResources(MessageImportance.Low, "ResolveAssemblyReference.TargetFrameworkRedistLogHeader");
+            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_TargetFrameworkRedistLogHeader);
             foreach (AssemblyTableInfo redistInfo in installedAssemblyTableInfo)
             {
                 if (redistInfo != null)
@@ -3480,7 +3480,7 @@ namespace Microsoft.Build.Tasks
                 }
             }
 
-            Log.LogMessageFromResources(MessageImportance.Low, "ResolveAssemblyReference.TargetFrameworkAllowListLogHeader");
+            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_TargetFrameworkAllowListLogHeader);
             if (inclusionListSubsetTableInfo != null)
             {
                 foreach (AssemblyTableInfo inclusionListInfo in inclusionListSubsetTableInfo)
@@ -3494,10 +3494,10 @@ namespace Microsoft.Build.Tasks
 
             if (referenceTable.ListOfExcludedAssemblies != null)
             {
-                Log.LogMessageFromResources(MessageImportance.Low, "ResolveAssemblyReference.TargetFrameworkExclusionListLogHeader");
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_TargetFrameworkExclusionListLogHeader);
                 foreach (string assemblyFullName in referenceTable.ListOfExcludedAssemblies)
                 {
-                    Log.LogMessageFromResources(MessageImportance.Low, "ResolveAssemblyReference.FourSpaceIndent", assemblyFullName);
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_FourSpaceIndent, assemblyFullName);
                 }
             }
         }
@@ -3523,7 +3523,7 @@ namespace Microsoft.Build.Tasks
                     {
                         if (!_silent)
                         {
-                            Log.LogMessageFromResources(MessageImportance.Low, "ResolveAssemblyReference.NoExclusionListBecauseofFullClientName", subsetName);
+                            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_NoExclusionListBecauseofFullClientName, subsetName);
                         }
                         return false;
                     }
@@ -3545,7 +3545,7 @@ namespace Microsoft.Build.Tasks
 
             if (!_silent)
             {
-                Log.LogMessageFromResources(MessageImportance.Low, "ResolveAssemblyReference.UsingExclusionList");
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_UsingExclusionList);
             }
             return true;
         }
@@ -3654,7 +3654,7 @@ namespace Microsoft.Build.Tasks
 
                 if (parsedVersion == null)
                 {
-                    Log.LogMessageFromResources(MessageImportance.Normal, "ResolveAssemblyReference.BadTargetFrameworkFormat", version);
+                    Log.LogMessageFromResources(MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_BadTargetFrameworkFormat, version);
                 }
             }
 
@@ -3686,11 +3686,11 @@ namespace Microsoft.Build.Tasks
                 string subType = assembly.GetMetadata(ItemMetadataNames.subType);
                 if (!string.IsNullOrEmpty(subType))
                 {
-                    Log.LogMessageFromResources(MessageImportance.Normal, "ResolveAssemblyReference.IgnoringBecauseNonEmptySubtype", assembly.ItemSpec, subType);
+                    Log.LogMessageFromResources(MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_IgnoringBecauseNonEmptySubtype, assembly.ItemSpec, subType);
                 }
                 else if (!IsAvailableForTargetFramework(assembly.GetMetadata(ItemMetadataNames.targetFramework)))
                 {
-                    Log.LogWarningWithCodeFromResources("ResolveAssemblyReference.FailedToResolveReferenceBecauseHigherTargetFramework", assembly.ItemSpec, assembly.GetMetadata(ItemMetadataNames.targetFramework));
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_FailedToResolveReferenceBecauseHigherTargetFramework, assembly.ItemSpec, assembly.GetMetadata(ItemMetadataNames.targetFramework));
                 }
                 else
                 {

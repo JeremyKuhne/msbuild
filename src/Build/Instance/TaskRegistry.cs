@@ -280,16 +280,16 @@ namespace Microsoft.Build.Execution
                 {
                     if (record.TaskFactoryAttributeName.Equals(RegisteredTaskRecord.AssemblyTaskFactory) || record.TaskFactoryAttributeName.Equals(RegisteredTaskRecord.TaskHostFactory))
                     {
-                        targetLoggingContext.LogComment(MessageImportance.Low, "TaskFound", taskName, taskFactory.Name);
+                        targetLoggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskFound, taskName, taskFactory.Name);
                     }
                     else
                     {
-                        targetLoggingContext.LogComment(MessageImportance.Low, "TaskFoundFromFactory", taskName, taskFactory.Name);
+                        targetLoggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskFoundFromFactory, taskName, taskFactory.Name);
                     }
 
                     if (taskFactory.TaskFactoryLoadedType.HasSTAThreadAttribute)
                     {
-                        targetLoggingContext.LogComment(MessageImportance.Low, "TaskNeedsSTA", taskName);
+                        targetLoggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskNeedsSTA, taskName);
                     }
                 }
             }
@@ -511,7 +511,7 @@ namespace Microsoft.Build.Execution
                     {
                         if (rec.RegisteredName.Equals(taskIdentity.Name, StringComparison.OrdinalIgnoreCase))
                         {
-                            loggingContext.LogError(new BuildEventFileInfo(projectUsingTaskInXml.OverrideLocation), "DuplicateOverrideUsingTaskElement", info.TaskName);
+                            loggingContext.LogError(new BuildEventFileInfo(projectUsingTaskInXml.OverrideLocation), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@DuplicateOverrideUsingTaskElement, info.TaskName);
                             break;
                         }
                     }
@@ -523,7 +523,7 @@ namespace Microsoft.Build.Execution
                     // New record's name may be fully qualified. Use it anyway to account for partial matches.
                     List<RegisteredTaskRecord> unqualifiedTaskNameMatches = [newRecord];
                     _overriddenTasks.Add(unqualifiedTaskName, unqualifiedTaskNameMatches);
-                    loggingContext.LogComment(MessageImportance.Low, "OverrideUsingTaskElementCreated", info.TaskName, projectUsingTaskInXml.OverrideLocation);
+                    loggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OverrideUsingTaskElementCreated, info.TaskName, projectUsingTaskInXml.OverrideLocation);
                 }
             }
 
@@ -1154,7 +1154,7 @@ namespace Microsoft.Build.Execution
                                 UnhandledFactoryError +
 #endif
                                 e.ToString();
-                                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "TaskLoadFailure", taskName, _taskFactoryWrapperInstance.Name, message);
+                                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskLoadFailure, taskName, _taskFactoryWrapperInstance.Name, message);
                             }
                         }
                     }
@@ -1254,16 +1254,16 @@ namespace Microsoft.Build.Execution
                                 {
                                     // We could not find the type (this is what null means from the Load method) but there is no reason given so we can only log the fact that
                                     // we could not find the name given in the task factory attribute in the class specified in the assembly File or assemblyName fields.
-                                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "CouldNotFindFactory", TaskFactoryAttributeName, taskFactoryLoadInfo.AssemblyLocation);
+                                    ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CouldNotFindFactory, TaskFactoryAttributeName, taskFactoryLoadInfo.AssemblyLocation);
                                 }
 
-                                targetLoggingContext.LogComment(MessageImportance.Low, "InitializingTaskFactory", TaskFactoryAttributeName, taskFactoryLoadInfo.AssemblyLocation);
+                                targetLoggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InitializingTaskFactory, TaskFactoryAttributeName, taskFactoryLoadInfo.AssemblyLocation);
                             }
                             catch (TargetInvocationException e)
                             {
                                 // Exception thrown by the called code itself
                                 // Log the stack, so the task vendor can fix their code
-                                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "TaskFactoryLoadFailure", TaskFactoryAttributeName, taskFactoryLoadInfo.AssemblyLocation, Environment.NewLine + e.InnerException.ToString());
+                                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskFactoryLoadFailure, TaskFactoryAttributeName, taskFactoryLoadInfo.AssemblyLocation, Environment.NewLine + e.InnerException.ToString());
                             }
                             catch (ReflectionTypeLoadException e)
                             {
@@ -1272,15 +1272,15 @@ namespace Microsoft.Build.Execution
                                 {
                                     if (exception != null)
                                     {
-                                        targetLoggingContext.LogError(new BuildEventFileInfo(taskProjectFile), "TaskFactoryLoadFailure", TaskFactoryAttributeName, taskFactoryLoadInfo.AssemblyLocation, exception.Message);
+                                        targetLoggingContext.LogError(new BuildEventFileInfo(taskProjectFile), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskFactoryLoadFailure, TaskFactoryAttributeName, taskFactoryLoadInfo.AssemblyLocation, exception.Message);
                                     }
                                 }
 
-                                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "TaskFactoryLoadFailure", TaskFactoryAttributeName, taskFactoryLoadInfo.AssemblyLocation, e.Message);
+                                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskFactoryLoadFailure, TaskFactoryAttributeName, taskFactoryLoadInfo.AssemblyLocation, e.Message);
                             }
                             catch (Exception e) when (!ExceptionHandling.NotExpectedReflectionException(e))
                             {
-                                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "TaskFactoryLoadFailure", TaskFactoryAttributeName, taskFactoryLoadInfo.AssemblyLocation, e.Message);
+                                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskFactoryLoadFailure, TaskFactoryAttributeName, taskFactoryLoadInfo.AssemblyLocation, e.Message);
                             }
 
                             try
@@ -1327,7 +1327,7 @@ namespace Microsoft.Build.Execution
                                             targetLoggingContext.LogWarning(
                                                 null,
                                                     new BuildEventFileInfo(elementLocation),
-                                                    "TaskFactoryWillIgnoreTaskFactoryParameters",
+                                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskFactoryWillIgnoreTaskFactoryParameters,
                                                     factory.FactoryName,
                                                     XMakeAttributes.runtime,
                                                     XMakeAttributes.architecture,
@@ -1338,7 +1338,7 @@ namespace Microsoft.Build.Execution
                                     // Throw an error if the ITaskFactory did not set the TaskType property.  If the property is null, it can cause NullReferenceExceptions in our code
                                     if (initialized && factory.TaskType == null)
                                     {
-                                        throw new InvalidOperationException(AssemblyResources.GetString("TaskFactoryTaskTypeIsNotSet"));
+                                        throw new InvalidOperationException(AssemblyResources.GetString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskFactoryTaskTypeIsNotSet));
                                     }
                                 }
                                 finally
@@ -1365,7 +1365,7 @@ namespace Microsoft.Build.Execution
                                 // Could get an invalid cast when Creating Instance and UnWrap due to the framework assembly not being the same.
                                 targetLoggingContext.LogError(
                                     new BuildEventFileInfo(elementLocation.File, elementLocation.Line, elementLocation.Column),
-                                    "TaskFactoryInstantiationFailureErrorInvalidCast",
+                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskFactoryInstantiationFailureErrorInvalidCast,
                                     TaskFactoryAttributeName,
                                     taskFactoryLoadInfo.AssemblyLocation,
                                     message);
@@ -1380,7 +1380,7 @@ namespace Microsoft.Build.Execution
 #endif
                                 e.Message;
 
-                                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "TaskFactoryLoadFailure", TaskFactoryAttributeName, taskFactoryLoadInfo.AssemblyLocation, message);
+                                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskFactoryLoadFailure, TaskFactoryAttributeName, taskFactoryLoadInfo.AssemblyLocation, message);
                             }
                         }
                         finally
@@ -1507,7 +1507,7 @@ namespace Microsoft.Build.Execution
                     {
                         ProjectErrorUtilities.ThrowInvalidProject(
                          taskElement.EvaluateLocation,
-                         "InvalidEvaluatedAttributeValue",
+                         global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidEvaluatedAttributeValue,
                          expandedType,
                          taskElement.Evaluate,
                          XMakeAttributes.evaluate,
@@ -1572,7 +1572,7 @@ namespace Microsoft.Build.Execution
                         ProjectErrorUtilities.VerifyThrowInvalidProject(
                             !String.IsNullOrEmpty(expandedType),
                             parameter.ParameterTypeLocation,
-                            "InvalidEvaluatedAttributeValue",
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidEvaluatedAttributeValue,
                             expandedType,
                             parameter.ParameterType,
                             XMakeAttributes.parameterType,
@@ -1597,7 +1597,7 @@ namespace Microsoft.Build.Execution
                         ProjectErrorUtilities.VerifyThrowInvalidProject(
                             paramType != null,
                             parameter.ParameterTypeLocation,
-                            "InvalidEvaluatedAttributeValue",
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidEvaluatedAttributeValue,
                             expandedType,
                             parameter.ParameterType,
                             XMakeAttributes.parameterType,
@@ -1610,7 +1610,7 @@ namespace Microsoft.Build.Execution
                         {
                             ProjectErrorUtilities.ThrowInvalidProject(
                                 parameter.OutputLocation,
-                                "InvalidEvaluatedAttributeValue",
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidEvaluatedAttributeValue,
                                 expandedOutput,
                                 parameter.Output,
                                 XMakeAttributes.output,
@@ -1623,7 +1623,7 @@ namespace Microsoft.Build.Execution
                         {
                             ProjectErrorUtilities.ThrowInvalidProject(
                                 parameter.Location,
-                                "UnsupportedTaskParameterTypeError",
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnsupportedTaskParameterTypeError,
                                 paramType.FullName,
                                 parameter.ParameterType,
                                 parameter.Name);
@@ -1636,7 +1636,7 @@ namespace Microsoft.Build.Execution
                         {
                             ProjectErrorUtilities.ThrowInvalidProject(
                                 parameter.RequiredLocation,
-                                "InvalidEvaluatedAttributeValue",
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidEvaluatedAttributeValue,
                                 expandedRequired,
                                 parameter.Required,
                                 XMakeAttributes.required,

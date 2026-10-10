@@ -13,8 +13,8 @@ internal sealed class SharedOutputPathCheck : Check
 {
     private const string RuleId = "BC0101";
     public static CheckRule SupportedRule = new CheckRule(RuleId, "ConflictingOutputPath",
-        ResourceUtilities.GetResourceString("BuildCheck_BC0101_Title")!,
-        ResourceUtilities.GetResourceString("BuildCheck_BC0101_MessageFmt")!,
+        ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheck_BC0101_Title)!,
+        ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheck_BC0101_MessageFmt)!,
         new CheckConfiguration() { RuleId = RuleId, Severity = CheckResultSeverity.Warning });
 
     public override string FriendlyName => "MSBuild.SharedOutputPathCheck";

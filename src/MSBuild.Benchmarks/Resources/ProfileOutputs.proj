@@ -1,0 +1,23 @@
+<Project>
+  <Target Name="Inventory">
+    <XmlPeek XmlInputPath="$(ProfileRoot)\OrchardCore.slnx" Query="//Project/@Path">
+      <Output TaskParameter="Result" ItemName="_ProfileProject" />
+    </XmlPeek>
+    <ItemGroup>
+      <_ProfileProject Update="@(_ProfileProject)">
+        <ProjectFile>$([System.IO.Path]::GetFullPath('%(Identity)', '$(ProfileRoot)'))</ProjectFile>
+      </_ProfileProject>
+    </ItemGroup>
+    <MSBuild Projects="@(_ProfileProject->'%(ProjectFile)')"
+             Targets="_StringResourceProfileOutputs"
+             Properties="Configuration=Release;CustomAfterMicrosoftCommonTargets=$(MSBuildThisFileDirectory)ProfileOutputs.targets;CustomAfterMicrosoftCommonCrossTargetingTargets=$(MSBuildThisFileDirectory)ProfileOutputs.targets"
+             BuildInParallel="false">
+      <Output TaskParameter="TargetOutputs" ItemName="_ProfileOutput" />
+    </MSBuild>
+    <RemoveDuplicates Inputs="@(_ProfileOutput)">
+      <Output TaskParameter="Filtered" ItemName="_UniqueProfileOutput" />
+    </RemoveDuplicates>
+    <Error Condition="'@(_UniqueProfileOutput)' == ''" Text="No OrchardCore output directories were discovered." />
+    <WriteLinesToFile File="$(ProfileInventory)" Lines="@(_UniqueProfileOutput)" Overwrite="true" WriteOnlyWhenDifferent="true" />
+  </Target>
+</Project>

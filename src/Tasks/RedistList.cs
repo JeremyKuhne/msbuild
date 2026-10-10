@@ -621,7 +621,7 @@ namespace Microsoft.Build.Tasks
                         if (allowListErrors.Count == errorsBeforeReadCall)
                         {
                             // The allowList errors passes back problems reading the redist file through the use of an array containing exceptions
-                            allowListErrors.Add(new Exception(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("ResolveAssemblyReference.NoSubSetRedistListName", info.Path.OriginalValue)));
+                            allowListErrors.Add(new Exception(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveAssemblyReference_NoSubSetRedistListName, info.Path.OriginalValue)));
                             allowListErrorFileNames.Add(info.Path.OriginalValue);
                         }
                     }

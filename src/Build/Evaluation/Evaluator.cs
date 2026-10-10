@@ -1193,7 +1193,7 @@ namespace Microsoft.Build.Evaluation
             ProjectTargetInstance otherTarget = _data.GetTarget(targetName);
             if (otherTarget != null)
             {
-                _evaluationLoggingContext.LogComment(MessageImportance.Low, "OverridingTarget", otherTarget.Name, otherTarget.Location.File, targetName, targetElement.Location.File);
+                _evaluationLoggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OverridingTarget, otherTarget.Name, otherTarget.Location.File, targetName, targetElement.Location.File);
             }
 
             if (activeTargets.TryGetValue(targetName, out LinkedListNode<ProjectTargetElement> node))
@@ -1232,7 +1232,7 @@ namespace Microsoft.Build.Evaluation
                 {
                     // This is a message, not a warning, because that enables people to speculatively extend the build of a project
                     // It's low importance as it's addressed to build authors
-                    _evaluationLoggingContext.LogComment(MessageImportance.Low, "TargetDoesNotExistBeforeTargetMessage", unescapedBeforeTarget, targetElement.BeforeTargetsLocation.LocationString);
+                    _evaluationLoggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TargetDoesNotExistBeforeTargetMessage, unescapedBeforeTarget, targetElement.BeforeTargetsLocation.LocationString);
                 }
             }
 
@@ -1255,7 +1255,7 @@ namespace Microsoft.Build.Evaluation
                 {
                     // This is a message, not a warning, because that enables people to speculatively extend the build of a project
                     // It's low importance as it's addressed to build authors
-                    _evaluationLoggingContext.LogComment(MessageImportance.Low, "TargetDoesNotExistAfterTargetMessage", unescapedAfterTarget, targetElement.AfterTargetsLocation.LocationString);
+                    _evaluationLoggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TargetDoesNotExistAfterTargetMessage, unescapedAfterTarget, targetElement.AfterTargetsLocation.LocationString);
                 }
             }
         }
@@ -1267,10 +1267,10 @@ namespace Microsoft.Build.Evaluation
             switch (ChangeWaves.ConversionState)
             {
                 case ChangeWaveConversionState.InvalidFormat:
-                    _evaluationLoggingContext.LogWarning("", new BuildEventFileInfo(""), "ChangeWave_InvalidFormat", Traits.Instance.MSBuildDisableFeaturesFromVersion, $"[{string.Join(", ", ChangeWaves.AllWaves.Select(x => x.ToString()))}]");
+                    _evaluationLoggingContext.LogWarning("", new BuildEventFileInfo(""), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ChangeWave_InvalidFormat, Traits.Instance.MSBuildDisableFeaturesFromVersion, $"[{string.Join(", ", ChangeWaves.AllWaves.Select(x => x.ToString()))}]");
                     break;
                 case ChangeWaveConversionState.OutOfRotation:
-                    _evaluationLoggingContext.LogWarning("", new BuildEventFileInfo(""), "ChangeWave_OutOfRotation", ChangeWaves.DisabledWave, Traits.Instance.MSBuildDisableFeaturesFromVersion, $"[{string.Join(", ", ChangeWaves.AllWaves.Select(x => x.ToString()))}]");
+                    _evaluationLoggingContext.LogWarning("", new BuildEventFileInfo(""), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ChangeWave_OutOfRotation, ChangeWaves.DisabledWave, Traits.Instance.MSBuildDisableFeaturesFromVersion, $"[{string.Join(", ", ChangeWaves.AllWaves.Select(x => x.ToString()))}]");
                     break;
             }
         }
@@ -1446,7 +1446,7 @@ namespace Microsoft.Build.Evaluation
                         ((IDictionary<string, ProjectPropertyInstance>)_data.GlobalPropertiesDictionary).ContainsKey(propertyElement.Name) &&
                         !_data.GlobalPropertiesToTreatAsLocal.Contains(propertyElement.Name))
                 {
-                    _evaluationLoggingContext.LogComment(MessageImportance.Low, "OM_GlobalProperty", propertyElement.Name);
+                    _evaluationLoggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_GlobalProperty, propertyElement.Name);
                     return;
                 }
 
@@ -1724,7 +1724,7 @@ namespace Microsoft.Build.Evaluation
 
             string extensionPropertyRefAsString = fallbackSearchPathMatch.MsBuildPropertyFormat;
 
-            _evaluationLoggingContext.LogComment(MessageImportance.Low, "SearchPathsForMSBuildExtensionsPath",
+            _evaluationLoggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SearchPathsForMSBuildExtensionsPath,
                                         extensionPropertyRefAsString,
                                         string.Join(";", pathsToSearch));
 
@@ -1767,7 +1767,7 @@ namespace Microsoft.Build.Evaluation
                 }
 
                 var newExpandedImportPath = importElement.Project.Replace(extensionPropertyRefAsString, extensionPathExpanded, StringComparison.OrdinalIgnoreCase);
-                _evaluationLoggingContext.LogComment(MessageImportance.Low, "TryingExtensionsPath", newExpandedImportPath, extensionPathExpanded);
+                _evaluationLoggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TryingExtensionsPath, newExpandedImportPath, extensionPathExpanded);
 
                 List<ProjectRootElement> projects;
                 var result = ExpandAndLoadImportsFromUnescapedImportExpression(directoryOfImportingFile, importElement, newExpandedImportPath, false, out projects);
@@ -1824,14 +1824,14 @@ namespace Microsoft.Build.Evaluation
             return allProjects;
         }
 
-        private static readonly string CouldNotResolveSdk = ResourceUtilities.GetResourceString("CouldNotResolveSdk");
-        private static readonly string ProjectImported = ResourceUtilities.GetResourceString("ProjectImported");
-        private static readonly string ProjectImportSkippedEmptyFile = ResourceUtilities.GetResourceString("ProjectImportSkippedEmptyFile");
-        private static readonly string ProjectImportSkippedExpressionEvaluatedToEmpty = ResourceUtilities.GetResourceString("ProjectImportSkippedExpressionEvaluatedToEmpty");
-        private static readonly string ProjectImportSkippedFalseCondition = ResourceUtilities.GetResourceString("ProjectImportSkippedFalseCondition");
-        private static readonly string ProjectImportSkippedInvalidFile = ResourceUtilities.GetResourceString("ProjectImportSkippedInvalidFile");
-        private static readonly string ProjectImportSkippedMissingFile = ResourceUtilities.GetResourceString("ProjectImportSkippedMissingFile");
-        private static readonly string ProjectImportSkippedNoMatches = ResourceUtilities.GetResourceString("ProjectImportSkippedNoMatches");
+        private static readonly string CouldNotResolveSdk = ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CouldNotResolveSdk);
+        private static readonly string ProjectImported = ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectImported);
+        private static readonly string ProjectImportSkippedEmptyFile = ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectImportSkippedEmptyFile);
+        private static readonly string ProjectImportSkippedExpressionEvaluatedToEmpty = ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectImportSkippedExpressionEvaluatedToEmpty);
+        private static readonly string ProjectImportSkippedFalseCondition = ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectImportSkippedFalseCondition);
+        private static readonly string ProjectImportSkippedInvalidFile = ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectImportSkippedInvalidFile);
+        private static readonly string ProjectImportSkippedMissingFile = ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectImportSkippedMissingFile);
+        private static readonly string ProjectImportSkippedNoMatches = ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectImportSkippedNoMatches);
 
         /// <summary>
         /// Load and parse the specified project import, which may have wildcards,
@@ -1966,7 +1966,7 @@ namespace Microsoft.Build.Evaluation
                 {
                     // We throw using e.Message because e.Message already contains the stack trace
                     // https://github.com/dotnet/msbuild/pull/6763
-                    ProjectErrorUtilities.ThrowInvalidProject(importElement.SdkLocation, "SDKResolverCriticalFailure", e.Message);
+                    ProjectErrorUtilities.ThrowInvalidProject(importElement.SdkLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SDKResolverCriticalFailure, e.Message);
                 }
 
                 if (!sdkResult.Success)
@@ -1991,7 +1991,7 @@ namespace Microsoft.Build.Evaluation
                         return;
                     }
 
-                    ProjectErrorUtilities.ThrowInvalidProject(importElement.SdkLocation, "CouldNotResolveSdk", sdkReference.ToString());
+                    ProjectErrorUtilities.ThrowInvalidProject(importElement.SdkLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CouldNotResolveSdk, sdkReference.ToString());
                 }
                 List<ProjectRootElement> projectList = null;
                 if (sdkResult.Path != null)
@@ -2195,7 +2195,7 @@ namespace Microsoft.Build.Evaluation
                     return LoadImportsResult.ImportExpressionResolvedToNothing;
                 }
 
-                ProjectErrorUtilities.ThrowInvalidProject(importLocationInProject, "InvalidAttributeValue", string.Empty, XMakeAttributes.project, XMakeElements.import);
+                ProjectErrorUtilities.ThrowInvalidProject(importLocationInProject, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidAttributeValue, string.Empty, XMakeAttributes.project, XMakeElements.import);
             }
 
             bool atleastOneImportIgnored = false;
@@ -2225,7 +2225,7 @@ namespace Microsoft.Build.Evaluation
                 }
                 catch (Exception ex) when (ExceptionHandling.IsIoRelatedException(ex))
                 {
-                    ProjectErrorUtilities.ThrowInvalidProject(importLocationInProject, "InvalidAttributeValueWithException", EscapingUtilities.UnescapeAll(importExpressionEscapedItem), XMakeAttributes.project, XMakeElements.import, ex.Message);
+                    ProjectErrorUtilities.ThrowInvalidProject(importLocationInProject, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidAttributeValueWithException, EscapingUtilities.UnescapeAll(importExpressionEscapedItem), XMakeAttributes.project, XMakeElements.import, ex.Message);
                 }
 
                 if (importFilesEscaped.Length == 0)
@@ -2270,14 +2270,14 @@ namespace Microsoft.Build.Evaluation
                     }
                     catch (Exception ex) when (ExceptionHandling.IsIoRelatedException(ex))
                     {
-                        ProjectErrorUtilities.ThrowInvalidProject(importLocationInProject, "InvalidAttributeValueWithException", importFileUnescaped, XMakeAttributes.project, XMakeElements.import, ex.Message);
+                        ProjectErrorUtilities.ThrowInvalidProject(importLocationInProject, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidAttributeValueWithException, importFileUnescaped, XMakeAttributes.project, XMakeElements.import, ex.Message);
                     }
 
                     // If a file is included twice, or there is a cycle of imports, we ignore all but the first import
                     // and issue a warning to that effect.
                     if (string.Equals(_projectRootElement.FullPath, importFileUnescaped, StringComparison.OrdinalIgnoreCase) /* We are trying to import ourselves */)
                     {
-                        _evaluationLoggingContext.LogWarning(null, new BuildEventFileInfo(importLocationInProject), "SelfImport", importFileUnescaped);
+                        _evaluationLoggingContext.LogWarning(null, new BuildEventFileInfo(importLocationInProject), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SelfImport, importFileUnescaped);
                         atleastOneImportIgnored = true;
 
                         continue;
@@ -2294,12 +2294,12 @@ namespace Microsoft.Build.Evaluation
                             // Get the full path of the MSBuild file that has this import.
                             string importedBy = importElement.ContainingProject.FullPath ?? string.Empty;
 
-                            _evaluationLoggingContext.LogWarning(null, new BuildEventFileInfo(importLocationInProject), "ImportIntroducesCircularity", importFileUnescaped, importedBy);
+                            _evaluationLoggingContext.LogWarning(null, new BuildEventFileInfo(importLocationInProject), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ImportIntroducesCircularity, importFileUnescaped, importedBy);
 
                             // Throw exception if the project load settings requires us to stop the evaluation of a project when circular imports are detected.
                             if ((_loadSettings & ProjectLoadSettings.RejectCircularImports) != 0)
                             {
-                                ProjectErrorUtilities.ThrowInvalidProject(importLocationInProject, "ImportIntroducesCircularity", importFileUnescaped, importedBy);
+                                ProjectErrorUtilities.ThrowInvalidProject(importLocationInProject, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ImportIntroducesCircularity, importFileUnescaped, importedBy);
                             }
 
                             // Ignore this import and no more further processing on it.
@@ -2321,7 +2321,7 @@ namespace Microsoft.Build.Evaluation
                             parenthesizedProjectLocation = $"[{_projectRootElement.FullPath}]";
                         }
                         // TODO: Detect if the duplicate import came from an SDK attribute
-                        _evaluationLoggingContext.LogWarning(null, new BuildEventFileInfo(importLocationInProject), "DuplicateImport", importFileUnescaped, previouslyImportedAt.Location.LocationString, parenthesizedProjectLocation);
+                        _evaluationLoggingContext.LogWarning(null, new BuildEventFileInfo(importLocationInProject), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@DuplicateImport, importFileUnescaped, previouslyImportedAt.Location.LocationString, parenthesizedProjectLocation);
                         duplicateImport = true;
                     }
 
@@ -2434,7 +2434,7 @@ namespace Microsoft.Build.Evaluation
 
                             VerifyVSDistributionPath(importElement.Project, importLocationInProject);
 
-                            ProjectErrorUtilities.ThrowInvalidProject(importLocationInProject, "ImportedProjectNotFound",
+                            ProjectErrorUtilities.ThrowInvalidProject(importLocationInProject, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ImportedProjectNotFound,
                                                                       importFileUnescaped, unescapedExpression, importExpressionEscaped);
                         }
                         else
@@ -2487,7 +2487,7 @@ namespace Microsoft.Build.Evaluation
                             if (ex.InnerException != null)
                             {
                                 // Otherwise a more generic message, still pointing to the location of the import tag
-                                ProjectErrorUtilities.ThrowInvalidProject(importLocationInProject, "InvalidImportedProjectFile",
+                                ProjectErrorUtilities.ThrowInvalidProject(importLocationInProject, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidImportedProjectFile,
                                     importFileUnescaped, ex.InnerException.Message);
                             }
 
@@ -2692,7 +2692,7 @@ namespace Microsoft.Build.Evaluation
                 catch (ArgumentException ex)
                 {
                     // https://github.com/dotnet/msbuild/issues/8762 .Catch the exceptions when extensionsPathPropValue is null or importExpandedWithDefaultPath is empty. In NET Framework, Path.* function also throws exceptions if the path contains invalid characters.
-                    ProjectErrorUtilities.ThrowInvalidProject(importElement.Location, "InvalidAttributeValueWithException", importExpandedWithDefaultPath, XMakeAttributes.project, XMakeElements.import, ex.Message);
+                    ProjectErrorUtilities.ThrowInvalidProject(importElement.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidAttributeValueWithException, importExpandedWithDefaultPath, XMakeAttributes.project, XMakeElements.import, ex.Message);
                     return;
                 }
             }
@@ -2715,14 +2715,14 @@ namespace Microsoft.Build.Evaluation
             string configLocation = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
 
             ProjectErrorUtilities.ThrowInvalidProject(importElement.ProjectLocation,
-                "ImportedProjectFromExtensionsPathNotFoundFromAppConfig",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ImportedProjectFromExtensionsPathNotFoundFromAppConfig,
                 importExpandedWithDefaultPath,
                 relativeProjectPath,
                 searchPathMatch.MsBuildPropertyFormat,
                 stringifiedListOfSearchPaths,
                 configLocation);
 #else
-            ProjectErrorUtilities.ThrowInvalidProject(importElement.ProjectLocation, "ImportedProjectFromExtensionsPathNotFound",
+            ProjectErrorUtilities.ThrowInvalidProject(importElement.ProjectLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ImportedProjectFromExtensionsPathNotFound,
                                                         importExpandedWithDefaultPath,
                                                         relativeProjectPath,
                                                         searchPathMatch.MsBuildPropertyFormat,
@@ -2918,7 +2918,7 @@ namespace Microsoft.Build.Evaluation
                 || path.IndexOf("Microsoft/VisualStudio", StringComparison.OrdinalIgnoreCase) >= 0
                 || path.IndexOf("$(VCTargetsPath)", StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                ProjectErrorUtilities.ThrowInvalidProject(importLocationInProject, "ImportedProjectFromVSDistribution", path);
+                ProjectErrorUtilities.ThrowInvalidProject(importLocationInProject, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ImportedProjectFromVSDistribution, path);
             }
         }
     }

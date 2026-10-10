@@ -25,6 +25,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\StringResourceTests.resx">
+      <LogicalName>StringResourceTests.resources</LogicalName>
+      <StringResourceClass>Microsoft.Build.UnitTests.GeneratedResourceCatalog</StringResourceClass>
+      <StringResourceFormatMethods>true</StringResourceFormatMethods>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\StringResourceTests.de.resx">
+      <LogicalName>StringResourceTests.de.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\StringResourceTests.de-DE.resx">
+      <LogicalName>StringResourceTests.de-DE.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\SharedStringResourceTests.resx">
+      <LogicalName>SharedStringResourceTests.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\SharedStringResourceTests.de-DE.resx">
+      <LogicalName>SharedStringResourceTests.de-DE.resources</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\Shared\ResourceUtilities.cs" />
   </ItemGroup>
 
@@ -38,4 +58,5 @@
     </None>
   </ItemGroup>
 
+  <Import Project="..\ResourceGenerator\ResourceGenerator.targets" />
 </Project>

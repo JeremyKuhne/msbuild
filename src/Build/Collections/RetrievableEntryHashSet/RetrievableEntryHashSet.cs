@@ -255,7 +255,7 @@ namespace Microsoft.Build.Collections
         {
             if (_readOnly)
             {
-                ErrorUtilities.ThrowInvalidOperation("OM_NotSupportedReadOnlyCollection");
+                ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_NotSupportedReadOnlyCollection);
             }
 
             if (_lastIndex > 0)
@@ -408,7 +408,7 @@ namespace Microsoft.Build.Collections
         {
             if (_readOnly)
             {
-                ErrorUtilities.ThrowInvalidOperation("OM_NotSupportedReadOnlyCollection");
+                ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_NotSupportedReadOnlyCollection);
             }
 
             if (_buckets != null)
@@ -810,7 +810,7 @@ namespace Microsoft.Build.Collections
         {
             if (_readOnly)
             {
-                ErrorUtilities.ThrowInvalidOperation("OM_NotSupportedReadOnlyCollection");
+                ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_NotSupportedReadOnlyCollection);
             }
 
             if (_buckets == null)

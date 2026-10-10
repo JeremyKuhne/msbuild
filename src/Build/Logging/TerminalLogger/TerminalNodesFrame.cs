@@ -55,7 +55,7 @@ internal sealed class TerminalNodesFrame
         TerminalNodeStatus status = _nodes[i].nodeStatus;
 
         string durationString = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(
-            "DurationDisplay",
+            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@DurationDisplay,
             status.Stopwatch.ElapsedSeconds);
 
         _nodes[i].durationLength = durationString.Length;
@@ -165,7 +165,7 @@ internal sealed class TerminalNodesFrame
                     && _nodes[i].canUpdateDuration)
                 {
                     // Same everything except time, AND same number of digits in time
-                    string durationString = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("DurationDisplay", _nodes[i].nodeStatus.Stopwatch.ElapsedSeconds);
+                    string durationString = ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@DurationDisplay, _nodes[i].nodeStatus.Stopwatch.ElapsedSeconds);
                     sb.Append($"{AnsiCodes.SetCursorHorizontal(MaxColumn)}{AnsiCodes.MoveCursorBackward(durationString.Length)}{durationString}");
                 }
                 else

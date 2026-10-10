@@ -85,7 +85,7 @@ namespace Microsoft.Build.BackEnd
 
                 if (!FileSystems.Default.FileExists(msbuildLocation))
                 {
-                    throw new BuildAbortedException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("CouldNotFindMSBuildExe", msbuildLocation));
+                    throw new BuildAbortedException(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CouldNotFindMSBuildExe, msbuildLocation));
                 }
             }
         }

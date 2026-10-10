@@ -13,8 +13,8 @@ internal class EmbeddedResourceCheck : Check
 {
     private const string RuleId = "BC0105";
     public static CheckRule SupportedRule = new CheckRule(RuleId, "EmbeddedResourceCulture",
-        ResourceUtilities.GetResourceString("BuildCheck_BC0105_Title")!,
-        ResourceUtilities.GetResourceString("BuildCheck_BC0105_MessageFmt")!,
+        ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheck_BC0105_Title)!,
+        ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheck_BC0105_MessageFmt)!,
         new CheckConfiguration() { RuleId = RuleId, Severity = CheckResultSeverity.Warning });
 
     public override string FriendlyName => "MSBuild.EmbeddedResourceCulture";

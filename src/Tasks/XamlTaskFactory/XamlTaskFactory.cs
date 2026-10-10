@@ -113,7 +113,7 @@ namespace Microsoft.Build.Tasks
 
             if (taskElementContents == null)
             {
-                log.LogErrorWithCodeFromResources("Xaml.MissingTaskBody");
+                log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Xaml_MissingTaskBody);
                 return false;
             }
 
@@ -210,7 +210,7 @@ namespace Microsoft.Build.Tasks
                     }
                 }
 
-                log.LogErrorWithCodeFromResources("Xaml.TaskCreationFailed", errorList.ToString());
+                log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Xaml_TaskCreationFailed, errorList.ToString());
             }
 
             return !log.HasLoggedErrors;
@@ -283,7 +283,7 @@ namespace Microsoft.Build.Tasks
                 HelpKeywordPrefix = "MSBuild."
             };
 
-            log.LogErrorWithCodeFromResources("TaskFactoryNotSupportedFailure", nameof(XamlTaskFactory));
+            log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskFactoryNotSupportedFailure, nameof(XamlTaskFactory));
 
             return false;
         }

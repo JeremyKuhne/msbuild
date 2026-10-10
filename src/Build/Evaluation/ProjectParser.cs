@@ -135,15 +135,15 @@ namespace Microsoft.Build.Construction
 
             if (element is null)
             {
-                ProjectErrorUtilities.ThrowInvalidProject(ElementLocation.Create(_document.FullPath), "NoRootProjectElement", XMakeElements.project);
+                ProjectErrorUtilities.ThrowInvalidProject(ElementLocation.Create(_document.FullPath), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@NoRootProjectElement, XMakeElements.project);
             }
-            ProjectErrorUtilities.VerifyThrowInvalidProject(element.Name != XMakeElements.visualStudioProject, element.Location, "ProjectUpgradeNeeded", _project.FullPath);
-            ProjectErrorUtilities.VerifyThrowInvalidProject(element.LocalName == XMakeElements.project, element.Location, "UnrecognizedElement", element.Name);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(element.Name != XMakeElements.visualStudioProject, element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectUpgradeNeeded, _project.FullPath);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(element.LocalName == XMakeElements.project, element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnrecognizedElement, element.Name);
 
             // If a namespace was specified it must be the default MSBuild namespace.
             if (!ProjectXmlUtilities.VerifyValidProjectNamespace(element))
             {
-                ProjectErrorUtilities.ThrowInvalidProject(element.Location, "ProjectMustBeInMSBuildXmlNamespace",
+                ProjectErrorUtilities.ThrowInvalidProject(element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectMustBeInMSBuildXmlNamespace,
                     XMakeAttributes.defaultXmlNamespace);
             }
             else
@@ -204,7 +204,7 @@ namespace Microsoft.Build.Construction
                     case XMakeElements.error:
                     case XMakeElements.warning:
                     case XMakeElements.message:
-                        ProjectErrorUtilities.ThrowInvalidProject(childElement.Location, "ErrorWarningMessageNotSupported", childElement.Name);
+                        ProjectErrorUtilities.ThrowInvalidProject(childElement.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ErrorWarningMessageNotSupported, childElement.Name);
                         break;
 
                     default:
@@ -231,7 +231,7 @@ namespace Microsoft.Build.Construction
             {
                 ProjectXmlUtilities.VerifyThrowProjectAttributes(childElement, ValidAttributesOnlyConditionAndLabel, _ParserIgnoreConfiguration, ParserIgnoreConfiguration.GenericPropertyElement);
                 XmlUtilities.VerifyThrowProjectValidElementName(childElement);
-                ProjectErrorUtilities.VerifyThrowInvalidProject(!XMakeElements.ReservedItemNames.Contains(childElement.Name) && !ReservedPropertyNames.IsReservedProperty(childElement.Name), childElement.Location, "CannotModifyReservedProperty", childElement.Name);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(!XMakeElements.ReservedItemNames.Contains(childElement.Name) && !ReservedPropertyNames.IsReservedProperty(childElement.Name), childElement.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotModifyReservedProperty, childElement.Name);
 
                 // All children inside a property are ignored, since they are only part of its value
                 ProjectPropertyElement property = new ProjectPropertyElement(childElement, propertyGroup, _project);
@@ -296,26 +296,26 @@ namespace Microsoft.Build.Construction
             if (exclusiveAttributeCount > 1)
             {
                 XmlAttributeWithLocation errorAttribute = remove.Length > 0 ? (XmlAttributeWithLocation)element.Attributes[XMakeAttributes.remove] : (XmlAttributeWithLocation)element.Attributes[XMakeAttributes.update];
-                ProjectErrorUtilities.ThrowInvalidProject(errorAttribute.Location, "InvalidAttributeExclusive");
+                ProjectErrorUtilities.ThrowInvalidProject(errorAttribute.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidAttributeExclusive);
             }
 
             // Include, remove, or update must be present unless inside a target
-            ProjectErrorUtilities.VerifyThrowInvalidProject(exclusiveAttributeCount == 1 || belowTarget, element.Location, "IncludeRemoveOrUpdate", exclusiveItemOperation, itemType);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(exclusiveAttributeCount == 1 || belowTarget, element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@IncludeRemoveOrUpdate, exclusiveItemOperation, itemType);
 
             // Exclude must be missing, unless Include exists
             ProjectXmlUtilities.VerifyThrowProjectInvalidAttribute(exclude.Length == 0 || include.Length > 0, (XmlAttributeWithLocation)element.Attributes[XMakeAttributes.exclude]);
 
             // If we have an Include attribute at all, it must have non-zero length
-            ProjectErrorUtilities.VerifyThrowInvalidProject(include.Length > 0 || element.Attributes[XMakeAttributes.include] == null, element.Location, "MissingRequiredAttribute", XMakeAttributes.include, itemType);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(include.Length > 0 || element.Attributes[XMakeAttributes.include] == null, element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MissingRequiredAttribute, XMakeAttributes.include, itemType);
 
             // If we have a Remove attribute at all, it must have non-zero length
-            ProjectErrorUtilities.VerifyThrowInvalidProject(remove.Length > 0 || element.Attributes[XMakeAttributes.remove] == null, element.Location, "MissingRequiredAttribute", XMakeAttributes.remove, itemType);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(remove.Length > 0 || element.Attributes[XMakeAttributes.remove] == null, element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MissingRequiredAttribute, XMakeAttributes.remove, itemType);
 
             // If we have an Update attribute at all, it must have non-zero length
-            ProjectErrorUtilities.VerifyThrowInvalidProject(update.Length > 0 || element.Attributes[XMakeAttributes.update] == null, element.Location, "MissingRequiredAttribute", XMakeAttributes.update, itemType);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(update.Length > 0 || element.Attributes[XMakeAttributes.update] == null, element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MissingRequiredAttribute, XMakeAttributes.update, itemType);
 
             XmlUtilities.VerifyThrowProjectValidElementName(element);
-            ProjectErrorUtilities.VerifyThrowInvalidProject(!XMakeElements.ReservedItemNames.Contains(itemType), element.Location, "CannotModifyReservedItem", itemType);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(!XMakeElements.ReservedItemNames.Contains(itemType), element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotModifyReservedItem, itemType);
 
             ProjectItemElement item = new ProjectItemElement(element, parent, _project);
 
@@ -407,9 +407,9 @@ namespace Microsoft.Build.Construction
 
             XmlUtilities.VerifyThrowProjectValidElementName(element);
 
-            ProjectErrorUtilities.VerifyThrowInvalidProject(!(parent is ProjectItemElement) || ((ProjectItemElement)parent).Remove.Length == 0, element.Location, "ChildElementsBelowRemoveNotAllowed", element.Name);
-            ProjectErrorUtilities.VerifyThrowInvalidProject(!ItemSpecModifiers.IsItemSpecModifier(element.Name), element.Location, "ItemSpecModifierCannotBeCustomMetadata", element.Name);
-            ProjectErrorUtilities.VerifyThrowInvalidProject(!XMakeElements.ReservedItemNames.Contains(element.Name), element.Location, "CannotModifyReservedItemMetadata", element.Name);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(!(parent is ProjectItemElement) || ((ProjectItemElement)parent).Remove.Length == 0, element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ChildElementsBelowRemoveNotAllowed, element.Name);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(!ItemSpecModifiers.IsItemSpecModifier(element.Name), element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ItemSpecModifierCannotBeCustomMetadata, element.Name);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(!XMakeElements.ReservedItemNames.Contains(element.Name), element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotModifyReservedItemMetadata, element.Name);
 
             ProjectMetadataElement metadatum = new ProjectMetadataElement(element, parent, _project);
 
@@ -417,7 +417,7 @@ namespace Microsoft.Build.Construction
             if (parent is ProjectItemDefinitionElement)
             {
                 bool containsItemVector = Expander.ExpressionContainsItemVector(metadatum.Value);
-                ProjectErrorUtilities.VerifyThrowInvalidProject(!containsItemVector, element.Location, "MetadataDefinitionCannotContainItemVectorExpression", metadatum.Value, metadatum.Name);
+                ProjectErrorUtilities.VerifyThrowInvalidProject(!containsItemVector, element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MetadataDefinitionCannotContainItemVectorExpression, metadatum.Value, metadatum.Name);
             }
 
             return metadatum;
@@ -446,7 +446,7 @@ namespace Microsoft.Build.Construction
 
                     ProjectErrorUtilities.ThrowInvalidProject(
                         childElement.Location,
-                        "UnrecognizedChildElement",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnrecognizedChildElement,
                         childElement.Name,
                         element.Name);
                 }
@@ -467,7 +467,7 @@ namespace Microsoft.Build.Construction
             ProjectErrorUtilities.VerifyThrowInvalidProject(
                 parent is ProjectRootElement || parent is ProjectImportGroupElement,
                 element.Location,
-                "UnrecognizedParentElement",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnrecognizedParentElement,
                 parent,
                 element);
 
@@ -526,7 +526,7 @@ namespace Microsoft.Build.Construction
         private ProjectUsingTaskElement ParseProjectUsingTaskElement(XmlElementWithLocation element)
         {
             ProjectXmlUtilities.VerifyThrowProjectAttributes(element, ValidAttributesOnUsingTask, _ParserIgnoreConfiguration);
-            ProjectErrorUtilities.VerifyThrowInvalidProject(element.GetAttribute(XMakeAttributes.taskName).Length > 0, element.Location, "ProjectTaskNameEmpty");
+            ProjectErrorUtilities.VerifyThrowInvalidProject(element.GetAttribute(XMakeAttributes.taskName).Length > 0, element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ProjectTaskNameEmpty);
 
             string assemblyName = element.GetAttribute(XMakeAttributes.assemblyName);
             string assemblyFile = element.GetAttribute(XMakeAttributes.assemblyFile);
@@ -534,7 +534,7 @@ namespace Microsoft.Build.Construction
             ProjectErrorUtilities.VerifyThrowInvalidProject(
                 (assemblyName.Length > 0) ^ (assemblyFile.Length > 0),
                 element.Location,
-                "UsingTaskAssemblySpecification",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UsingTaskAssemblySpecification,
                 XMakeElements.usingTask,
                 XMakeAttributes.assemblyName,
                 XMakeAttributes.assemblyFile);
@@ -602,7 +602,7 @@ namespace Microsoft.Build.Construction
             int indexOfSpecialCharacter = targetName.AsSpan().IndexOfAny(XMakeElements.InvalidTargetNameCharacters);
             if (indexOfSpecialCharacter >= 0)
             {
-                ProjectErrorUtilities.ThrowInvalidProject(element.GetAttributeLocation(XMakeAttributes.name), "NameInvalid", targetName, targetName[indexOfSpecialCharacter]);
+                ProjectErrorUtilities.ThrowInvalidProject(element.GetAttributeLocation(XMakeAttributes.name), global::Microsoft.Build.Framework.Resources.SR.Resources.@NameInvalid, targetName, targetName[indexOfSpecialCharacter]);
             }
 
             ProjectTargetElement target = new ProjectTargetElement(element, _project, _project);
@@ -617,7 +617,7 @@ namespace Microsoft.Build.Construction
                     case XMakeElements.propertyGroup:
                         if (onError != null)
                         {
-                            ProjectErrorUtilities.ThrowInvalidProject(onError.Location, "NodeMustBeLastUnderElement", XMakeElements.onError, XMakeElements.target, childElement.Name);
+                            ProjectErrorUtilities.ThrowInvalidProject(onError.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@NodeMustBeLastUnderElement, XMakeElements.onError, XMakeElements.target, childElement.Name);
                         }
 
                         child = ParseProjectPropertyGroupElement(childElement, target);
@@ -626,7 +626,7 @@ namespace Microsoft.Build.Construction
                     case XMakeElements.itemGroup:
                         if (onError != null)
                         {
-                            ProjectErrorUtilities.ThrowInvalidProject(onError.Location, "NodeMustBeLastUnderElement", XMakeElements.onError, XMakeElements.target, childElement.Name);
+                            ProjectErrorUtilities.ThrowInvalidProject(onError.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@NodeMustBeLastUnderElement, XMakeElements.onError, XMakeElements.target, childElement.Name);
                         }
 
                         child = ParseProjectItemGroupElement(childElement, target);
@@ -643,18 +643,18 @@ namespace Microsoft.Build.Construction
                         break;
 
                     case XMakeElements.itemDefinitionGroup:
-                        ProjectErrorUtilities.ThrowInvalidProject(childElement.Location, "ItemDefinitionGroupNotLegalInsideTarget", childElement.Name);
+                        ProjectErrorUtilities.ThrowInvalidProject(childElement.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ItemDefinitionGroupNotLegalInsideTarget, childElement.Name);
                         break;
 
                     default:
                         if (onError != null)
                         {
-                            ProjectErrorUtilities.ThrowInvalidProject(onError.Location, "NodeMustBeLastUnderElement", XMakeElements.onError, XMakeElements.target, childElement.Name);
+                            ProjectErrorUtilities.ThrowInvalidProject(onError.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@NodeMustBeLastUnderElement, XMakeElements.onError, XMakeElements.target, childElement.Name);
                         }
                         if (childElement.ChildNodes.Count == 1 && childElement.FirstChild.NodeType == XmlNodeType.Text)
                         {
                             // If the element has inner text and no other child elements except text, then this should be a property and throw invalid child element of <Target>
-                            ProjectErrorUtilities.ThrowInvalidProject(childElement.Location, "PropertyOutsidePropertyGroupInTarget", childElement.Name, childElement.ParentNode.Name);
+                            ProjectErrorUtilities.ThrowInvalidProject(childElement.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@PropertyOutsidePropertyGroupInTarget, childElement.Name, childElement.ParentNode.Name);
                         }
 
                         child = ParseProjectTaskElement(childElement, target);
@@ -677,7 +677,7 @@ namespace Microsoft.Build.Construction
                 ProjectErrorUtilities.VerifyThrowInvalidProject(
                     !XMakeAttributes.IsBadlyCasedSpecialTaskAttribute(attribute.Name),
                     attribute.Location,
-                    "BadlyCasedSpecialTaskAttribute",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BadlyCasedSpecialTaskAttribute,
                     attribute.Name,
                     element.Name,
                     element.Name);
@@ -694,7 +694,7 @@ namespace Microsoft.Build.Construction
                         continue;
                     }
 
-                    ProjectErrorUtilities.ThrowInvalidProject(childElement.Location, "UnrecognizedChildElement", childElement.Name, task.Name);
+                    ProjectErrorUtilities.ThrowInvalidProject(childElement.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnrecognizedChildElement, childElement.Name, task.Name);
                 }
 
                 ProjectOutputElement output = ParseProjectOutputElement(childElement, task);
@@ -720,13 +720,13 @@ namespace Microsoft.Build.Construction
             ProjectErrorUtilities.VerifyThrowInvalidProject(
                 (String.IsNullOrWhiteSpace(itemNameAttribute?.Value) && !String.IsNullOrWhiteSpace(propertyNameAttribute?.Value)) || (!String.IsNullOrWhiteSpace(itemNameAttribute?.Value) && String.IsNullOrWhiteSpace(propertyNameAttribute?.Value)),
                 element.Location,
-                "InvalidTaskOutputSpecification",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidTaskOutputSpecification,
                 parent.Name);
 
             ProjectXmlUtilities.VerifyThrowProjectAttributeEitherMissingOrNotEmpty(element, itemNameAttribute, XMakeAttributes.itemName);
             ProjectXmlUtilities.VerifyThrowProjectAttributeEitherMissingOrNotEmpty(element, propertyNameAttribute, XMakeAttributes.propertyName);
 
-            ProjectErrorUtilities.VerifyThrowInvalidProject(String.IsNullOrWhiteSpace(propertyNameAttribute?.Value) || !ReservedPropertyNames.IsReservedProperty(propertyNameAttribute.Value), element.Location, "CannotModifyReservedProperty", propertyNameAttribute?.Value);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(String.IsNullOrWhiteSpace(propertyNameAttribute?.Value) || !ReservedPropertyNames.IsReservedProperty(propertyNameAttribute.Value), element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotModifyReservedProperty, propertyNameAttribute?.Value);
 
             return new ProjectOutputElement(element, parent, _project);
         }
@@ -809,7 +809,7 @@ namespace Microsoft.Build.Construction
             ProjectChooseElement choose = new ProjectChooseElement(element, parent, _project);
 
             nestingDepth++;
-            ProjectErrorUtilities.VerifyThrowInvalidProject(nestingDepth <= MaximumChooseNesting, element.Location, "ChooseOverflow", MaximumChooseNesting);
+            ProjectErrorUtilities.VerifyThrowInvalidProject(nestingDepth <= MaximumChooseNesting, element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ChooseOverflow, MaximumChooseNesting);
 
             bool foundWhen = false;
             bool foundOtherwise = false;
@@ -821,13 +821,13 @@ namespace Microsoft.Build.Construction
                 switch (childElement.Name)
                 {
                     case XMakeElements.when:
-                        ProjectErrorUtilities.VerifyThrowInvalidProject(!foundOtherwise, childElement.Location, "WhenNotAllowedAfterOtherwise");
+                        ProjectErrorUtilities.VerifyThrowInvalidProject(!foundOtherwise, childElement.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@WhenNotAllowedAfterOtherwise);
                         child = ParseProjectWhenElement(childElement, choose, nestingDepth);
                         foundWhen = true;
                         break;
 
                     case XMakeElements.otherwise:
-                        ProjectErrorUtilities.VerifyThrowInvalidProject(!foundOtherwise, childElement.Location, "MultipleOtherwise");
+                        ProjectErrorUtilities.VerifyThrowInvalidProject(!foundOtherwise, childElement.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MultipleOtherwise);
                         foundOtherwise = true;
                         child = ParseProjectOtherwiseElement(childElement, choose, nestingDepth);
                         break;
@@ -844,7 +844,7 @@ namespace Microsoft.Build.Construction
                 choose.AppendParentedChildNoChecks(child);
             }
 
-            ProjectErrorUtilities.VerifyThrowInvalidProject(foundWhen, element.Location, "ChooseMustContainWhen");
+            ProjectErrorUtilities.VerifyThrowInvalidProject(foundWhen, element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ChooseMustContainWhen);
 
             return choose;
         }
@@ -926,7 +926,7 @@ namespace Microsoft.Build.Construction
             // files. We don't.
             ProjectXmlUtilities.VerifyThrowProjectNoAttributes(element, _ParserIgnoreConfiguration);
 
-            ProjectErrorUtilities.VerifyThrowInvalidProject(!_seenProjectExtensions, element.Location, "DuplicateProjectExtensions");
+            ProjectErrorUtilities.VerifyThrowInvalidProject(!_seenProjectExtensions, element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@DuplicateProjectExtensions);
             _seenProjectExtensions = true;
 
             // All children inside ProjectExtensions are ignored, since they are only part of its value
@@ -940,7 +940,7 @@ namespace Microsoft.Build.Construction
         {
             if (string.IsNullOrEmpty(element.GetAttribute(XMakeAttributes.sdkName)))
             {
-                ProjectErrorUtilities.ThrowInvalidProject(element.Location, "InvalidSdkElementName", element.Name);
+                ProjectErrorUtilities.ThrowInvalidProject(element.Location, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@InvalidSdkElementName, element.Name);
             }
 
             return new ProjectSdkElement(element, _project, _project);

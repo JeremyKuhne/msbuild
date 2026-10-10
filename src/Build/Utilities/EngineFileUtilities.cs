@@ -284,7 +284,7 @@ namespace Microsoft.Build.Internal
 
                         default:
                             InternalError.Throw(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(
-                                "UnknownLoggingType",
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnknownLoggingType,
                                 loggingMechanism?.GetType(),
                                 nameof(GetFileList)));
 
@@ -327,7 +327,7 @@ namespace Microsoft.Build.Internal
 
                         default:
                             InternalError.Throw(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(
-                                "UnknownLoggingType",
+                                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnknownLoggingType,
                                 loggingMechanism?.GetType(),
                                 nameof(GetFileList)));
 
@@ -359,7 +359,7 @@ namespace Microsoft.Build.Internal
                                 break;
                             default:
                                 InternalError.Throw(ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(
-                                    "UnknownLoggingType",
+                                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnknownLoggingType,
                                     loggingMechanism.GetType(),
                                     nameof(GetFileList)));
 

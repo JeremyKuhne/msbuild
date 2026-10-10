@@ -306,8 +306,8 @@ namespace Microsoft.Build.BackEnd
                 if (!taskCleanedUp)
                 {
                     // This can happen when a task has locked us up.
-                    _projectLoggingContext.LogError(new BuildEventFileInfo(String.Empty), "FailedToReceiveTaskThreadStatus", BuildParameters.RequestBuilderShutdownTimeout);
-                    ErrorUtilities.ThrowInvalidOperation("UnableToCancel");
+                    _projectLoggingContext.LogError(new BuildEventFileInfo(String.Empty), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@FailedToReceiveTaskThreadStatus, BuildParameters.RequestBuilderShutdownTimeout);
+                    ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnableToCancel);
                 }
             }
 
@@ -813,11 +813,11 @@ namespace Microsoft.Build.BackEnd
                 thrownException = ex;
                 if (_projectLoggingContext is null)
                 {
-                    _nodeLoggingContext.LogWarning("SolutionParseUnknownProjectType", ex.Message);
+                    _nodeLoggingContext.LogWarning(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseUnknownProjectType, ex.Message);
                 }
                 else
                 {
-                    _projectLoggingContext.LogWarning("SolutionParseUnknownProjectType", ex.Message);
+                    _projectLoggingContext.LogWarning(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SolutionParseUnknownProjectType, ex.Message);
                 }
             }
             catch (Exception ex)
@@ -833,7 +833,7 @@ namespace Microsoft.Build.BackEnd
                     LoggingContext loggingContext = ((LoggingContext)_projectLoggingContext) ?? _nodeLoggingContext;
                     loggingContext.LogError(
                         BuildEventFileInfo.Empty,
-                        "FatalErrorWhileLoggingWithInnerException",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@FatalErrorWhileLoggingWithInnerException,
                         realMessage);
 
                     loggingContext.LogCommentFromText(MessageImportance.Low, ex.ToString());
@@ -846,7 +846,7 @@ namespace Microsoft.Build.BackEnd
                 }
                 else if (ex is not CriticalTaskException)
                 {
-                    (((LoggingContext)_projectLoggingContext) ?? _nodeLoggingContext).LogError(BuildEventFileInfo.Empty, "UnhandledMSBuildError", ex.ToString());
+                    (((LoggingContext)_projectLoggingContext) ?? _nodeLoggingContext).LogError(BuildEventFileInfo.Empty, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UnhandledMSBuildError, ex.ToString());
                 }
 
                 if (ExceptionHandling.IsCriticalException(ex))
@@ -1227,7 +1227,7 @@ namespace Microsoft.Build.BackEnd
                 if (_requestEntry.RequestConfiguration.Project.UsingDifferentToolsVersionFromProjectFile)
                 {
                     _projectLoggingContext.LogComment(MessageImportance.Low,
-                        "UsingDifferentToolsVersionFromProjectFile",
+                        global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@UsingDifferentToolsVersionFromProjectFile,
                         _requestEntry.RequestConfiguration.Project.OriginalProjectToolsVersion,
                         _requestEntry.RequestConfiguration.Project.ToolsVersion);
                 }
@@ -1236,7 +1236,7 @@ namespace Microsoft.Build.BackEnd
 
 
                 ProjectErrorUtilities.VerifyThrowInvalidProject(allTargets.Length > 0,
-                    _requestEntry.RequestConfiguration.Project.ProjectFileLocation, "NoTargetSpecified");
+                    _requestEntry.RequestConfiguration.Project.ProjectFileLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@NoTargetSpecified);
 
                 // Set the current directory to that required by the project.
                 SetProjectDirectory();
@@ -1267,12 +1267,12 @@ namespace Microsoft.Build.BackEnd
                     if (recovered)
                     {
                         _projectLoggingContext.LogWarning(null, new BuildEventFileInfo(location),
-                            "MultiThreadedStrictModeSentinelMissing", scope.SentinelDirectory);
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MultiThreadedStrictModeSentinelMissing, scope.SentinelDirectory);
                     }
                     else if (entries is not null)
                     {
                         _projectLoggingContext.LogWarning(null, new BuildEventFileInfo(location),
-                            "MultiThreadedStrictModeUnresolvedPathWrite", entries, scope.SentinelDirectory);
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MultiThreadedStrictModeUnresolvedPathWrite, entries, scope.SentinelDirectory);
                     }
                 }
 

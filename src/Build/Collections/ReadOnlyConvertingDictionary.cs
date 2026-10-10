@@ -70,7 +70,7 @@ namespace Microsoft.Build.Collections
         public N this[K key]
         {
             get => _converter(_backing[key]);
-            set => ErrorUtilities.ThrowInvalidOperation("OM_NotSupportedReadOnlyCollection");
+            set => ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_NotSupportedReadOnlyCollection);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Microsoft.Build.Collections
         /// </summary>
         public void Add(K key, N value)
         {
-            ErrorUtilities.ThrowInvalidOperation("OM_NotSupportedReadOnlyCollection");
+            ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_NotSupportedReadOnlyCollection);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Microsoft.Build.Collections
         /// </summary>
         public bool Remove(K key)
         {
-            ErrorUtilities.ThrowInvalidOperation("OM_NotSupportedReadOnlyCollection");
+            ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_NotSupportedReadOnlyCollection);
             return false;
         }
 
@@ -122,7 +122,7 @@ namespace Microsoft.Build.Collections
         /// </summary>
         public void Add(KeyValuePair<K, N> item)
         {
-            ErrorUtilities.ThrowInvalidOperation("OM_NotSupportedReadOnlyCollection");
+            ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_NotSupportedReadOnlyCollection);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Microsoft.Build.Collections
         /// </summary>
         public void Clear()
         {
-            ErrorUtilities.ThrowInvalidOperation("OM_NotSupportedReadOnlyCollection");
+            ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_NotSupportedReadOnlyCollection);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Microsoft.Build.Collections
         /// </summary>
         public bool Contains(KeyValuePair<K, N> item)
         {
-            ErrorUtilities.ThrowInvalidOperation("OM_NotSupportedConvertingCollectionValueToBacking");
+            ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_NotSupportedConvertingCollectionValueToBacking);
             return false;
         }
 
@@ -160,7 +160,7 @@ namespace Microsoft.Build.Collections
         /// </summary>
         public bool Remove(KeyValuePair<K, N> item)
         {
-            ErrorUtilities.ThrowInvalidOperation("OM_NotSupportedReadOnlyCollection");
+            ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_NotSupportedReadOnlyCollection);
             return false;
         }
 

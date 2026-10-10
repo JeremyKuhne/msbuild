@@ -141,7 +141,7 @@ namespace Microsoft.Build.Tasks
 
             if (!_sourceDirectory.Exists)
             {
-                Log.LogErrorWithCodeFromResources("TarDirectory.ErrorDirectoryDoesNotExist", _sourceDirectory.FullName);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TarDirectory_ErrorDirectoryDoesNotExist, _sourceDirectory.FullName);
                 return false;
             }
 
@@ -154,7 +154,7 @@ namespace Microsoft.Build.Tasks
             // of the intended not-incremental error.
             if (FailIfNotIncremental)
             {
-                Log.LogErrorWithCodeFromResources("TarDirectory.ErrorFailIfNotIncremental", _sourceDirectory.FullName, _destinationFile.FullName);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TarDirectory_ErrorFailIfNotIncremental, _sourceDirectory.FullName, _destinationFile.FullName);
 
                 return false;
             }
@@ -163,7 +163,7 @@ namespace Microsoft.Build.Tasks
             {
                 if (!Overwrite)
                 {
-                    Log.LogErrorWithCodeFromResources("TarDirectory.ErrorFileExists", _destinationFile.FullName);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TarDirectory_ErrorFileExists, _destinationFile.FullName);
 
                     return false;
                 }
@@ -175,7 +175,7 @@ namespace Microsoft.Build.Tasks
                 catch (Exception e)
                 {
                     string lockedFileMessage = LockCheck.GetLockedFileMessage(_destinationFile.FullName);
-                    Log.LogErrorWithCodeFromResources("TarDirectory.ErrorFailed", _sourceDirectory.FullName, _destinationFile.FullName, e.Message, lockedFileMessage);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TarDirectory_ErrorFailed, _sourceDirectory.FullName, _destinationFile.FullName, e.Message, lockedFileMessage);
 
                     return false;
                 }
@@ -188,14 +188,14 @@ namespace Microsoft.Build.Tasks
 
             if (!TryGetEntryFormat(out TarEntryFormat format))
             {
-                Log.LogErrorWithCodeFromResources("TarDirectory.InvalidFormat", Format);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TarDirectory_InvalidFormat, Format);
 
                 return false;
             }
 
             if (!TryGetCompression(out TarCompression compression))
             {
-                Log.LogErrorWithCodeFromResources("TarDirectory.InvalidCompression", Compression);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TarDirectory_InvalidCompression, Compression);
 
                 return false;
             }
@@ -204,7 +204,7 @@ namespace Microsoft.Build.Tasks
 
             try
             {
-                Log.LogMessageFromResources(MessageImportance.High, "TarDirectory.Comment", _sourceDirectory.FullName, _destinationFile.FullName);
+                Log.LogMessageFromResources(MessageImportance.High, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TarDirectory_Comment, _sourceDirectory.FullName, _destinationFile.FullName);
 
                 // Scope the write streams to this block so they are flushed and closed before Execute returns,
                 // and — importantly — before the catch below attempts to delete a partially-written archive.
@@ -271,7 +271,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e)
             {
-                Log.LogErrorWithCodeFromResources("TarDirectory.ErrorFailed", _sourceDirectory.FullName, _destinationFile.FullName, e.Message, string.Empty);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TarDirectory_ErrorFailed, _sourceDirectory.FullName, _destinationFile.FullName, e.Message, string.Empty);
 
                 // Best-effort cleanup of the partially-written archive so a subsequent non-Overwrite build does
                 // not fail with "already exists" on a corrupt, incomplete file.
@@ -376,7 +376,7 @@ namespace Microsoft.Build.Tasks
 
             if (!TryParseTimestamp(DeterministicTimestamp, out DateTimeOffset parsedTimestamp))
             {
-                Log.LogErrorWithCodeFromResources("TarDirectory.InvalidDeterministicTimestamp", DeterministicTimestamp);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TarDirectory_InvalidDeterministicTimestamp, DeterministicTimestamp);
 
                 return false;
             }

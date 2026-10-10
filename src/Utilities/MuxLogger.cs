@@ -1256,7 +1256,7 @@ namespace Microsoft.Build.Utilities
                     ProjectFinishedEventArgs projectFinishedEvent = buildEvent as ProjectFinishedEventArgs;
                     if (projectFinishedEvent != null && buildEvent.BuildEventContext?.Equals(_firstProjectStartedEventContext) == true)
                     {
-                        string message = projectFinishedEvent.Succeeded ? ResourceUtilities.GetResourceString("MuxLogger_BuildFinishedSuccess") : ResourceUtilities.GetResourceString("MuxLogger_BuildFinishedFailure");
+                        string message = projectFinishedEvent.Succeeded ? ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MuxLogger_BuildFinishedSuccess) : ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MuxLogger_BuildFinishedFailure);
                         RaiseBuildFinishedEvent(sender, new BuildFinishedEventArgs(message, null, projectFinishedEvent.Succeeded));
                         Shutdown();
                     }

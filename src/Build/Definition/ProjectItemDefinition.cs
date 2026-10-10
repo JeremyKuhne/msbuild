@@ -151,8 +151,8 @@ namespace Microsoft.Build.Evaluation
             }
 
             XmlUtilities.VerifyThrowArgumentValidElementName(name);
-            ErrorUtilities.VerifyThrowArgument(!ItemSpecModifiers.IsItemSpecModifier(name), "ItemSpecModifierCannotBeCustomMetadata", name);
-            ErrorUtilities.VerifyThrowInvalidOperation(!XMakeElements.ReservedItemNames.Contains(name), "CannotModifyReservedItemMetadata", name);
+            ErrorUtilities.VerifyThrowArgument(!ItemSpecModifiers.IsItemSpecModifier(name), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ItemSpecModifierCannotBeCustomMetadata, name);
+            ErrorUtilities.VerifyThrowInvalidOperation(!XMakeElements.ReservedItemNames.Contains(name), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotModifyReservedItemMetadata, name);
 
             ProjectMetadata metadatum;
 

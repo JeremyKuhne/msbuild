@@ -68,12 +68,12 @@ namespace Microsoft.Build.Tasks
                             {
                                 if (FailIfNotIncremental)
                                 {
-                                    Log.LogErrorFromResources("MakeDir.Comment", absolutePath.Value.OriginalValue);
+                                    Log.LogErrorFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MakeDir_Comment, absolutePath.Value.OriginalValue);
                                 }
                                 else
                                 {
                                     // Do not log a fake command line as well, as it's superfluous, and also potentially expensive
-                                    Log.LogMessageFromResources(MessageImportance.Normal, "MakeDir.Comment", absolutePath.Value.OriginalValue);
+                                    Log.LogMessageFromResources(MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MakeDir_Comment, absolutePath.Value.OriginalValue);
 
                                     Directory.CreateDirectory(absolutePath);
                                 }
@@ -84,7 +84,7 @@ namespace Microsoft.Build.Tasks
                     }
                     catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                     {
-                        Log.LogErrorWithCodeFromResources("MakeDir.Error", absolutePath?.OriginalValue ?? directory.ItemSpec, e.Message);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@MakeDir_Error, absolutePath?.OriginalValue ?? directory.ItemSpec, e.Message);
                     }
 
                     // Add even on failure to avoid reattempting

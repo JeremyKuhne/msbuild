@@ -79,7 +79,7 @@ internal sealed class FilteredBinlogReplay
         var parameters = BinaryLogger.ParseParameters(parameter);
         CommandLineSwitchException.VerifyThrow(
             parameters.ProjectImportsCollectionMode != BinaryLogger.ProjectImportsCollectionMode.ZipFile,
-            "ReplayFilterZipNotSupported",
+            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReplayFilterZipNotSupported,
             parameter);
 
         string outputPath;
@@ -89,11 +89,11 @@ internal sealed class FilteredBinlogReplay
         }
         catch (Exception ex) when (ExceptionHandling.IsIoRelatedException(ex))
         {
-            CommandLineSwitchException.Throw("ReplayFilterInvalidOutput", parameter, ex.Message);
+            CommandLineSwitchException.Throw(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReplayFilterInvalidOutput, parameter, ex.Message);
             throw;
         }
 
-        CommandLineSwitchException.VerifyThrow(!File.Exists(outputPath) && !Directory.Exists(outputPath), "ReplayFilterOutputExists", outputPath);
+        CommandLineSwitchException.VerifyThrow(!File.Exists(outputPath) && !Directory.Exists(outputPath), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReplayFilterOutputExists, outputPath);
         return new Output(outputPath, parameters);
     }
 
@@ -121,7 +121,7 @@ internal sealed class FilteredBinlogReplay
                     or CommandLineSwitches.ParameterizedSwitch.MaxCPUCount
                     or CommandLineSwitches.ParameterizedSwitch.NodeReuse
                     or CommandLineSwitches.ParameterizedSwitch.LowPriority,
-                "ReplayFilterUnsupportedSwitch",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReplayFilterUnsupportedSwitch,
                 switches.GetParameterizedSwitchCommandLineArg(kind));
         }
 
@@ -137,7 +137,7 @@ internal sealed class FilteredBinlogReplay
                 kind is CommandLineSwitches.ParameterlessSwitch.NoAutoResponse
                     or CommandLineSwitches.ParameterlessSwitch.NoConsoleLogger
                     or >= CommandLineSwitches.ParameterlessSwitch.FileLogger and <= CommandLineSwitches.ParameterlessSwitch.DistributedFileLogger,
-                "ReplayFilterUnsupportedSwitch",
+                global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReplayFilterUnsupportedSwitch,
                 switches.GetParameterlessSwitchCommandLineArg(kind));
         }
     }
@@ -171,7 +171,7 @@ internal sealed class FilteredBinlogReplay
                 if (logger is BinaryLogger binaryLogger)
                 {
                     Output output = CreateOutput(binaryLogger.Parameters);
-                    CommandLineSwitchException.VerifyThrow(outputPaths.Add(output.Path), "ReplayFilterOutputExists", output.Path);
+                    CommandLineSwitchException.VerifyThrow(outputPaths.Add(output.Path), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReplayFilterOutputExists, output.Path);
                     outputs.Add(binaryLogger, output);
                 }
             }
@@ -262,7 +262,7 @@ internal sealed class FilteredBinlogReplay
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
-            Console.WriteLine(ResourceUtilities.GetResourceString("ReplayFilterCanceled"));
+            Console.WriteLine(ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReplayFilterCanceled));
             return false;
         }
         catch (Exception ex) when (!ExceptionHandling.IsCriticalException(ex))
@@ -290,5 +290,5 @@ internal sealed class FilteredBinlogReplay
     }
 
     private static void ReportFailure(Exception exception)
-        => Console.WriteLine(ResourceUtilities.FormatResourceStringStripCodeAndKeyword("ReplayFilterFailed", exception.ToString()));
+        => Console.WriteLine(ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ReplayFilterFailed, exception.ToString()));
 }

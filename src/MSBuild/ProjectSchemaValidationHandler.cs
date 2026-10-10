@@ -50,13 +50,13 @@ namespace Microsoft.Build.CommandLine
             {
                 // Print the schema file we're using, particularly since it can vary
                 // according to the toolset being used
-                Console.WriteLine(AssemblyResources.GetString("SchemaFileLocation"), schemaFile);
+                Console.WriteLine(AssemblyResources.GetString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SchemaFileLocation), schemaFile);
             }
             else
             {
                 // If we've gotten to this point, there is no schema to validate against -- just exit.
                 InitializationException.Throw(
-                    ResourceUtilities.FormatResourceStringStripCodeAndKeyword("SchemaNotFoundErrorWithFile", schemaFile),
+                    ResourceUtilities.FormatResourceStringStripCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SchemaNotFoundErrorWithFile, schemaFile),
                     null); /* No associated command line switch */
             }
 
@@ -229,7 +229,7 @@ namespace Microsoft.Build.CommandLine
 
             return EventArgsFormatting.FormatEventMessage(
                     "error",
-                    AssemblyResources.GetString("SubCategoryForSchemaValidationErrors"),
+                    AssemblyResources.GetString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@SubCategoryForSchemaValidationErrors),
                     message,
                     errorCode,
                     projectFile,

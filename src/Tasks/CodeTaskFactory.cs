@@ -219,7 +219,7 @@ namespace Microsoft.Build.Tasks
                 _type = taskContent.Attributes["Type"].Value;
                 if (_type.Length == 0)
                 {
-                    _log.LogErrorWithCodeFromResources("CodeTaskFactory.AttributeEmpty", "Type");
+                    _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_AttributeEmpty, "Type");
                     return false;
                 }
             }
@@ -229,7 +229,7 @@ namespace Microsoft.Build.Tasks
                 _language = taskContent.Attributes["Language"].Value;
                 if (_language.Length == 0)
                 {
-                    _log.LogErrorWithCodeFromResources("CodeTaskFactory.AttributeEmpty", "Language");
+                    _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_AttributeEmpty, "Language");
                     return false;
                 }
             }
@@ -240,7 +240,7 @@ namespace Microsoft.Build.Tasks
 
                 if (_sourcePath.Length == 0)
                 {
-                    _log.LogErrorWithCodeFromResources("CodeTaskFactory.AttributeEmpty", "Source");
+                    _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_AttributeEmpty, "Source");
                     return false;
                 }
 
@@ -318,7 +318,7 @@ namespace Microsoft.Build.Tasks
                 TaskType = fullNameMatch ?? partialNameMatch;
                 if (TaskType == null)
                 {
-                    _log.LogErrorWithCodeFromResources("CodeTaskFactory.CouldNotFindTaskInAssembly", _nameOfTask);
+                    _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_CouldNotFindTaskInAssembly, _nameOfTask);
                 }
             }
 
@@ -344,7 +344,7 @@ namespace Microsoft.Build.Tasks
                 ITask taskInstance = Activator.CreateInstance(TaskType) as ITask;
                 if (taskInstance == null)
                 {
-                    log.LogErrorWithCodeFromResources("CodeTaskFactory.NeedsITaskInterface", _nameOfTask);
+                    log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_NeedsITaskInterface, _nameOfTask);
                 }
 
                 return taskInstance;
@@ -467,7 +467,7 @@ namespace Microsoft.Build.Tasks
 
                 if (string.IsNullOrWhiteSpace(attribute?.Value))
                 {
-                    _log.LogErrorWithCodeFromResources("CodeTaskFactory.AttributeEmptyWithTaskElement", "Include", "Reference", _nameOfTask);
+                    _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_AttributeEmptyWithTaskElement, "Include", "Reference", _nameOfTask);
                     return null;
                 }
 
@@ -498,7 +498,7 @@ namespace Microsoft.Build.Tasks
                 XmlAttribute attribute = usingNodes[i].Attributes["Namespace"];
                 if (attribute == null || attribute.Value.Length == 0)
                 {
-                    _log.LogErrorWithCodeFromResources("CodeTaskFactory.AttributeEmpty", "Namespace");
+                    _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_AttributeEmpty, "Namespace");
                     return null;
                 }
 
@@ -529,12 +529,12 @@ namespace Microsoft.Build.Tasks
 
             if (codeNodes.Count > 1)
             {
-                _log.LogErrorWithCodeFromResources("CodeTaskFactory.MultipleCodeNodes");
+                _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_MultipleCodeNodes);
                 return null;
             }
             else if (codeNodes.Count == 0)
             {
-                _log.LogErrorWithCodeFromResources("CodeTaskFactory.CodeElementIsMissing", _nameOfTask);
+                _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_CodeElementIsMissing, _nameOfTask);
                 return null;
             }
 
@@ -583,7 +583,7 @@ namespace Microsoft.Build.Tasks
 
                     if (foundInvalidNode)
                     {
-                        _log.LogErrorWithCodeFromResources("CodeTaskFactory.InvalidElementLocation", childNode.Name, _taskNode.Name);
+                        _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_InvalidElementLocation, childNode.Name, _taskNode.Name);
                         return false;
                     }
                 }
@@ -614,7 +614,7 @@ namespace Microsoft.Build.Tasks
 
                     if (!elementAllowed)
                     {
-                        _log.LogErrorWithCodeFromResources("CodeTaskFactory.InvalidElementLocation", childNode.Name, parentNode.Name);
+                        _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_InvalidElementLocation, childNode.Name, parentNode.Name);
                         hasInvalidNode = true;
                     }
                     else
@@ -665,7 +665,7 @@ namespace Microsoft.Build.Tasks
                     }
                     catch (Exception e) when (!ExceptionHandling.IsCriticalException(e))
                     {
-                        _log.LogErrorWithCodeFromResources("CodeTaskFactory.ReferenceAssemblyIsInvalid", referenceAssembly, e.Message);
+                        _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_ReferenceAssemblyIsInvalid, referenceAssembly, e.Message);
                     }
                 }
 
@@ -675,7 +675,7 @@ namespace Microsoft.Build.Tasks
                 }
                 else
                 {
-                    _log.LogErrorWithCodeFromResources("CodeTaskFactory.CouldNotFindReferenceAssembly", referenceAssembly);
+                    _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_CouldNotFindReferenceAssembly, referenceAssembly);
                 }
             }
 
@@ -729,7 +729,7 @@ namespace Microsoft.Build.Tasks
                     Debug.Assert(e.Message.Contains("0x80131058"), "Expected Message to contain 0x80131058");
                     AssemblyName.GetAssemblyName(assemblyFile);
                     candidateAssemblyLocation = assemblyFile;
-                    _log.LogMessageFromResources(MessageImportance.Low, "CodeTaskFactory.HaveReflectionOnlyAssembly", assemblyFile);
+                    _log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_HaveReflectionOnlyAssembly, assemblyFile);
                 }
 
                 return true;
@@ -901,11 +901,11 @@ namespace Microsoft.Build.Tasks
 
                 if (compilerResults.NativeCompilerReturnValue != 0 && compilerResults.Errors.Count > 0)
                 {
-                    _log.LogErrorWithCodeFromResources("CodeTaskFactory.FindSourceFileAt", outputPath);
+                    _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_FindSourceFileAt, outputPath);
                     
                     foreach (CompilerError error in compilerResults.Errors)
                     {
-                        _log.LogErrorWithCodeFromResources("CodeTaskFactory.CompilerError", error.ToString());
+                        _log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_CompilerError, error.ToString());
                     }
                     
                     return null;
@@ -914,7 +914,7 @@ namespace Microsoft.Build.Tasks
                 // Log the location of the code file.
                 if (outputPath != null)
                 {
-                    _log.LogMessageFromResources(MessageImportance.Low, "CodeTaskFactory.FindSourceFileAt", outputPath);
+                    _log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CodeTaskFactory_FindSourceFileAt, outputPath);
                 }
 
                 Assembly assembly;
@@ -1149,7 +1149,7 @@ namespace Microsoft.Build.Tasks
                 HelpKeywordPrefix = "MSBuild."
             };
 
-            log.LogErrorWithCodeFromResources("TaskFactoryNotSupportedFailure", nameof(CodeTaskFactory));
+            log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskFactoryNotSupportedFailure, nameof(CodeTaskFactory));
 
             return false;
         }

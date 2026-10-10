@@ -84,7 +84,7 @@ internal partial class Expander<P, I>
             }
             catch (InvalidOperationException ex)
             {
-                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, "CannotExpandItemMetadata", expression, ex.Message);
+                ProjectErrorUtilities.ThrowInvalidProject(elementLocation, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@CannotExpandItemMetadata, expression, ex.Message);
             }
 
             return Assumed.Unreachable<string>();
@@ -216,7 +216,7 @@ internal partial class Expander<P, I>
                         _loggingContext.LogComment(
                             MessageImportance.Low,
                             new BuildEventFileInfo(_elementLocation),
-                            "ItemReferencingSelfInTarget",
+                            global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ItemReferencingSelfInTarget,
                             itemMetadata.ItemType,
                             metadataName);
                     }

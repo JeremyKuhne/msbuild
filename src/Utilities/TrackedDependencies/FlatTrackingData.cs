@@ -353,7 +353,7 @@ namespace Microsoft.Build.Utilities
             }
             catch (ArgumentException e)
             {
-                FileTracker.LogWarningWithCodeFromResources(_log, "Tracking_RebuildingDueToInvalidTLog", e.Message);
+                FileTracker.LogWarningWithCodeFromResources(_log, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_RebuildingDueToInvalidTLog, e.Message);
                 return;
             }
             if (!TlogsAvailable)
@@ -386,7 +386,7 @@ namespace Microsoft.Build.Utilities
                 UpdateFileEntryDetails();
 
                 // Log information about what we're using
-                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_TrackingCached");
+                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_TrackingCached);
                 foreach (ITaskItem tlogItem in cachedEntry.TlogFiles)
                 {
                     FileTracker.LogMessage(_log, MessageImportance.Low, "\t{0}", tlogItem.ItemSpec);
@@ -394,7 +394,7 @@ namespace Microsoft.Build.Utilities
                 return;
             }
 
-            FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_TrackingLogs");
+            FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_TrackingLogs);
             // Now we need to construct the rest of the table from the TLOG files
             // If there are any errors in the tlogs, we want to warn, stop parsing tlogs, and empty
             // out the dependency table, essentially forcing a rebuild.
@@ -463,13 +463,13 @@ namespace Microsoft.Build.Utilities
                 }
                 catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                 {
-                    FileTracker.LogWarningWithCodeFromResources(_log, "Tracking_RebuildingDueToInvalidTLog", e.Message);
+                    FileTracker.LogWarningWithCodeFromResources(_log, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_RebuildingDueToInvalidTLog, e.Message);
                     break;
                 }
 
                 if (encounteredInvalidTLogContents)
                 {
-                    FileTracker.LogWarningWithCodeFromResources(_log, "Tracking_RebuildingDueToInvalidTLogContents", invalidTLogName);
+                    FileTracker.LogWarningWithCodeFromResources(_log, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_RebuildingDueToInvalidTLogContents, invalidTLogName);
                     break;
                 }
             }
@@ -736,7 +736,7 @@ namespace Microsoft.Build.Utilities
                 // 1) The TLogs are somehow missing, which means we need to build
                 // 2) Because we are flat tracking, there are no roots which means that all the input file information
                 //    comes from the input Tlogs, if they are empty then we must build.
-                Log.LogMessageFromResources(MessageImportance.Low, "Tracking_LogFilesNotAvailable");
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_LogFilesNotAvailable);
             }
             else if (inputs.MissingFiles.Count > 0 || outputs.MissingFiles.Count > 0)
             {
@@ -745,12 +745,12 @@ namespace Microsoft.Build.Utilities
                 // Files are missing from inputs, that means we need to build
                 if (inputs.MissingFiles.Count > 0)
                 {
-                    Log.LogMessageFromResources(MessageImportance.Low, "Tracking_MissingInputs");
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_MissingInputs);
                 }
                 // Too much logging leads to poor performance
                 if (inputs.MissingFiles.Count > MaxLogCount)
                 {
-                    FileTracker.LogMessageFromResources(Log, MessageImportance.Low, "Tracking_InputsNotShown", inputs.MissingFiles.Count);
+                    FileTracker.LogMessageFromResources(Log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_InputsNotShown, inputs.MissingFiles.Count);
                 }
                 else
                 {
@@ -764,12 +764,12 @@ namespace Microsoft.Build.Utilities
                 // Files are missing from outputs, that means we need to build
                 if (outputs.MissingFiles.Count > 0)
                 {
-                    Log.LogMessageFromResources(MessageImportance.Low, "Tracking_MissingOutputs");
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_MissingOutputs);
                 }
                 // Too much logging leads to poor performance
                 if (outputs.MissingFiles.Count > MaxLogCount)
                 {
-                    FileTracker.LogMessageFromResources(Log, MessageImportance.Low, "Tracking_OutputsNotShown", outputs.MissingFiles.Count);
+                    FileTracker.LogMessageFromResources(Log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_OutputsNotShown, outputs.MissingFiles.Count);
                 }
                 else
                 {
@@ -784,37 +784,37 @@ namespace Microsoft.Build.Utilities
                     inputs.NewestFileTimeUtc > inputs.NewestTLogTimeUtc)
             {
                 // One of the inputs is newer than the input tlog
-                Log.LogMessageFromResources(MessageImportance.Low, "Tracking_DependencyWasModifiedAt", inputs.NewestFileName, inputs.NewestFileTimeUtc, inputs.NewestTLogFileName, inputs.NewestTLogTimeUtc);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_DependencyWasModifiedAt, inputs.NewestFileName, inputs.NewestFileTimeUtc, inputs.NewestTLogFileName, inputs.NewestTLogTimeUtc);
             }
             else if (upToDateCheckType == UpToDateCheckType.InputOrOutputNewerThanTracking &&
                     outputs.NewestFileTimeUtc > outputs.NewestTLogTimeUtc)
             {
                 // one of the outputs is newer than the output tlog
-                Log.LogMessageFromResources(MessageImportance.Low, "Tracking_DependencyWasModifiedAt", outputs.NewestFileName, outputs.NewestFileTimeUtc, outputs.NewestTLogFileName, outputs.NewestTLogTimeUtc);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_DependencyWasModifiedAt, outputs.NewestFileName, outputs.NewestFileTimeUtc, outputs.NewestTLogFileName, outputs.NewestTLogTimeUtc);
             }
             else if (upToDateCheckType == UpToDateCheckType.InputNewerThanOutput &&
                     inputs.NewestFileTimeUtc > outputs.NewestFileTimeUtc)
             {
                 // One of the inputs is newer than the outputs
-                Log.LogMessageFromResources(MessageImportance.Low, "Tracking_DependencyWasModifiedAt", inputs.NewestFileName, inputs.NewestFileTimeUtc, outputs.NewestFileName, outputs.NewestFileTimeUtc);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_DependencyWasModifiedAt, inputs.NewestFileName, inputs.NewestFileTimeUtc, outputs.NewestFileName, outputs.NewestFileTimeUtc);
             }
             else if (upToDateCheckType == UpToDateCheckType.InputNewerThanTracking &&
                     inputs.NewestFileTimeUtc > inputs.NewestTLogTimeUtc)
             {
                 // One of the inputs is newer than the one of the TLogs
-                Log.LogMessageFromResources(MessageImportance.Low, "Tracking_DependencyWasModifiedAt", inputs.NewestFileName, inputs.NewestFileTimeUtc, inputs.NewestTLogFileName, inputs.NewestTLogTimeUtc);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_DependencyWasModifiedAt, inputs.NewestFileName, inputs.NewestFileTimeUtc, inputs.NewestTLogFileName, inputs.NewestTLogTimeUtc);
             }
             else if (upToDateCheckType == UpToDateCheckType.InputNewerThanTracking &&
                     inputs.NewestFileTimeUtc > outputs.NewestTLogTimeUtc)
             {
                 // One of the inputs is newer than the one of the TLogs
-                Log.LogMessageFromResources(MessageImportance.Low, "Tracking_DependencyWasModifiedAt", inputs.NewestFileName, inputs.NewestFileTimeUtc, outputs.NewestTLogFileName, outputs.NewestTLogTimeUtc);
+                Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_DependencyWasModifiedAt, inputs.NewestFileName, inputs.NewestFileTimeUtc, outputs.NewestTLogFileName, outputs.NewestTLogTimeUtc);
             }
             else
             {
                 // Nothing appears to have changed..
                 isUpToDate = true;
-                Log.LogMessageFromResources(MessageImportance.Normal, "Tracking_UpToDate");
+                Log.LogMessageFromResources(MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_UpToDate);
             }
 
             // Set the task resources back now that we're done with it

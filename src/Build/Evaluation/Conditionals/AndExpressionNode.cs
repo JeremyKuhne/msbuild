@@ -22,7 +22,7 @@ namespace Microsoft.Build.Evaluation
             {
                 ProjectErrorUtilities.ThrowInvalidProject(
                      state.ElementLocation,
-                     "ExpressionDoesNotEvaluateToBoolean",
+                     global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ExpressionDoesNotEvaluateToBoolean,
                      LeftChild.GetUnexpandedValue(state),
                      LeftChild.GetExpandedValue(state),
                      state.Condition);
@@ -39,7 +39,7 @@ namespace Microsoft.Build.Evaluation
                 {
                     ProjectErrorUtilities.ThrowInvalidProject(
                          state.ElementLocation,
-                         "ExpressionDoesNotEvaluateToBoolean",
+                         global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ExpressionDoesNotEvaluateToBoolean,
                          RightChild.GetUnexpandedValue(state),
                          RightChild.GetExpandedValue(state),
                          state.Condition);

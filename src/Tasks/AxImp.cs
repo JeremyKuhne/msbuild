@@ -150,7 +150,7 @@ namespace Microsoft.Build.Tasks
                 // Verify that we were actually passed a .ocx to import
                 if (String.IsNullOrEmpty(ActiveXControlName))
                 {
-                    Log.LogErrorWithCodeFromResources("AxImp.NoInputFileSpecified");
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@AxImp_NoInputFileSpecified);
                     return false;
                 }
 

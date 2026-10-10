@@ -98,7 +98,7 @@ namespace Microsoft.Build.Tasks
                 // is not really a valid assembly file.
                 if (!Silent)
                 {
-                    Log.LogWarningWithCodeFromResources("ResolveComReference.BadAssemblyImage", asmName);
+                    Log.LogWarningWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ResolveComReference_BadAssemblyImage, asmName);
                 }
             }
 

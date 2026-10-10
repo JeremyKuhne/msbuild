@@ -1247,7 +1247,7 @@ namespace Microsoft.Build.Execution
         {
             if (_evaluationStage < requiredStage)
             {
-                ErrorUtilities.ThrowInvalidOperation("OM_PartialEvaluationMemberUnavailable", memberName, _evaluationStage, requiredStage);
+                ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_PartialEvaluationMemberUnavailable, memberName, _evaluationStage, requiredStage);
             }
         }
 
@@ -2719,7 +2719,7 @@ namespace Microsoft.Build.Execution
                        String.Equals(toolsVersion, "3.5", StringComparison.OrdinalIgnoreCase))
                 {
                     // Spawn the Orcas SolutionWrapperProject generator.
-                    loggingService.LogComment(projectBuildEventContext, MessageImportance.Low, "OldWrapperGeneratedExplicitToolsVersion", toolsVersion);
+                    loggingService.LogComment(projectBuildEventContext, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OldWrapperGeneratedExplicitToolsVersion, toolsVersion);
                     projectInstances = GenerateSolutionWrapperUsingOldOM(projectFile, globalProperties, toolsVersion, buildParameters.ProjectRootElementCache, buildParameters, loggingService, projectBuildEventContext, isExplicitlyLoaded, sdkResolverService, submissionId);
                 }
                 else
@@ -2783,12 +2783,12 @@ namespace Microsoft.Build.Execution
             // engine to generate the solution wrapper.
             if (solutionVersion <= 9) /* Whidbey or before */
             {
-                loggingService.LogComment(projectBuildEventContext, MessageImportance.Low, "OldWrapperGeneratedOldSolutionVersion", "2.0", solutionVersion);
+                loggingService.LogComment(projectBuildEventContext, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OldWrapperGeneratedOldSolutionVersion, "2.0", solutionVersion);
                 projectInstances = GenerateSolutionWrapperUsingOldOM(projectFile, globalProperties, "2.0", buildParameters.ProjectRootElementCache, buildParameters, loggingService, projectBuildEventContext, isExplicitlyLoaded, sdkResolverService, submissionId);
             }
             else if (solutionVersion == 10) /* Orcas */
             {
-                loggingService.LogComment(projectBuildEventContext, MessageImportance.Low, "OldWrapperGeneratedOldSolutionVersion", "3.5", solutionVersion);
+                loggingService.LogComment(projectBuildEventContext, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OldWrapperGeneratedOldSolutionVersion, "3.5", solutionVersion);
                 projectInstances = GenerateSolutionWrapperUsingOldOM(projectFile, globalProperties, "3.5", buildParameters.ProjectRootElementCache, buildParameters, loggingService, projectBuildEventContext, isExplicitlyLoaded, sdkResolverService, submissionId);
             }
             else
@@ -2835,7 +2835,7 @@ namespace Microsoft.Build.Execution
         {
             if (isImmutable)
             {
-                ErrorUtilities.ThrowInvalidOperation("OM_ProjectInstanceImmutable");
+                ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_ProjectInstanceImmutable);
             }
         }
 
@@ -3300,7 +3300,7 @@ namespace Microsoft.Build.Execution
             if (this.Toolset == null)
             {
                 string toolsVersionList = Utilities.CreateToolsVersionListString(buildParameters.Toolsets);
-                ProjectErrorUtilities.ThrowInvalidProject(toolsVersionLocation, "UnrecognizedToolsVersion", toolsVersionToUse, toolsVersionList);
+                ProjectErrorUtilities.ThrowInvalidProject(toolsVersionLocation, global::Microsoft.Build.Framework.Resources.SR.Resources.@UnrecognizedToolsVersion, toolsVersionToUse, toolsVersionList);
             }
 
             if (explicitSubToolsetVersion != null)

@@ -133,7 +133,7 @@ namespace Microsoft.Build.Evaluation
             {
                 ArgumentNullException.ThrowIfNull(value);
                 Project.VerifyThrowInvalidOperationNotImported(_xml.ContainingProject);
-                ErrorUtilities.VerifyThrowInvalidOperation(_xml.Parent?.Parent?.Parent != null, "OM_ObjectIsNoLongerActive");
+                ErrorUtilities.VerifyThrowInvalidOperation(_xml.Parent?.Parent?.Parent != null, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@OM_ObjectIsNoLongerActive);
 
                 if (String.Equals(_xml.Value, value, StringComparison.Ordinal))
                 {

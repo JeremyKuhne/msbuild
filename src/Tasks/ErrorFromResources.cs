@@ -74,7 +74,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e) when (!ExceptionHandling.IsCriticalException(e))
             {
-                Log.LogErrorWithCodeFromResources("ErrorFromResources.LogErrorFailure", Resource, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ErrorFromResources_LogErrorFailure, Resource, e.Message);
             }
 
             // Effectively 'false', since by every codepath, some sort of error is getting logged.

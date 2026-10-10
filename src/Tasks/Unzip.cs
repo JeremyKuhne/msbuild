@@ -96,7 +96,7 @@ namespace Microsoft.Build.Tasks
             }
             catch (Exception e)
             {
-                Log.LogErrorWithCodeFromResources("Unzip.ErrorCouldNotCreateDestinationDirectory", DestinationFolder.ItemSpec, e.Message);
+                Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_ErrorCouldNotCreateDestinationDirectory, DestinationFolder.ItemSpec, e.Message);
 
                 return false;
             }
@@ -118,13 +118,13 @@ namespace Microsoft.Build.Tasks
                         }
                         catch (Exception)
                         {
-                            Log.LogErrorWithCodeFromResources("Unzip.ErrorFileDoesNotExist", sourceFile.ItemSpec);
+                            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_ErrorFileDoesNotExist, sourceFile.ItemSpec);
                             continue;
                         }
 
                         if (!FileSystems.Default.FileExists(sourceFilePath))
                         {
-                            Log.LogErrorWithCodeFromResources("Unzip.ErrorFileDoesNotExist", sourceFile.ItemSpec);
+                            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_ErrorFileDoesNotExist, sourceFile.ItemSpec);
                             continue;
                         }
 
@@ -156,7 +156,7 @@ namespace Microsoft.Build.Tasks
                         catch (Exception e)
                         {
                             // Should only be thrown if the archive could not be opened (Access denied, corrupt file, etc)
-                            Log.LogErrorWithCodeFromResources("Unzip.ErrorCouldNotOpenFile", sourceFile.ItemSpec, e.Message);
+                            Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_ErrorCouldNotOpenFile, sourceFile.ItemSpec, e.Message);
                         }
                     }
                 }
@@ -182,12 +182,12 @@ namespace Microsoft.Build.Tasks
             {
                 if (ShouldSkipEntry(zipArchiveEntry))
                 {
-                    Log.LogMessageFromResources(MessageImportance.Low, "Unzip.DidNotUnzipBecauseOfFilter", zipArchiveEntry.FullName);
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_DidNotUnzipBecauseOfFilter, zipArchiveEntry.FullName);
                     continue;
                 }
 
                 AbsolutePath fullDestinationPath = TaskEnvironment.GetAbsolutePath(Path.Combine(destinationDirectory.FullName, zipArchiveEntry.FullName)).GetCanonicalForm();
-                ErrorUtilities.VerifyThrowInvalidOperation(fullDestinationPath.Value.StartsWith(fullDestinationDirectoryPath, FileUtilities.PathComparison), "Unzip.ZipSlipExploit", fullDestinationPath);
+                ErrorUtilities.VerifyThrowInvalidOperation(fullDestinationPath.Value.StartsWith(fullDestinationDirectoryPath, FileUtilities.PathComparison), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_ZipSlipExploit, fullDestinationPath);
 
                 FileInfo destinationPath = new(fullDestinationPath);
 
@@ -204,18 +204,18 @@ namespace Microsoft.Build.Tasks
                 {
                     // ExtractToDirectory() throws an IOException for this but since we're extracting one file at a time
                     // for logging and cancellation, we need to check for it ourselves.
-                    Log.LogErrorFromResources("Unzip.ErrorExtractingResultsInFilesOutsideDestination", destinationPath.FullName, destinationDirectory.FullName);
+                    Log.LogErrorFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_ErrorExtractingResultsInFilesOutsideDestination, destinationPath.FullName, destinationDirectory.FullName);
                     continue;
                 }
 
                 if (ShouldSkipEntry(zipArchiveEntry, destinationPath))
                 {
-                    Log.LogMessageFromResources(MessageImportance.Low, "Unzip.DidNotUnzipBecauseOfFileMatch", zipArchiveEntry.FullName, destinationPath.FullName, nameof(SkipUnchangedFiles), "true");
+                    Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_DidNotUnzipBecauseOfFileMatch, zipArchiveEntry.FullName, destinationPath.FullName, nameof(SkipUnchangedFiles), "true");
                     continue;
                 }
                 else if (FailIfNotIncremental)
                 {
-                    Log.LogErrorFromResources("Unzip.FileComment", zipArchiveEntry.FullName, destinationPath.FullName);
+                    Log.LogErrorFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_FileComment, zipArchiveEntry.FullName, destinationPath.FullName);
                     continue;
                 }
 
@@ -225,7 +225,7 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (Exception e)
                 {
-                    Log.LogErrorWithCodeFromResources("Unzip.ErrorCouldNotCreateDestinationDirectory", destinationPath.DirectoryName, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_ErrorCouldNotCreateDestinationDirectory, destinationPath.DirectoryName, e.Message);
                     continue;
                 }
 
@@ -238,14 +238,14 @@ namespace Microsoft.Build.Tasks
                     catch (Exception e)
                     {
                         string lockedFileMessage = LockCheck.GetLockedFileMessage(destinationPath.FullName);
-                        Log.LogErrorWithCodeFromResources("Unzip.ErrorCouldNotMakeFileWriteable", zipArchiveEntry.FullName, destinationPath.FullName, e.Message, lockedFileMessage);
+                        Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_ErrorCouldNotMakeFileWriteable, zipArchiveEntry.FullName, destinationPath.FullName, e.Message, lockedFileMessage);
                         continue;
                     }
                 }
 
                 try
                 {
-                    Log.LogMessageFromResources(MessageImportance.Normal, "Unzip.FileComment", zipArchiveEntry.FullName, destinationPath.FullName);
+                    Log.LogMessageFromResources(MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_FileComment, zipArchiveEntry.FullName, destinationPath.FullName);
 
 #if NET
                     FileStreamOptions fileStreamOptions = new()
@@ -288,7 +288,7 @@ namespace Microsoft.Build.Tasks
                 }
                 catch (IOException e)
                 {
-                    Log.LogErrorWithCodeFromResources("Unzip.ErrorCouldNotExtractFile", zipArchiveEntry.FullName, destinationPath.FullName, e.Message);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_ErrorCouldNotExtractFile, zipArchiveEntry.FullName, destinationPath.FullName, e.Message);
                 }
             }
         }
@@ -343,11 +343,11 @@ namespace Microsoft.Build.Tasks
                 if (FileMatcher.HasPropertyOrItemReferences(pattern))
                 {
                     // Supporting property references would require access to Expander which is unavailable in Microsoft.Build.Tasks
-                    Log.LogErrorWithCodeFromResources("Unzip.ErrorParsingPatternPropertyReferences", pattern);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_ErrorParsingPatternPropertyReferences, pattern);
                 }
                 else if (pattern.AsSpan().IndexOfAny(FileUtilities.InvalidPathChars) >= 0)
                 {
-                    Log.LogErrorWithCodeFromResources("Unzip.ErrorParsingPatternInvalidPath", pattern);
+                    Log.LogErrorWithCodeFromResources(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Unzip_ErrorParsingPatternInvalidPath, pattern);
                 }
                 else
                 {

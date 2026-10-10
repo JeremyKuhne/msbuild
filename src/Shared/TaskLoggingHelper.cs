@@ -208,14 +208,38 @@ namespace Microsoft.Build.Utilities
         public virtual string FormatResourceString(string resourceName, params object[] args)
         {
             ArgumentNullException.ThrowIfNull(resourceName);
-            ErrorUtilities.VerifyThrowInvalidOperation(TaskResources != null, "TaskResourcesNotRegistered", TaskName);
+            ErrorUtilities.VerifyThrowInvalidOperation(TaskResources != null, global::Microsoft.Build.Framework.Resources.SR.Resources.@TaskResourcesNotRegistered, TaskName);
 
             string resourceString = TaskResources.GetString(resourceName, CultureInfo.CurrentUICulture);
 
-            ErrorUtilities.VerifyThrowArgument(resourceString != null, "TaskResourceNotFound", resourceName, TaskName);
+            ErrorUtilities.VerifyThrowArgument(resourceString != null, global::Microsoft.Build.Framework.Resources.SR.Resources.@TaskResourceNotFound, resourceName, TaskName);
 
             return FormatString(resourceString, args);
         }
+        internal virtual string FormatResourceString(global::Microsoft.Build.Framework.Resources.StringResource resourceName, params object[] args)
+        {
+            if (!UsesDefaultResourceFormatting)
+            {
+                return FormatResourceString(resourceName.Name, args);
+            }
+
+            ArgumentNullException.ThrowIfNull(resourceName.Name);
+            ErrorUtilities.VerifyThrowInvalidOperation(TaskResources != null, global::Microsoft.Build.Framework.Resources.SR.Resources.@TaskResourcesNotRegistered, TaskName);
+
+            string resourceString = resourceName.GetString(TaskResources, CultureInfo.CurrentUICulture);
+
+            ErrorUtilities.VerifyThrowArgument(resourceString != null, global::Microsoft.Build.Framework.Resources.SR.Resources.@TaskResourceNotFound, resourceName.Name, TaskName);
+
+            return FormatString(resourceString, args);
+        }
+
+        internal virtual bool UsesDefaultResourceFormatting => GetType() == typeof(TaskLoggingHelper);
+
+        internal string GetResourceMessage(global::Microsoft.Build.Framework.Resources.StringResource resourceName)
+            => UsesDefaultResourceFormatting
+                ? FormatResourceString(resourceName, null)
+                : GetResourceMessage(resourceName.Name);
+
 
         /// <summary>
         /// Formats the given string using the variable arguments passed in. The current thread's culture is used for formatting.
@@ -323,7 +347,7 @@ namespace Microsoft.Build.Utilities
             if (BuildEngine == null)
             {
                 // Do not use Verify[...] as it would read e.Message ahead of time
-                ErrorUtilities.ThrowInvalidOperation("LoggingBeforeTaskInitialization", e.Message);
+                ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Framework.Resources.SR.Resources.@LoggingBeforeTaskInitialization, e.Message);
             }
 
             BuildEngine.LogMessageEvent(e);
@@ -376,7 +400,7 @@ namespace Microsoft.Build.Utilities
             // If BuildEngine is null, task attempted to log before it was set on it,
             // presumably in its constructor. This is not allowed, and all
             // we can do is throw.
-            ErrorUtilities.VerifyThrowInvalidOperation(BuildEngine != null, "LoggingBeforeTaskInitialization", message);
+            ErrorUtilities.VerifyThrowInvalidOperation(BuildEngine != null, global::Microsoft.Build.Framework.Resources.SR.Resources.@LoggingBeforeTaskInitialization, message);
 
             // If the task has missed out all location information, add the location of the task invocation;
             // that gives the user something.
@@ -433,7 +457,7 @@ namespace Microsoft.Build.Utilities
             // If BuildEngine is null, task attempted to log before it was set on it,
             // presumably in its constructor. This is not allowed, and all
             // we can do is throw.
-            ErrorUtilities.VerifyThrowInvalidOperation(BuildEngine != null, "LoggingBeforeTaskInitialization", message);
+            ErrorUtilities.VerifyThrowInvalidOperation(BuildEngine != null, global::Microsoft.Build.Framework.Resources.SR.Resources.@LoggingBeforeTaskInitialization, message);
 
             // If the task has missed out all location information, add the location of the task invocation;
             // that gives the user something.
@@ -476,6 +500,20 @@ namespace Microsoft.Build.Utilities
 
             LogMessageFromResources(MessageImportance.Normal, messageResourceName, messageArgs);
         }
+        internal void LogMessageFromResources(global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            // No lock needed, as the logging methods are thread safe and the rest does not modify
+            // global state.
+            //
+            // This API is poorly designed, because parameters misordered like LogMessageFromResources(messageResourceName, MessageImportance.High)
+            // will use this overload, ignore the importance and accidentally format the string.
+            // Can't change it now as it's shipped, but this debug assert will help catch callers doing this.
+            // Debug only because it is in theory legitimate to pass importance as a string format parameter.
+            Debug.Assert(messageArgs == null || messageArgs.Length == 0 || messageArgs[0].GetType() != typeof(MessageImportance), "Did you call the wrong overload?");
+
+            LogMessageFromResources(MessageImportance.Normal, messageResourceName, messageArgs);
+        }
+
 
         /// <summary>
         /// Logs a message of the given importance using the specified resource string.
@@ -509,6 +547,28 @@ namespace Microsoft.Build.Utilities
                 $"This message contains an error code ({code}), yet it was logged as a regular message: {message}");
 #endif
         }
+        internal void LogMessageFromResources(MessageImportance importance, global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            // No lock needed, as the logging methods are thread safe and the rest does not modify
+            // global state.
+            ArgumentNullException.ThrowIfNull(messageResourceName.Name);
+
+            if (!LogsMessagesOfImportance(importance))
+            {
+                return;
+            }
+
+            LogMessage(importance, GetResourceMessage(messageResourceName), messageArgs);
+
+#if DEBUG
+            // Assert that the message does not contain an error code.  Only errors and warnings should have error codes.
+            string message = FormatResourceString(messageResourceName, messageArgs);
+            Assumed.False(
+                MessageParser.TryGetMSBuildCode(message, out string code),
+                $"This message contains an error code ({code}), yet it was logged as a regular message: {message}");
+#endif
+        }
+
 
         /// <summary>
         /// Logs a file generated from the given data.
@@ -622,7 +682,7 @@ namespace Microsoft.Build.Utilities
             if (BuildEngine == null)
             {
                 // Do not use Verify[...] as it would read e.Message ahead of time
-                ErrorUtilities.ThrowInvalidOperation("LoggingBeforeTaskInitialization", e.Message);
+                ErrorUtilities.ThrowInvalidOperation(global::Microsoft.Build.Framework.Resources.SR.Resources.@LoggingBeforeTaskInitialization, e.Message);
             }
 
             BuildEngine.LogMessageEvent(e);
@@ -709,7 +769,7 @@ namespace Microsoft.Build.Utilities
             // If BuildEngine is null, task attempted to log before it was set on it,
             // presumably in its constructor. This is not allowed, and all
             // we can do is throw.
-            ErrorUtilities.VerifyThrowInvalidOperation(BuildEngine != null, "LoggingBeforeTaskInitialization", message);
+            ErrorUtilities.VerifyThrowInvalidOperation(BuildEngine != null, global::Microsoft.Build.Framework.Resources.SR.Resources.@LoggingBeforeTaskInitialization, message);
 
             // All of our errors should have an error code, so the user has something
             // to look up in the documentation. To help find errors without error codes,
@@ -751,6 +811,11 @@ namespace Microsoft.Build.Utilities
         {
             LogErrorFromResources(null, null, null, null, 0, 0, 0, 0, messageResourceName, messageArgs);
         }
+        internal void LogErrorFromResources(global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            LogErrorFromResources(null, null, null, null, 0, 0, 0, 0, messageResourceName, messageArgs);
+        }
+
 
         /// <summary>
         /// Logs an error using the specified resource string and other error details.
@@ -813,6 +878,53 @@ namespace Microsoft.Build.Utilities
                 endColumnNumber,
                 message);
         }
+        internal void LogErrorFromResources(
+            string subcategoryResourceName,
+            string errorCode,
+            string helpKeyword,
+            string file,
+            int lineNumber,
+            int columnNumber,
+            int endLineNumber,
+            int endColumnNumber,
+            global::Microsoft.Build.Framework.Resources.StringResource messageResourceName,
+            params object[] messageArgs)
+        {
+            // No lock needed, as the logging methods are thread safe and the rest does not modify
+            // global state.
+            ArgumentNullException.ThrowIfNull(messageResourceName.Name);
+
+            string subcategory = null;
+
+            if (subcategoryResourceName != null)
+            {
+                subcategory = FormatResourceString(subcategoryResourceName);
+            }
+
+            string message = FormatResourceString(messageResourceName, messageArgs);
+
+#if DEBUG
+            // If the message does have a message code, LogErrorWithCodeFromResources
+            // should have been called instead, so that the errorCode field gets populated.
+            // Check this only in debug, to avoid the cost of attempting to extract a
+            // message code when there probably isn't one.
+            Assumed.False(
+                MessageParser.TryGetMSBuildCode(message, out string code),
+                $"Called {nameof(LogErrorFromResources)} instead of {nameof(LogErrorWithCodeFromResources)}, but message '{message}' does have an error code '{code}'");
+#endif
+
+            LogError(
+                subcategory,
+                errorCode,
+                helpKeyword,
+                file,
+                lineNumber,
+                columnNumber,
+                endLineNumber,
+                endColumnNumber,
+                message);
+        }
+
 
         /// <summary>
         /// Logs an error using the specified resource string.
@@ -832,6 +944,11 @@ namespace Microsoft.Build.Utilities
         {
             LogErrorWithCodeFromResources(null, null, 0, 0, 0, 0, messageResourceName, messageArgs);
         }
+        internal void LogErrorWithCodeFromResources(global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            LogErrorWithCodeFromResources(null, null, 0, 0, 0, 0, messageResourceName, messageArgs);
+        }
+
 
         /// <summary>
         /// Logs an error using the specified resource string and other error details.
@@ -899,6 +1016,53 @@ namespace Microsoft.Build.Utilities
                 endColumnNumber,
                 message);
         }
+        internal void LogErrorWithCodeFromResources(
+            string subcategoryResourceName,
+            string file,
+            int lineNumber,
+            int columnNumber,
+            int endLineNumber,
+            int endColumnNumber,
+            global::Microsoft.Build.Framework.Resources.StringResource messageResourceName,
+            params object[] messageArgs)
+        {
+            // No lock needed, as the logging methods are thread safe and the rest does not modify
+            // global state.
+            ArgumentNullException.ThrowIfNull(messageResourceName.Name);
+
+            string subcategory = null;
+
+            if (subcategoryResourceName != null)
+            {
+                subcategory = FormatResourceString(subcategoryResourceName);
+            }
+
+            string message = FormatResourceString(messageResourceName, messageArgs);
+
+            if (MessageParser.TryParseAnyCode(message, out string errorCode, out string strippedMessage))
+            {
+                message = strippedMessage;
+            }
+
+            string helpKeyword = null;
+
+            if (HelpKeywordPrefix != null)
+            {
+                helpKeyword = HelpKeywordPrefix + messageResourceName.Name;
+            }
+
+            LogError(
+                subcategory,
+                errorCode,
+                helpKeyword,
+                file,
+                lineNumber,
+                columnNumber,
+                endLineNumber,
+                endColumnNumber,
+                message);
+        }
+
 
         /// <summary>
         /// Logs an error using the message from the given exception context.
@@ -1037,7 +1201,7 @@ namespace Microsoft.Build.Utilities
             // If BuildEngine is null, task attempted to log before it was set on it,
             // presumably in its constructor. This is not allowed, and all
             // we can do is throw.
-            ErrorUtilities.VerifyThrowInvalidOperation(BuildEngine != null, "LoggingBeforeTaskInitialization", message);
+            ErrorUtilities.VerifyThrowInvalidOperation(BuildEngine != null, global::Microsoft.Build.Framework.Resources.SR.Resources.@LoggingBeforeTaskInitialization, message);
 
             // All of our warnings should have an error code, so the user has something
             // to look up in the documentation. To help find warnings without error codes,
@@ -1098,6 +1262,11 @@ namespace Microsoft.Build.Utilities
         {
             LogWarningFromResources(null, null, null, null, 0, 0, 0, 0, messageResourceName, messageArgs);
         }
+        internal void LogWarningFromResources(global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            LogWarningFromResources(null, null, null, null, 0, 0, 0, 0, messageResourceName, messageArgs);
+        }
+
 
         /// <summary>
         /// Logs a warning using the specified resource string and other warning details.
@@ -1160,6 +1329,53 @@ namespace Microsoft.Build.Utilities
                 endColumnNumber,
                 message);
         }
+        internal void LogWarningFromResources(
+            string subcategoryResourceName,
+            string warningCode,
+            string helpKeyword,
+            string file,
+            int lineNumber,
+            int columnNumber,
+            int endLineNumber,
+            int endColumnNumber,
+            global::Microsoft.Build.Framework.Resources.StringResource messageResourceName,
+            params object[] messageArgs)
+        {
+            // No lock needed, as log methods are thread safe and the rest does not modify
+            // global state.
+            ArgumentNullException.ThrowIfNull(messageResourceName.Name);
+
+            string subcategory = null;
+
+            if (subcategoryResourceName != null)
+            {
+                subcategory = FormatResourceString(subcategoryResourceName);
+            }
+
+            string message = FormatResourceString(messageResourceName, messageArgs);
+
+#if DEBUG
+            // If the message does have a message code, LogWarningWithCodeFromResources
+            // should have been called instead, so that the errorCode field gets populated.
+            // Check this only in debug, to avoid the cost of attempting to extract a
+            // message code when there probably isn't one.
+            Assumed.False(
+                MessageParser.TryGetMSBuildCode(message, out string code),
+                $"Called {nameof(LogWarningFromResources)} instead of {nameof(LogWarningWithCodeFromResources)}, but message '{message}' does have an error code '{code}'");
+#endif
+
+            LogWarning(
+                subcategory,
+                warningCode,
+                helpKeyword,
+                file,
+                lineNumber,
+                columnNumber,
+                endLineNumber,
+                endColumnNumber,
+                message);
+        }
+
 
         /// <summary>
         /// Logs a warning using the specified resource string.
@@ -1179,6 +1395,11 @@ namespace Microsoft.Build.Utilities
         {
             LogWarningWithCodeFromResources(null, null, 0, 0, 0, 0, messageResourceName, messageArgs);
         }
+        internal void LogWarningWithCodeFromResources(global::Microsoft.Build.Framework.Resources.StringResource messageResourceName, params object[] messageArgs)
+        {
+            LogWarningWithCodeFromResources(null, null, 0, 0, 0, 0, messageResourceName, messageArgs);
+        }
+
 
         /// <summary>
         /// Logs a warning using the specified resource string and other warning details.
@@ -1246,6 +1467,53 @@ namespace Microsoft.Build.Utilities
                 endColumnNumber,
                 message);
         }
+        internal void LogWarningWithCodeFromResources(
+            string subcategoryResourceName,
+            string file,
+            int lineNumber,
+            int columnNumber,
+            int endLineNumber,
+            int endColumnNumber,
+            global::Microsoft.Build.Framework.Resources.StringResource messageResourceName,
+            params object[] messageArgs)
+        {
+            // No lock needed, as log methods are thread safe and the rest does not modify
+            // global state.
+            ArgumentNullException.ThrowIfNull(messageResourceName.Name);
+
+            string subcategory = null;
+
+            if (subcategoryResourceName != null)
+            {
+                subcategory = FormatResourceString(subcategoryResourceName);
+            }
+
+            string message = FormatResourceString(messageResourceName, messageArgs);
+
+            if (MessageParser.TryParseAnyCode(message, out string warningCode, out string strippedMessage))
+            {
+                message = strippedMessage;
+            }
+
+            string helpKeyword = null;
+
+            if (HelpKeywordPrefix != null)
+            {
+                helpKeyword = HelpKeywordPrefix + messageResourceName.Name;
+            }
+
+            LogWarning(
+                subcategory,
+                warningCode,
+                helpKeyword,
+                file,
+                lineNumber,
+                columnNumber,
+                endLineNumber,
+                endColumnNumber,
+                message);
+        }
+
 
         /// <summary>
         /// Logs a warning using the message from the given exception context.
@@ -1594,6 +1862,48 @@ namespace Microsoft.Build.Utilities
                 endColumnNumber,
                 message);
         }
+        internal void LogErrorWithCodeAndExceptionFromResources(
+            Exception exception,
+            bool showStackTrace,
+            bool showDetail,
+            string subcategory,
+            string file,
+            int lineNumber,
+            int columnNumber,
+            int endLineNumber,
+            int endColumnNumber,
+            global::Microsoft.Build.Framework.Resources.StringResource messageResourceName,
+            params object[] messageArgs)
+        {
+            ArgumentNullException.ThrowIfNull(exception);
+            ArgumentNullException.ThrowIfNull(messageResourceName.Name);
+
+            if (exception is AggregateException aggregateException)
+            {
+                foreach (Exception innerException in aggregateException.Flatten().InnerExceptions)
+                {
+                    LogErrorWithCodeAndExceptionFromResources(innerException, showStackTrace, showDetail, subcategory, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, messageResourceName, messageArgs);
+                }
+                return;
+            }
+
+            string formattedResourceMessage = FormatResourceString(messageResourceName, messageArgs);
+            MessageParser.TryGetAnyCode(formattedResourceMessage, out string errorCode);
+            string helpKeyword = HelpKeywordPrefix != null ? HelpKeywordPrefix + messageResourceName.Name : null;
+            string message = GetFormattedExceptionDetails(exception, showStackTrace, showDetail);
+
+            LogError(
+                subcategory,
+                errorCode,
+                helpKeyword,
+                file,
+                lineNumber,
+                columnNumber,
+                endLineNumber,
+                endColumnNumber,
+                message);
+        }
+
 
         /// <summary>
         /// Logs an error using a resource string (with code extraction and help keyword) and appends exception details.
@@ -1613,6 +1923,16 @@ namespace Microsoft.Build.Utilities
         {
             LogErrorWithCodeAndExceptionFromResources(exception, showStackTrace, showDetail, null, null, 0, 0, 0, 0, messageResourceName, messageArgs);
         }
+        internal void LogErrorWithCodeAndExceptionFromResources(
+            Exception exception,
+            bool showStackTrace,
+            bool showDetail,
+            global::Microsoft.Build.Framework.Resources.StringResource messageResourceName,
+            params object[] messageArgs)
+        {
+            LogErrorWithCodeAndExceptionFromResources(exception, showStackTrace, showDetail, null, null, 0, 0, 0, 0, messageResourceName, messageArgs);
+        }
+
 
         /// <summary>
         /// Logs an error using a resource string (with code extraction and help keyword) and appends exception details.
@@ -1634,6 +1954,17 @@ namespace Microsoft.Build.Utilities
         {
             LogErrorWithCodeAndExceptionFromResources(exception, showStackTrace, showDetail, null, file, 0, 0, 0, 0, messageResourceName, messageArgs);
         }
+        internal void LogErrorWithCodeAndExceptionFromResources(
+            Exception exception,
+            bool showStackTrace,
+            bool showDetail,
+            string file,
+            global::Microsoft.Build.Framework.Resources.StringResource messageResourceName,
+            params object[] messageArgs)
+        {
+            LogErrorWithCodeAndExceptionFromResources(exception, showStackTrace, showDetail, null, file, 0, 0, 0, 0, messageResourceName, messageArgs);
+        }
+
 
         /// <summary>
         /// Formats exception details for logging.

@@ -232,7 +232,7 @@ namespace Microsoft.Build.Evaluation
 
             var args = new EnvironmentVariableReadEventArgs(
                 name,
-                ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword("EnvironmentVariableRead", name),
+                ResourceUtilities.FormatResourceStringIgnoreCodeAndKeyword(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@EnvironmentVariableRead, name),
                 string.Empty,
                 0,
                 0);
@@ -358,7 +358,7 @@ namespace Microsoft.Build.Evaluation
             {
                 _evaluationLoggingContext.LogComment(
                     MessageImportance.Low,
-                    "PropertyReassignment",
+                    global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@PropertyReassignment,
                     property.Name,
                     newValue,
                     oldValue,

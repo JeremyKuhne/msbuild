@@ -23,8 +23,8 @@ internal sealed class DoubleWritesCheck : Check
     public static CheckRule SupportedRule = new CheckRule(
         "BC0102",
         "DoubleWrites",
-        ResourceUtilities.GetResourceString("BuildCheck_BC0102_Title")!,
-        ResourceUtilities.GetResourceString("BuildCheck_BC0102_MessageFmt")!,
+        ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheck_BC0102_Title)!,
+        ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheck_BC0102_MessageFmt)!,
         new CheckConfiguration() { Severity = CheckResultSeverity.Warning });
 
     public override string FriendlyName => "MSBuild.DoubleWritesCheck";

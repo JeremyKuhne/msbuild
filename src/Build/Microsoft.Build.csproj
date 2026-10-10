@@ -683,6 +683,7 @@
     <!-- Resource Files -->
     <EmbeddedResource Include="Resources\Strings.resx">
       <LogicalName>$(AssemblyName).Strings.resources</LogicalName>
+      <StringResourceClass>Microsoft.Build.Shared.PrimaryResourceCatalog</StringResourceClass>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
@@ -735,4 +736,5 @@ internal sealed partial class NuGetFrameworkWrapper
       <FileWrites Include="$(NuGetFrameworkWrapperRedirects_FilePath)" />
     </ItemGroup>
   </Target>
+  <Import Project="..\ResourceGenerator\ResourceGenerator.targets" />
 </Project>

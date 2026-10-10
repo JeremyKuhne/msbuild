@@ -20,8 +20,8 @@ internal sealed class ExecCliBuildCheck : Check
     public static CheckRule SupportedRule = new CheckRule(
         "BC0302",
         "ExecCliBuild",
-        ResourceUtilities.GetResourceString("BuildCheck_BC0302_Title")!,
-        ResourceUtilities.GetResourceString("BuildCheck_BC0302_MessageFmt")!,
+        ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheck_BC0302_Title)!,
+        ResourceUtilities.GetResourceString(global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@BuildCheck_BC0302_MessageFmt)!,
         new CheckConfiguration() { Severity = CheckResultSeverity.Warning });
 
     private const string ExecTaskName = "Exec";

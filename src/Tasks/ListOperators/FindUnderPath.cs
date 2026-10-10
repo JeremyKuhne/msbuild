@@ -83,13 +83,13 @@ namespace Microsoft.Build.Tasks
             catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
             {
                 Log.LogErrorWithCodeFromResources(null, "", 0, 0, 0, 0,
-                    "FindUnderPath.InvalidParameter", "Path", Path.ItemSpec, e.Message);
+                    messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@FindUnderPath_InvalidParameter, "Path", Path.ItemSpec, e.Message);
                 return false;
             }
 
             int conePathLength = conePath.Length;
 
-            Log.LogMessageFromResources(MessageImportance.Low, "FindUnderPath.ComparisonPath", Path.ItemSpec);
+            Log.LogMessageFromResources(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@FindUnderPath_ComparisonPath, Path.ItemSpec);
 
             foreach (ITaskItem item in Files)
             {
@@ -114,7 +114,7 @@ namespace Microsoft.Build.Tasks
                 catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                 {
                     Log.LogErrorWithCodeFromResources(null, "", 0, 0, 0, 0,
-                        "FindUnderPath.InvalidParameter", "Files", item.ItemSpec, e.Message);
+                        messageResourceName: global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@FindUnderPath_InvalidParameter, "Files", item.ItemSpec, e.Message);
                     return false;
                 }
 

@@ -294,7 +294,7 @@ namespace Microsoft.Build.BackEnd
 
             // If the caller supplies an array to put the target outputs in, it must have the same length as the array of project file names they provided, too.
             // "MSB3094: "{2}" refers to {0} item(s), and "{3}" refers to {1} item(s). They must have the same number of items."
-            ErrorUtilities.VerifyThrowArgument((targetOutputsPerProject == null) || (projectFileNames.Length == targetOutputsPerProject.Length), "General.TwoVectorsMustHaveSameLength", projectFileNames.Length, targetOutputsPerProject?.Length ?? 0, "projectFileNames", "targetOutputsPerProject");
+            ErrorUtilities.VerifyThrowArgument((targetOutputsPerProject == null) || (projectFileNames.Length == targetOutputsPerProject.Length), global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@General_TwoVectorsMustHaveSameLength, projectFileNames.Length, targetOutputsPerProject?.Length ?? 0, "projectFileNames", "targetOutputsPerProject");
 
             BuildEngineResult result = BuildProjectFilesInParallel(projectFileNames, targetNames, globalProperties, new List<String>[projectFileNames.Length], toolsVersion, includeTargetOutputs);
 
@@ -453,7 +453,7 @@ namespace Microsoft.Build.BackEnd
                     _taskLoggingContext.LoggingService.LogBuildEvent(warningEvent);
 
                     // Log a message explaining why we converted the previous error into a warning.
-                    _taskLoggingContext.LoggingService.LogComment(_taskLoggingContext.BuildEventContext, MessageImportance.Normal, "ErrorConvertedIntoWarning");
+                    _taskLoggingContext.LoggingService.LogComment(_taskLoggingContext.BuildEventContext, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@ErrorConvertedIntoWarning);
                 }
                 else
                 {
@@ -886,7 +886,7 @@ namespace Microsoft.Build.BackEnd
                 Debug.Assert(coresAcquired >= 1);
                 if (LoggingContext.IsValid)
                 {
-                    LoggingContext.LogComment(MessageImportance.Low, "TaskAcquiredCores", _taskLoggingContext.TaskName,
+                    LoggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskAcquiredCores, _taskLoggingContext.TaskName,
                         requestedCores, coresAcquired, TotalAcquiredCores);
                 }
                 return coresAcquired;
@@ -926,12 +926,12 @@ namespace Microsoft.Build.BackEnd
                 {
                     if (TotalAcquiredCores == previousTotalAcquiredCores - coresToRelease)
                     {
-                        LoggingContext.LogComment(MessageImportance.Low, "TaskReleasedCores", _taskLoggingContext.TaskName,
+                        LoggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskReleasedCores, _taskLoggingContext.TaskName,
                             coresToRelease, TotalAcquiredCores);
                     }
                     else
                     {
-                        LoggingContext.LogComment(MessageImportance.Low, "TaskReleasedCoresWarning", _taskLoggingContext.TaskName,
+                        LoggingContext.LogComment(MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@TaskReleasedCoresWarning, _taskLoggingContext.TaskName,
                             coresToRelease, previousTotalAcquiredCores, TotalAcquiredCores);
                     }
                 }
@@ -1163,7 +1163,7 @@ namespace Microsoft.Build.BackEnd
             if (!e.GetType().IsSerializable && e is not IExtendedBuildEventArgs)
 #pragma warning restore SYSLIB0050
             {
-                _taskLoggingContext.LogWarning(null, new BuildEventFileInfo(string.Empty), "ExpectedEventToBeSerializable", e.GetType().Name);
+                _taskLoggingContext.LogWarning(null, new BuildEventFileInfo(string.Empty), global::Microsoft.Build.Framework.Resources.SR.Resources.@ExpectedEventToBeSerializable, e.GetType().Name);
                 return false;
             }
 

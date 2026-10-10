@@ -240,7 +240,7 @@ namespace Microsoft.Build.Utilities
 
             if (SourcesNeedingCompilation.Length == 0)
             {
-                FileTracker.LogMessageFromResources(_log, MessageImportance.Normal, "Tracking_AllOutputsAreUpToDate");
+                FileTracker.LogMessageFromResources(_log, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_AllOutputsAreUpToDate);
                 SourcesNeedingCompilation = Array.Empty<ITaskItem>();
             }
             else
@@ -373,7 +373,7 @@ namespace Microsoft.Build.Utilities
             // There were no outputs for the requested root
             if (sourcesNeedingCompilation.Count == 0)
             {
-                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_DependenciesForRootNotFound", upperSourcesRoot);
+                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_DependenciesForRootNotFound, upperSourcesRoot);
                 return _sourceFiles;
             }
 
@@ -393,7 +393,7 @@ namespace Microsoft.Build.Utilities
                 if (newestSourceDependencyTime <= oldestOutputTime)
                 {
                     // All sources and outputs exist, and the oldest output is newer than the newest input -- we're up to date!
-                    FileTracker.LogMessageFromResources(_log, MessageImportance.Normal, "Tracking_AllOutputsAreUpToDate");
+                    FileTracker.LogMessageFromResources(_log, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_AllOutputsAreUpToDate);
                     return Array.Empty<ITaskItem>();
                 }
             }
@@ -401,12 +401,12 @@ namespace Microsoft.Build.Utilities
             // Too much logging leads to poor performance
             if (sourcesNeedingCompilation.Count > CanonicalTrackedFilesHelper.MaxLogCount)
             {
-                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_InputsNotShown", sourcesNeedingCompilation.Count);
+                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_InputsNotShown, sourcesNeedingCompilation.Count);
             }
             else
             {
                 // We have our set of outputs, log the details
-                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_InputsFor", upperSourcesRoot);
+                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_InputsFor, upperSourcesRoot);
 
                 foreach (ITaskItem inputItem in sourcesNeedingCompilationList)
                 {
@@ -415,7 +415,7 @@ namespace Microsoft.Build.Utilities
             }
 
             // Log the reasons that we're not up to date
-            FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_InputNewerThanOutput", newestSourceDependencyFile, oldestOutputFile);
+            FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_InputNewerThanOutput, newestSourceDependencyFile, oldestOutputFile);
 
             return _sourceFiles;
         }
@@ -584,7 +584,7 @@ namespace Microsoft.Build.Utilities
             }
             catch (ArgumentException e)
             {
-                FileTracker.LogWarningWithCodeFromResources(_log, "Tracking_RebuildingDueToInvalidTLog", e.Message);
+                FileTracker.LogWarningWithCodeFromResources(_log, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_RebuildingDueToInvalidTLog, e.Message);
                 return;
             }
 
@@ -598,7 +598,7 @@ namespace Microsoft.Build.Utilities
                 {
                     if (!FileUtilities.FileExistsNoThrow(tlogFileName.ItemSpec))
                     {
-                        FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_SingleLogFileNotAvailable", tlogFileName.ItemSpec);
+                        FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_SingleLogFileNotAvailable, tlogFileName.ItemSpec);
                     }
                 }
 
@@ -623,7 +623,7 @@ namespace Microsoft.Build.Utilities
             {
                 DependencyTable = (Dictionary<string, Dictionary<string, string>>)cachedEntry.DependencyTable;
                 // Log information about what we're using
-                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_ReadTrackingCached");
+                FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_ReadTrackingCached);
                 foreach (ITaskItem tlogItem in cachedEntry.TlogFiles)
                 {
                     FileTracker.LogMessage(_log, MessageImportance.Low, "\t{0}", tlogItem.ItemSpec);
@@ -637,7 +637,7 @@ namespace Microsoft.Build.Utilities
             bool encounteredInvalidTLogContents = false;
             bool exceptionCaught = false;
             string invalidTLogName = null;
-            FileTracker.LogMessageFromResources(_log, MessageImportance.Low, "Tracking_ReadTrackingLogs");
+            FileTracker.LogMessageFromResources(_log, MessageImportance.Low, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_ReadTrackingLogs);
             foreach (ITaskItem tlogFileName in _tlogFiles)
             {
                 try
@@ -813,13 +813,13 @@ namespace Microsoft.Build.Utilities
                 }
                 catch (Exception e) when (ExceptionHandling.IsIoRelatedException(e))
                 {
-                    FileTracker.LogWarningWithCodeFromResources(_log, "Tracking_RebuildingDueToInvalidTLog", e.Message);
+                    FileTracker.LogWarningWithCodeFromResources(_log, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_RebuildingDueToInvalidTLog, e.Message);
                     break;
                 }
 
                 if (encounteredInvalidTLogContents)
                 {
-                    FileTracker.LogWarningWithCodeFromResources(_log, "Tracking_RebuildingDueToInvalidTLogContents", invalidTLogName);
+                    FileTracker.LogWarningWithCodeFromResources(_log, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_RebuildingDueToInvalidTLogContents, invalidTLogName);
                     break;
                 }
             }
@@ -994,7 +994,7 @@ namespace Microsoft.Build.Utilities
             }
             else
             {
-                FileTracker.LogMessageFromResources(_log, MessageImportance.Normal, "Tracking_ReadLogEntryNotFound", rootingMarker);
+                FileTracker.LogMessageFromResources(_log, MessageImportance.Normal, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_ReadLogEntryNotFound, rootingMarker);
             }
         }
 
@@ -1029,7 +1029,7 @@ namespace Microsoft.Build.Utilities
 
             if (correspondingOutputs != null)
             {
-                ErrorUtilities.VerifyThrowArgument(source.Length == correspondingOutputs.Length, "Tracking_SourcesAndCorrespondingOutputMismatch");
+                ErrorUtilities.VerifyThrowArgument(source.Length == correspondingOutputs.Length, global::Microsoft.Build.Shared.PrimaryResourceCatalog.Resources.@Tracking_SourcesAndCorrespondingOutputMismatch);
             }
 
             // construct a combined root marker for the sources and outputs to remove from the graph
